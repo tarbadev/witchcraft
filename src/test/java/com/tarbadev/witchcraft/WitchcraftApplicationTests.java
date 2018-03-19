@@ -1,4 +1,4 @@
-package com.tarbadev.witchcraft.witchcraft;
+package com.tarbadev.witchcraft;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

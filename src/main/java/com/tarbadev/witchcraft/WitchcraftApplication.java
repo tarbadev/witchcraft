@@ -1,4 +1,4 @@
-package com.tarbadev.witchcraft.witchcraft;
+package com.tarbadev.witchcraft;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
