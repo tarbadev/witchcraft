@@ -1,0 +1,5 @@
+spring:
+  profiles: test
+
+test-resources:
+  recipe-url: SOME_RECIPE_HTTP_URL

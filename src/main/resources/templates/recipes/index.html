@@ -5,7 +5,7 @@
     <title>Recipes</title>
 </head>
 <body>
-<form action="#" th:action="@{/recipes/import}" th:object="${recipe}" method="post">
+<form action="#" th:action="@{/recipes/import}" th:object="${recipeForm}" method="post">
     <input type="text" th:field="*{url}">
     <input type="submit" value="Submit">
 </form>
