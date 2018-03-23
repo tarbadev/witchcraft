@@ -1,5 +1,9 @@
 spring:
-  profiles: test
+  jpa.hibernate.ddl-auto: create
+  datasource:
+    url: jdbc:mysql://localhost:3306/witchcraft
+    username: spring
+    password:
 
 test-resources:
   recipe-url: SOME_RECIPE_HTTP_URL

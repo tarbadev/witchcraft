@@ -12,8 +12,8 @@ public class TestConfiguration {
     }
 
     @Bean
-    public RecipeRepository recipeRepository() {
-        return Mockito.mock(RecipeRepository.class);
+    public DatabaseRecipeRepository databaseRecipeRepository() {
+        return Mockito.mock(DatabaseRecipeRepository.class);
     }
 
     @Bean TestResources testResources() {

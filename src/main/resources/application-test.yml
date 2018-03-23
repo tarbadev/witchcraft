@@ -1,5 +1,10 @@
 spring:
   profiles: test
+  jpa.hibernate.ddl-auto: create
+  datasource:
+    url: jdbc:mysql://localhost:3306/witchcraft_test
+    username: spring
+    password:
 
 test-resources:
   recipe-url: https://www.cookincanuck.com/mini-goat-cheese-stuffed-potato-appetizers/

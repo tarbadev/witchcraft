@@ -1,10 +1,6 @@
 package com.tarbadev.witchcraft;
 
-import org.springframework.stereotype.Component;
+import org.springframework.data.repository.CrudRepository;
 
-@Component
-public class RecipeRepository {
-    public Recipe createRecipe(String recipe_url) {
-        return null;
-    }
+public interface RecipeRepository extends CrudRepository<Recipe, Integer> {
 }

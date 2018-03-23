@@ -4,13 +4,13 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class AddRecipeUseCase {
-    private RecipeRepository recipeRepository;
+    private DatabaseRecipeRepository databaseRecipeRepository;
 
-    public AddRecipeUseCase(RecipeRepository recipeRepository) {
-        this.recipeRepository = recipeRepository;
+    public AddRecipeUseCase(DatabaseRecipeRepository databaseRecipeRepository) {
+        this.databaseRecipeRepository = databaseRecipeRepository;
     }
 
     public Recipe execute(String url) {
-        return this.recipeRepository.createRecipe(url);
+        return this.databaseRecipeRepository.createRecipe(url);
     }
 }
