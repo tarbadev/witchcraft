@@ -9,5 +9,10 @@
     <input type="text" th:field="*{url}">
     <input type="submit" value="Submit">
 </form>
+<div>
+    <div th:each="recipe : ${recipes}">
+        <p th:text="${recipe.url}"></p>
+    </div>
+</div>
 </body>
 </html>

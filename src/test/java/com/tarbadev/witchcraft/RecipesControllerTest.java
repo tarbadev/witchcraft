@@ -12,6 +12,9 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.text.IsEmptyString.isEmptyOrNullString;
 import static org.mockito.BDDMockito.given;
@@ -28,18 +31,35 @@ public class RecipesControllerTest {
     @Autowired private MockMvc mvc;
     @Autowired private TestResources testResources;
     @Autowired private AddRecipeUseCase addRecipeUseCase;
+    @Autowired private RecipeCatalogUseCase recipeCatalogUseCase;
 
     @Before
     public void setUp() {
         Mockito.reset(addRecipeUseCase);
+        Mockito.reset(recipeCatalogUseCase);
     }
 
     @Test
-    public void test_import_showsAddRecipeForm() throws Exception {
-        mvc.perform(get("/recipes/import"))
+    public void test_show_showsAddRecipeForm() throws Exception {
+        mvc.perform(get("/recipes"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("recipes/index"))
                 .andExpect(model().attribute("recipeForm", hasProperty("url", isEmptyOrNullString())));
+    }
+
+    @Test
+    public void test_show_ShowsAllRecipes() throws Exception {
+        List<Recipe> recipes = Arrays.asList(
+                Recipe.builder().build(),
+                Recipe.builder().build()
+        );
+
+        given(recipeCatalogUseCase.execute()).willReturn(recipes);
+
+        mvc.perform(get("/recipes"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("recipes/index"))
+                .andExpect(model().attribute("recipes", recipes));
     }
 
     @Test
@@ -53,7 +73,7 @@ public class RecipesControllerTest {
                 .param("url", url)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
         )
-                .andExpect(status().isOk());
+                .andExpect(redirectedUrl("/recipes"));
 
         verify(addRecipeUseCase).execute(url);
     }
