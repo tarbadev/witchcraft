@@ -25,10 +25,14 @@ public class GetRecipeDetailsUseCaseTest {
 
     @Test
     public void test_execute_getsRecipeName() {
-        String recipeUrl = testResources.getRecipeUrl();
-        String recipeName = testResources.getRecipeName();
-        Recipe recipe = Recipe.builder().url(recipeUrl).name(recipeName).build();
+        Recipe recipe = testResources.getRecipe();
 
-        assertThat(subject.execute(recipeUrl)).isEqualTo(recipe);
+        assertThat(subject.execute(recipe.getUrl())).isEqualTo(recipe);
+    }
+
+    @Test
+    public void test_execute_getsRecipeIngredients() {
+//        String recipeUrl = testResources.getRecipeUrl();
+
     }
 }

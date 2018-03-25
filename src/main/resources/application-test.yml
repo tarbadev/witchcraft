@@ -7,5 +7,6 @@ spring:
     password:
 
 test-resources:
-  recipe-url: https://www.cookincanuck.com/mini-goat-cheese-stuffed-potato-appetizers/
-  recipe-name: "Mini Goat Cheese Stuffed Potato Appetizers – Greek-Inspired"
+  recipe:
+    url: https://www.cookincanuck.com/mini-goat-cheese-stuffed-potato-appetizers/
+    name: "Mini Goat Cheese Stuffed Potato Appetizers – Greek-Inspired"

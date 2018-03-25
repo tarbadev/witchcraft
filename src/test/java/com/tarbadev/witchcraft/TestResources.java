@@ -8,6 +8,5 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Getter
 @Setter
 public class TestResources {
-    private String recipeUrl;
-    private String recipeName;
+    private Recipe recipe;
 }

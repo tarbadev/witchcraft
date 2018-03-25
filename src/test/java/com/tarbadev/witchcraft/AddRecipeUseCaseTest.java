@@ -28,9 +28,8 @@ public class AddRecipeUseCaseTest {
 
     @Test
     public void execute_returnsRecipe() {
-        String recipeUrl = testResources.getRecipeUrl();
-        Recipe recipe = Recipe.builder().url(recipeUrl).build();
-        Recipe expectedRecipe = Recipe.builder().id(123).url(recipeUrl).build();
+        Recipe recipe = testResources.getRecipe();
+        Recipe expectedRecipe = Recipe.builder().id(123).url(recipe.getUrl()).build();
 
         given(databaseRecipeRepository.createRecipe(recipe)).willReturn(expectedRecipe);
 

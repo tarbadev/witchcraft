@@ -64,19 +64,18 @@ public class RecipesControllerTest {
 
     @Test
     public void test_import_SavesRecipe() throws Exception {
-        String url = testResources.getRecipeUrl();
-        Recipe recipe = Recipe.builder().url(url).build();
+        Recipe recipe = testResources.getRecipe();
 
-        given(getRecipeDetailsUseCase.execute(url)).willReturn(recipe);
+        given(getRecipeDetailsUseCase.execute(recipe.getUrl())).willReturn(recipe);
         given(addRecipeUseCase.execute(recipe)).willReturn(recipe);
 
         mvc.perform(post("/recipes/import")
-                .param("url", url)
+                .param("url", recipe.getUrl())
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
         )
                 .andExpect(redirectedUrl("/recipes"));
 
-        verify(getRecipeDetailsUseCase).execute(url);
+        verify(getRecipeDetailsUseCase).execute(recipe.getUrl());
         verify(addRecipeUseCase).execute(recipe);
     }
 }
