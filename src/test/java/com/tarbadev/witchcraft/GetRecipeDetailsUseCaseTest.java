@@ -32,7 +32,9 @@ public class GetRecipeDetailsUseCaseTest {
 
     @Test
     public void test_execute_getsRecipeIngredients() {
-//        String recipeUrl = testResources.getRecipeUrl();
+        Recipe recipe = testResources.getRecipe();
 
+        assertThat(subject.execute(recipe.getUrl())).isEqualTo(recipe);
+        assertThat(recipe.getIngredients().size()).isEqualTo(8);
     }
 }

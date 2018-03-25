@@ -7,12 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -35,10 +33,42 @@ public class DatabaseRecipeRepositoryTest {
     public void test_createRecipe_ReturnsRecipe() {
         String recipe_url = "URL";
 
-        Recipe recipe = Recipe.builder().url(recipe_url).build();
-        Recipe expectedRecipe = Recipe.builder().id(1).url(recipe_url).build();
+        Recipe recipe = Recipe.builder()
+                .url(recipe_url)
+                .ingredients(Collections.emptyList())
+                .build();
+        Recipe expectedRecipe = Recipe.builder()
+                .id(1)
+                .url(recipe_url)
+                .ingredients(Collections.emptyList())
+                .build();
 
         assertThat(subject.createRecipe(recipe)).isEqualTo(expectedRecipe);
+    }
+
+    @Test
+    public void test_createRecipe_savesIngredients() {
+        Recipe recipe = Recipe.builder()
+                .ingredients(Arrays.asList(
+                        Ingredient.builder().build(),
+                        Ingredient.builder().build()
+                ))
+                .build();
+
+        Recipe returnedRecipe = subject.createRecipe(recipe);
+        Recipe expectedRecipe = Recipe.builder()
+                .id(returnedRecipe.getId())
+                .ingredients(Arrays.asList(
+                        Ingredient.builder()
+                                .id(returnedRecipe.getIngredients().get(0).getId())
+                                .build(),
+                        Ingredient.builder()
+                                .id(returnedRecipe.getIngredients().get(1).getId())
+                                .build()
+                ))
+                .build();
+
+        assertThat(returnedRecipe).isEqualTo(expectedRecipe);
     }
 
     @Test
@@ -46,14 +76,20 @@ public class DatabaseRecipeRepositoryTest {
         String url1 = "URL1";
         String url2 = "URL2";
 
-        List<Recipe> recipes = Arrays.asList(
-                entityManager.persist(Recipe.builder().url(url1).build()),
-                entityManager.persist(Recipe.builder().url(url2).build())
+        List<Recipe> expectedRecipes = Arrays.asList(
+                entityManager.persist(Recipe.builder()
+                        .ingredients(Collections.emptyList())
+                        .url(url1)
+                        .build()),
+                entityManager.persist(Recipe.builder()
+                        .ingredients(Collections.emptyList())
+                        .url(url2)
+                        .build())
         );
 
         entityManager.flush();
         entityManager.clear();
 
-        assertThat(subject.getAll()).isEqualTo(recipes);
+        assertThat(subject.getAll().size()).isEqualTo(expectedRecipes.size());
     }
 }
