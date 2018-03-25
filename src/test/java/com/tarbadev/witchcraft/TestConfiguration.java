@@ -17,6 +17,11 @@ public class TestConfiguration {
     }
 
     @Bean
+    public GetRecipeDetailsUseCase getRecipeDetailsUseCase() {
+        return Mockito.mock(GetRecipeDetailsUseCase.class);
+    }
+
+    @Bean
     public DatabaseRecipeRepository databaseRecipeRepository() {
         return Mockito.mock(DatabaseRecipeRepository.class);
     }

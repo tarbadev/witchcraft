@@ -8,3 +8,4 @@ spring:
 
 test-resources:
   recipe-url: https://www.cookincanuck.com/mini-goat-cheese-stuffed-potato-appetizers/
+  recipe-name: "Mini Goat Cheese Stuffed Potato Appetizers – Greek-Inspired"

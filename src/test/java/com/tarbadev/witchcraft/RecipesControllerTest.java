@@ -32,11 +32,11 @@ public class RecipesControllerTest {
     @Autowired private TestResources testResources;
     @Autowired private AddRecipeUseCase addRecipeUseCase;
     @Autowired private RecipeCatalogUseCase recipeCatalogUseCase;
+    @Autowired private GetRecipeDetailsUseCase getRecipeDetailsUseCase;
 
     @Before
     public void setUp() {
-        Mockito.reset(addRecipeUseCase);
-        Mockito.reset(recipeCatalogUseCase);
+        Mockito.reset(addRecipeUseCase, recipeCatalogUseCase, getRecipeDetailsUseCase);
     }
 
     @Test
@@ -67,7 +67,8 @@ public class RecipesControllerTest {
         String url = testResources.getRecipeUrl();
         Recipe recipe = Recipe.builder().url(url).build();
 
-        given(addRecipeUseCase.execute(url)).willReturn(recipe);
+        given(getRecipeDetailsUseCase.execute(url)).willReturn(recipe);
+        given(addRecipeUseCase.execute(recipe)).willReturn(recipe);
 
         mvc.perform(post("/recipes/import")
                 .param("url", url)
@@ -75,6 +76,7 @@ public class RecipesControllerTest {
         )
                 .andExpect(redirectedUrl("/recipes"));
 
-        verify(addRecipeUseCase).execute(url);
+        verify(getRecipeDetailsUseCase).execute(url);
+        verify(addRecipeUseCase).execute(recipe);
     }
 }

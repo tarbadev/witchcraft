@@ -28,13 +28,14 @@ public class AddRecipeUseCaseTest {
 
     @Test
     public void execute_returnsRecipe() {
-        String recipe_url = testResources.getRecipeUrl();
-        Recipe recipe = Recipe.builder().url(recipe_url).build();
+        String recipeUrl = testResources.getRecipeUrl();
+        Recipe recipe = Recipe.builder().url(recipeUrl).build();
+        Recipe expectedRecipe = Recipe.builder().id(123).url(recipeUrl).build();
 
-        given(databaseRecipeRepository.createRecipe(recipe_url)).willReturn(recipe);
+        given(databaseRecipeRepository.createRecipe(recipe)).willReturn(expectedRecipe);
 
-        assertThat(subject.execute(recipe_url)).isEqualTo(recipe);
+        assertThat(subject.execute(recipe)).isEqualTo(expectedRecipe);
 
-        verify(databaseRecipeRepository).createRecipe(recipe_url);
+        verify(databaseRecipeRepository).createRecipe(recipe);
     }
 }

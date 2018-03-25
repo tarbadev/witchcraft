@@ -35,9 +35,10 @@ public class DatabaseRecipeRepositoryTest {
     public void test_createRecipe_ReturnsRecipe() {
         String recipe_url = "URL";
 
-        Recipe recipe = Recipe.builder().id(1).url(recipe_url).build();
+        Recipe recipe = Recipe.builder().url(recipe_url).build();
+        Recipe expectedRecipe = Recipe.builder().id(1).url(recipe_url).build();
 
-        assertThat(subject.createRecipe(recipe_url)).isEqualTo(recipe);
+        assertThat(subject.createRecipe(recipe)).isEqualTo(expectedRecipe);
     }
 
     @Test

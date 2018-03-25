@@ -10,7 +10,7 @@ public class AddRecipeUseCase {
         this.databaseRecipeRepository = databaseRecipeRepository;
     }
 
-    public Recipe execute(String url) {
-        return this.databaseRecipeRepository.createRecipe(url);
+    public Recipe execute(Recipe recipe) {
+        return this.databaseRecipeRepository.createRecipe(recipe);
     }
 }

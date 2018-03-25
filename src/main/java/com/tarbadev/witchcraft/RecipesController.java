@@ -12,10 +12,12 @@ import java.util.List;
 public class RecipesController {
     private AddRecipeUseCase addRecipeUseCase;
     private RecipeCatalogUseCase recipeCatalogUseCase;
+    private GetRecipeDetailsUseCase getRecipeDetailsUseCase;
 
-    public RecipesController(AddRecipeUseCase recipeService, RecipeCatalogUseCase recipeCatalogUseCase) {
+    public RecipesController(AddRecipeUseCase recipeService, RecipeCatalogUseCase recipeCatalogUseCase, GetRecipeDetailsUseCase getRecipeDetailsUseCase) {
         this.addRecipeUseCase = recipeService;
         this.recipeCatalogUseCase = recipeCatalogUseCase;
+        this.getRecipeDetailsUseCase = getRecipeDetailsUseCase;
     }
 
     @GetMapping("/recipes")
@@ -29,7 +31,8 @@ public class RecipesController {
 
     @PostMapping("/recipes/import")
     public String addRecipe(@Valid RecipeForm recipeForm) {
-        addRecipeUseCase.execute(recipeForm.getUrl());
+        Recipe recipe = getRecipeDetailsUseCase.execute(recipeForm.getUrl());
+        addRecipeUseCase.execute(recipe);
 
         return "redirect:/recipes";
     }

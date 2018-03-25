@@ -12,8 +12,8 @@ public class DatabaseRecipeRepository {
         this.recipeRepository = recipeRepository;
     }
 
-    public Recipe createRecipe(String recipe_url) {
-        return recipeRepository.save(Recipe.builder().url(recipe_url).build());
+    public Recipe createRecipe(Recipe recipe) {
+        return recipeRepository.save(recipe);
     }
 
     public List<Recipe> getAll() {
