@@ -1,9 +1,11 @@
 spring:
-  jpa.hibernate.ddl-auto: create
+  jpa.hibernate.ddl-auto: update
   datasource:
     url: jdbc:mysql://localhost:3306/witchcraft
     username: spring
     password:
+  thymeleaf:
+    cache: false
 
 test-resources:
   recipe-url: SOME_RECIPE_HTTP_URL

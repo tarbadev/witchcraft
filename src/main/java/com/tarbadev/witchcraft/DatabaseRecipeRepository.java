@@ -19,4 +19,8 @@ public class DatabaseRecipeRepository {
     public List<Recipe> getAll() {
         return recipeRepository.findAll();
     }
+
+    public Recipe get(Integer recipeId) {
+        return recipeRepository.findById(recipeId).get();
+    }
 }

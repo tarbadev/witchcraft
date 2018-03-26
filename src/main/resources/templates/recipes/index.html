@@ -11,7 +11,10 @@
 </form>
 <div>
     <div th:each="recipe : ${recipes}">
-        <p th:text="${recipe.name}"></p>
+        <p>
+            <span th:text="${recipe.name}"></span>
+            <a th:href="@{'/recipes/'+ ${recipe.id}}">Ingredients</a>
+        </p>
     </div>
 </div>
 </body>

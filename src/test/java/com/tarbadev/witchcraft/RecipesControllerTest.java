@@ -33,6 +33,7 @@ public class RecipesControllerTest {
     @Autowired private AddRecipeUseCase addRecipeUseCase;
     @Autowired private RecipeCatalogUseCase recipeCatalogUseCase;
     @Autowired private GetRecipeDetailsUseCase getRecipeDetailsUseCase;
+    @Autowired private GetRecipeUseCase getRecipeUseCase;
 
     @Before
     public void setUp() {
@@ -77,5 +78,18 @@ public class RecipesControllerTest {
 
         verify(getRecipeDetailsUseCase).execute(recipe.getUrl());
         verify(addRecipeUseCase).execute(recipe);
+    }
+
+    @Test
+    public void test_details_ShowRecipesDetails() throws Exception {
+        Recipe recipe = testResources.getRecipe();
+
+        Integer recipeId = 123;
+        given(getRecipeUseCase.execute(recipeId)).willReturn(recipe);
+
+        mvc.perform(get(String.format("/recipes/%d", recipeId)))
+                .andExpect(status().isOk())
+                .andExpect(view().name("recipes/show"))
+                .andExpect(model().attribute("recipe", recipe));
     }
 }

@@ -92,4 +92,18 @@ public class DatabaseRecipeRepositoryTest {
 
         assertThat(subject.getAll().size()).isEqualTo(expectedRecipes.size());
     }
+
+    @Test
+    public void test_get_returnsRecipe() {
+        Recipe recipe = entityManager.persistAndFlush(Recipe.builder()
+                .name("Recipe 1")
+                .ingredients(Collections.emptyList())
+                .url("URL")
+                .build()
+        );
+
+        entityManager.clear();
+
+        assertThat(subject.get(recipe.getId())).isEqualTo(recipe);
+    }
 }

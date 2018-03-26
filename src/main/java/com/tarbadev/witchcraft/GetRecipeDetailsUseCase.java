@@ -79,8 +79,6 @@ public class GetRecipeDetailsUseCase {
         String name = "";
         String[] words = text.split(" ");
 
-        System.out.println("text = " + text);
-
         boolean quantityFound = false;
 
         for (String word : words) {
@@ -95,7 +93,6 @@ public class GetRecipeDetailsUseCase {
                 else if (word.contains("/")) {
                     String[] fraction = word.split("/");
                     tempQuantity = parseDouble(fraction[0]) / parseDouble(fraction[1]);
-                    System.out.println("tempQuantity = " + tempQuantity);
                     quantity += tempQuantity;
                 }
                 else
@@ -109,7 +106,6 @@ public class GetRecipeDetailsUseCase {
                 if (UNITS.contains(tempUnit))
                 {
                     unit = tempUnit;
-                    System.out.println("unit = " + unit);
                 }
                 else {
                     name = text.substring(text.indexOf(word));
