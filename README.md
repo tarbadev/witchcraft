@@ -5,4 +5,4 @@
 1. Create a user `spring`
 1. Load `build.gradle` to import project in IntelliJ
 ### Fix spring boot warning:
-Add argument to JVM `--illegal-access=deny
+Add argument to JVM `--illegal-access=deny`
