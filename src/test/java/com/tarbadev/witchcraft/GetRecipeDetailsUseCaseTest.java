@@ -37,4 +37,12 @@ public class GetRecipeDetailsUseCaseTest {
         assertThat(subject.execute(recipe.getUrl())).isEqualTo(recipe);
         assertThat(recipe.getIngredients().size()).isEqualTo(8);
     }
+
+    @Test
+    public void test_execute_getsRecipeImageUrl() {
+        Recipe recipe = testResources.getRecipe();
+
+        assertThat(subject.execute(recipe.getUrl())).isEqualTo(recipe);
+        assertThat(recipe.getImgUrl()).isNotEmpty();
+    }
 }

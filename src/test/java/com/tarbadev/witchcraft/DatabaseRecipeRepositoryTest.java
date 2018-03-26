@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
@@ -18,6 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(SpringRunner.class)
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@ActiveProfiles("test")
 public class DatabaseRecipeRepositoryTest {
     @Autowired private TestEntityManager entityManager;
     @Autowired private RecipeRepository recipeRepository;
@@ -37,13 +39,14 @@ public class DatabaseRecipeRepositoryTest {
                 .url(recipe_url)
                 .ingredients(Collections.emptyList())
                 .build();
+        recipe = subject.createRecipe(recipe);
         Recipe expectedRecipe = Recipe.builder()
-                .id(1)
+                .id(recipe.getId())
                 .url(recipe_url)
                 .ingredients(Collections.emptyList())
                 .build();
 
-        assertThat(subject.createRecipe(recipe)).isEqualTo(expectedRecipe);
+        assertThat(recipe).isEqualTo(expectedRecipe);
     }
 
     @Test
@@ -56,6 +59,7 @@ public class DatabaseRecipeRepositoryTest {
                 .build();
 
         Recipe returnedRecipe = subject.createRecipe(recipe);
+
         Recipe expectedRecipe = Recipe.builder()
                 .id(returnedRecipe.getId())
                 .ingredients(Arrays.asList(
@@ -80,10 +84,12 @@ public class DatabaseRecipeRepositoryTest {
                 entityManager.persist(Recipe.builder()
                         .ingredients(Collections.emptyList())
                         .url(url1)
+                        .imgUrl("imgUrl1")
                         .build()),
                 entityManager.persist(Recipe.builder()
                         .ingredients(Collections.emptyList())
                         .url(url2)
+                        .imgUrl("imgUrl2")
                         .build())
         );
 

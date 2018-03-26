@@ -26,11 +26,13 @@ public class GetRecipeDetailsUseCase {
     public Recipe execute(String url) {
         Document html = getRecipeHtml(url);
         String name = getRecipeNameFromHtml(html);
+        String imgUrl = getImgUrl(html);
         List<Ingredient> ingredients = getIngredientsFromHtml(html);
 
         return Recipe.builder()
                 .name(name)
                 .url(url)
+                .imgUrl(imgUrl)
                 .ingredients(ingredients)
                 .build();
     }
@@ -119,5 +121,10 @@ public class GetRecipeDetailsUseCase {
                 .quantity(quantity)
                 .unit(unit)
                 .build();
+    }
+
+    private String getImgUrl(Document html) {
+        Elements imgUrl = html.select("div.recipe-thumbnail img");
+        return imgUrl.attr("src");
     }
 }

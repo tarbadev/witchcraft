@@ -2,7 +2,8 @@ spring:
   profiles: test
   jpa.hibernate.ddl-auto: create
   datasource:
-    url: jdbc:mysql://localhost:3306/witchcraft_test
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/witchcraft_test?autoReconnect=true&useSSL=false
     username: spring
     password:
 
@@ -10,6 +11,7 @@ test-resources:
   recipe:
     url: https://www.cookincanuck.com/mini-goat-cheese-stuffed-potato-appetizers/
     name: "Mini Goat Cheese Stuffed Potato Appetizers – Greek-Inspired"
+    img-url: https://www.cookincanuck.com/wp-content/uploads/2017/11/Mini-Goat-Cheese-Stuffed-Potato-Appetizers-Greek-Inspired-Cookin-Canuck-4.jpg
     ingredients[0]:
       name: Little Potato Co. Creamer potatoes (I used Dynamic Duo)
       quantity: 1.5

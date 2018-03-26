@@ -6,9 +6,11 @@
 </head>
 <body>
 <div>
-    <div th:text="${recipe.name}">Name</div>
-    <div th:each="ingredient : ${recipe.ingredients}">
-        <p>
+    <img th:src="@{${recipe.imgUrl}}" style="width: 200px" />
+    <h1 th:text="${recipe.name}">Name</h1>
+    <div>
+        <h2>Ingredients</h2>
+        <p th:each="ingredient : ${recipe.ingredients}">
             <span th:text="${ingredient.quantity}">Quantity</span>
             <span th:text="${ingredient.unit}">Unit</span>
             <span th:text="${ingredient.name}">Quantity</span>
