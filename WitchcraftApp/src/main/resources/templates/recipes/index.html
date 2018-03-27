@@ -1,12 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="UTF-8">
-    <title>Recipes</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/semantic.min.css}">
-</head>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{layout.html}">
 <body>
-<div class="ui container">
+<section layout:fragment="content">
     <form class="ui form" action="#" th:action="@{/recipes/import}" th:object="${recipeForm}" method="post">
         <div class="field">
             <label>Add a recipe</label>
@@ -28,6 +25,6 @@
             </div>
         </a>
     </div>
-</div>
+</section>
 </body>
 </html>

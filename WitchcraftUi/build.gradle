@@ -18,6 +18,10 @@ apply plugin: "com.moowork.node"
 group 'com.tarbadev.witchcraft'
 version '0.0.1-SNAPSHOT'
 
+repositories {
+    mavenCentral()
+}
+
 node {
     download = true
 }
@@ -27,14 +31,17 @@ jar {
 
     includeEmptyDirs = false
 }
-println(projectDir)
-println(projectDir.buildDir)
+
+gulp {
+    colors = true
+    bufferOutput = false
+}
+
 def srcDir = new File(projectDir, "src")
-def targetDir = new File(project.buildDir, "build/dist")
+def targetDir = new File(project.buildDir, "dist")
 gulp_dist.inputs.dir srcDir
 gulp_dist.outputs.dir targetDir
 
 installGulp.dependsOn npmInstall
 gulp_build.dependsOn installGulp
-build.dependsOn gulp_build
 jar.dependsOn gulp_build
