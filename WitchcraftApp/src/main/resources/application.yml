@@ -6,6 +6,9 @@ spring:
     username: spring
     password:
   thymeleaf:
+    check-template-location: true
+    suffix: .html
+    prefix: classpath:/templates/
     cache: false
 
 test-resources:

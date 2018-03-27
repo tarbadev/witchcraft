@@ -1,23 +1,22 @@
 {
   "base": "",
-
   "paths": {
     "source": {
-      "config"      : "src/theme.config",
-      "definitions" : "src/definitions/",
-      "site"        : "src/site/",
-      "themes"      : "src/themes/"
+      "config": "src/theme.config",
+      "definitions": "src/definitions/",
+      "site": "src/site/",
+      "themes": "src/themes/"
     },
     "output": {
-      "packaged"     : "build/dist/",
-      "uncompressed" : "build/components/",
-      "compressed"   : "build/components/",
-      "themes"       : "build/themes/"
+      "packaged": "build/dist/",
+      "uncompressed": "build/components/",
+      "compressed": "build/components/",
+      "themes": "build/themes/"
     },
-    "clean"        : "build/"
+    "clean": "build/"
   },
-
-  "permission" : false,
+  "permission": false,
   "autoInstall": false,
-  "rtl": false
+  "rtl": false,
+  "version": "2.3.1"
 }

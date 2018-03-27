@@ -23,20 +23,18 @@ node {
 }
 
 jar {
-    from 'build/dist' // only include files located in build/dist to avoid including the entire frontend src
+    from 'build/dist'
 
-    // Jar contains duplicate empty folders, see Gradle issue:
-    // http://issues.gradle.org/browse/GRADLE-1830
-    // so we need to set includeEmptyDirs to false
     includeEmptyDirs = false
 }
+println(projectDir)
+println(projectDir.buildDir)
+def srcDir = new File(projectDir, "src")
+def targetDir = new File(project.buildDir, "build/dist")
+gulp_dist.inputs.dir srcDir
+gulp_dist.outputs.dir targetDir
 
 installGulp.dependsOn npmInstall
 gulp_build.dependsOn installGulp
 build.dependsOn gulp_build
 jar.dependsOn gulp_build
-
-def srcDir = new File(projectDir, "src")
-def targetDir = new File(project.buildDir, "build/dist")
-gulp_dist.inputs.dir srcDir
-gulp_dist.outputs.dir targetDir
