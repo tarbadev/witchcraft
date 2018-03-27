@@ -27,3 +27,5 @@ nbdist/
 
 ### Java ###
 out/
+
+node_modules
