@@ -1,0 +1,42 @@
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "com.moowork.gradle:gradle-node-plugin:1.2.0"
+    }
+}
+
+plugins {
+    id "com.moowork.gulp" version "1.2.0"
+}
+
+apply plugin: "com.moowork.node"
+
+group 'com.tarbadev.witchcraft'
+version '0.0.1-SNAPSHOT'
+
+node {
+    download = true
+}
+
+jar {
+    from 'build/dist' // only include files located in build/dist to avoid including the entire frontend src
+
+    // Jar contains duplicate empty folders, see Gradle issue:
+    // http://issues.gradle.org/browse/GRADLE-1830
+    // so we need to set includeEmptyDirs to false
+    includeEmptyDirs = false
+}
+
+installGulp.dependsOn npmInstall
+gulp_build.dependsOn installGulp
+build.dependsOn gulp_build
+jar.dependsOn gulp_build
+
+def srcDir = new File(projectDir, "src")
+def targetDir = new File(project.buildDir, "build/dist")
+gulp_dist.inputs.dir srcDir
+gulp_dist.outputs.dir targetDir

@@ -1,0 +1,12 @@
+{
+  "name": "Witchcraft UI",
+  "scripts": {
+    "build": "gulp build"
+  },
+  "dependencies": {
+    "semantic-ui": "^2.3.1",
+    "graceful-fs": "^4.1.11",
+    "minimatch": "^3.0.2"
+  },
+  "private": true
+}
