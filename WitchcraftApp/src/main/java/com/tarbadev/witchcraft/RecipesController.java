@@ -24,7 +24,7 @@ public class RecipesController {
     }
 
     @GetMapping("/recipes")
-    public String show(RecipeForm recipeForm, Model model) {
+    public String index(RecipeForm recipeForm, Model model) {
         List<Recipe> recipes = recipeCatalogUseCase.execute();
 
         model.addAttribute("recipes", recipes);
@@ -41,7 +41,7 @@ public class RecipesController {
     }
 
     @GetMapping("/recipes/{id}")
-    public String details(@PathVariable Integer id, Model model) {
+    public String show(@PathVariable Integer id, Model model) {
         model.addAttribute("recipe", getRecipeUseCase.execute(id));
         return "recipes/show";
     }

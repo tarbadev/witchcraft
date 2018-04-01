@@ -13,14 +13,14 @@ public class DatabaseRecipeRepository {
     }
 
     public Recipe createRecipe(Recipe recipe) {
-        return recipeRepository.save(recipe);
+        return recipeRepository.saveAndFlush(recipe);
     }
 
-    public List<Recipe> getAll() {
+    public List<Recipe> findAll() {
         return recipeRepository.findAll();
     }
 
-    public Recipe get(Integer recipeId) {
+    public Recipe findById(Integer recipeId) {
         return recipeRepository.findById(recipeId).get();
     }
 }

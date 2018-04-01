@@ -30,7 +30,7 @@ public class GetRecipeUseCaseTest {
         Recipe recipe = testResources.getRecipe();
 
         Integer recipeId = 123;
-        given(databaseRecipeRepository.get(recipeId)).willReturn(recipe);
+        given(databaseRecipeRepository.findById(recipeId)).willReturn(recipe);
 
         assertThat(subject.execute(recipeId)).isEqualTo(recipe);
     }

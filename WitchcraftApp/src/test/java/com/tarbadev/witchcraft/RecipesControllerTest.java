@@ -41,7 +41,7 @@ public class RecipesControllerTest {
     }
 
     @Test
-    public void test_show_showsAddRecipeForm() throws Exception {
+    public void test_index_showsAddRecipeForm() throws Exception {
         mvc.perform(get("/recipes"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("recipes/index"))
@@ -49,7 +49,7 @@ public class RecipesControllerTest {
     }
 
     @Test
-    public void test_show_ShowsAllRecipes() throws Exception {
+    public void test_index_ShowsAllRecipes() throws Exception {
         List<Recipe> recipes = Arrays.asList(
                 Recipe.builder().build(),
                 Recipe.builder().build()
@@ -81,7 +81,7 @@ public class RecipesControllerTest {
     }
 
     @Test
-    public void test_details_ShowRecipesDetails() throws Exception {
+    public void test_show_ShowRecipesDetails() throws Exception {
         Recipe recipe = testResources.getRecipe();
 
         Integer recipeId = 123;

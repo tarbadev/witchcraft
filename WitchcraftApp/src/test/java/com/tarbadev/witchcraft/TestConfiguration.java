@@ -27,8 +27,18 @@ public class TestConfiguration {
     }
 
     @Bean
+    public CartCatalogUseCase cartCatalogUseCase() {
+        return Mockito.mock(CartCatalogUseCase.class);
+    }
+
+    @Bean
     public DatabaseRecipeRepository databaseRecipeRepository() {
         return Mockito.mock(DatabaseRecipeRepository.class);
+    }
+
+    @Bean
+    public DatabaseCartRepository databaseCartRepository() {
+        return Mockito.mock(DatabaseCartRepository.class);
     }
 
     @Bean TestResources testResources() {

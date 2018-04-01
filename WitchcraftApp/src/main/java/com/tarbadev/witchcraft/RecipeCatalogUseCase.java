@@ -13,6 +13,6 @@ public class RecipeCatalogUseCase {
     }
 
     public List<Recipe> execute() {
-        return databaseRecipeRepository.getAll();
+        return databaseRecipeRepository.findAll();
     }
 }

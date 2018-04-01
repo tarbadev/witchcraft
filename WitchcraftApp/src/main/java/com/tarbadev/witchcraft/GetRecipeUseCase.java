@@ -11,6 +11,6 @@ public class GetRecipeUseCase {
     }
 
     public Recipe execute(Integer recipeId) {
-        return databaseRecipeRepository.get(recipeId);
+        return databaseRecipeRepository.findById(recipeId);
     }
 }

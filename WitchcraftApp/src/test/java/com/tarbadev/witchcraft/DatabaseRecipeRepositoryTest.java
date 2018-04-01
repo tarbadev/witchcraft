@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -19,6 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(SpringRunner.class)
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @ActiveProfiles("test")
 public class DatabaseRecipeRepositoryTest {
     @Autowired private TestEntityManager entityManager;
@@ -76,9 +78,10 @@ public class DatabaseRecipeRepositoryTest {
     }
 
     @Test
-    public void test_getAll_ReturnsAllRecipes() {
+    public void test_findAll_ReturnsAllRecipes() {
         String url1 = "URL1";
         String url2 = "URL2";
+
 
         List<Recipe> expectedRecipes = Arrays.asList(
                 entityManager.persist(Recipe.builder()
@@ -96,11 +99,11 @@ public class DatabaseRecipeRepositoryTest {
         entityManager.flush();
         entityManager.clear();
 
-        assertThat(subject.getAll().size()).isEqualTo(expectedRecipes.size());
+        assertThat(subject.findAll().size()).isEqualTo(expectedRecipes.size());
     }
 
     @Test
-    public void test_get_returnsRecipe() {
+    public void test_findById_returnsRecipe() {
         Recipe recipe = entityManager.persistAndFlush(Recipe.builder()
                 .name("Recipe 1")
                 .ingredients(Collections.emptyList())
@@ -110,6 +113,6 @@ public class DatabaseRecipeRepositoryTest {
 
         entityManager.clear();
 
-        assertThat(subject.get(recipe.getId())).isEqualTo(recipe);
+        assertThat(subject.findById(recipe.getId())).isEqualTo(recipe);
     }
 }

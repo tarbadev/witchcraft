@@ -5,7 +5,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.stereotype.Component;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
@@ -35,7 +34,7 @@ public class RecipeCatalogUseCaseTest {
                 Recipe.builder().build()
         );
 
-        given(databaseRecipeRepository.getAll()).willReturn(recipes);
+        given(databaseRecipeRepository.findAll()).willReturn(recipes);
 
         assertThat(subject.execute()).isEqualTo(recipes);
     }
