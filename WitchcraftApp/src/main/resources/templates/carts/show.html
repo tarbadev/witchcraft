@@ -1,10 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{layout.html}">
 <head>
   <meta charset="UTF-8">
   <title>Title</title>
 </head>
 <body>
-
+  <section layout:fragment="content">
+    <div class="ui equal width grid container">
+      <div class="equal width row">
+        <div class="column">
+          <h1 class="ui header" th:text="${#temporals.format(cart.createdAt, 'EEEE d MMMM yyyy')} + ' at ' + ${#temporals.format(cart.createdAt, 'HH:mm')}">Cart</h1>
+        </div>
+      </div>
+      <div class="column">
+          <div class="ui list">
+            <div class="item" th:each="item : ${cart.items}">
+              <i class="thumbtack icon"></i>
+              <div class="content">
+                <div class="header">
+                  <span th:text="${item.quantity}">Quantity</span>
+                  <span th:text="${item.unit}">Unit</span>
+                  <span th:text="${item.name}">Quantity</span>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+      <div class="column">
+        <div class="ui list">
+          <div class="item" th:each="recipe : ${cart.recipes}">
+            <div class="ui tiny rounded image">
+              <img class="ui medium rounded image" th:src="@{${recipe.imgUrl}}">
+            </div>
+            <a class="middle aligned content" th:text="${recipe.name}" th:href="@{'/recipes/' + ${recipe.id}}">Recipe</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </body>
 </html>
