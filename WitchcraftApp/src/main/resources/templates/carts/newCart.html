@@ -5,7 +5,7 @@
 <body>
 <section layout:fragment="content">
     <form class="ui form" action="#" th:action="@{/carts/new}" th:object="${newCartForm}" method="post">
-        <div class="field" th:each="recipe : ${recipes}">
+        <div class="field" th:each="recipe : $  {recipes}">
             <div class="ui toggle checkbox">
                 <input type="checkbox" th:field="*{checkedRecipeIds}" th:value="${recipe.id}">
                 <label th:text="${recipe.name}" th:for="${#ids.prev('checkedRecipeIds')}">Recipe</label>

@@ -88,4 +88,14 @@ public class DatabaseCartRepositoryTest {
     assertThat(savedCart.getItems().size()).isEqualTo(2);
     assertThat(savedCart.getRecipes().size()).isEqualTo(1);
   }
+
+  @Test
+  public void test_save_createsDateForCart() {
+    Cart cart = Cart.builder().build();
+    assertThat(cart.getCreatedAt()).isNull();
+
+    entityManager.persistAndFlush(cart);
+
+    assertThat(cart.getCreatedAt()).isNotNull();
+  }
 }

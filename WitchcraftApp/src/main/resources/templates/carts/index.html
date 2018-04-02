@@ -3,14 +3,13 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="~{layout.html}">
 <body>
-<section layout:fragment="content">
+  <section layout:fragment="content">
     <a th:href="@{/carts/new}">New cart</a>
     <div class="ui divided link list">
-        <a class="item" th:each="cart : ${carts}" th:href="@{'/carts/'+ ${cart.id}}">
-            <span th:text="${cart.id}"></span>
-        </a>
+      <a class="item" th:each="cart : ${carts}" th:href="@{'/carts/'+ ${cart.id}}">
+        <span th:text="${#dates.format(cart.createdAt, 'EEEE d MMMM yyyy')} + ' at ' + ${#dates.format(cart.createdAt, 'HH:mm')}"></span>
+      </a>
     </div>
-</section>
-</body>
+  </section>
 </body>
 </html>
