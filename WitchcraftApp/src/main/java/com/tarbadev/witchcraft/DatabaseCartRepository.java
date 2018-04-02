@@ -15,4 +15,8 @@ public class DatabaseCartRepository {
     public List<Cart> findAll() {
         return cartRepository.findAll();
     }
+
+  public Cart save(Cart cart) {
+    return cartRepository.saveAndFlush(cart);
+  }
 }

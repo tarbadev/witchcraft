@@ -22,4 +22,9 @@ public class Item {
     private String name;
     private Double quantity;
     private String unit;
+
+  public Item addQuantity(Double quantity) {
+    this.quantity += quantity;
+    return this;
+  }
 }

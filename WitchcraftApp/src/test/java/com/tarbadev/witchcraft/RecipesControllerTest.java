@@ -28,68 +28,68 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 public class RecipesControllerTest {
-    @Autowired private MockMvc mvc;
-    @Autowired private TestResources testResources;
-    @Autowired private AddRecipeUseCase addRecipeUseCase;
-    @Autowired private RecipeCatalogUseCase recipeCatalogUseCase;
-    @Autowired private GetRecipeDetailsUseCase getRecipeDetailsUseCase;
-    @Autowired private GetRecipeUseCase getRecipeUseCase;
+  @Autowired private MockMvc mvc;
+  @Autowired private TestResources testResources;
+  @Autowired private AddRecipeUseCase addRecipeUseCase;
+  @Autowired private RecipeCatalogUseCase recipeCatalogUseCase;
+  @Autowired private GetRecipeDetailsUseCase getRecipeDetailsUseCase;
+  @Autowired private GetRecipeUseCase getRecipeUseCase;
 
-    @Before
-    public void setUp() {
-        Mockito.reset(addRecipeUseCase, recipeCatalogUseCase, getRecipeDetailsUseCase);
-    }
+  @Before
+  public void setUp() {
+    Mockito.reset(addRecipeUseCase, recipeCatalogUseCase, getRecipeDetailsUseCase);
+  }
 
-    @Test
-    public void test_index_showsAddRecipeForm() throws Exception {
-        mvc.perform(get("/recipes"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("recipes/index"))
-                .andExpect(model().attribute("recipeForm", hasProperty("url", isEmptyOrNullString())));
-    }
+  @Test
+  public void test_index_showsAddRecipeForm() throws Exception {
+    mvc.perform(get("/recipes"))
+        .andExpect(status().isOk())
+        .andExpect(view().name("recipes/index"))
+        .andExpect(model().attribute("recipeForm", hasProperty("url", isEmptyOrNullString())));
+  }
 
-    @Test
-    public void test_index_ShowsAllRecipes() throws Exception {
-        List<Recipe> recipes = Arrays.asList(
-                Recipe.builder().build(),
-                Recipe.builder().build()
-        );
+  @Test
+  public void test_index_ShowsAllRecipes() throws Exception {
+    List<Recipe> recipes = Arrays.asList(
+        Recipe.builder().build(),
+        Recipe.builder().build()
+    );
 
-        given(recipeCatalogUseCase.execute()).willReturn(recipes);
+    given(recipeCatalogUseCase.execute()).willReturn(recipes);
 
-        mvc.perform(get("/recipes"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("recipes/index"))
-                .andExpect(model().attribute("recipes", recipes));
-    }
+    mvc.perform(get("/recipes"))
+        .andExpect(status().isOk())
+        .andExpect(view().name("recipes/index"))
+        .andExpect(model().attribute("recipes", recipes));
+  }
 
-    @Test
-    public void test_import_SavesRecipe() throws Exception {
-        Recipe recipe = testResources.getRecipe();
+  @Test
+  public void test_import_SavesRecipe() throws Exception {
+    Recipe recipe = testResources.getRecipe();
 
-        given(getRecipeDetailsUseCase.execute(recipe.getUrl())).willReturn(recipe);
-        given(addRecipeUseCase.execute(recipe)).willReturn(recipe);
+    given(getRecipeDetailsUseCase.execute(recipe.getUrl())).willReturn(recipe);
+    given(addRecipeUseCase.execute(recipe)).willReturn(recipe);
 
-        mvc.perform(post("/recipes/import")
-                .param("url", recipe.getUrl())
-                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-        )
-                .andExpect(redirectedUrl("/recipes"));
+    mvc.perform(post("/recipes/import")
+        .param("url", recipe.getUrl())
+        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+    )
+        .andExpect(redirectedUrl("/recipes"));
 
-        verify(getRecipeDetailsUseCase).execute(recipe.getUrl());
-        verify(addRecipeUseCase).execute(recipe);
-    }
+    verify(getRecipeDetailsUseCase).execute(recipe.getUrl());
+    verify(addRecipeUseCase).execute(recipe);
+  }
 
-    @Test
-    public void test_show_ShowRecipesDetails() throws Exception {
-        Recipe recipe = testResources.getRecipe();
+  @Test
+  public void test_show_ShowRecipesDetails() throws Exception {
+    Recipe recipe = testResources.getRecipe();
 
-        Integer recipeId = 123;
-        given(getRecipeUseCase.execute(recipeId)).willReturn(recipe);
+    Integer recipeId = 123;
+    given(getRecipeUseCase.execute(recipeId)).willReturn(recipe);
 
-        mvc.perform(get(String.format("/recipes/%d", recipeId)))
-                .andExpect(status().isOk())
-                .andExpect(view().name("recipes/show"))
-                .andExpect(model().attribute("recipe", recipe));
-    }
+    mvc.perform(get(String.format("/recipes/%d", recipeId)))
+        .andExpect(status().isOk())
+        .andExpect(view().name("recipes/show"))
+        .andExpect(model().attribute("recipe", recipe));
+  }
 }
