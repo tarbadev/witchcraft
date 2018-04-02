@@ -19,4 +19,8 @@ public class DatabaseCartRepository {
   public Cart save(Cart cart) {
     return cartRepository.saveAndFlush(cart);
   }
+
+  public Cart findById(int id) {
+    return cartRepository.findById(id).orElse(null);
+  }
 }

@@ -30,11 +30,12 @@ public class CartControllerTest {
   @Autowired private CartCatalogUseCase cartCatalogUseCase;
   @Autowired private RecipeCatalogUseCase recipeCatalogUseCase;
   @Autowired private CreateCartUseCase createCartUseCase;
+  @Autowired private GetCartUseCase getCartUseCase;
 
 
   @Before
   public void setUp() {
-    Mockito.reset(cartCatalogUseCase);
+    Mockito.reset(cartCatalogUseCase, recipeCatalogUseCase, createCartUseCase, getCartUseCase);
   }
 
 
@@ -92,5 +93,17 @@ public class CartControllerTest {
 
     verify(recipeCatalogUseCase).execute();
     verify(createCartUseCase).execute(Arrays.asList(recipes.get(0), recipes.get(2)));
+  }
+
+  @Test
+  public void test_show_showsCart() throws Exception {
+    Cart cart = Cart.builder().id(123).build();
+
+    given(getCartUseCase.execute(123)).willReturn(cart);
+
+    mvc.perform(get("/carts/123"))
+        .andExpect(view().name("carts/show"))
+        .andExpect(model().attribute("cart", cart))
+        .andExpect(status().isOk());
   }
 }

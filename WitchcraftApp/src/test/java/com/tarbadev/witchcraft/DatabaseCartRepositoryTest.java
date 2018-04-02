@@ -98,4 +98,16 @@ public class DatabaseCartRepositoryTest {
 
     assertThat(cart.getCreatedAt()).isNotNull();
   }
+
+  @Test
+  public void test_findById_returnsCart() {
+    Cart cart = entityManager.persistFlushFind(
+        Cart.builder()
+            .build()
+    );
+
+    entityManager.clear();
+
+    assertThat(subject.findById(cart.getId())).isEqualToComparingFieldByFieldRecursively(cart);
+  }
 }

@@ -48,7 +48,7 @@ public class DatabaseRecipeRepositoryTest {
                 .ingredients(Collections.emptyList())
                 .build();
 
-        assertThat(recipe).isEqualTo(expectedRecipe);
+        assertThat(recipe).isEqualToComparingFieldByFieldRecursively(expectedRecipe);
     }
 
     @Test
@@ -74,7 +74,7 @@ public class DatabaseRecipeRepositoryTest {
                 ))
                 .build();
 
-        assertThat(returnedRecipe).isEqualTo(expectedRecipe);
+        assertThat(returnedRecipe).isEqualToComparingFieldByFieldRecursively(expectedRecipe);
     }
 
     @Test
@@ -113,6 +113,6 @@ public class DatabaseRecipeRepositoryTest {
 
         entityManager.clear();
 
-        assertThat(subject.findById(recipe.getId())).isEqualTo(recipe);
+        assertThat(subject.findById(recipe.getId())).isEqualToComparingFieldByFieldRecursively(recipe);
     }
 }

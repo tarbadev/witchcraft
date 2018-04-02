@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Objects;
 
 @Builder
 @Data
@@ -24,21 +23,4 @@ public class Recipe {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "recipe_id")
     private List<Ingredient> ingredients;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Recipe recipe = (Recipe) o;
-        return Objects.equals(id, recipe.id) &&
-                Objects.equals(url, recipe.url) &&
-                Objects.equals(name, recipe.name) &&
-                Objects.equals(imgUrl, recipe.imgUrl) &&
-                ingredients.containsAll(recipe.ingredients);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), id, url, name, ingredients);
-    }
 }

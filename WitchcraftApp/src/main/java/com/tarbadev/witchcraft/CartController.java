@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.Collections;
@@ -15,11 +16,13 @@ public class CartController {
   private CartCatalogUseCase cartCatalogUseCase;
   private RecipeCatalogUseCase recipeCatalogUseCase;
   private CreateCartUseCase createCartUseCase;
+  private GetCartUseCase getCartUseCase;
 
-  public CartController(CartCatalogUseCase cartCatalogUseCase, RecipeCatalogUseCase recipeCatalogUseCase, CreateCartUseCase createCartUseCase) {
+  public CartController(CartCatalogUseCase cartCatalogUseCase, RecipeCatalogUseCase recipeCatalogUseCase, CreateCartUseCase createCartUseCase, GetCartUseCase getCartUseCase) {
     this.cartCatalogUseCase = cartCatalogUseCase;
     this.recipeCatalogUseCase = recipeCatalogUseCase;
     this.createCartUseCase = createCartUseCase;
+    this.getCartUseCase = getCartUseCase;
   }
 
   @GetMapping("/carts")
@@ -48,5 +51,12 @@ public class CartController {
     createCartUseCase.execute(recipes);
 
     return "redirect:/carts";
+  }
+
+  @GetMapping("/carts/{id}")
+  public String show(@PathVariable Integer id, Model model) {
+    Cart cart = getCartUseCase.execute(id);
+    model.addAttribute("cart", cart);
+    return "carts/show";
   }
 }

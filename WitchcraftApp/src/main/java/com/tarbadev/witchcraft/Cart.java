@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Builder
@@ -20,7 +20,7 @@ public class Cart {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Integer id;
   @CreationTimestamp
-  protected Date createdAt;
+  protected LocalDateTime createdAt;
   @ManyToMany(cascade = CascadeType.ALL)
   private List<Recipe> recipes;
   @OneToMany(cascade = CascadeType.ALL)
