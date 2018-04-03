@@ -40,7 +40,7 @@ public class CartControllerTest {
 
 
   @Test
-  public void test_index_ShowsAllCarts() throws Exception {
+  public void index_ShowsAllCarts() throws Exception {
     List<Cart> carts = Arrays.asList(
         Cart.builder().build(),
         Cart.builder().build(),
@@ -57,7 +57,7 @@ public class CartControllerTest {
   }
 
   @Test
-  public void test_showNewCart_displaysNewCartForm() throws Exception {
+  public void showNewCart_displaysNewCartForm() throws Exception {
     List<Recipe> recipes = Arrays.asList(
         Recipe.builder().build(),
         Recipe.builder().build(),
@@ -75,7 +75,7 @@ public class CartControllerTest {
   }
 
   @Test
-  public void test_newCart_createsNewCart() throws Exception {
+  public void newCart_createsNewCart() throws Exception {
     List<Recipe> recipes = Arrays.asList(
         Recipe.builder().id(1).build(),
         Recipe.builder().id(2).build(),
@@ -96,7 +96,7 @@ public class CartControllerTest {
   }
 
   @Test
-  public void test_show_showsCart() throws Exception {
+  public void show_showsCart() throws Exception {
     Cart cart = Cart.builder().id(123).build();
 
     given(getCartUseCase.execute(123)).willReturn(cart);

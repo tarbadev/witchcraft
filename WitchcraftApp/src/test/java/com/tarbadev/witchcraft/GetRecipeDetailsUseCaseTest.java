@@ -24,14 +24,14 @@ public class GetRecipeDetailsUseCaseTest {
     }
 
     @Test
-    public void test_execute_getsRecipeName() {
+    public void execute_getsRecipeName() {
         Recipe recipe = testResources.getRecipe();
 
         assertThat(subject.execute(recipe.getUrl())).isEqualTo(recipe);
     }
 
     @Test
-    public void test_execute_getsRecipeIngredients() {
+    public void execute_getsRecipeIngredients() {
         Recipe recipe = testResources.getRecipe();
 
         assertThat(subject.execute(recipe.getUrl())).isEqualTo(recipe);
@@ -39,7 +39,7 @@ public class GetRecipeDetailsUseCaseTest {
     }
 
     @Test
-    public void test_execute_getsRecipeImageUrl() {
+    public void execute_getsRecipeImageUrl() {
         Recipe recipe = testResources.getRecipe();
 
         assertThat(subject.execute(recipe.getUrl())).isEqualTo(recipe);

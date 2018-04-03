@@ -27,7 +27,7 @@ public class RecipeCatalogUseCaseTest {
     }
 
     @Test
-    public void test_execute_ReturnsAllRecipes() {
+    public void execute_ReturnsAllRecipes() {
         List<Recipe> recipes = Arrays.asList(
                 Recipe.builder().build(),
                 Recipe.builder().build(),

@@ -27,7 +27,7 @@ public class GetCartUseCaseTest {
   }
 
   @Test
-  public void test_execute_returnsCart() {
+  public void execute_returnsCart() {
     Cart cart = Cart.builder().id(123).build();
 
     given(databaseCartRepository.findById(123)).willReturn(cart);

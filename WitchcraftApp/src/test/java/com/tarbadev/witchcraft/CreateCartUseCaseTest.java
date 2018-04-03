@@ -4,7 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -38,7 +37,7 @@ public class CreateCartUseCaseTest {
   }
 
   @Test
-  public void test_execute_savesCartWithItems() {
+  public void execute_savesCartWithItems() {
     List<Recipe> recipes = Arrays.asList(
         testResources.getRecipe(),
         Recipe.builder()
@@ -81,7 +80,7 @@ public class CreateCartUseCaseTest {
   }
 
   @Test
-  public void test_execute_addsItemsWithSameNameAndUnit() {
+  public void execute_addsItemsWithSameNameAndUnit() {
     List<Recipe> recipes = Arrays.asList(
         Recipe.builder()
             .ingredients(Arrays.asList(

@@ -26,7 +26,7 @@ public class GetRecipeUseCaseTest {
     }
 
     @Test
-    public void test_execute_returnsRecipe() {
+    public void execute_returnsRecipe() {
         Recipe recipe = testResources.getRecipe();
 
         Integer recipeId = 123;

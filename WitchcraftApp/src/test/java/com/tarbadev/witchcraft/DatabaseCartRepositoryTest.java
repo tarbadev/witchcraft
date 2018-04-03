@@ -34,7 +34,7 @@ public class DatabaseCartRepositoryTest {
   }
 
   @Test
-  public void test_findAll_ReturnsAllCarts() {
+  public void findAll_ReturnsAllCarts() {
     entityManager.persist(Cart.builder().build());
     entityManager.persist(Cart.builder().build());
     entityManager.persist(Cart.builder().build());
@@ -46,7 +46,7 @@ public class DatabaseCartRepositoryTest {
   }
 
   @Test
-  public void test_save_returnsCart() {
+  public void save_returnsCart() {
     List<Recipe> recipes = Arrays.asList(Recipe.builder()
         .ingredients(Arrays.asList(
             Ingredient.builder()
@@ -90,7 +90,7 @@ public class DatabaseCartRepositoryTest {
   }
 
   @Test
-  public void test_save_createsDateForCart() {
+  public void save_createsDateForCart() {
     Cart cart = Cart.builder().build();
     assertThat(cart.getCreatedAt()).isNull();
 
@@ -100,7 +100,7 @@ public class DatabaseCartRepositoryTest {
   }
 
   @Test
-  public void test_findById_returnsCart() {
+  public void findById_returnsCart() {
     Cart cart = entityManager.persistFlushFind(
         Cart.builder()
             .build()

@@ -34,7 +34,7 @@ public class DatabaseRecipeRepositoryTest {
     }
 
     @Test
-    public void test_createRecipe_ReturnsRecipe() {
+    public void createRecipe_ReturnsRecipe() {
         String recipe_url = "URL";
 
         Recipe recipe = Recipe.builder()
@@ -52,7 +52,7 @@ public class DatabaseRecipeRepositoryTest {
     }
 
     @Test
-    public void test_createRecipe_savesIngredients() {
+    public void createRecipe_savesIngredients() {
         Recipe recipe = Recipe.builder()
                 .ingredients(Arrays.asList(
                         Ingredient.builder().build(),
@@ -78,7 +78,7 @@ public class DatabaseRecipeRepositoryTest {
     }
 
     @Test
-    public void test_findAll_ReturnsAllRecipes() {
+    public void findAll_ReturnsAllRecipes() {
         String url1 = "URL1";
         String url2 = "URL2";
 
@@ -103,7 +103,7 @@ public class DatabaseRecipeRepositoryTest {
     }
 
     @Test
-    public void test_findById_returnsRecipe() {
+    public void findById_returnsRecipe() {
         Recipe recipe = entityManager.persistAndFlush(Recipe.builder()
                 .name("Recipe 1")
                 .ingredients(Collections.emptyList())
