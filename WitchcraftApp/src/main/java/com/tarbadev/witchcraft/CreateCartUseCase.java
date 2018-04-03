@@ -8,14 +8,25 @@ import java.util.stream.Collectors;
 
 @Component
 public class CreateCartUseCase {
-  private DatabaseCartRepository databaseCartRepository;
+  private final DatabaseCartRepository databaseCartRepository;
+  private final UnitConverter unitConverter;
 
-  public CreateCartUseCase(DatabaseCartRepository databaseCartRepository) {
+  public CreateCartUseCase(DatabaseCartRepository databaseCartRepository, UnitConverter unitConverter) {
     this.databaseCartRepository = databaseCartRepository;
+    this.unitConverter = unitConverter;
   }
 
   public Cart execute(List<Recipe> recipes) {
-    List<Item> items = recipes.stream()
+    Cart cart = Cart.builder()
+        .recipes(recipes)
+        .items(getItemsFromRecipe(recipes))
+        .build();
+
+    return databaseCartRepository.save(cart);
+  }
+
+  private List<Item> getItemsFromRecipe(List<Recipe> recipes) {
+    List<Item> allItems = recipes.stream()
         .flatMap(recipe -> recipe.getIngredients().stream()
             .map(ingredient -> Item.builder()
                 .name(ingredient.getName())
@@ -29,19 +40,27 @@ public class CreateCartUseCase {
     Function<Item, List<Object>> compositeKey = item ->
         Arrays.<Object>asList(item.getName(), item.getUnit());
 
-    Map<Object, List<Item>> map =
-        items.stream().collect(Collectors.groupingBy(compositeKey, Collectors.toList()));
+    Map<Object, List<Item>> itemsByNameAndUnit =
+        allItems.stream().collect(Collectors.groupingBy(compositeKey, Collectors.toList()));
 
-    items = map.values().stream()
+    Map<String, List<Item>> itemsByName = itemsByNameAndUnit.values().stream()
         .map(e -> e.stream().reduce((a, b) -> a.addQuantity(b.getQuantity())).orElse(null))
-        .sorted(Comparator.comparing(Item::getName))
+        .collect(Collectors.groupingBy(Item::getName));
+
+    return getItemsWithTotalQuantity(itemsByName);
+  }
+
+  private List<Item> getItemsWithTotalQuantity(Map<String, List<Item>> itemsByName) {
+    List<Item> items = itemsByName.entrySet().stream()
+        .map(entrySet -> entrySet.getValue().stream()
+            .reduce((item1, item2) -> getTotalItem(item1, item2))
+            .orElse(null)
+        )
         .collect(Collectors.toList());
+    return items;
+  }
 
-    Cart cart = Cart.builder()
-        .recipes(recipes)
-        .items(items)
-        .build();
-
-    return databaseCartRepository.save(cart);
+  private Item getTotalItem(Item item1, Item item2) {
+    return null;
   }
 }

@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.AbstractMap;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -24,16 +25,15 @@ import static org.mockito.Mockito.verify;
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 public class CreateCartUseCaseTest {
-  @Autowired
-  TestResources testResources;
-  @Mock
-  DatabaseCartRepository databaseCartRepository;
+  @Autowired TestResources testResources;
+  @Autowired private UnitConverter unitConverter;
+  @Mock DatabaseCartRepository databaseCartRepository;
 
   private CreateCartUseCase subject;
 
   @Before
   public void setUp() {
-    subject = new CreateCartUseCase(databaseCartRepository);
+    subject = new CreateCartUseCase(databaseCartRepository, unitConverter);
   }
 
   @Test
@@ -80,7 +80,7 @@ public class CreateCartUseCaseTest {
   }
 
   @Test
-  public void execute_addsItemsWithSameNameAndUnit() {
+  public void execute_addsItemsWithSameNameAndConvertUnit() {
     List<Recipe> recipes = Arrays.asList(
         Recipe.builder()
             .ingredients(Arrays.asList(
@@ -119,13 +119,8 @@ public class CreateCartUseCaseTest {
             .build(),
         Item.builder()
             .name("Ingredient 2")
-            .quantity(10.0)
+            .quantity(10.33814)
             .unit("oz")
-            .build(),
-        Item.builder()
-            .name("Ingredient 2")
-            .quantity(10.0)
-            .unit("ml")
             .build()
     );
     Cart cart = Cart.builder()
@@ -133,6 +128,8 @@ public class CreateCartUseCaseTest {
         .items(items)
         .build();
 
+    given(unitConverter.convertToHighestUnit(10.0, UnitConverter.ML, 10.0, UnitConverter.OZ))
+        .willReturn(new AbstractMap.SimpleEntry<>("oz", 10.33814));
     given(databaseCartRepository.save(cart)).willReturn(cart);
 
     assertThat(subject.execute(recipes)).isEqualTo(cart);
