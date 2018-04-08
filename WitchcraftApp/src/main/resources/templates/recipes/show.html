@@ -3,37 +3,41 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="~{layout.html}">
 <head>
-    <meta charset="UTF-8">
-    <title th:text="${recipe.name}">Title</title>
+  <meta charset="UTF-8">
+  <title th:text="${recipe.name}">Title</title>
 </head>
 <body>
 <section layout:fragment="content">
-    <div class="ui equal width grid container">
-        <div class="equal width row">
-            <div class="column">
-                <h1 class="ui header" th:text="${recipe.name}">Name</h1>
-            </div>
-        </div>
-        <div class="column">
-            <img class="ui medium rounded image" th:src="@{${recipe.imgUrl}}">
-        </div>
-        <div class="column">
-            <div class="ui yellow piled segment">
-                <div class="ui list">
-                    <div class="item" th:each="ingredient : ${recipe.ingredients}">
-                        <i class="thumbtack icon"></i>
-                        <div class="content">
-                            <div class="header">
-                                <span th:text="${ingredient.quantity}">Quantity</span>
-                                <span th:text="${ingredient.unit}">Unit</span>
-                                <span th:text="${ingredient.name}">Quantity</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+  <div class="ui equal width grid container">
+    <div class="equal width row">
+      <div class="column">
+        <h1 class="ui header" th:text="${recipe.name}">Name</h1>
+      </div>
     </div>
+    <div class="four wide column">
+      <img class="ui medium rounded image" th:src="@{${recipe.imgUrl}}">
+    </div>
+    <div class="six wide column">
+      <div class="ui blue piled segment">
+        <div class="ui blue ribbon large label">Steps</div>
+        <div class="ui list">
+        </div>
+      </div>
+    </div>
+    <div class="six wide column">
+      <div class="ui yellow piled segment">
+        <div class="ui yellow ribbon large label">Ingredients</div>
+        <div class="ui list">
+          <div class="item" th:each="ingredient : ${recipe.ingredients}">
+            <div class="ui horizontal label">
+              <span th:text="${ingredient.name}">Ingredient</span>&nbsp;
+              <div class="detail" th:text="${ingredient.quantity} + ' ' + ${ingredient.unit}">Quantity</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 </body>
 </html>
