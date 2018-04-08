@@ -10,10 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.AbstractMap;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
@@ -25,7 +22,6 @@ import static org.mockito.Mockito.verify;
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 public class CreateCartUseCaseTest {
-  @Autowired TestResources testResources;
   @Autowired private IngredientConverter ingredientConverter;
   @Mock DatabaseCartRepository databaseCartRepository;
 
@@ -38,8 +34,7 @@ public class CreateCartUseCaseTest {
 
   @Test
   public void execute_savesCartWithItems() {
-    List<Recipe> recipes = Arrays.asList(
-        testResources.getRecipe(),
+    List<Recipe> recipes = Collections.singletonList(
         Recipe.builder()
             .ingredients(Arrays.asList(
                 Ingredient.builder()

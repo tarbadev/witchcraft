@@ -37,11 +37,6 @@ public class CreateCartUseCase {
         .map(e -> e.stream().reduce((a, b) -> a.addQuantity(b.getQuantity())).orElse(null))
         .collect(Collectors.groupingBy(Ingredient::getName));
 
-    System.out.println("Ingredients not calculated = " + ingredientsByName.values().stream()
-        .filter(values -> values.size() > 1)
-        .collect(Collectors.toList())
-    );
-
     List<Ingredient> ingredients = ingredientsByName.entrySet().stream()
         .map(entrySet -> entrySet.getValue().stream()
             .reduce(ingredientConverter::addToHighestUnit)
