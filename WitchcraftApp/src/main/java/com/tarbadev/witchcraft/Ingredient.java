@@ -16,14 +16,15 @@ import javax.persistence.Id;
 @NoArgsConstructor
 @Entity
 public class Ingredient {
-    @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    private Integer id;
-    private String name;
-    private Double quantity;
-    private String unit;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Integer id;
+  private String name;
+  private Double quantity;
+  private String unit;
 
-    public void addQuantity(Double quantity) {
-        this.quantity += quantity;
-    }
+  public Ingredient addQuantity(Double quantity) {
+    this.quantity += quantity;
+    return this;
+  }
 }

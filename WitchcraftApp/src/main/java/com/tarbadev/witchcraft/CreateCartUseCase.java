@@ -3,17 +3,16 @@ package com.tarbadev.witchcraft;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Component
 public class CreateCartUseCase {
   private final DatabaseCartRepository databaseCartRepository;
-  private final UnitConverter unitConverter;
+  private final IngredientConverter ingredientConverter;
 
-  public CreateCartUseCase(DatabaseCartRepository databaseCartRepository, UnitConverter unitConverter) {
+  public CreateCartUseCase(DatabaseCartRepository databaseCartRepository, IngredientConverter ingredientConverter) {
     this.databaseCartRepository = databaseCartRepository;
-    this.unitConverter = unitConverter;
+    this.ingredientConverter = ingredientConverter;
   }
 
   public Cart execute(List<Recipe> recipes) {
@@ -26,41 +25,36 @@ public class CreateCartUseCase {
   }
 
   private List<Item> getItemsFromRecipe(List<Recipe> recipes) {
-    List<Item> allItems = recipes.stream()
-        .flatMap(recipe -> recipe.getIngredients().stream()
-            .map(ingredient -> Item.builder()
-                .name(ingredient.getName())
-                .unit(ingredient.getUnit())
-                .quantity(ingredient.getQuantity())
-                .build()
-            )
-        )
+    List<Ingredient> allIngredients = recipes.stream()
+        .flatMap(recipe -> recipe.getIngredients().stream())
         .collect(Collectors.toList());
 
-    Function<Item, List<Object>> compositeKey = item ->
-        Arrays.<Object>asList(item.getName(), item.getUnit());
+    Map<Object, List<Ingredient>> ingredientsByNameAndUnit =
+        allIngredients.stream().collect(Collectors.groupingBy(ingredient ->
+            Arrays.<Object>asList(ingredient.getName(), ingredient.getUnit()), Collectors.toList()));
 
-    Map<Object, List<Item>> itemsByNameAndUnit =
-        allItems.stream().collect(Collectors.groupingBy(compositeKey, Collectors.toList()));
-
-    Map<String, List<Item>> itemsByName = itemsByNameAndUnit.values().stream()
+    Map<String, List<Ingredient>> ingredientsByName = ingredientsByNameAndUnit.values().stream()
         .map(e -> e.stream().reduce((a, b) -> a.addQuantity(b.getQuantity())).orElse(null))
-        .collect(Collectors.groupingBy(Item::getName));
+        .collect(Collectors.groupingBy(Ingredient::getName));
 
-    return getItemsWithTotalQuantity(itemsByName);
-  }
+    System.out.println("Ingredients not calculated = " + ingredientsByName.values().stream()
+        .filter(values -> values.size() > 1)
+        .collect(Collectors.toList())
+    );
 
-  private List<Item> getItemsWithTotalQuantity(Map<String, List<Item>> itemsByName) {
-    List<Item> items = itemsByName.entrySet().stream()
+    List<Ingredient> ingredients = ingredientsByName.entrySet().stream()
         .map(entrySet -> entrySet.getValue().stream()
-            .reduce((item1, item2) -> getTotalItem(item1, item2))
+            .reduce(ingredientConverter::addToHighestUnit)
             .orElse(null)
         )
         .collect(Collectors.toList());
-    return items;
-  }
 
-  private Item getTotalItem(Item item1, Item item2) {
-    return null;
+    return ingredients.stream()
+        .map(ingredient -> Item.builder()
+            .name(ingredient.getName())
+            .quantity(ingredient.getQuantity())
+            .unit(ingredient.getUnit())
+            .build())
+        .collect(Collectors.toList());
   }
 }

@@ -26,14 +26,14 @@ import static org.mockito.Mockito.verify;
 @ActiveProfiles("test")
 public class CreateCartUseCaseTest {
   @Autowired TestResources testResources;
-  @Autowired private UnitConverter unitConverter;
+  @Autowired private IngredientConverter ingredientConverter;
   @Mock DatabaseCartRepository databaseCartRepository;
 
   private CreateCartUseCase subject;
 
   @Before
   public void setUp() {
-    subject = new CreateCartUseCase(databaseCartRepository, unitConverter);
+    subject = new CreateCartUseCase(databaseCartRepository, ingredientConverter);
   }
 
   @Test
@@ -128,8 +128,8 @@ public class CreateCartUseCaseTest {
         .items(items)
         .build();
 
-    given(unitConverter.convertToHighestUnit(10.0, UnitConverter.ML, 10.0, UnitConverter.OZ))
-        .willReturn(new AbstractMap.SimpleEntry<>("oz", 10.33814));
+    given(ingredientConverter.addToHighestUnit(recipes.get(0).getIngredients().get(1), recipes.get(1).getIngredients().get(1)))
+        .willReturn(Ingredient.builder().name("Ingredient 2").quantity(10.33814).unit("oz").build());
     given(databaseCartRepository.save(cart)).willReturn(cart);
 
     assertThat(subject.execute(recipes)).isEqualTo(cart);

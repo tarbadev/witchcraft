@@ -13,23 +13,35 @@ import java.util.Map;
 public class UnitConverter {
   @Getter
   @AllArgsConstructor
+  public enum UnitName {
+    LB("lb"),
+    CUP("cup"),
+    TSP("tsp"),
+    OZ("oz"),
+    ML("ml");
+
+    private final String name;
+  }
+
+  @Getter
+  @AllArgsConstructor
   private enum Unit {
     OZ(1),
-    ML(0);
+    ML(0),
+    CUP(1),
+    TSP(0);
 
     private final int value;
 
     private boolean isSuperiorTo(Unit unit) { return value > unit.getValue(); }
   }
 
-  public static final String OZ = "oz";
-  public static final String LB = "lb";
-  public static final String ML = "ml";
-
   private Map<String, Unit> units = new HashMap<String, Unit>() {
     {
-      put(OZ, Unit.OZ);
-      put(ML, Unit.ML);
+      put(UnitName.OZ.getName(), Unit.OZ);
+      put(UnitName.ML.getName(), Unit.ML);
+      put(UnitName.TSP.getName(), Unit.TSP);
+      put(UnitName.CUP.getName(), Unit.CUP);
     }
   };
 
@@ -41,23 +53,32 @@ public class UnitConverter {
   private IConverter getConverter(String unitIn, String unitOut) {
     IConverter converter = null;
 
-    if (unitIn.equals(OZ) && unitOut.equals(LB)) {
+    if (unitIn.equals(UnitName.OZ.getName()) && unitOut.equals(UnitName.LB.getName())) {
       converter = new OzToLbConverter();
-    } else if (unitIn.equals(ML) && unitOut.equals(OZ)) {
+    } else if (unitIn.equals(UnitName.ML.getName()) && unitOut.equals(UnitName.OZ.getName())) {
       converter = new MlToOzConverter();
+    } else if (unitIn.equals(UnitName.TSP.getName()) && unitOut.equals(UnitName.CUP.getName())) {
+      converter = new TspToCupConverter();
     }
 
     return converter;
   }
 
-  public Map.Entry<String, Double> convertToHighestUnit(double quantity1, String unit1, double quantity2, String unit2) {
-    ConversionFactors conversionFactors = getConversionFactors(quantity1, unit1, quantity2, unit2);
-    IConverter converter = getConverter(conversionFactors.getUnitIn(), conversionFactors.getUnitOut());
-    
-    return new AbstractMap.SimpleEntry<>(conversionFactors.getUnitOut(), converter.convert(conversionFactors.getQuantityIn()));
+  public Map.Entry<String, Double> convertToHighestUnit(double quantity, String unitIn, String otherUnit) {
+    ConversionFactors conversionFactors = getConversionFactors(quantity, unitIn, otherUnit);
+
+    AbstractMap.SimpleEntry<String, Double> newValue;
+    if (conversionFactors.getUnitOut().equals(unitIn)) {
+      newValue = new AbstractMap.SimpleEntry<>(conversionFactors.getUnitOut(), conversionFactors.getQuantity());
+    } else {
+      IConverter converter = getConverter(conversionFactors.getUnitIn(), conversionFactors.getUnitOut());
+      newValue = new AbstractMap.SimpleEntry<>(conversionFactors.getUnitOut(), converter.convert(conversionFactors.getQuantity()));
+    }
+
+    return newValue;
   }
 
-  private ConversionFactors getConversionFactors(double quantity1, String unit1, double quantity2, String unit2) {
+  private ConversionFactors getConversionFactors(double quantity, String unit1, String unit2) {
     String highestUnit = units.entrySet().stream()
         .filter(entrySet -> entrySet.getKey().equals(unit1) || entrySet.getKey().equals(unit2))
         .reduce((u1, u2) -> {
@@ -70,26 +91,23 @@ public class UnitConverter {
         .orElse(null);
 
     String unitIn;
-    Double quantityIn;
     String unitOut;
 
     if (highestUnit.equals(unit1)) {
       unitIn = unit2;
-      quantityIn = quantity2;
       unitOut = unit1;
     } else {
       unitIn = unit1;
-      quantityIn = quantity1;
       unitOut = unit2;
     }
 
-    return new ConversionFactors(unitIn, quantityIn, unitOut);
+    return new ConversionFactors(unitIn, quantity, unitOut);
   }
 
   @Value
   private class ConversionFactors {
     private String unitIn;
-    private Double quantityIn;
+    private Double quantity;
     private String unitOut;
   }
 }

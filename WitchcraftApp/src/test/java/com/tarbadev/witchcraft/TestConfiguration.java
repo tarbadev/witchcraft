@@ -52,7 +52,16 @@ public class TestConfiguration {
   }
 
   @Bean
-  TestResources testResources() {
+  public UnitConverter unitConverter() {
+    return Mockito.mock(UnitConverter.class);
+  }
+
+  @Bean IngredientConverter ingredientConverter() {
+    return Mockito.mock(IngredientConverter.class);
+  }
+
+  @Bean
+  public TestResources testResources() {
     return new TestResources();
   }
 }
