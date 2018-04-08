@@ -1,3 +1,7 @@
 /*******************************
          Site Overrides
 *******************************/
+.ui.horizontal.labels .label,
+.ui.horizontal.label {
+  text-align: left;
+}

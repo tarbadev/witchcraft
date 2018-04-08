@@ -125,6 +125,7 @@ public class DatabaseRecipeRepositoryTest {
     Recipe recipe = entityManager.persistAndFlush(Recipe.builder()
         .name("Recipe 1")
         .ingredients(Collections.emptyList())
+        .steps(Collections.emptyList())
         .url("URL")
         .build()
     );
@@ -143,6 +144,7 @@ public class DatabaseRecipeRepositoryTest {
             Ingredient.builder().name("Cilantro").build(),
             Ingredient.builder().name("Egg").build()
         ))
+        .steps(Collections.emptyList())
         .url("URL")
         .build()
     );

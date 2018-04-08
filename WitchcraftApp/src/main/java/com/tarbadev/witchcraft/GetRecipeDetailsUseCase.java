@@ -30,12 +30,14 @@ public class GetRecipeDetailsUseCase {
     String name = getRecipeNameFromHtml(html);
     String imgUrl = getImgUrl(html);
     List<Ingredient> ingredients = getIngredientsFromHtml(html);
+    List<Step> steps = getStepsFromHtml(html);
 
     return Recipe.builder()
         .name(name)
         .url(url)
         .imgUrl(imgUrl)
         .ingredients(ingredients)
+        .steps(steps)
         .build();
   }
 
@@ -129,5 +131,17 @@ public class GetRecipeDetailsUseCase {
   private String getImgUrl(Document html) {
     Elements imgUrl = html.select("div.recipe-thumbnail img");
     return imgUrl.attr("src");
+  }
+
+  private List<Step> getStepsFromHtml(Document html) {
+    List<Step> steps = new ArrayList<>();
+
+    Elements htmlSteps = html.select("div.recipe-instructions ol li");
+    for (Element htmlStep : htmlSteps) {
+      System.out.println("htmlStep.text() = " + htmlStep.text());
+      steps.add(Step.builder().name(htmlStep.text()).build());
+    }
+
+    return steps;
   }
 }

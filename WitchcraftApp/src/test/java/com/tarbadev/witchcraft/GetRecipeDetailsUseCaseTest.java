@@ -14,35 +14,43 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 @ActiveProfiles("test")
 public class GetRecipeDetailsUseCaseTest {
-    private GetRecipeDetailsUseCase subject;
+  private GetRecipeDetailsUseCase subject;
 
-    @Autowired private TestResources testResources;
+  @Autowired private TestResources testResources;
 
-    @Before
-    public void setUp() {
-        subject = new GetRecipeDetailsUseCase();
-    }
+  @Before
+  public void setUp() {
+    subject = new GetRecipeDetailsUseCase();
+  }
 
-    @Test
-    public void execute_getsRecipeName() {
-        Recipe recipe = testResources.getRecipe();
+  @Test
+  public void execute_getsRecipeName() {
+    Recipe recipe = testResources.getRecipe();
 
-        assertThat(subject.execute(recipe.getUrl())).isEqualTo(recipe);
-    }
+    assertThat(subject.execute(recipe.getUrl())).isEqualTo(recipe);
+  }
 
-    @Test
-    public void execute_getsRecipeIngredients() {
-        Recipe recipe = testResources.getRecipe();
+  @Test
+  public void execute_getsRecipeIngredients() {
+    Recipe recipe = testResources.getRecipe();
 
-        assertThat(subject.execute(recipe.getUrl())).isEqualTo(recipe);
-        assertThat(recipe.getIngredients().size()).isEqualTo(8);
-    }
+    assertThat(subject.execute(recipe.getUrl())).isEqualTo(recipe);
+    assertThat(recipe.getIngredients().size()).isEqualTo(8);
+  }
 
-    @Test
-    public void execute_getsRecipeImageUrl() {
-        Recipe recipe = testResources.getRecipe();
+  @Test
+  public void execute_getsRecipeImageUrl() {
+    Recipe recipe = testResources.getRecipe();
 
-        assertThat(subject.execute(recipe.getUrl())).isEqualTo(recipe);
-        assertThat(recipe.getImgUrl()).isNotEmpty();
-    }
+    assertThat(subject.execute(recipe.getUrl())).isEqualTo(recipe);
+    assertThat(recipe.getImgUrl()).isNotEmpty();
+  }
+
+  @Test
+  public void execute_getsRecipesSteps() {
+    Recipe recipe = testResources.getRecipe();
+
+    assertThat(subject.execute(recipe.getUrl())).isEqualTo(recipe);
+    assertThat(recipe.getSteps().size()).isEqualTo(6);
+  }
 }

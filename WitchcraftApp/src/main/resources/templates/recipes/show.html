@@ -20,7 +20,10 @@
     <div class="six wide column">
       <div class="ui blue piled segment">
         <div class="ui blue ribbon large label">Steps</div>
-        <div class="ui list">
+        <div class="ui ordered list">
+          <div class="item" th:each="step : ${recipe.steps}">
+            <span th:text="${step.name}">Step</span>
+          </div>
         </div>
       </div>
     </div>
