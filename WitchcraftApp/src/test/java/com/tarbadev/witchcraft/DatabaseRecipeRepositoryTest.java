@@ -121,7 +121,7 @@ public class DatabaseRecipeRepositoryTest {
   }
 
   @Test
-  public void findById_returnsRecipe() {
+  public void findById() {
     Recipe recipe = entityManager.persistAndFlush(Recipe.builder()
         .name("Recipe 1")
         .ingredients(Collections.emptyList())
@@ -132,5 +132,26 @@ public class DatabaseRecipeRepositoryTest {
     entityManager.clear();
 
     assertThat(subject.findById(recipe.getId())).isEqualToComparingFieldByFieldRecursively(recipe);
+  }
+
+  @Test
+  public void findById_returnsIngredientsOrderedByName() {
+    Recipe recipe = entityManager.persistAndFlush(Recipe.builder()
+        .name("Recipe 1")
+        .ingredients(Arrays.asList(
+            Ingredient.builder().name("Parsley").build(),
+            Ingredient.builder().name("Cilantro").build(),
+            Ingredient.builder().name("Egg").build()
+        ))
+        .url("URL")
+        .build()
+    );
+
+    Recipe expectedRecipe = recipe;
+    expectedRecipe.getIngredients().sort(Comparator.comparing(Ingredient::getName));
+
+    entityManager.clear();
+
+    assertThat(subject.findById(recipe.getId())).isEqualToComparingFieldByFieldRecursively(expectedRecipe);
   }
 }
