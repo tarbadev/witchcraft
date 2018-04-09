@@ -42,6 +42,11 @@ public class TestConfiguration {
   }
 
   @Bean
+  public GetCurrentWeekUseCase getCurrentWeekUseCase() {
+    return Mockito.mock(GetCurrentWeekUseCase.class);
+  }
+
+  @Bean
   public DatabaseRecipeRepository databaseRecipeRepository() {
     return Mockito.mock(DatabaseRecipeRepository.class);
   }
@@ -49,6 +54,11 @@ public class TestConfiguration {
   @Bean
   public DatabaseCartRepository databaseCartRepository() {
     return Mockito.mock(DatabaseCartRepository.class);
+  }
+
+  @Bean
+  public DatabaseWeekRepository databaseWeekRepository() {
+    return Mockito.mock(DatabaseWeekRepository.class);
   }
 
   @Bean

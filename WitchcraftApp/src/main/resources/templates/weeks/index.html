@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{layout.html}">
+<head>
+  <meta charset="UTF-8">
+  <title>Week</title>
+</head>
+<body>
+<section layout:fragment="content">
+  <div class="ui equal width grid container">
+    <div class="column" th:each="day: ${week.days}">
+      <div class="header" th:text="${day.name}">Day</div>
+      <div class="row" th:if="${day.lunch}" th:text="${day.lunch.name}">
+      <div class="row" th:if="${day.diner}" th:text="${day.diner.name}">
+      </div>
+    </div>
+  </div>
+</section>
+</body>
+</html>
