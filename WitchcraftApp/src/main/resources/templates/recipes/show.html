@@ -14,6 +14,14 @@
         <h1 class="ui header" th:text="${recipe.name}">Name</h1>
       </div>
     </div>
+    <div class="equal width row">
+      <div class="right aligned column">
+        <div class="ui label">
+          <i class="external alternate icon"></i>
+          <a th:href="${recipe.url}" target="_blank" class="detail">Go to recipe</a>
+        </div>
+      </div>
+    </div>
     <div class="four wide column">
       <img class="ui medium rounded image" th:src="@{${recipe.imgUrl}}">
     </div>
