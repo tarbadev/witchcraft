@@ -2,8 +2,6 @@ package com.tarbadev.witchcraft.persistence;
 
 import com.tarbadev.witchcraft.domain.Ingredient;
 import com.tarbadev.witchcraft.domain.Recipe;
-import com.tarbadev.witchcraft.persistence.DatabaseRecipeRepository;
-import com.tarbadev.witchcraft.persistence.RecipeRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,13 +27,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ActiveProfiles("test")
 public class DatabaseRecipeRepositoryTest {
   @Autowired private TestEntityManager entityManager;
-  @Autowired private RecipeRepository recipeRepository;
+  @Autowired private RecipeEntityRepository recipeEntityRepository;
 
   private DatabaseRecipeRepository subject;
 
   @Before
   public void setUp() {
-    subject = new DatabaseRecipeRepository(recipeRepository);
+    subject = new DatabaseRecipeRepository(recipeEntityRepository);
   }
 
   @Test
@@ -88,13 +86,13 @@ public class DatabaseRecipeRepositoryTest {
     String url2 = "URL2";
 
 
-    List<Recipe> expectedRecipes = Arrays.asList(
-        entityManager.persist(Recipe.builder()
+    List<RecipeEntity> expectedRecipes = Arrays.asList(
+        entityManager.persist(RecipeEntity.builder()
             .ingredients(Collections.emptyList())
             .url(url1)
             .imgUrl("imgUrl1")
             .build()),
-        entityManager.persist(Recipe.builder()
+        entityManager.persist(RecipeEntity.builder()
             .ingredients(Collections.emptyList())
             .url(url2)
             .imgUrl("imgUrl2")
@@ -109,9 +107,15 @@ public class DatabaseRecipeRepositoryTest {
 
   @Test
   public void findAll_returnsRecipeOrderedByName() {
-    Recipe tartiflette = entityManager.persist(Recipe.builder().name("Tartiflette").ingredients(Collections.emptyList()).build());
-    Recipe pizza = entityManager.persist(Recipe.builder().name("Pizza").ingredients(Collections.emptyList()).build());
-    Recipe burger = entityManager.persistAndFlush(Recipe.builder().name("Burger").ingredients(Collections.emptyList()).build());
+    Recipe tartiflette = toDomain(
+        entityManager.persist(RecipeEntity.builder().name("Tartiflette").ingredients(Collections.emptyList()).build())
+    );
+    Recipe pizza = toDomain(
+        entityManager.persist(RecipeEntity.builder().name("Pizza").ingredients(Collections.emptyList()).build())
+    );
+    Recipe burger = toDomain(
+        entityManager.persistAndFlush(RecipeEntity.builder().name("Burger").ingredients(Collections.emptyList()).build())
+    );
 
     entityManager.clear();
 
@@ -126,12 +130,14 @@ public class DatabaseRecipeRepositoryTest {
 
   @Test
   public void findById() {
-    Recipe recipe = entityManager.persistAndFlush(Recipe.builder()
-        .name("Recipe 1")
-        .ingredients(Collections.emptyList())
-        .steps(Collections.emptyList())
-        .url("URL")
-        .build()
+    Recipe recipe = toDomain(
+        entityManager.persistAndFlush(RecipeEntity.builder()
+            .name("Recipe 1")
+            .ingredients(Collections.emptyList())
+            .steps(Collections.emptyList())
+            .url("URL")
+            .build()
+        )
     );
 
     entityManager.clear();
@@ -141,23 +147,35 @@ public class DatabaseRecipeRepositoryTest {
 
   @Test
   public void findById_returnsIngredientsOrderedByName() {
-    Recipe recipe = entityManager.persistAndFlush(Recipe.builder()
-        .name("Recipe 1")
-        .ingredients(Arrays.asList(
-            Ingredient.builder().name("Parsley").build(),
-            Ingredient.builder().name("Cilantro").build(),
-            Ingredient.builder().name("Egg").build()
-        ))
-        .steps(Collections.emptyList())
-        .url("URL")
-        .build()
+    Recipe recipe = toDomain(
+        entityManager.persistAndFlush(RecipeEntity.builder()
+            .name("Recipe 1")
+            .ingredients(Arrays.asList(
+                Ingredient.builder().name("Parsley").build(),
+                Ingredient.builder().name("Cilantro").build(),
+                Ingredient.builder().name("Egg").build()
+            ))
+            .steps(Collections.emptyList())
+            .url("URL")
+            .build()
+        )
     );
 
-    Recipe expectedRecipe = recipe;
-    expectedRecipe.getIngredients().sort(Comparator.comparing(Ingredient::getName));
+    recipe.getIngredients().sort(Comparator.comparing(Ingredient::getName));
 
     entityManager.clear();
 
-    assertThat(subject.findById(recipe.getId())).isEqualToComparingFieldByFieldRecursively(expectedRecipe);
+    assertThat(subject.findById(recipe.getId())).isEqualToComparingFieldByFieldRecursively(recipe);
+  }
+
+  private Recipe toDomain(RecipeEntity recipeEntity) {
+    return Recipe.builder()
+        .id(recipeEntity.getId())
+        .name(recipeEntity.getName())
+        .url(recipeEntity.getUrl())
+        .imgUrl(recipeEntity.getImgUrl())
+        .ingredients(recipeEntity.getIngredients())
+        .steps(recipeEntity.getSteps())
+        .build();
   }
 }

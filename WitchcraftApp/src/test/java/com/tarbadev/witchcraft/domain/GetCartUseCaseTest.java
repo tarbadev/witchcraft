@@ -30,7 +30,7 @@ public class GetCartUseCaseTest {
   }
 
   @Test
-  public void execute_returnsCart() {
+  public void execute() {
     Cart cart = Cart.builder().id(123).build();
 
     given(databaseCartRepository.findById(123)).willReturn(cart);

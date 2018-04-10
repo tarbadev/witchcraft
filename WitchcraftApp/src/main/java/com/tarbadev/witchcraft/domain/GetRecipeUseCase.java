@@ -1,17 +1,16 @@
 package com.tarbadev.witchcraft.domain;
 
-import com.tarbadev.witchcraft.persistence.DatabaseRecipeRepository;
 import org.springframework.stereotype.Component;
 
 @Component
 public class GetRecipeUseCase {
-    private DatabaseRecipeRepository databaseRecipeRepository;
+    private RecipeRepository recipeRepository;
 
-    public GetRecipeUseCase(DatabaseRecipeRepository databaseRecipeRepository) {
-        this.databaseRecipeRepository = databaseRecipeRepository;
+    public GetRecipeUseCase(RecipeRepository recipeRepository) {
+        this.recipeRepository = recipeRepository;
     }
 
     public Recipe execute(Integer recipeId) {
-        return databaseRecipeRepository.findById(recipeId);
+        return recipeRepository.findById(recipeId);
     }
 }

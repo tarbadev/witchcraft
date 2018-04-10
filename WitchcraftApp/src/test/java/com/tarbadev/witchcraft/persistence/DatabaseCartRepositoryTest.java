@@ -4,8 +4,6 @@ import com.tarbadev.witchcraft.domain.Cart;
 import com.tarbadev.witchcraft.domain.Ingredient;
 import com.tarbadev.witchcraft.domain.Item;
 import com.tarbadev.witchcraft.domain.Recipe;
-import com.tarbadev.witchcraft.persistence.CartRepository;
-import com.tarbadev.witchcraft.persistence.DatabaseCartRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,13 +30,13 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
 @ActiveProfiles("test")
 public class DatabaseCartRepositoryTest {
   @Autowired private TestEntityManager entityManager;
-  @Autowired private CartRepository cartRepository;
+  @Autowired private CartEntityRepository cartEntityRepository;
 
   private DatabaseCartRepository subject;
 
   @Before
   public void setUp() {
-    subject = new DatabaseCartRepository(cartRepository);
+    subject = new DatabaseCartRepository(cartEntityRepository);
   }
 
   @Test
@@ -55,7 +53,7 @@ public class DatabaseCartRepositoryTest {
 
   @Test
   public void save() {
-    List<Recipe> recipes = Collections.singletonList(Recipe.builder()
+    List<RecipeEntity> recipes = Collections.singletonList(RecipeEntity.builder()
         .ingredients(Arrays.asList(
             Ingredient.builder()
                 .name("Ingredient 3")

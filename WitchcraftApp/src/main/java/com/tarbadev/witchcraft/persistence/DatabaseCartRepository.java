@@ -9,22 +9,22 @@ import java.util.List;
 
 @Repository
 public class DatabaseCartRepository {
-  private CartRepository cartRepository;
+  private CartEntityRepository cartEntityRepository;
 
-  public DatabaseCartRepository(CartRepository cartRepository) {
-    this.cartRepository = cartRepository;
+  public DatabaseCartRepository(CartEntityRepository cartEntityRepository) {
+    this.cartEntityRepository = cartEntityRepository;
   }
 
   public List<Cart> findAll() {
-    return cartRepository.findAll();
+    return cartEntityRepository.findAll();
   }
 
   public Cart save(Cart cart) {
-    return cartRepository.saveAndFlush(cart);
+    return cartEntityRepository.saveAndFlush(cart);
   }
 
   public Cart findById(Integer id) {
-    Cart cart = cartRepository.findById(id).get();
+    Cart cart = cartEntityRepository.findById(id).get();
     cart.getItems().sort(Comparator.comparing(Item::getName));
     return cart;
   }

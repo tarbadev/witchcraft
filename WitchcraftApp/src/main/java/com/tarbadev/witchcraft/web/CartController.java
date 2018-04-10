@@ -1,6 +1,7 @@
 package com.tarbadev.witchcraft.web;
 
 import com.tarbadev.witchcraft.domain.*;
+import com.tarbadev.witchcraft.persistence.EntityToDomain;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

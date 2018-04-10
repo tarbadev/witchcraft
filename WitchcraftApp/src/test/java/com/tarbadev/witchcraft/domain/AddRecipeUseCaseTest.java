@@ -1,12 +1,10 @@
 package com.tarbadev.witchcraft.domain;
 
 import com.tarbadev.witchcraft.TestResources;
-import com.tarbadev.witchcraft.domain.AddRecipeUseCase;
-import com.tarbadev.witchcraft.domain.Recipe;
-import com.tarbadev.witchcraft.persistence.DatabaseRecipeRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -20,25 +18,26 @@ import static org.mockito.Mockito.verify;
 @SpringBootTest
 @ActiveProfiles("test")
 public class AddRecipeUseCaseTest {
-    private AddRecipeUseCase subject;
+  private AddRecipeUseCase subject;
 
-    @Autowired private TestResources testResources;
-    @Autowired private DatabaseRecipeRepository databaseRecipeRepository;
+  @Autowired private TestResources testResources;
+  @Mock private RecipeRepository recipeRepository;
 
-    @Before
-    public void setUp() {
-        subject = new AddRecipeUseCase(databaseRecipeRepository);
-    }
+  @Before
+  public void setUp() {
+    subject = new AddRecipeUseCase(recipeRepository);
+  }
 
-    @Test
-    public void execute_returnsRecipe() {
-        Recipe recipe = testResources.getRecipe();
-        Recipe expectedRecipe = Recipe.builder().id(123).url(recipe.getUrl()).build();
+  @Test
+  public void execute() {
+    Recipe recipe = testResources.getRecipe();
+    System.out.println("recipe = " + recipe);
+    Recipe expectedRecipe = Recipe.builder().id(123).url(recipe.getUrl()).build();
 
-        given(databaseRecipeRepository.createRecipe(recipe)).willReturn(expectedRecipe);
+    given(recipeRepository.createRecipe(recipe)).willReturn(expectedRecipe);
 
-        assertThat(subject.execute(recipe)).isEqualTo(expectedRecipe);
+    assertThat(subject.execute(recipe)).isEqualTo(expectedRecipe);
 
-        verify(databaseRecipeRepository).createRecipe(recipe);
-    }
+    verify(recipeRepository).createRecipe(recipe);
+  }
 }

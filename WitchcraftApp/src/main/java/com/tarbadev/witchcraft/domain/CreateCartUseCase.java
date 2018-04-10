@@ -2,6 +2,7 @@ package com.tarbadev.witchcraft.domain;
 
 import com.tarbadev.witchcraft.domain.converter.IngredientConverter;
 import com.tarbadev.witchcraft.persistence.DatabaseCartRepository;
+import com.tarbadev.witchcraft.persistence.RecipeEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -19,7 +20,17 @@ public class CreateCartUseCase {
 
   public Cart execute(List<Recipe> recipes) {
     Cart cart = Cart.builder()
-        .recipes(recipes)
+        .recipes(recipes.stream()
+            .map(recipe -> RecipeEntity.builder()
+                .id(recipe.getId())
+                .url(recipe.getUrl())
+                .imgUrl(recipe.getImgUrl())
+                .steps(recipe.getSteps())
+                .ingredients(recipe.getIngredients())
+                .name(recipe.getName())
+                .build())
+            .collect(Collectors.toList())
+        )
         .items(getItemsFromRecipe(recipes))
         .build();
 

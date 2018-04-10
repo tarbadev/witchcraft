@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface RecipeRepository extends JpaRepository<Recipe, Integer> {
-    List<Recipe> findAllByOrderByName();
+public interface RecipeEntityRepository extends JpaRepository<RecipeEntity, Integer> {
+    List<RecipeEntity> findAllByOrderByName();
 }

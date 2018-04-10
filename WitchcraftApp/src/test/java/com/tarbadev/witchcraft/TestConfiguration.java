@@ -4,7 +4,6 @@ import com.tarbadev.witchcraft.domain.*;
 import com.tarbadev.witchcraft.domain.converter.IngredientConverter;
 import com.tarbadev.witchcraft.domain.converter.UnitConverter;
 import com.tarbadev.witchcraft.persistence.DatabaseCartRepository;
-import com.tarbadev.witchcraft.persistence.DatabaseRecipeRepository;
 import com.tarbadev.witchcraft.persistence.DatabaseWeekRepository;
 import org.mockito.Mockito;
 import org.springframework.context.annotation.Bean;
@@ -50,11 +49,6 @@ public class TestConfiguration {
   @Bean
   public GetCurrentWeekUseCase getCurrentWeekUseCase() {
     return Mockito.mock(GetCurrentWeekUseCase.class);
-  }
-
-  @Bean
-  public DatabaseRecipeRepository databaseRecipeRepository() {
-    return Mockito.mock(DatabaseRecipeRepository.class);
   }
 
   @Bean

@@ -1,5 +1,6 @@
 package com.tarbadev.witchcraft.domain;
 
+import com.tarbadev.witchcraft.persistence.RecipeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,7 +23,7 @@ public class Cart {
   @CreationTimestamp
   protected LocalDateTime createdAt;
   @ManyToMany(cascade = CascadeType.ALL)
-  private List<Recipe> recipes;
+  private List<RecipeEntity> recipes;
   @OneToMany(cascade = CascadeType.ALL)
   @JoinColumn(name = "cart_id")
   private List<Item> items;

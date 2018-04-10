@@ -1,11 +1,9 @@
 package com.tarbadev.witchcraft.domain;
 
-import com.tarbadev.witchcraft.domain.Recipe;
-import com.tarbadev.witchcraft.domain.RecipeCatalogUseCase;
-import com.tarbadev.witchcraft.persistence.DatabaseRecipeRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -20,24 +18,24 @@ import static org.mockito.BDDMockito.given;
 @SpringBootTest
 public class RecipeCatalogUseCaseTest {
 
-    @Autowired private DatabaseRecipeRepository databaseRecipeRepository;
+    @Mock private RecipeRepository recipeRepository;
 
     private RecipeCatalogUseCase subject;
 
     @Before
     public void setUp() {
-        subject = new RecipeCatalogUseCase(databaseRecipeRepository);
+        subject = new RecipeCatalogUseCase(recipeRepository);
     }
 
     @Test
-    public void execute_ReturnsAllRecipes() {
+    public void execute() {
         List<Recipe> recipes = Arrays.asList(
                 Recipe.builder().build(),
                 Recipe.builder().build(),
                 Recipe.builder().build()
         );
 
-        given(databaseRecipeRepository.findAll()).willReturn(recipes);
+        given(recipeRepository.findAll()).willReturn(recipes);
 
         assertThat(subject.execute()).isEqualTo(recipes);
     }

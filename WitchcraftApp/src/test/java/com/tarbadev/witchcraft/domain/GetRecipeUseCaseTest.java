@@ -1,12 +1,10 @@
 package com.tarbadev.witchcraft.domain;
 
 import com.tarbadev.witchcraft.TestResources;
-import com.tarbadev.witchcraft.domain.GetRecipeUseCase;
-import com.tarbadev.witchcraft.domain.Recipe;
-import com.tarbadev.witchcraft.persistence.DatabaseRecipeRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -22,19 +20,19 @@ public class GetRecipeUseCaseTest {
     private GetRecipeUseCase subject;
 
     @Autowired private TestResources testResources;
-    @Autowired private DatabaseRecipeRepository databaseRecipeRepository;
+    @Mock private RecipeRepository recipeRepository;
 
     @Before
     public void setUp() {
-        subject = new GetRecipeUseCase(databaseRecipeRepository);
+        subject = new GetRecipeUseCase(recipeRepository);
     }
 
     @Test
-    public void execute_returnsRecipe() {
+    public void execute() {
         Recipe recipe = testResources.getRecipe();
 
         Integer recipeId = 123;
-        given(databaseRecipeRepository.findById(recipeId)).willReturn(recipe);
+        given(recipeRepository.findById(recipeId)).willReturn(recipe);
 
         assertThat(subject.execute(recipeId)).isEqualTo(recipe);
     }

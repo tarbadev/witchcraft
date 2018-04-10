@@ -1,19 +1,18 @@
 package com.tarbadev.witchcraft.domain;
 
-import com.tarbadev.witchcraft.persistence.DatabaseRecipeRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
 public class RecipeCatalogUseCase {
-    private DatabaseRecipeRepository databaseRecipeRepository;
+    private RecipeRepository recipeRepository;
 
-    public RecipeCatalogUseCase(DatabaseRecipeRepository databaseRecipeRepository) {
-        this.databaseRecipeRepository = databaseRecipeRepository;
+    public RecipeCatalogUseCase(RecipeRepository recipeRepository) {
+        this.recipeRepository = recipeRepository;
     }
 
     public List<Recipe> execute() {
-        return databaseRecipeRepository.findAll();
+        return recipeRepository.findAll();
     }
 }

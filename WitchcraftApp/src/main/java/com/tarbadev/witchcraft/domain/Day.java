@@ -1,5 +1,6 @@
 package com.tarbadev.witchcraft.domain;
 
+import com.tarbadev.witchcraft.persistence.RecipeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,8 +21,8 @@ public class Day {
   private DayName name;
   @ManyToOne
   @JoinColumn(name = "lunch_recipe_id")
-  private Recipe lunch;
+  private RecipeEntity lunch;
   @ManyToOne
   @JoinColumn(name = "diner_recipe_id")
-  private Recipe diner;
+  private RecipeEntity diner;
 }

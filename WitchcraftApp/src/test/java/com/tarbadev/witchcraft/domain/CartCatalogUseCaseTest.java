@@ -35,7 +35,7 @@ public class CartCatalogUseCaseTest {
     }
 
     @Test
-    public void execute_ReturnsCarts() {
+    public void execute() {
         List<Cart> carts = Arrays.asList(
                 Cart.builder().build(),
                 Cart.builder().build(),

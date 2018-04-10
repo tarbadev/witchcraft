@@ -3,6 +3,8 @@ package com.tarbadev.witchcraft.domain;
 import com.tarbadev.witchcraft.domain.*;
 import com.tarbadev.witchcraft.domain.converter.IngredientConverter;
 import com.tarbadev.witchcraft.persistence.DatabaseCartRepository;
+import com.tarbadev.witchcraft.persistence.EntityToDomain;
+import com.tarbadev.witchcraft.persistence.RecipeEntity;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,9 +39,9 @@ public class CreateCartUseCaseTest {
   }
 
   @Test
-  public void execute_savesCartWithItems() {
-    List<Recipe> recipes = Collections.singletonList(
-        Recipe.builder()
+  public void execute() {
+    List<RecipeEntity> recipes = Collections.singletonList(
+        RecipeEntity.builder()
             .ingredients(Arrays.asList(
                 Ingredient.builder()
                     .name("Ingredient 1")
@@ -73,15 +75,15 @@ public class CreateCartUseCaseTest {
 
     given(databaseCartRepository.save(cart)).willReturn(cart);
 
-    assertThat(subject.execute(recipes)).isEqualTo(cart);
+    assertThat(subject.execute(recipes.stream().map(EntityToDomain::recipeMapper).collect(Collectors.toList()))).isEqualTo(cart);
 
     verify(databaseCartRepository).save(cart);
   }
 
   @Test
   public void execute_addsItemsWithSameNameAndConvertUnit() {
-    List<Recipe> recipes = Arrays.asList(
-        Recipe.builder()
+    List<RecipeEntity> recipes = Arrays.asList(
+        RecipeEntity.builder()
             .ingredients(Arrays.asList(
                 Ingredient.builder()
                     .name("Ingredient 1")
@@ -95,7 +97,7 @@ public class CreateCartUseCaseTest {
                     .build()
             ))
             .build(),
-        Recipe.builder()
+        RecipeEntity.builder()
             .ingredients(Arrays.asList(
                 Ingredient.builder()
                     .name("Ingredient 1")
@@ -131,7 +133,7 @@ public class CreateCartUseCaseTest {
         .willReturn(Ingredient.builder().name("Ingredient 2").quantity(10.33814).unit("oz").build());
     given(databaseCartRepository.save(cart)).willReturn(cart);
 
-    assertThat(subject.execute(recipes)).isEqualTo(cart);
+    assertThat(subject.execute(recipes.stream().map(EntityToDomain::recipeMapper).collect(Collectors.toList()))).isEqualTo(cart);
 
     verify(databaseCartRepository).save(cart);
   }
