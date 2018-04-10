@@ -24,8 +24,8 @@ public class RecipeEntity {
   private String imgUrl;
   @OneToMany(cascade = CascadeType.ALL)
   @JoinColumn(name = "recipe_id")
-  private List<Ingredient> ingredients;
+  private List<IngredientEntity> ingredients;
   @OneToMany(cascade = CascadeType.ALL)
   @JoinColumn(name = "recipe_id")
-  private List<Step> steps;
+  private List<StepEntity> steps;
 }

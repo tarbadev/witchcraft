@@ -30,35 +30,41 @@ public class GetRecipeDetailsUseCaseTest {
   public void execute() {
     Recipe recipe = testResources.getRecipe();
 
-    assertThat(subject.execute(recipe.getUrl())).isEqualTo(recipe);
+    Recipe returnedRecipe = subject.execute(recipe.getUrl());
+    assertThat(returnedRecipe).isEqualTo(recipe);
   }
 
   @Test
   public void execute_getsRecipeName() {
     Recipe recipe = testResources.getRecipe();
 
-    assertThat(subject.execute(recipe.getUrl())).isEqualTo(recipe);
+    assertThat(subject.execute(recipe.getUrl()).getName()).isEqualTo(recipe.getName());
   }
 
   @Test
   public void execute_getsRecipeIngredients() {
     Recipe recipe = testResources.getRecipe();
 
-    assertThat(recipe.getIngredients().size()).isEqualTo(8);
+    Recipe returnedRecipe = subject.execute(recipe.getUrl());
+    assertThat(returnedRecipe.getIngredients().size()).isEqualTo(8);
+    assertThat(returnedRecipe.getIngredients()).isEqualTo(recipe.getIngredients());
   }
 
   @Test
   public void execute_getsRecipeImageUrl() {
     Recipe recipe = testResources.getRecipe();
 
-    assertThat(recipe.getImgUrl()).isNotEmpty();
+    Recipe returnedRecipe = subject.execute(recipe.getUrl());
+    assertThat(returnedRecipe.getImgUrl()).isEqualTo(recipe.getImgUrl());
   }
 
   @Test
   public void execute_getsRecipesSteps() {
     Recipe recipe = testResources.getRecipe();
 
-    assertThat(recipe.getSteps().size()).isEqualTo(6);
-    assertThat(recipe.getSteps()).isEqualTo(recipe.getSteps());
+    Recipe returnedRecipe = subject.execute(recipe.getUrl());
+
+    assertThat(returnedRecipe.getSteps().size()).isEqualTo(6);
+    assertThat(returnedRecipe.getSteps()).isEqualTo(recipe.getSteps());
   }
 }

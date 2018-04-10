@@ -2,6 +2,7 @@ package com.tarbadev.witchcraft.persistence;
 
 import com.tarbadev.witchcraft.domain.Ingredient;
 import com.tarbadev.witchcraft.domain.Recipe;
+import com.tarbadev.witchcraft.domain.Step;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,6 +18,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -37,21 +39,24 @@ public class DatabaseRecipeRepositoryTest {
   }
 
   @Test
-  public void createRecipe_ReturnsRecipe() {
+  public void createRecipe() {
     String recipe_url = "URL";
 
-    Recipe recipe = Recipe.builder()
-        .url(recipe_url)
-        .ingredients(Collections.emptyList())
-        .build();
-    recipe = subject.createRecipe(recipe);
+    Recipe recipe = subject.createRecipe(
+        Recipe.builder()
+            .url(recipe_url)
+            .ingredients(Collections.emptyList())
+            .steps(Collections.emptyList())
+            .build()
+    );
     Recipe expectedRecipe = Recipe.builder()
         .id(recipe.getId())
         .url(recipe_url)
         .ingredients(Collections.emptyList())
+        .steps(Collections.emptyList())
         .build();
 
-    assertThat(recipe).isEqualToComparingFieldByFieldRecursively(expectedRecipe);
+    assertThat(recipe).isEqualTo(expectedRecipe);
   }
 
   @Test
@@ -61,6 +66,7 @@ public class DatabaseRecipeRepositoryTest {
             Ingredient.builder().build(),
             Ingredient.builder().build()
         ))
+        .steps(Collections.emptyList())
         .build();
 
     Recipe returnedRecipe = subject.createRecipe(recipe);
@@ -75,9 +81,10 @@ public class DatabaseRecipeRepositoryTest {
                 .id(returnedRecipe.getIngredients().get(1).getId())
                 .build()
         ))
+        .steps(Collections.emptyList())
         .build();
 
-    assertThat(returnedRecipe).isEqualToComparingFieldByFieldRecursively(expectedRecipe);
+    assertThat(returnedRecipe).isEqualTo(expectedRecipe);
   }
 
   @Test
@@ -108,13 +115,25 @@ public class DatabaseRecipeRepositoryTest {
   @Test
   public void findAll_returnsRecipeOrderedByName() {
     Recipe tartiflette = toDomain(
-        entityManager.persist(RecipeEntity.builder().name("Tartiflette").ingredients(Collections.emptyList()).build())
+        entityManager.persist(RecipeEntity.builder()
+            .name("Tartiflette")
+            .ingredients(Collections.emptyList())
+            .steps(Collections.emptyList())
+            .build())
     );
     Recipe pizza = toDomain(
-        entityManager.persist(RecipeEntity.builder().name("Pizza").ingredients(Collections.emptyList()).build())
+        entityManager.persist(RecipeEntity.builder()
+            .name("Pizza")
+            .ingredients(Collections.emptyList())
+            .steps(Collections.emptyList())
+            .build())
     );
     Recipe burger = toDomain(
-        entityManager.persistAndFlush(RecipeEntity.builder().name("Burger").ingredients(Collections.emptyList()).build())
+        entityManager.persistAndFlush(RecipeEntity.builder()
+            .name("Burger")
+            .ingredients(Collections.emptyList())
+            .steps(Collections.emptyList())
+            .build())
     );
 
     entityManager.clear();
@@ -151,15 +170,17 @@ public class DatabaseRecipeRepositoryTest {
         entityManager.persistAndFlush(RecipeEntity.builder()
             .name("Recipe 1")
             .ingredients(Arrays.asList(
-                Ingredient.builder().name("Parsley").build(),
-                Ingredient.builder().name("Cilantro").build(),
-                Ingredient.builder().name("Egg").build()
+                IngredientEntity.builder().name("Parsley").build(),
+                IngredientEntity.builder().name("Cilantro").build(),
+                IngredientEntity.builder().name("Egg").build()
             ))
             .steps(Collections.emptyList())
             .url("URL")
             .build()
         )
     );
+
+    System.out.println("recipe = " + recipe);
 
     recipe.getIngredients().sort(Comparator.comparing(Ingredient::getName));
 
@@ -174,8 +195,20 @@ public class DatabaseRecipeRepositoryTest {
         .name(recipeEntity.getName())
         .url(recipeEntity.getUrl())
         .imgUrl(recipeEntity.getImgUrl())
-        .ingredients(recipeEntity.getIngredients())
-        .steps(recipeEntity.getSteps())
+        .ingredients(recipeEntity.getIngredients().stream()
+            .map(ingredientEntity -> Ingredient.builder()
+                .id(ingredientEntity.getId())
+                .name(ingredientEntity.getName())
+                .quantity(ingredientEntity.getQuantity())
+                .unit(ingredientEntity.getUnit())
+                .build())
+            .collect(Collectors.toList()))
+        .steps(recipeEntity.getSteps().stream()
+            .map(stepEntity -> Step.builder()
+                .id(stepEntity.getId())
+                .name(stepEntity.getName())
+                .build())
+            .collect(Collectors.toList()))
         .build();
   }
 }

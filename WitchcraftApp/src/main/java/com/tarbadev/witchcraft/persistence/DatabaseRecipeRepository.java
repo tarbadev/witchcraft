@@ -25,8 +25,8 @@ public class DatabaseRecipeRepository implements RecipeRepository {
         .name(recipe.getName())
         .url(recipe.getUrl())
         .imgUrl(recipe.getImgUrl())
-        .ingredients(recipe.getIngredients())
-        .steps(recipe.getSteps())
+        .ingredients(recipe.getIngredients().stream().map(DomainToEntity::ingredientEntityMapper).collect(Collectors.toList()))
+        .steps(recipe.getSteps().stream().map(DomainToEntity::stepEntityMapper).collect(Collectors.toList()))
         .build();
     return recipeMapper(recipeEntityRepository.saveAndFlush(recipeEntity));
   }

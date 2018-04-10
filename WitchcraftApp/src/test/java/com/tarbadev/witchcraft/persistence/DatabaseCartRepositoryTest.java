@@ -55,17 +55,17 @@ public class DatabaseCartRepositoryTest {
   public void save() {
     List<RecipeEntity> recipes = Collections.singletonList(RecipeEntity.builder()
         .ingredients(Arrays.asList(
-            Ingredient.builder()
+            IngredientEntity.builder()
                 .name("Ingredient 3")
                 .unit("cup")
                 .quantity(2.0)
                 .build(),
-            Ingredient.builder()
+            IngredientEntity.builder()
                 .name("Ingredient 1")
                 .unit("lb")
                 .quantity(2.0)
                 .build(),
-            Ingredient.builder()
+            IngredientEntity.builder()
                 .name("Ingredient 2")
                 .unit("oz")
                 .quantity(8.0)

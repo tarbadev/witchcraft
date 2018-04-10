@@ -2,6 +2,7 @@ package com.tarbadev.witchcraft.domain;
 
 import com.tarbadev.witchcraft.domain.converter.IngredientConverter;
 import com.tarbadev.witchcraft.persistence.DatabaseCartRepository;
+import com.tarbadev.witchcraft.persistence.DomainToEntity;
 import com.tarbadev.witchcraft.persistence.RecipeEntity;
 import org.springframework.stereotype.Component;
 
@@ -25,8 +26,8 @@ public class CreateCartUseCase {
                 .id(recipe.getId())
                 .url(recipe.getUrl())
                 .imgUrl(recipe.getImgUrl())
-                .steps(recipe.getSteps())
-                .ingredients(recipe.getIngredients())
+                .steps(recipe.getSteps().stream().map(DomainToEntity::stepEntityMapper).collect(Collectors.toList()))
+                .ingredients(recipe.getIngredients().stream().map(DomainToEntity::ingredientEntityMapper).collect(Collectors.toList()))
                 .name(recipe.getName())
                 .build())
             .collect(Collectors.toList())

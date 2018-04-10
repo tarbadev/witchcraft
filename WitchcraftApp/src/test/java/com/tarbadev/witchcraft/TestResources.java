@@ -25,7 +25,7 @@ public class TestResources {
               .build(),
           Ingredient.builder()
               .name("soft goat cheese (chevre), room temperature")
-              .quantity(4.0)
+              .quantity(2.0)
               .unit("oz")
               .build(),
           Ingredient.builder()
