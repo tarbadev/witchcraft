@@ -17,6 +17,7 @@ public class UnitConverter {
     LB("lb"),
     CUP("cup"),
     TSP("tsp"),
+    TBSP("tbsp"),
     OZ("oz"),
     ML("ml");
 
@@ -59,6 +60,8 @@ public class UnitConverter {
       converter = new MlToOzConverter();
     } else if (unitIn.equals(UnitName.TSP.getName()) && unitOut.equals(UnitName.CUP.getName())) {
       converter = new TspToCupConverter();
+    } else if (unitIn.equals(UnitName.TBSP.getName()) && unitOut.equals(UnitName.CUP.getName())) {
+      converter = new TbspToCupConverter();
     }
 
     return converter;

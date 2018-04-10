@@ -67,4 +67,15 @@ public class UnitConverterTest {
 
     assertThat(returnedValue).isEqualTo(expectedResult);
   }
+
+  @Test
+  public void convertToHighestUnit_TbspToCup() {
+    Double tbsp = 10.0;
+    Double cup = 0.625;
+
+    Map.Entry<String, Double> expectedResult = new AbstractMap.SimpleEntry<>(UnitConverter.UnitName.CUP.getName(), cup);
+    Map.Entry<String, Double> returnedValue = subject.convertToHighestUnit(tbsp, UnitConverter.UnitName.TBSP.getName(), UnitConverter.UnitName.CUP.getName());
+
+    assertThat(returnedValue).isEqualTo(expectedResult);
+  }
 }
