@@ -1,5 +1,11 @@
 package com.tarbadev.witchcraft;
 
+import com.tarbadev.witchcraft.domain.*;
+import com.tarbadev.witchcraft.domain.converter.IngredientConverter;
+import com.tarbadev.witchcraft.domain.converter.UnitConverter;
+import com.tarbadev.witchcraft.persistence.DatabaseCartRepository;
+import com.tarbadev.witchcraft.persistence.DatabaseRecipeRepository;
+import com.tarbadev.witchcraft.persistence.DatabaseWeekRepository;
 import org.mockito.Mockito;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -66,7 +72,8 @@ public class TestConfiguration {
     return Mockito.mock(UnitConverter.class);
   }
 
-  @Bean IngredientConverter ingredientConverter() {
+  @Bean
+  IngredientConverter ingredientConverter() {
     return Mockito.mock(IngredientConverter.class);
   }
 
