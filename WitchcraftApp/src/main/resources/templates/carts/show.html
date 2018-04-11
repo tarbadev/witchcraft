@@ -4,7 +4,7 @@
       layout:decorator="~{layout.html}">
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
+  <title th:text="'Cart ' + ${#temporals.format(cart.createdAt, 'EEEE d MMMM yyyy')} + ' at ' + ${#temporals.format(cart.createdAt, 'HH:mm')} + ' - Witchcraft'">Cart</title>
 </head>
 <body>
   <section layout:fragment="content">
