@@ -54,27 +54,35 @@ public class DatabaseCartRepositoryTest {
 
   @Test
   public void save() {
-    List<Recipe> recipes = Collections.singletonList(Recipe.builder()
-        .ingredients(Arrays.asList(
-            Ingredient.builder()
-                .name("Ingredient 3")
-                .unit("cup")
-                .quantity(2.0)
-                .build(),
-            Ingredient.builder()
-                .name("Ingredient 1")
-                .unit("lb")
-                .quantity(2.0)
-                .build(),
-            Ingredient.builder()
-                .name("Ingredient 2")
-                .unit("oz")
-                .quantity(8.0)
-                .build()
-        ))
-        .steps(Collections.emptyList())
-        .build()
+    List<Recipe> recipes = Collections.singletonList(
+        EntityToDomain.recipeMapper(
+            entityManager.persistAndFlush(
+                RecipeEntity.builder()
+                    .ingredients(Arrays.asList(
+                        IngredientEntity.builder()
+                            .name("Ingredient 3")
+                            .unit("cup")
+                            .quantity(2.0)
+                            .build(),
+                        IngredientEntity.builder()
+                            .name("Ingredient 1")
+                            .unit("lb")
+                            .quantity(2.0)
+                            .build(),
+                        IngredientEntity.builder()
+                            .name("Ingredient 2")
+                            .unit("oz")
+                            .quantity(8.0)
+                            .build()
+                    ))
+                    .steps(Collections.emptyList())
+                    .build()
+            )
+        )
     );
+
+    entityManager.clear();
+
     List<Item> items = Arrays.asList(
         Item.builder()
             .name("Ingredient 1")
