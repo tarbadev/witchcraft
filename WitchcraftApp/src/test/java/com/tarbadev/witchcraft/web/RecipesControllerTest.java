@@ -43,15 +43,21 @@ public class RecipesControllerTest {
   }
 
   @Test
-  public void index_showsAddRecipeForm() throws Exception {
-    mvc.perform(get("/recipes"))
+  public void newRecipe() throws Exception {
+    RecipeManualForm recipeManualForm = new RecipeManualForm();
+
+    mvc.perform(get("/recipes/new"))
         .andExpect(status().isOk())
-        .andExpect(view().name("recipes/index"))
-        .andExpect(model().attribute("recipeForm", hasProperty("url", isEmptyOrNullString())));
+        .andExpect(view().name("recipes/newRecipe"))
+        .andExpect(model().attribute("recipeUrlForm", hasProperty("url", isEmptyOrNullString())))
+        .andExpect(model().attribute("recipeManualForm", hasProperty("name", isEmptyOrNullString())))
+        .andExpect(model().attribute("recipeManualForm", hasProperty("url", isEmptyOrNullString())))
+        .andExpect(model().attribute("recipeManualForm", hasProperty("ingredients", isEmptyOrNullString())))
+        .andExpect(model().attribute("recipeManualForm", hasProperty("steps", isEmptyOrNullString())));
   }
 
   @Test
-  public void index_ShowsAllRecipes() throws Exception {
+  public void index() throws Exception {
     List<Recipe> recipes = Arrays.asList(
         Recipe.builder().build(),
         Recipe.builder().build()
@@ -83,7 +89,7 @@ public class RecipesControllerTest {
   }
 
   @Test
-  public void show_ShowRecipesDetails() throws Exception {
+  public void show() throws Exception {
     Recipe recipe = testResources.getRecipe();
 
     Integer recipeId = 123;

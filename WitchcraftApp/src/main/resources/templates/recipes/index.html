@@ -4,27 +4,23 @@
       layout:decorator="~{layout.html}">
 <body>
 <section layout:fragment="content">
-    <form class="ui form" action="#" th:action="@{/recipes/import}" th:object="${recipeForm}" method="post">
-        <div class="field">
-            <label>Add a recipe</label>
-            <input type="text" th:field="*{url}" placeholder="http://example.com/recipe">
+  <a th:href="@{/recipes/new}" class="ui primary button">
+    New Recipe
+  </a>
+  <div class="ui hidden divider"></div>
+  <div class="ui divided link items">
+    <a class="item" th:each="recipe : ${recipes}" th:href="@{'/recipes/'+ ${recipe.id}}">
+      <div class="ui tiny image">
+        <img th:src="@{${recipe.imgUrl}}">
+      </div>
+      <div class="middle aligned content">
+        <div class="header" th:text="${recipe.name}">Recipe</div>
+        <div class="description">
+          <p></p>
         </div>
-        <button class="ui button" type="submit">Submit</button>
-    </form>
-    <div class="ui hidden divider"></div>
-    <div class="ui divided link items">
-        <a class="item" th:each="recipe : ${recipes}" th:href="@{'/recipes/'+ ${recipe.id}}">
-            <div class="ui tiny image">
-                <img th:src="@{${recipe.imgUrl}}">
-            </div>
-            <div class="middle aligned content">
-                <div class="header" th:text="${recipe.name}">Recipe</div>
-                <div class="description">
-                    <p></p>
-                </div>
-            </div>
-        </a>
-    </div>
+      </div>
+    </a>
+  </div>
 </section>
 </body>
 </html>

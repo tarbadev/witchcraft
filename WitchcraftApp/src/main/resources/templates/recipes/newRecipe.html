@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{layout.html}">
+<body>
+<section layout:fragment="content">
+  <h2 class="ui center aligned header">New Recipe</h2>
+  <div class="ui hidden divider"></div>
+  <div class="ui equal width grid">
+    <div class="column">
+      <div class="ui raised segment">
+        <form class="ui form" action="#" th:action="@{/recipes/import}" th:object="${recipeManualForm}" method="post">
+          <h3>Add manually</h3>
+          <div class="field">
+            <label>Name</label>
+            <input type="text" th:field="*{name}" placeholder="Mini Goat Cheese Stuffed Potato Appetizers">
+          </div>
+          <div class="field">
+            <label>Url</label>
+            <input type="text" th:field="*{url}" placeholder="http://example.com/recipe/32434">
+          </div>
+          <div class="field">
+            <label>Ingredients</label>
+            <textarea></textarea>
+          </div>
+          <div class="field">
+            <label>Steps</label>
+            <textarea></textarea>
+          </div>
+          <button class="ui primary button" type="submit">Submit</button>
+        </form>
+      </div>
+    </div>
+    <div class="one wide column">
+      <div class="ui vertical divider" style="height: calc(50% - 5rem)">
+        Or
+      </div>
+    </div>
+    <div class=" column">
+      <div class="ui clearing raised segment">
+        <form class="ui form" action="#" th:action="@{/recipes/import}" th:object="${recipeUrlForm}" method="post">
+          <h3>Add from URL</h3>
+          <div class="field">
+            <input type="text" th:field="*{url}" placeholder="http://example.com/recipe/32434">
+          </div>
+          <button class="ui primary right floated button" type="submit">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+</body>
+</html>

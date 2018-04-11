@@ -5,6 +5,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class RecipeForm {
+public class RecipeUrlForm {
     private String url;
 }
