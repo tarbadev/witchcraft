@@ -3,13 +3,24 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-    <meta charset="UTF-8">
-    <title>Witchcraft</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/semantic.min.css}">
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/png" th:href="@{/images/logo.png}"/>
+  <title>Witchcraft</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/semantic.min.css}">
 </head>
 <body>
-    <section class="ui container" layout:fragment="content">
-        <p>Page content</p>
-    </section>
+<header class="ui attached stackable menu">
+  <div class="ui container">
+    <a class="item" th:href="@{/}">
+      <img th:src="@{/images/logo.png}">
+    </a>
+    <a class="item" th:href="@{/recipes}">Recipes</a>
+    <a class="item" th:href="@{/weeks}">Weeks</a>
+    <a class="item" th:href="@{/carts}">Carts</a>
+  </div>
+</header>
+<section class="ui main container" layout:fragment="content">
+  <p>Page content</p>
+</section>
 </body>
 </html>
