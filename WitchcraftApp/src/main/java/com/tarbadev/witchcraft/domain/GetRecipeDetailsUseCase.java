@@ -138,7 +138,6 @@ public class GetRecipeDetailsUseCase {
 
     Elements htmlSteps = html.select("div.recipe-instructions ol li");
     for (Element htmlStep : htmlSteps) {
-      System.out.println("htmlStep.text() = " + htmlStep.text());
       steps.add(Step.builder().name(htmlStep.text()).build());
     }
 

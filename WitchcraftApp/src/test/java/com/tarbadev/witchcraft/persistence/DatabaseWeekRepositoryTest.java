@@ -1,8 +1,6 @@
 package com.tarbadev.witchcraft.persistence;
 
 import com.tarbadev.witchcraft.domain.Week;
-import com.tarbadev.witchcraft.persistence.DatabaseWeekRepository;
-import com.tarbadev.witchcraft.persistence.WeekRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,20 +22,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @ActiveProfiles("test")
 public class DatabaseWeekRepositoryTest {
-  @Autowired private WeekRepository weekRepository;
+  @Autowired private WeekEntityRepository weekEntityRepository;
   @Autowired private TestEntityManager entityManager;
 
   private DatabaseWeekRepository subject;
 
   @Before
   public void setUp() {
-    subject = new DatabaseWeekRepository(weekRepository);
+    subject = new DatabaseWeekRepository(weekEntityRepository);
   }
 
   @Test
   public void findByYearAndWeekNumber() {
-    Week week = entityManager.persistAndFlush(
-        Week.builder()
+    WeekEntity week = entityManager.persistAndFlush(
+        WeekEntity.builder()
             .days(Collections.emptyList())
             .year(2018)
             .weekNumber(24)

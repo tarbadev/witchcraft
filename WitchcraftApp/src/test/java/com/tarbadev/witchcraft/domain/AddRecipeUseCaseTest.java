@@ -31,7 +31,6 @@ public class AddRecipeUseCaseTest {
   @Test
   public void execute() {
     Recipe recipe = testResources.getRecipe();
-    System.out.println("recipe = " + recipe);
     Recipe expectedRecipe = Recipe.builder().id(123).url(recipe.getUrl()).build();
 
     given(recipeRepository.createRecipe(recipe)).willReturn(expectedRecipe);

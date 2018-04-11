@@ -1,17 +1,21 @@
 package com.tarbadev.witchcraft.persistence;
 
 import com.tarbadev.witchcraft.domain.Week;
+import com.tarbadev.witchcraft.domain.WeekRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository
-public class DatabaseWeekRepository {
-  private final WeekRepository weekRepository;
+import static com.tarbadev.witchcraft.persistence.EntityToDomain.weekMapper;
 
-  public DatabaseWeekRepository(WeekRepository weekRepository) {
-    this.weekRepository = weekRepository;
+@Repository
+public class DatabaseWeekRepository implements WeekRepository {
+  private final WeekEntityRepository weekEntityRepository;
+
+  public DatabaseWeekRepository(WeekEntityRepository weekEntityRepository) {
+    this.weekEntityRepository = weekEntityRepository;
   }
 
+  @Override
   public Week findByYearAndWeekNumber(int year, int weekNumber) {
-    return weekRepository.findByYearAndWeekNumber(year, weekNumber);
+    return weekEntityRepository.findByYearAndWeekNumber(year, weekNumber).map(EntityToDomain::weekMapper).orElse(null);
   }
 }

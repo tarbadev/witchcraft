@@ -180,8 +180,6 @@ public class DatabaseRecipeRepositoryTest {
         )
     );
 
-    System.out.println("recipe = " + recipe);
-
     recipe.getIngredients().sort(Comparator.comparing(Ingredient::getName));
 
     entityManager.clear();

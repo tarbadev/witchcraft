@@ -19,6 +19,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
@@ -40,10 +41,10 @@ public class DatabaseCartRepositoryTest {
   }
 
   @Test
-  public void findAll_ReturnsAllCarts() {
-    entityManager.persist(Cart.builder().build());
-    entityManager.persist(Cart.builder().build());
-    entityManager.persist(Cart.builder().build());
+  public void findAll() {
+    entityManager.persist(CartEntity.builder().build());
+    entityManager.persist(CartEntity.builder().build());
+    entityManager.persist(CartEntity.builder().build());
 
     entityManager.flush();
     entityManager.clear();
@@ -53,24 +54,25 @@ public class DatabaseCartRepositoryTest {
 
   @Test
   public void save() {
-    List<RecipeEntity> recipes = Collections.singletonList(RecipeEntity.builder()
+    List<Recipe> recipes = Collections.singletonList(Recipe.builder()
         .ingredients(Arrays.asList(
-            IngredientEntity.builder()
+            Ingredient.builder()
                 .name("Ingredient 3")
                 .unit("cup")
                 .quantity(2.0)
                 .build(),
-            IngredientEntity.builder()
+            Ingredient.builder()
                 .name("Ingredient 1")
                 .unit("lb")
                 .quantity(2.0)
                 .build(),
-            IngredientEntity.builder()
+            Ingredient.builder()
                 .name("Ingredient 2")
                 .unit("oz")
                 .quantity(8.0)
                 .build()
         ))
+        .steps(Collections.emptyList())
         .build()
     );
     List<Item> items = Arrays.asList(
@@ -90,25 +92,22 @@ public class DatabaseCartRepositoryTest {
             .quantity(2.0)
             .build()
     );
-    Cart cart = Cart.builder()
+    Cart cart = subject.save(Cart.builder()
         .recipes(recipes)
         .items(items)
-        .build();
-
-    Cart savedCart = subject.save(cart);
+        .build());
 
     entityManager.clear();
 
-    savedCart = entityManager.find(Cart.class, savedCart.getId());
+    CartEntity savedCart = entityManager.find(CartEntity.class, cart.getId());
 
     assertThat(savedCart.getItems().size()).isEqualTo(3);
-    assertThat(savedCart.getItems().containsAll(items)).isTrue();
     assertThat(savedCart.getRecipes().size()).isEqualTo(1);
   }
 
   @Test
   public void save_createsDateForCart() {
-    Cart cart = Cart.builder().build();
+    CartEntity cart = CartEntity.builder().build();
     assertThat(cart.getCreatedAt()).isNull();
 
     entityManager.persistAndFlush(cart);
@@ -118,8 +117,8 @@ public class DatabaseCartRepositoryTest {
 
   @Test
   public void findById() {
-    Cart cart = entityManager.persistFlushFind(
-        Cart.builder()
+    CartEntity cart = entityManager.persistFlushFind(
+        CartEntity.builder()
             .build()
     );
 
@@ -130,17 +129,17 @@ public class DatabaseCartRepositoryTest {
 
   @Test
   public void findById_returnsItemsOrderedAlphabetically() {
-    Cart cart = entityManager.persistAndFlush(
-        Cart.builder()
+    CartEntity cart = entityManager.persistAndFlush(
+        CartEntity.builder()
             .items(
                 Arrays.asList(
-                    Item.builder()
+                    ItemEntity.builder()
                         .name("Parsley")
                         .build(),
-                    Item.builder()
+                    ItemEntity.builder()
                         .name("Tomatoes")
                         .build(),
-                    Item.builder()
+                    ItemEntity.builder()
                         .name("Beef")
                         .build()
                 )
@@ -150,10 +149,18 @@ public class DatabaseCartRepositoryTest {
 
     entityManager.clear();
 
-    List<Item> items = cart.getItems();
-    items.sort(Comparator.comparing(Item::getName));
+    List<Item> items = cart.getItems().stream()
+        .map(itemEntity -> Item.builder()
+            .id(itemEntity.getId())
+            .name(itemEntity.getName())
+            .quantity(itemEntity.getQuantity())
+            .unit(itemEntity.getUnit())
+            .build())
+        .sorted(Comparator.comparing(Item::getName))
+        .collect(Collectors.toList());
 
     List<Item> savedItems = subject.findById(cart.getId()).getItems();
+    assertThat(savedItems).isEqualTo(items);
     assertThat(savedItems.get(0)).isEqualTo(items.get(0));
     assertThat(savedItems.get(1)).isEqualTo(items.get(1));
     assertThat(savedItems.get(2)).isEqualTo(items.get(2));

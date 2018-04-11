@@ -1,11 +1,6 @@
 package com.tarbadev.witchcraft.domain;
 
-import com.tarbadev.witchcraft.domain.*;
 import com.tarbadev.witchcraft.domain.converter.IngredientConverter;
-import com.tarbadev.witchcraft.persistence.DatabaseCartRepository;
-import com.tarbadev.witchcraft.persistence.EntityToDomain;
-import com.tarbadev.witchcraft.persistence.IngredientEntity;
-import com.tarbadev.witchcraft.persistence.RecipeEntity;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,10 +11,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.tarbadev.witchcraft.persistence.EntityToDomain.ingredientMapper;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
@@ -30,27 +27,26 @@ import static org.mockito.Mockito.verify;
 @ActiveProfiles("test")
 public class CreateCartUseCaseTest {
   @Autowired private IngredientConverter ingredientConverter;
-  @Mock
-  DatabaseCartRepository databaseCartRepository;
+  @Mock CartRepository cartRepository;
 
   private CreateCartUseCase subject;
 
   @Before
   public void setUp() {
-    subject = new CreateCartUseCase(databaseCartRepository, ingredientConverter);
+    subject = new CreateCartUseCase(cartRepository, ingredientConverter);
   }
 
   @Test
   public void execute() {
-    List<RecipeEntity> recipes = Collections.singletonList(
-        RecipeEntity.builder()
+    List<Recipe> recipes = Collections.singletonList(
+        Recipe.builder()
             .ingredients(Arrays.asList(
-                IngredientEntity.builder()
+                Ingredient.builder()
                     .name("Ingredient 1")
                     .quantity(2.2)
                     .unit("lb")
                     .build(),
-                IngredientEntity.builder()
+                Ingredient.builder()
                     .name("Ingredient 2")
                     .quantity(10.0)
                     .unit("oz")
@@ -76,24 +72,24 @@ public class CreateCartUseCaseTest {
         .items(items)
         .build();
 
-    given(databaseCartRepository.save(cart)).willReturn(cart);
+    given(cartRepository.save(cart)).willReturn(cart);
 
-    assertThat(subject.execute(recipes.stream().map(EntityToDomain::recipeMapper).collect(Collectors.toList()))).isEqualTo(cart);
+    assertThat(subject.execute(recipes)).isEqualTo(cart);
 
-    verify(databaseCartRepository).save(cart);
+    verify(cartRepository).save(cart);
   }
 
   @Test
   public void execute_addsItemsWithSameNameAndConvertUnit() {
-    List<RecipeEntity> recipes = Arrays.asList(
-        RecipeEntity.builder()
+    List<Recipe> recipes = Arrays.asList(
+        Recipe.builder()
             .ingredients(Arrays.asList(
-                IngredientEntity.builder()
+                Ingredient.builder()
                     .name("Ingredient 1")
                     .quantity(1.2)
                     .unit("lb")
                     .build(),
-                IngredientEntity.builder()
+                Ingredient.builder()
                     .name("Ingredient 2")
                     .quantity(10.0)
                     .unit("oz")
@@ -101,14 +97,14 @@ public class CreateCartUseCaseTest {
             ))
             .steps(Collections.emptyList())
             .build(),
-        RecipeEntity.builder()
+        Recipe.builder()
             .ingredients(Arrays.asList(
-                IngredientEntity.builder()
+                Ingredient.builder()
                     .name("Ingredient 1")
                     .quantity(2.2)
                     .unit("lb")
                     .build(),
-                IngredientEntity.builder()
+                Ingredient.builder()
                     .name("Ingredient 2")
                     .quantity(10.0)
                     .unit("ml")
@@ -134,14 +130,12 @@ public class CreateCartUseCaseTest {
         .items(items)
         .build();
 
-    given(ingredientConverter.addToHighestUnit(
-        ingredientMapper(recipes.get(0).getIngredients().get(1)),
-        ingredientMapper(recipes.get(1).getIngredients().get(1)))
-    ).willReturn(Ingredient.builder().name("Ingredient 2").quantity(10.33814).unit("oz").build());
-    given(databaseCartRepository.save(cart)).willReturn(cart);
+    given(ingredientConverter.addToHighestUnit(recipes.get(0).getIngredients().get(1), recipes.get(1).getIngredients().get(1)))
+        .willReturn(Ingredient.builder().name("Ingredient 2").quantity(10.33814).unit("oz").build());
+    given(cartRepository.save(cart)).willReturn(cart);
 
-    assertThat(subject.execute(recipes.stream().map(EntityToDomain::recipeMapper).collect(Collectors.toList()))).isEqualTo(cart);
+    assertThat(subject.execute(recipes)).isEqualTo(cart);
 
-    verify(databaseCartRepository).save(cart);
+    verify(cartRepository).save(cart);
   }
 }

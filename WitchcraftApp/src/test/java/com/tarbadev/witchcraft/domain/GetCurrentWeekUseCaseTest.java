@@ -1,14 +1,9 @@
 package com.tarbadev.witchcraft.domain;
 
-import com.tarbadev.witchcraft.domain.Day;
-import com.tarbadev.witchcraft.domain.DayName;
-import com.tarbadev.witchcraft.domain.GetCurrentWeekUseCase;
-import com.tarbadev.witchcraft.domain.Week;
-import com.tarbadev.witchcraft.persistence.DatabaseWeekRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -25,11 +20,11 @@ import static org.mockito.BDDMockito.given;
 public class GetCurrentWeekUseCaseTest {
   private GetCurrentWeekUseCase subject;
 
-  @Autowired private DatabaseWeekRepository databaseWeekRepository;
+  @Mock private WeekRepository weekRepository;
 
   @Before
   public void setUp() {
-    subject = new GetCurrentWeekUseCase(databaseWeekRepository);
+    subject = new GetCurrentWeekUseCase(weekRepository);
   }
 
   @Test
@@ -38,7 +33,7 @@ public class GetCurrentWeekUseCaseTest {
     int weekNumber = Calendar.getInstance().get(Calendar.WEEK_OF_YEAR);
     Week week = Week.builder().build();
 
-    given(databaseWeekRepository.findByYearAndWeekNumber(year, weekNumber)).willReturn(week);
+    given(weekRepository.findByYearAndWeekNumber(year, weekNumber)).willReturn(week);
 
     assertThat(subject.execute()).isEqualTo(week);
   }
@@ -73,7 +68,7 @@ public class GetCurrentWeekUseCaseTest {
         ))
         .build();
 
-    given(databaseWeekRepository.findByYearAndWeekNumber(year, weekNumber)).willReturn(null);
+    given(weekRepository.findByYearAndWeekNumber(year, weekNumber)).willReturn(null);
 
     assertThat(subject.execute()).isEqualTo(week);
   }

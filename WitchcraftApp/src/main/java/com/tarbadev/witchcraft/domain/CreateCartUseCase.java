@@ -1,7 +1,6 @@
 package com.tarbadev.witchcraft.domain;
 
 import com.tarbadev.witchcraft.domain.converter.IngredientConverter;
-import com.tarbadev.witchcraft.persistence.DatabaseCartRepository;
 import com.tarbadev.witchcraft.persistence.DomainToEntity;
 import com.tarbadev.witchcraft.persistence.RecipeEntity;
 import org.springframework.stereotype.Component;
@@ -11,31 +10,21 @@ import java.util.stream.Collectors;
 
 @Component
 public class CreateCartUseCase {
-  private final DatabaseCartRepository databaseCartRepository;
+  private final CartRepository cartRepository;
   private final IngredientConverter ingredientConverter;
 
-  public CreateCartUseCase(DatabaseCartRepository databaseCartRepository, IngredientConverter ingredientConverter) {
-    this.databaseCartRepository = databaseCartRepository;
+  public CreateCartUseCase(CartRepository cartRepository, IngredientConverter ingredientConverter) {
+    this.cartRepository = cartRepository;
     this.ingredientConverter = ingredientConverter;
   }
 
   public Cart execute(List<Recipe> recipes) {
     Cart cart = Cart.builder()
-        .recipes(recipes.stream()
-            .map(recipe -> RecipeEntity.builder()
-                .id(recipe.getId())
-                .url(recipe.getUrl())
-                .imgUrl(recipe.getImgUrl())
-                .steps(recipe.getSteps().stream().map(DomainToEntity::stepEntityMapper).collect(Collectors.toList()))
-                .ingredients(recipe.getIngredients().stream().map(DomainToEntity::ingredientEntityMapper).collect(Collectors.toList()))
-                .name(recipe.getName())
-                .build())
-            .collect(Collectors.toList())
-        )
+        .recipes(recipes)
         .items(getItemsFromRecipe(recipes))
         .build();
 
-    return databaseCartRepository.save(cart);
+    return cartRepository.save(cart);
   }
 
   private List<Item> getItemsFromRecipe(List<Recipe> recipes) {

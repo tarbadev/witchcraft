@@ -1,12 +1,9 @@
 package com.tarbadev.witchcraft.domain;
 
-import com.tarbadev.witchcraft.domain.Cart;
-import com.tarbadev.witchcraft.domain.GetCartUseCase;
-import com.tarbadev.witchcraft.persistence.DatabaseCartRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.Mock;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -20,20 +17,20 @@ import static org.mockito.BDDMockito.given;
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 public class GetCartUseCaseTest {
-  @Autowired private DatabaseCartRepository databaseCartRepository;
+  @Mock private CartRepository cartRepository;
 
   private GetCartUseCase subject;
 
   @Before
   public void setUp() {
-    subject = new GetCartUseCase(databaseCartRepository);
+    subject = new GetCartUseCase(cartRepository);
   }
 
   @Test
   public void execute() {
     Cart cart = Cart.builder().id(123).build();
 
-    given(databaseCartRepository.findById(123)).willReturn(cart);
+    given(cartRepository.findById(123)).willReturn(cart);
 
     assertThat(subject.execute(123)).isEqualTo(cart);
   }

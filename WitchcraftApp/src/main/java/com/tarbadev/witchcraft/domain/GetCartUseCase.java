@@ -1,17 +1,16 @@
 package com.tarbadev.witchcraft.domain;
 
-import com.tarbadev.witchcraft.persistence.DatabaseCartRepository;
 import org.springframework.stereotype.Component;
 
 @Component
 public class GetCartUseCase {
-  private final DatabaseCartRepository databaseCartRepository;
+  private final CartRepository cartRepository;
 
-  public GetCartUseCase(DatabaseCartRepository databaseCartRepository) {
-    this.databaseCartRepository = databaseCartRepository;
+  public GetCartUseCase(CartRepository cartRepository) {
+    this.cartRepository = cartRepository;
   }
 
   public Cart execute(int id) {
-    return databaseCartRepository.findById(id);
+    return cartRepository.findById(id);
   }
 }

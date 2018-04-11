@@ -1,8 +1,6 @@
 package com.tarbadev.witchcraft.persistence;
 
-import com.tarbadev.witchcraft.domain.Ingredient;
-import com.tarbadev.witchcraft.domain.Recipe;
-import com.tarbadev.witchcraft.domain.Step;
+import com.tarbadev.witchcraft.domain.*;
 
 import java.util.stream.Collectors;
 
@@ -31,6 +29,42 @@ public class EntityToDomain {
     return Step.builder()
         .id(stepEntity.getId())
         .name(stepEntity.getName())
+        .build();
+  }
+
+  public static Cart cartMapper(CartEntity cartEntity) {
+    return Cart.builder()
+        .id(cartEntity.getId())
+        .createdAt(cartEntity.getCreatedAt())
+        .recipes(cartEntity.getRecipes().stream().map(EntityToDomain::recipeMapper).collect(Collectors.toList()))
+        .items(cartEntity.getItems().stream().map(EntityToDomain::itemMapper).collect(Collectors.toList()))
+        .build();
+  }
+
+  public static Item itemMapper(ItemEntity itemEntity) {
+    return Item.builder()
+        .id(itemEntity.getId())
+        .name(itemEntity.getName())
+        .quantity(itemEntity.getQuantity())
+        .unit(itemEntity.getUnit())
+        .build();
+  }
+
+  public static Week weekMapper(WeekEntity weekEntity) {
+    return Week.builder()
+        .id(weekEntity.getId())
+        .weekNumber(weekEntity.getWeekNumber())
+        .year(weekEntity.getYear())
+        .days(weekEntity.getDays().stream().map(EntityToDomain::dayMapper).collect(Collectors.toList()))
+        .build();
+  }
+
+  public static Day dayMapper(DayEntity dayEntity) {
+    return Day.builder()
+        .id(dayEntity.getId())
+        .name(DayName.valueOf(dayEntity.getName()))
+        .lunch(recipeMapper(dayEntity.getLunch()))
+        .diner(recipeMapper(dayEntity.getDiner()))
         .build();
   }
 }
