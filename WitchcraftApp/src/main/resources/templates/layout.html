@@ -9,14 +9,14 @@
   <link rel="stylesheet" type="text/css" th:href="@{/semantic.min.css}">
 </head>
 <body>
-<header class="ui attached stackable menu">
+<header class="ui attached stackable menu" th:with="headerList = ${ {'recipes', 'weeks', 'carts'} }">
   <div class="ui container">
     <a class="item" th:href="@{/}">
       <img th:src="@{/images/logo.png}">
     </a>
-    <a class="item" th:href="@{/recipes}">Recipes</a>
-    <a class="item" th:href="@{/weeks}">Weeks</a>
-    <a class="item" th:href="@{/carts}">Carts</a>
+    <div th:each="header: ${headerList}" th:remove="tag">
+      <a class="item" th:class="${header} eq ${activeHeader} ? 'active item' : 'item'" th:href="@{'/' + ${header}}" th:text="${header}">Header</a>
+    </div>
   </div>
 </header>
 <section class="ui main container" layout:fragment="content">

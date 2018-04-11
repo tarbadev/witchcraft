@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="~{layout.html}"
-      th:with="title='Cart ' + ${#temporals.format(cart.createdAt, 'EEEE d MMMM yyyy')} + ' at ' + ${#temporals.format(cart.createdAt, 'HH:mm')}">
+      th:with="title='Cart ' + ${#temporals.format(cart.createdAt, 'EEEE d MMMM yyyy')} + ' at ' + ${#temporals.format(cart.createdAt, 'HH:mm')},activeHeader='carts'">
 <body>
   <section layout:fragment="content">
     <div class="ui equal width grid container">

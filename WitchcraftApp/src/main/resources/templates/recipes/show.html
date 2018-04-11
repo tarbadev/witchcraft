@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorator="~{layout.html}" th:with="title=${recipe.name}">
+      layout:decorator="~{layout.html}" th:with="title=${recipe.name},activeHeader='recipes'">
 <body>
 <section layout:fragment="content">
   <div class="ui equal width grid container">

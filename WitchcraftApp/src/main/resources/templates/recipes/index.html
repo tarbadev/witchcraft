@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorator="~{layout.html}" th:with="title='Recipes'">
+      layout:decorator="~{layout.html}" th:with="title='Recipes',activeHeader='recipes'">
 <body>
 <section layout:fragment="content">
   <a th:href="@{/recipes/new}" class="ui primary button">
