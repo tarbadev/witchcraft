@@ -5,6 +5,8 @@ import com.tarbadev.witchcraft.domain.converter.IngredientConverter;
 import com.tarbadev.witchcraft.domain.converter.UnitConverter;
 import com.tarbadev.witchcraft.persistence.DatabaseCartRepository;
 import com.tarbadev.witchcraft.persistence.DatabaseWeekRepository;
+import com.tarbadev.witchcraft.web.GetRecipeDetailsFromFormUseCase;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,8 +24,8 @@ public class TestConfiguration {
   }
 
   @Bean
-  public GetRecipeDetailsUseCase getRecipeDetailsUseCase() {
-    return Mockito.mock(GetRecipeDetailsUseCase.class);
+  public GetRecipeDetailsFromUrlUseCase getRecipeDetailsFromUrlUseCase() {
+    return Mockito.mock(GetRecipeDetailsFromUrlUseCase.class);
   }
 
   @Bean
@@ -52,13 +54,8 @@ public class TestConfiguration {
   }
 
   @Bean
-  public DatabaseCartRepository databaseCartRepository() {
-    return Mockito.mock(DatabaseCartRepository.class);
-  }
-
-  @Bean
-  public DatabaseWeekRepository databaseWeekRepository() {
-    return Mockito.mock(DatabaseWeekRepository.class);
+  public GetRecipeDetailsFromFormUseCase getRecipeDetailsFromFormUseCase() {
+    return Mockito.mock(GetRecipeDetailsFromFormUseCase.class);
   }
 
   @Bean

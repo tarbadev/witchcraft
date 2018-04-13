@@ -14,14 +14,16 @@ import java.util.List;
 public class RecipesController {
   private AddRecipeUseCase addRecipeUseCase;
   private RecipeCatalogUseCase recipeCatalogUseCase;
-  private GetRecipeDetailsUseCase getRecipeDetailsUseCase;
+  private GetRecipeDetailsFromUrlUseCase getRecipeDetailsFromUrlUseCase;
   private GetRecipeUseCase getRecipeUseCase;
+  private GetRecipeDetailsFromFormUseCase getRecipeDetailsFromFormUseCase;
 
-  public RecipesController(AddRecipeUseCase recipeService, RecipeCatalogUseCase recipeCatalogUseCase, GetRecipeDetailsUseCase getRecipeDetailsUseCase, GetRecipeUseCase getRecipeUseCase) {
+  public RecipesController(AddRecipeUseCase recipeService, RecipeCatalogUseCase recipeCatalogUseCase, GetRecipeDetailsFromUrlUseCase getRecipeDetailsFromUrlUseCase, GetRecipeUseCase getRecipeUseCase, GetRecipeDetailsFromFormUseCase getRecipeDetailsFromFormUseCase) {
     this.addRecipeUseCase = recipeService;
     this.recipeCatalogUseCase = recipeCatalogUseCase;
-    this.getRecipeDetailsUseCase = getRecipeDetailsUseCase;
+    this.getRecipeDetailsFromUrlUseCase = getRecipeDetailsFromUrlUseCase;
     this.getRecipeUseCase = getRecipeUseCase;
+    this.getRecipeDetailsFromFormUseCase = getRecipeDetailsFromFormUseCase;
   }
 
   @GetMapping("/recipes")
@@ -44,9 +46,22 @@ public class RecipesController {
     return "recipes/newRecipe";
   }
 
-  @PostMapping("/recipes/import")
+  @PostMapping("/recipes/importFromUrl")
   public String addRecipe(@Valid RecipeUrlForm recipeUrlForm) {
-    Recipe recipe = getRecipeDetailsUseCase.execute(recipeUrlForm.getUrl());
+    Recipe recipe = getRecipeDetailsFromUrlUseCase.execute(recipeUrlForm.getUrl());
+    addRecipeUseCase.execute(recipe);
+
+    return "redirect:/recipes";
+  }
+
+  @PostMapping("/recipes/importFromForm")
+  public String addRecipe(@Valid RecipeManualForm recipeManualForm) {
+    Recipe recipe = getRecipeDetailsFromFormUseCase.execute(
+        recipeManualForm.getName(),
+        recipeManualForm.getUrl(),
+        recipeManualForm.getIngredients(),
+        recipeManualForm.getSteps()
+    );
     addRecipeUseCase.execute(recipe);
 
     return "redirect:/recipes";

@@ -15,16 +15,7 @@ import java.util.Optional;
 import static java.lang.Double.parseDouble;
 
 @Component
-public class GetRecipeDetailsUseCase {
-  private static final List<String> UNITS = Arrays.asList(
-      "lb",
-      "oz",
-      "tsp",
-      "tbsp",
-      "cup",
-      "cups"
-      );
-
+public class GetRecipeDetailsFromUrlUseCase {
   public Recipe execute(String url) {
     Document html = getRecipeHtml(url);
     String name = getRecipeNameFromHtml(html);
@@ -63,7 +54,7 @@ public class GetRecipeDetailsUseCase {
 
     Elements htmlIngredients = html.select("div.recipe-ingredients-wrap ul li");
     for (Element htmlIngredient : htmlIngredients) {
-      Ingredient ingredient = getIngredientFromText(htmlIngredient.text());
+      Ingredient ingredient = Ingredient.getIngredientFromString(htmlIngredient.text());
       Optional<Ingredient> maybeIngredient = ingredients.stream()
           .filter(i ->
               i.getName().equals(ingredient.getName()) &&
@@ -77,55 +68,6 @@ public class GetRecipeDetailsUseCase {
     }
 
     return ingredients;
-  }
-
-  private Ingredient getIngredientFromText(String text) {
-    Double quantity = 0.0;
-    String unit = "";
-    String name = "";
-    String[] words = text.split(" ");
-
-    boolean quantityFound = false;
-
-    for (String word : words) {
-      if (!quantityFound) {
-        Double tempQuantity = null;
-        try {
-          tempQuantity = parseDouble(word);
-        } catch (NumberFormatException e) {
-        }
-
-        if (tempQuantity != null)
-          quantity += tempQuantity;
-        else if (word.contains("/")) {
-          String[] fraction = word.split("/");
-          tempQuantity = parseDouble(fraction[0]) / parseDouble(fraction[1]);
-          quantity += tempQuantity;
-        } else
-          quantityFound = true;
-      }
-
-      if (quantityFound) {
-        String tempUnit = word
-            .toLowerCase()
-            .replaceAll("\\.", "");
-        if (UNITS.contains(tempUnit)) {
-          unit = tempUnit;
-
-          if (unit.equals("cups"))
-            unit = "cup";
-        } else {
-          name = text.substring(text.indexOf(word));
-          break;
-        }
-      }
-    }
-
-    return Ingredient.builder()
-        .name(name)
-        .quantity(quantity)
-        .unit(unit)
-        .build();
   }
 
   private String getImgUrl(Document html) {

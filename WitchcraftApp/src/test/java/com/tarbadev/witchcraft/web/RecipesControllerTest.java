@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.text.IsEmptyString.isEmptyOrNullString;
@@ -34,18 +35,17 @@ public class RecipesControllerTest {
   @Autowired private TestResources testResources;
   @Autowired private AddRecipeUseCase addRecipeUseCase;
   @Autowired private RecipeCatalogUseCase recipeCatalogUseCase;
-  @Autowired private GetRecipeDetailsUseCase getRecipeDetailsUseCase;
+  @Autowired private GetRecipeDetailsFromUrlUseCase getRecipeDetailsFromUrlUseCase;
   @Autowired private GetRecipeUseCase getRecipeUseCase;
+  @Autowired private GetRecipeDetailsFromFormUseCase getRecipeDetailsFromFormUseCase;
 
   @Before
   public void setUp() {
-    Mockito.reset(addRecipeUseCase, recipeCatalogUseCase, getRecipeDetailsUseCase);
+    Mockito.reset(addRecipeUseCase, recipeCatalogUseCase, getRecipeDetailsFromUrlUseCase, getRecipeDetailsFromFormUseCase);
   }
 
   @Test
   public void newRecipe() throws Exception {
-    RecipeManualForm recipeManualForm = new RecipeManualForm();
-
     mvc.perform(get("/recipes/new"))
         .andExpect(status().isOk())
         .andExpect(view().name("recipes/newRecipe"))
@@ -72,19 +72,62 @@ public class RecipesControllerTest {
   }
 
   @Test
-  public void import_SavesRecipe() throws Exception {
+  public void importFromUrl() throws Exception {
     Recipe recipe = testResources.getRecipe();
 
-    given(getRecipeDetailsUseCase.execute(recipe.getUrl())).willReturn(recipe);
+    given(getRecipeDetailsFromUrlUseCase.execute(recipe.getUrl())).willReturn(recipe);
     given(addRecipeUseCase.execute(recipe)).willReturn(recipe);
 
-    mvc.perform(post("/recipes/import")
+    mvc.perform(post("/recipes/importFromUrl")
         .param("url", recipe.getUrl())
         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
     )
         .andExpect(redirectedUrl("/recipes"));
 
-    verify(getRecipeDetailsUseCase).execute(recipe.getUrl());
+    verify(getRecipeDetailsFromUrlUseCase).execute(recipe.getUrl());
+    verify(addRecipeUseCase).execute(recipe);
+  }
+
+  @Test
+  public void importFromForm() throws Exception {
+    String recipeName = "Some recipe name";
+    String recipeUrl = "http://some/url/of/recipe";
+    String recipeIngredients = String.join("\n"
+        , "10 tbsp sugar"
+        , "1/2 cup olive oil"
+        , "1 lemon"
+    );
+    String recipeSteps = String.join("\n"
+        , "Add ingredients and stir"
+        , "Serve on each plate"
+    );
+
+    RecipeManualForm recipeManualForm = new RecipeManualForm();
+    recipeManualForm.setName(recipeName);
+    recipeManualForm.setUrl(recipeUrl);
+    recipeManualForm.setIngredients(recipeIngredients);
+    recipeManualForm.setSteps(recipeSteps);
+
+    Recipe recipe = Recipe.builder()
+        .name(recipeName)
+        .url(recipeUrl)
+        .ingredients(Arrays.stream(recipeIngredients.split("\n")).map(ingredient -> Ingredient.builder().name(ingredient).build()).collect(Collectors.toList()))
+        .steps(Arrays.stream(recipeSteps.split("\n")).map(step -> Step.builder().name(step).build()).collect(Collectors.toList()))
+        .build();
+
+    given(getRecipeDetailsFromFormUseCase.execute(recipeName, recipeUrl, recipeIngredients, recipeSteps)).willReturn(recipe);
+    given(addRecipeUseCase.execute(recipe)).willReturn(recipe);
+
+    mvc.perform(post("/recipes/importFromForm")
+        .param("name", recipeManualForm.getName())
+        .param("url", recipeManualForm.getUrl())
+        .param("ingredients", recipeManualForm.getIngredients())
+        .param("steps", recipeManualForm.getSteps())
+        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+    )
+        .andExpect(redirectedUrl("/recipes"));
+
+    verify(getRecipeDetailsFromFormUseCase).execute(recipeName, recipeUrl, recipeIngredients, recipeSteps);
     verify(addRecipeUseCase).execute(recipe);
   }
 
