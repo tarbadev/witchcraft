@@ -20,7 +20,7 @@ public class IngredientFromStringUseCase {
   );
 
   public Ingredient execute(String text) {
-    text = text.toLowerCase()
+    text = text
         .replace("½", "1/2")
         .replace("⅓", "1/3")
         .replace("⅔", "2/3")
@@ -34,7 +34,7 @@ public class IngredientFromStringUseCase {
     Double quantity = 0.0;
     String unit = "";
     String name = "";
-    Pattern pattern = Pattern.compile("([\\d ]*\\d+[[\\⁄\\/]\\d]*|\\d+)([\\s]|)(([A-Za-z]+?|[A-Za-z]+?)(s\\b|\\b)|)([ .,])([()\\w ,-\\.\\/&\\'!\\+]+)");
+    Pattern pattern = Pattern.compile("([\\d ]*\\d+[[\\⁄\\/]\\d]*|\\d+)([\\s]|)(([A-Za-z]+?|[A-Za-z]+?)(s\\b|\\b)|)([ .,]*)([()\\w ,-\\.\\/&\\'!\\+]+)");
     Matcher matcher = pattern.matcher(text);
     if (matcher.find())
     {

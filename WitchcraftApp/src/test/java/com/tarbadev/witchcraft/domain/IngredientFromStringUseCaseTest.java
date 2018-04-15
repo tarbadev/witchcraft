@@ -145,4 +145,24 @@ public class IngredientFromStringUseCaseTest {
         .build();
     assertThat(subject.execute("1 1/2 cup something")).isEqualTo(expectedIngredient);
   }
+
+  @Test
+  public void execute_changesUnitToLowerButNotName() {
+    Ingredient expectedIngredient = Ingredient.builder()
+        .name("Something")
+        .quantity(1.0)
+        .unit("cup")
+        .build();
+    assertThat(subject.execute("1 Cup Something")).isEqualTo(expectedIngredient);
+  }
+
+  @Test
+  public void execute_removesPointAfterUnit() {
+    Ingredient expectedIngredient = Ingredient.builder()
+        .name("Something")
+        .quantity(1.0)
+        .unit("lb")
+        .build();
+    assertThat(subject.execute("1 lb. Something")).isEqualTo(expectedIngredient);
+  }
 }
