@@ -40,9 +40,7 @@ public class DatabaseRecipeRepository implements RecipeRepository {
 
   @Override
   public Recipe findById(Integer recipeId) {
-    System.out.println("recipeEntityRepository.findById(recipeId) = " + recipeEntityRepository.findById(recipeId));
     Recipe recipe = recipeMapper(recipeEntityRepository.findById(recipeId).get());
-    System.out.println("recipe = " + recipe);
     recipe.getIngredients().sort(Comparator.comparing(Ingredient::getName));
     return recipe;
   }

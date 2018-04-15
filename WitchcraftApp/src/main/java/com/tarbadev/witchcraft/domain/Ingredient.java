@@ -1,9 +1,12 @@
 package com.tarbadev.witchcraft.domain;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Value;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static java.lang.Double.parseDouble;
 
@@ -15,8 +18,7 @@ public class Ingredient {
       "oz",
       "tsp",
       "tbsp",
-      "cup",
-      "cups"
+      "cup"
   );
 
   private Integer id;
@@ -37,42 +39,44 @@ public class Ingredient {
     Double quantity = 0.0;
     String unit = "";
     String name = "";
-    String[] words = text.split(" ");
+    Pattern pattern = Pattern.compile("([\\d ]+\\/\\d+|\\d+|)([\\s]|)(([A-Za-z]+?|[A-Za-z]+?)(s\\b|\\b)|)([ .,])([()\\w ,-\\.\\/&\\']+)");
+    Matcher matcher = pattern.matcher(text);
+    if (matcher.find())
+    {
+      String quantityStr = matcher.group(1);
+      if (!quantityStr.isEmpty()) {
+        String[] numbers = quantityStr.split(" ");
+        for (String number : numbers) {
+          Double tempQuantity = null;
+          try {
+            tempQuantity = parseDouble(number);
+          } catch (NumberFormatException e) {
+          }
 
-    boolean quantityFound = false;
-
-    for (String word : words) {
-      if (!quantityFound) {
-        Double tempQuantity = null;
-        try {
-          tempQuantity = parseDouble(word);
-        } catch (NumberFormatException e) {
+          if (tempQuantity != null)
+            quantity += tempQuantity;
+          else if (number.contains("/")) {
+            String[] fraction = number.split("/");
+            tempQuantity = parseDouble(fraction[0]) / parseDouble(fraction[1]);
+            quantity += tempQuantity;
+          }
         }
-
-        if (tempQuantity != null)
-          quantity += tempQuantity;
-        else if (word.contains("/")) {
-          String[] fraction = word.split("/");
-          tempQuantity = parseDouble(fraction[0]) / parseDouble(fraction[1]);
-          quantity += tempQuantity;
-        } else
-          quantityFound = true;
       }
 
-      if (quantityFound) {
-        String tempUnit = word
+      if (matcher.group(4) != null) {
+        String tempUnit = matcher.group(4)
             .toLowerCase()
             .replaceAll("\\.", "");
         if (SUPPORTED_UNITS.contains(tempUnit)) {
           unit = tempUnit;
-
-          if (unit.equals("cups"))
-            unit = "cup";
-        } else {
-          name = text.substring(text.indexOf(word));
-          break;
+        } else if (!tempUnit.isEmpty()) {
+          name = tempUnit + matcher.group(5) + matcher.group(6);
         }
       }
+
+      name += matcher.group(7);
+    } else {
+      System.err.println("Ingredient not supported: " + text);
     }
 
     return Ingredient.builder()

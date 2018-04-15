@@ -1,13 +1,9 @@
 package com.tarbadev.witchcraft.domain;
 
-import com.tarbadev.witchcraft.domain.Cart;
-import com.tarbadev.witchcraft.domain.CartCatalogUseCase;
-import com.tarbadev.witchcraft.persistence.DatabaseCartRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.Mock;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -24,27 +20,26 @@ import static org.mockito.BDDMockito.given;
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 public class CartCatalogUseCaseTest {
-    @Autowired private DatabaseCartRepository databaseCartRepository;
+  @Mock private CartRepository cartRepository;
 
-    private CartCatalogUseCase subject;
+  private CartCatalogUseCase subject;
 
-    @Before
-    public void setUp() {
-        subject = new CartCatalogUseCase(databaseCartRepository);
-        Mockito.reset(databaseCartRepository);
-    }
+  @Before
+  public void setUp() {
+    subject = new CartCatalogUseCase(cartRepository);
+  }
 
-    @Test
-    public void execute() {
-        List<Cart> carts = Arrays.asList(
-                Cart.builder().build(),
-                Cart.builder().build(),
-                Cart.builder().build(),
-                Cart.builder().build()
-        );
+  @Test
+  public void execute() {
+    List<Cart> carts = Arrays.asList(
+        Cart.builder().build(),
+        Cart.builder().build(),
+        Cart.builder().build(),
+        Cart.builder().build()
+    );
 
-        given(databaseCartRepository.findAll()).willReturn(carts);
+    given(cartRepository.findAll()).willReturn(carts);
 
-        assertThat(subject.execute()).isEqualTo(carts);
-    }
+    assertThat(subject.execute()).isEqualTo(carts);
+  }
 }

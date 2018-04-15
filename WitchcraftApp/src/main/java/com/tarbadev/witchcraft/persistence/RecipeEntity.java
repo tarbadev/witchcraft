@@ -1,7 +1,5 @@
 package com.tarbadev.witchcraft.persistence;
 
-import com.tarbadev.witchcraft.domain.Ingredient;
-import com.tarbadev.witchcraft.domain.Step;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
