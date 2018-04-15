@@ -8,14 +8,17 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static java.lang.Double.parseDouble;
-
 @Component
 public class GetRecipeDetailsFromUrlUseCase {
+  private IngredientFromStringUseCase ingredientFromStringUseCase;
+
+  public GetRecipeDetailsFromUrlUseCase(IngredientFromStringUseCase ingredientFromStringUseCase) {
+    this.ingredientFromStringUseCase = ingredientFromStringUseCase;
+  }
+
   public Recipe execute(String url) {
     Document html = getRecipeHtml(url);
     String name = getRecipeNameFromHtml(html);
@@ -54,7 +57,7 @@ public class GetRecipeDetailsFromUrlUseCase {
 
     Elements htmlIngredients = html.select("div.recipe-ingredients-wrap ul li");
     for (Element htmlIngredient : htmlIngredients) {
-      Ingredient ingredient = Ingredient.getIngredientFromString(htmlIngredient.text());
+      Ingredient ingredient = ingredientFromStringUseCase.execute(htmlIngredient.text());
       Optional<Ingredient> maybeIngredient = ingredients.stream()
           .filter(i ->
               i.getName().equals(ingredient.getName()) &&

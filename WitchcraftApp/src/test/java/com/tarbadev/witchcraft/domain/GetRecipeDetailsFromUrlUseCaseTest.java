@@ -18,10 +18,11 @@ public class GetRecipeDetailsFromUrlUseCaseTest {
   private GetRecipeDetailsFromUrlUseCase subject;
 
   @Autowired private TestResources testResources;
+  @Autowired private IngredientFromStringUseCase ingredientFromStringUseCase;
 
   @Before
   public void setUp() {
-    subject = new GetRecipeDetailsFromUrlUseCase();
+    subject = new GetRecipeDetailsFromUrlUseCase(ingredientFromStringUseCase);
   }
 
   @Test

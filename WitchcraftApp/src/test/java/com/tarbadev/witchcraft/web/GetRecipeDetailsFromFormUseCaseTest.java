@@ -1,12 +1,14 @@
 package com.tarbadev.witchcraft.web;
 
 import com.tarbadev.witchcraft.domain.Ingredient;
+import com.tarbadev.witchcraft.domain.IngredientFromStringUseCase;
 import com.tarbadev.witchcraft.domain.Recipe;
 import com.tarbadev.witchcraft.domain.Step;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -15,11 +17,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(MockitoJUnitRunner.class)
 public class GetRecipeDetailsFromFormUseCaseTest {
+  @Autowired private IngredientFromStringUseCase ingredientFromStringUseCase;
+
   private GetRecipeDetailsFromFormUseCase subject;
 
   @Before
   public void setUp() {
-    subject = new GetRecipeDetailsFromFormUseCase();
+    subject = new GetRecipeDetailsFromFormUseCase(ingredientFromStringUseCase);
   }
 
   @Test
