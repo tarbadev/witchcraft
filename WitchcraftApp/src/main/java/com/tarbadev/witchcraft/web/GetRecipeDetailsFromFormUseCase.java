@@ -16,10 +16,11 @@ public class GetRecipeDetailsFromFormUseCase {
     this.ingredientFromStringUseCase = ingredientFromStringUseCase;
   }
 
-  public Recipe execute(String name, String url, String ingredients, String steps) {
+  public Recipe execute(String name, String url, String ingredients, String steps, String imgUrl) {
     return Recipe.builder()
         .name(name)
         .url(url)
+        .imgUrl(imgUrl)
         .ingredients(Arrays.stream(ingredients.split("\n"))
             .map(ingredient -> ingredientFromStringUseCase.execute(ingredient))
             .collect(Collectors.toList()))

@@ -60,8 +60,8 @@ public class RecipesController {
         recipeManualForm.getName(),
         recipeManualForm.getUrl(),
         recipeManualForm.getIngredients(),
-        recipeManualForm.getSteps()
-    );
+        recipeManualForm.getSteps(),
+        recipeManualForm.getImgUrl());
     addRecipeUseCase.execute(recipe);
 
     return "redirect:/recipes";

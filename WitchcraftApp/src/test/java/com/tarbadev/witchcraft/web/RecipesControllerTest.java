@@ -92,6 +92,7 @@ public class RecipesControllerTest {
   public void importFromForm() throws Exception {
     String recipeName = "Some recipe name";
     String recipeUrl = "http://some/url/of/recipe";
+    String recipeImgUrl = "http://some/url/of/recipe.png";
     String recipeIngredients = String.join("\n"
         , "10 tbsp sugar"
         , "1/2 cup olive oil"
@@ -105,29 +106,32 @@ public class RecipesControllerTest {
     RecipeManualForm recipeManualForm = new RecipeManualForm();
     recipeManualForm.setName(recipeName);
     recipeManualForm.setUrl(recipeUrl);
+    recipeManualForm.setImgUrl(recipeImgUrl);
     recipeManualForm.setIngredients(recipeIngredients);
     recipeManualForm.setSteps(recipeSteps);
 
     Recipe recipe = Recipe.builder()
         .name(recipeName)
         .url(recipeUrl)
+        .imgUrl(recipeImgUrl)
         .ingredients(Arrays.stream(recipeIngredients.split("\n")).map(ingredient -> Ingredient.builder().name(ingredient).build()).collect(Collectors.toList()))
         .steps(Arrays.stream(recipeSteps.split("\n")).map(step -> Step.builder().name(step).build()).collect(Collectors.toList()))
         .build();
 
-    given(getRecipeDetailsFromFormUseCase.execute(recipeName, recipeUrl, recipeIngredients, recipeSteps)).willReturn(recipe);
+    given(getRecipeDetailsFromFormUseCase.execute(recipeName, recipeUrl, recipeIngredients, recipeSteps, recipeImgUrl)).willReturn(recipe);
     given(addRecipeUseCase.execute(recipe)).willReturn(recipe);
 
     mvc.perform(post("/recipes/importFromForm")
         .param("name", recipeManualForm.getName())
         .param("url", recipeManualForm.getUrl())
+        .param("imgUrl", recipeManualForm.getImgUrl())
         .param("ingredients", recipeManualForm.getIngredients())
         .param("steps", recipeManualForm.getSteps())
         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
     )
         .andExpect(redirectedUrl("/recipes"));
 
-    verify(getRecipeDetailsFromFormUseCase).execute(recipeName, recipeUrl, recipeIngredients, recipeSteps);
+    verify(getRecipeDetailsFromFormUseCase).execute(recipeName, recipeUrl, recipeIngredients, recipeSteps, recipeImgUrl);
     verify(addRecipeUseCase).execute(recipe);
   }
 
