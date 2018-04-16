@@ -8,16 +8,13 @@
     New Recipe
   </a>
   <div class="ui hidden divider"></div>
-  <div class="ui divided link items">
-    <a class="item" th:each="recipe : ${recipes}" th:href="@{'/recipes/'+ ${recipe.id}}">
-      <div class="ui tiny image">
+  <div class="ui link cards">
+    <a class="card" th:each="recipe : ${recipes}" th:href="@{'/recipes/'+ ${recipe.id}}">
+      <div class="image">
         <img th:src="@{${recipe.imgUrl}}">
       </div>
-      <div class="middle aligned content">
+      <div class="content">
         <div class="header" th:text="${recipe.name}">Recipe</div>
-        <div class="description">
-          <p></p>
-        </div>
       </div>
     </a>
   </div>
