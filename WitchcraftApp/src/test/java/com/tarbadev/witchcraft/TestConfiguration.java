@@ -59,12 +59,17 @@ public class TestConfiguration {
   }
 
   @Bean
+  public ConvertAndAddSameIngredientUseCase convertAndAddSameIngredientUseCase() {
+    return Mockito.mock(ConvertAndAddSameIngredientUseCase.class);
+  }
+
+  @Bean
   public UnitConverter unitConverter() {
     return Mockito.mock(UnitConverter.class);
   }
 
   @Bean
-  IngredientConverter ingredientConverter() {
+  public IngredientConverter ingredientConverter() {
     return Mockito.mock(IngredientConverter.class);
   }
 

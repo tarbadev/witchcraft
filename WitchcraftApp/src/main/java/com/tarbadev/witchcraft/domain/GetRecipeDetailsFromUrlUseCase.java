@@ -9,14 +9,15 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Component
 public class GetRecipeDetailsFromUrlUseCase {
   private IngredientFromStringUseCase ingredientFromStringUseCase;
+  private ConvertAndAddSameIngredientUseCase convertAndAddSameIngredientUseCase;
 
-  public GetRecipeDetailsFromUrlUseCase(IngredientFromStringUseCase ingredientFromStringUseCase) {
+  public GetRecipeDetailsFromUrlUseCase(IngredientFromStringUseCase ingredientFromStringUseCase, ConvertAndAddSameIngredientUseCase convertAndAddSameIngredientUseCase) {
     this.ingredientFromStringUseCase = ingredientFromStringUseCase;
+    this.convertAndAddSameIngredientUseCase = convertAndAddSameIngredientUseCase;
   }
 
   public Recipe execute(String url) {
@@ -57,20 +58,10 @@ public class GetRecipeDetailsFromUrlUseCase {
 
     Elements htmlIngredients = html.select("div.recipe-ingredients-wrap ul li");
     for (Element htmlIngredient : htmlIngredients) {
-      Ingredient ingredient = ingredientFromStringUseCase.execute(htmlIngredient.text());
-      Optional<Ingredient> maybeIngredient = ingredients.stream()
-          .filter(i ->
-              i.getName().equals(ingredient.getName()) &&
-                  i.getUnit().equals(ingredient.getUnit())
-          ).findFirst();
-
-      if (maybeIngredient.isPresent())
-        maybeIngredient.get().addQuantity(ingredient.getQuantity());
-      else
-        ingredients.add(ingredient);
+      ingredients.add(ingredientFromStringUseCase.execute(htmlIngredient.text()));
     }
 
-    return ingredients;
+    return convertAndAddSameIngredientUseCase.execute(ingredients);
   }
 
   private String getImgUrl(Document html) {

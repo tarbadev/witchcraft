@@ -1,19 +1,20 @@
 package com.tarbadev.witchcraft.web;
 
-import com.tarbadev.witchcraft.domain.IngredientFromStringUseCase;
-import com.tarbadev.witchcraft.domain.Recipe;
-import com.tarbadev.witchcraft.domain.Step;
+import com.tarbadev.witchcraft.domain.*;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
 public class GetRecipeDetailsFromFormUseCase {
   private IngredientFromStringUseCase ingredientFromStringUseCase;
+  private ConvertAndAddSameIngredientUseCase convertAndAddSameIngredientUseCase;
 
-  public GetRecipeDetailsFromFormUseCase(IngredientFromStringUseCase ingredientFromStringUseCase) {
+  public GetRecipeDetailsFromFormUseCase(IngredientFromStringUseCase ingredientFromStringUseCase, ConvertAndAddSameIngredientUseCase convertAndAddSameIngredientUseCase) {
     this.ingredientFromStringUseCase = ingredientFromStringUseCase;
+    this.convertAndAddSameIngredientUseCase = convertAndAddSameIngredientUseCase;
   }
 
   public Recipe execute(String name, String url, String ingredients, String steps, String imgUrl) {
@@ -21,12 +22,18 @@ public class GetRecipeDetailsFromFormUseCase {
         .name(name)
         .url(url)
         .imgUrl(imgUrl)
-        .ingredients(Arrays.stream(ingredients.split("\n"))
-            .map(ingredient -> ingredientFromStringUseCase.execute(ingredient))
-            .collect(Collectors.toList()))
+        .ingredients(getIngredientsFromString(ingredients))
         .steps(Arrays.stream(steps.split("\n"))
             .map(step -> Step.builder().name(step).build())
             .collect(Collectors.toList()))
         .build();
+  }
+
+  private List<Ingredient> getIngredientsFromString(String ingredientsString) {
+    return convertAndAddSameIngredientUseCase.execute(
+        Arrays.stream(ingredientsString.split("\n"))
+            .map(ingredient -> ingredientFromStringUseCase.execute(ingredient))
+            .collect(Collectors.toList())
+    );
   }
 }
