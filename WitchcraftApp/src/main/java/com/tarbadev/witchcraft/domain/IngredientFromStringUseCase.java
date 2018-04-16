@@ -54,6 +54,10 @@ public class IngredientFromStringUseCase {
             String[] fraction = number.split("/");
             tempQuantity = parseDouble(fraction[0]) / parseDouble(fraction[1]);
             quantity += tempQuantity;
+          } else if (number.contains("⁄")) {
+            String[] fraction = number.split("⁄");
+            tempQuantity = parseDouble(fraction[0]) / parseDouble(fraction[1]);
+            quantity += tempQuantity;
           }
         }
       }
@@ -70,14 +74,16 @@ public class IngredientFromStringUseCase {
       }
 
       name += matcher.group(7);
+
+      return Ingredient.builder()
+          .name(name)
+          .quantity(quantity)
+          .unit(unit)
+          .build();
     } else {
       System.err.println("Ingredient not supported: " + text);
-    }
 
-    return Ingredient.builder()
-        .name(name)
-        .quantity(quantity)
-        .unit(unit)
-        .build();
+      return null;
+    }
   }
 }

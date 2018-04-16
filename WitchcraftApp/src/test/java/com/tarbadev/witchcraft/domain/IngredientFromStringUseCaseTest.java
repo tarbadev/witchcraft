@@ -165,4 +165,14 @@ public class IngredientFromStringUseCaseTest {
         .build();
     assertThat(subject.execute("1 lb. Something")).isEqualTo(expectedIngredient);
   }
+
+  @Test
+  public void execute_handlesSpecialSlash() {
+    Ingredient expectedIngredient = Ingredient.builder()
+        .name("Something")
+        .quantity(0.5)
+        .unit("lb")
+        .build();
+    assertThat(subject.execute("1⁄2 lb Something")).isEqualTo(expectedIngredient);
+  }
 }
