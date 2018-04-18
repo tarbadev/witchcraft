@@ -5,5 +5,6 @@ import java.util.List;
 public interface RecipeRepository {
   Recipe createRecipe(Recipe recipe);
   List<Recipe> findAll();
-  Recipe findById(Integer recipeId);
+  Recipe findById(Integer id);
+  void delete(int id);
 }

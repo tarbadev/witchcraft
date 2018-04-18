@@ -3,14 +3,12 @@ package com.tarbadev.witchcraft;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableConfigurationProperties
 @ConfigurationProperties
-@EnableWebMvc
 public class WitchcraftConfig implements WebMvcConfigurer {
     private static final String BACKEND = "/WitchcraftApp";
     private static final String FRONTEND = "/WitchcraftUi";

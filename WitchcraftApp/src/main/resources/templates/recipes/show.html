@@ -5,9 +5,21 @@
 <body>
 <section layout:fragment="content">
   <div class="ui equal width grid container">
-    <div class="equal width row">
-      <div class="column">
+    <div class="row">
+      <div class="thirteen wide column">
         <h1 class="ui header" th:text="${recipe.name}">Name</h1>
+      </div>
+      <div class="three wide column right aligned">
+        <form th:method="delete" th:action="@{'/recipes/' + ${recipe.id}}">
+          <button class="ui negative animated center aligned button" type="submit">
+            <div class="visible content">
+              <i class="trash alternate icon"></i>
+            </div>
+            <div class="hidden content">
+              Delete
+            </div>
+          </button>
+        </form>
       </div>
     </div>
     <div class="equal width row">

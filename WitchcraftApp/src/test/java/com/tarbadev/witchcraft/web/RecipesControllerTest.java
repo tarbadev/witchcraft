@@ -22,6 +22,7 @@ import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.text.IsEmptyString.isEmptyOrNullString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -38,10 +39,11 @@ public class RecipesControllerTest {
   @Autowired private GetRecipeDetailsFromUrlUseCase getRecipeDetailsFromUrlUseCase;
   @Autowired private GetRecipeUseCase getRecipeUseCase;
   @Autowired private GetRecipeDetailsFromFormUseCase getRecipeDetailsFromFormUseCase;
+  @Autowired private DeleteRecipeUseCase deleteRecipeUseCase;
 
   @Before
   public void setUp() {
-    Mockito.reset(addRecipeUseCase, recipeCatalogUseCase, getRecipeDetailsFromUrlUseCase, getRecipeDetailsFromFormUseCase);
+    Mockito.reset(addRecipeUseCase, recipeCatalogUseCase, getRecipeDetailsFromUrlUseCase, getRecipeDetailsFromFormUseCase, deleteRecipeUseCase);
   }
 
   @Test
@@ -146,5 +148,21 @@ public class RecipesControllerTest {
         .andExpect(status().isOk())
         .andExpect(view().name("recipes/show"))
         .andExpect(model().attribute("recipe", recipe));
+  }
+
+  @Test
+  public void deleteRecipe() throws Exception {
+    mvc.perform(delete("/recipes/123"))
+        .andExpect(redirectedUrl("/recipes"));
+
+    verify(deleteRecipeUseCase).execute(123);
+  }
+
+  @Test
+  public void deleteRecipe_usingPost() throws Exception {
+    mvc.perform(post("/recipes/123").param("_method", "delete"))
+        .andExpect(redirectedUrl("/recipes"));
+
+    verify(deleteRecipeUseCase).execute(123);
   }
 }

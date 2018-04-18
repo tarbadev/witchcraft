@@ -3,6 +3,7 @@ package com.tarbadev.witchcraft.web;
 import com.tarbadev.witchcraft.domain.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,13 +18,22 @@ public class RecipesController {
   private GetRecipeDetailsFromUrlUseCase getRecipeDetailsFromUrlUseCase;
   private GetRecipeUseCase getRecipeUseCase;
   private GetRecipeDetailsFromFormUseCase getRecipeDetailsFromFormUseCase;
+  private DeleteRecipeUseCase deleteRecipeUseCase;
 
-  public RecipesController(AddRecipeUseCase recipeService, RecipeCatalogUseCase recipeCatalogUseCase, GetRecipeDetailsFromUrlUseCase getRecipeDetailsFromUrlUseCase, GetRecipeUseCase getRecipeUseCase, GetRecipeDetailsFromFormUseCase getRecipeDetailsFromFormUseCase) {
-    this.addRecipeUseCase = recipeService;
+  public RecipesController(
+      AddRecipeUseCase addRecipeUseCase,
+      RecipeCatalogUseCase recipeCatalogUseCase,
+      GetRecipeDetailsFromUrlUseCase getRecipeDetailsFromUrlUseCase,
+      GetRecipeUseCase getRecipeUseCase,
+      GetRecipeDetailsFromFormUseCase getRecipeDetailsFromFormUseCase,
+      DeleteRecipeUseCase deleteRecipeUseCase
+  ) {
+    this.addRecipeUseCase = addRecipeUseCase;
     this.recipeCatalogUseCase = recipeCatalogUseCase;
     this.getRecipeDetailsFromUrlUseCase = getRecipeDetailsFromUrlUseCase;
     this.getRecipeUseCase = getRecipeUseCase;
     this.getRecipeDetailsFromFormUseCase = getRecipeDetailsFromFormUseCase;
+    this.deleteRecipeUseCase = deleteRecipeUseCase;
   }
 
   @GetMapping("/recipes")
@@ -64,6 +74,12 @@ public class RecipesController {
         recipeManualForm.getImgUrl());
     addRecipeUseCase.execute(recipe);
 
+    return "redirect:/recipes";
+  }
+
+  @DeleteMapping("/recipes/{id}")
+  public String deleteRecipe(@PathVariable Integer id) {
+    deleteRecipeUseCase.execute(id);
     return "redirect:/recipes";
   }
 }

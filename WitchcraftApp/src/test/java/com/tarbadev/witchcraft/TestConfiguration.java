@@ -64,6 +64,11 @@ public class TestConfiguration {
   }
 
   @Bean
+  public DeleteRecipeUseCase deleteRecipeUseCase() {
+    return Mockito.mock(DeleteRecipeUseCase.class);
+  }
+
+  @Bean
   public UnitConverter unitConverter() {
     return Mockito.mock(UnitConverter.class);
   }

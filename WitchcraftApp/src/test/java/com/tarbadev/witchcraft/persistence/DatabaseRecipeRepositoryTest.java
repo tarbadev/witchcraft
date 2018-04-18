@@ -209,4 +209,19 @@ public class DatabaseRecipeRepositoryTest {
             .collect(Collectors.toList()))
         .build();
   }
+
+  @Test
+  public void delete() {
+    RecipeEntity recipeEntity = entityManager.persistAndFlush(RecipeEntity.builder().name("Lasagna").build());
+
+    entityManager.clear();
+
+    assertThat(subject.findById(recipeEntity.getId())).isNotNull();
+
+    subject.delete(recipeEntity.getId());
+
+    entityManager.clear();
+
+    assertThat(subject.findById(recipeEntity.getId())).isNull();
+  }
 }

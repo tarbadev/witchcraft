@@ -39,9 +39,19 @@ public class DatabaseRecipeRepository implements RecipeRepository {
   }
 
   @Override
-  public Recipe findById(Integer recipeId) {
-    Recipe recipe = recipeMapper(recipeEntityRepository.findById(recipeId).get());
-    recipe.getIngredients().sort(Comparator.comparing(Ingredient::getName));
-    return recipe;
+  public Recipe findById(Integer id) {
+    return recipeEntityRepository.findById(id)
+        .map(EntityToDomain::recipeMapper)
+        .map(recipe -> {
+          recipe.getIngredients().sort(Comparator.comparing(Ingredient::getName));
+          return recipe;
+        })
+        .orElse(null);
+  }
+
+  @Override
+  public void delete(int id) {
+    recipeEntityRepository.deleteById(id);
+    recipeEntityRepository.flush();
   }
 }
