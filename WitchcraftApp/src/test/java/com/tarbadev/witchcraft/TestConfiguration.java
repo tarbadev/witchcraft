@@ -69,6 +69,11 @@ public class TestConfiguration {
   }
 
   @Bean
+  public RateRecipeUseCase rateRecipeUseCase() {
+    return Mockito.mock(RateRecipeUseCase.class);
+  }
+
+  @Bean
   public UnitConverter unitConverter() {
     return Mockito.mock(UnitConverter.class);
   }

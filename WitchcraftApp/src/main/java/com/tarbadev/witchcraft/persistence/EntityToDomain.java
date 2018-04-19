@@ -11,6 +11,7 @@ public class EntityToDomain {
         .name(recipeEntity.getName())
         .url(recipeEntity.getUrl())
         .imgUrl(recipeEntity.getImgUrl())
+        .rating(recipeEntity.getRating())
         .ingredients(recipeEntity.getIngredients().stream().map(EntityToDomain::ingredientMapper).collect(Collectors.toList()))
         .steps(recipeEntity.getSteps().stream().map(EntityToDomain::stepMapper).collect(Collectors.toList()))
         .build();

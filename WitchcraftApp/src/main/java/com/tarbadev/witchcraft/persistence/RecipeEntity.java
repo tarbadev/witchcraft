@@ -20,6 +20,7 @@ public class RecipeEntity {
   private String url;
   private String name;
   private String imgUrl;
+  private Double rating;
   @OneToMany(cascade = CascadeType.ALL)
   @JoinColumn(name = "recipe_id")
   private List<IngredientEntity> ingredients;

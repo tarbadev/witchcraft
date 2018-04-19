@@ -7,4 +7,5 @@ public interface RecipeRepository {
   List<Recipe> findAll();
   Recipe findById(Integer id);
   void delete(int id);
+  void rateRecipe(int id, double rating);
 }

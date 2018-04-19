@@ -12,6 +12,7 @@ public class Recipe {
   private String url;
   private String name;
   private String imgUrl;
+  private Double rating;
   private List<Ingredient> ingredients;
   private List<Step> steps;
 }

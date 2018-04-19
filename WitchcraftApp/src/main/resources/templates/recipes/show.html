@@ -22,7 +22,11 @@
         </form>
       </div>
     </div>
-    <div class="equal width row">
+    <div class="row">
+      <div class="thirteen wide column">
+        <form id="ratingForm" th:action="@{'/recipes/' + ${recipe.id} + '/rate/'}" th:method="patch"></form>
+        <div class="ui heart rating" id="rating"></div>
+      </div>
       <div class="right aligned column">
         <div class="ui label">
           <i class="external alternate icon"></i>
@@ -57,6 +61,23 @@
       </div>
     </div>
   </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script th:src="@{/semantic.min.js}"></script>
+  <script th:inline="javascript">
+    function rateRecipe(value) {
+      let id = /*[[${recipe.id}]]*/ 0;
+      let form = document.getElementById('ratingForm');
+      form.action = form.action + value;
+      form.submit();
+    }
+
+    $('#rating').rating({
+      initialRating: /*[[${recipe.rating}]]*/ 0,
+      maxRating: 5,
+      clearable: true,
+      onRate: rateRecipe
+    });
+  </script>
 </section>
 </body>
 </html>

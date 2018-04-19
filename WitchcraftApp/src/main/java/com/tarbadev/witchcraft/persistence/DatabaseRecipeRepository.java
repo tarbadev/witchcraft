@@ -54,4 +54,11 @@ public class DatabaseRecipeRepository implements RecipeRepository {
     recipeEntityRepository.deleteById(id);
     recipeEntityRepository.flush();
   }
+
+  @Override
+  public void rateRecipe(int id, double rating) {
+    RecipeEntity recipeEntity = recipeEntityRepository.findById(id).get();
+    recipeEntity.setRating(rating);
+    recipeEntityRepository.flush();
+  }
 }

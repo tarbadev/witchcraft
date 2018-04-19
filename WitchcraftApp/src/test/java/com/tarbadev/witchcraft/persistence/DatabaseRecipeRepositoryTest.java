@@ -224,4 +224,18 @@ public class DatabaseRecipeRepositoryTest {
 
     assertThat(subject.findById(recipeEntity.getId())).isNull();
   }
+
+  @Test
+  public void rateRecipe() {
+    Double rating = 4.5;
+    RecipeEntity recipe = entityManager.persistAndFlush(RecipeEntity.builder().build());
+    entityManager.clear();
+
+    assertThat(subject.findById(recipe.getId()).getRating()).isNull();
+
+    subject.rateRecipe(recipe.getId(), rating);
+    entityManager.clear();
+
+    assertThat(subject.findById(recipe.getId()).getRating()).isEqualTo(rating);
+  }
 }

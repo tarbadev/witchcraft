@@ -22,9 +22,7 @@ import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.text.IsEmptyString.isEmptyOrNullString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
@@ -40,10 +38,18 @@ public class RecipesControllerTest {
   @Autowired private GetRecipeUseCase getRecipeUseCase;
   @Autowired private GetRecipeDetailsFromFormUseCase getRecipeDetailsFromFormUseCase;
   @Autowired private DeleteRecipeUseCase deleteRecipeUseCase;
+  @Autowired private RateRecipeUseCase rateRecipeUseCase;
 
   @Before
   public void setUp() {
-    Mockito.reset(addRecipeUseCase, recipeCatalogUseCase, getRecipeDetailsFromUrlUseCase, getRecipeDetailsFromFormUseCase, deleteRecipeUseCase);
+    Mockito.reset(
+        addRecipeUseCase,
+        recipeCatalogUseCase,
+        getRecipeDetailsFromUrlUseCase,
+        getRecipeDetailsFromFormUseCase,
+        deleteRecipeUseCase,
+        rateRecipeUseCase
+    );
   }
 
   @Test
@@ -164,5 +170,21 @@ public class RecipesControllerTest {
         .andExpect(redirectedUrl("/recipes"));
 
     verify(deleteRecipeUseCase).execute(123);
+  }
+
+  @Test
+  public void rate() throws Exception {
+    mvc.perform(patch("/recipes/123/rate/4.5"))
+        .andExpect(redirectedUrl("/recipes/123"));
+
+    verify(rateRecipeUseCase).execute(123, 4.5);
+  }
+
+  @Test
+  public void rate_usingPost() throws Exception {
+    mvc.perform(post("/recipes/123/rate/4.5").param("_method", "patch"))
+        .andExpect(redirectedUrl("/recipes/123"));
+
+    verify(rateRecipeUseCase).execute(123, 4.5);
   }
 }

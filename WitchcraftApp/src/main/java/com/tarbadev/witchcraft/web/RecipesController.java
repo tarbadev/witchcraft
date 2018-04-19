@@ -3,10 +3,7 @@ package com.tarbadev.witchcraft.web;
 import com.tarbadev.witchcraft.domain.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -19,6 +16,7 @@ public class RecipesController {
   private GetRecipeUseCase getRecipeUseCase;
   private GetRecipeDetailsFromFormUseCase getRecipeDetailsFromFormUseCase;
   private DeleteRecipeUseCase deleteRecipeUseCase;
+  private RateRecipeUseCase rateRecipeUseCase;
 
   public RecipesController(
       AddRecipeUseCase addRecipeUseCase,
@@ -26,14 +24,15 @@ public class RecipesController {
       GetRecipeDetailsFromUrlUseCase getRecipeDetailsFromUrlUseCase,
       GetRecipeUseCase getRecipeUseCase,
       GetRecipeDetailsFromFormUseCase getRecipeDetailsFromFormUseCase,
-      DeleteRecipeUseCase deleteRecipeUseCase
-  ) {
+      DeleteRecipeUseCase deleteRecipeUseCase,
+      RateRecipeUseCase rateRecipeUseCase) {
     this.addRecipeUseCase = addRecipeUseCase;
     this.recipeCatalogUseCase = recipeCatalogUseCase;
     this.getRecipeDetailsFromUrlUseCase = getRecipeDetailsFromUrlUseCase;
     this.getRecipeUseCase = getRecipeUseCase;
     this.getRecipeDetailsFromFormUseCase = getRecipeDetailsFromFormUseCase;
     this.deleteRecipeUseCase = deleteRecipeUseCase;
+    this.rateRecipeUseCase = rateRecipeUseCase;
   }
 
   @GetMapping("/recipes")
@@ -81,5 +80,11 @@ public class RecipesController {
   public String deleteRecipe(@PathVariable Integer id) {
     deleteRecipeUseCase.execute(id);
     return "redirect:/recipes";
+  }
+
+  @PatchMapping("/recipes/{id}/rate/{rating}")
+  public String rate(@PathVariable Integer id, @PathVariable Double rating) {
+    rateRecipeUseCase.execute(id, rating);
+    return "redirect:/recipes/" + id;
   }
 }
