@@ -12,3 +12,12 @@ In case you use java 9, you will probably have this warning message
 > WARNING: Illegal reflective access by org.springframework.cglib.core.ReflectUtils$1
 
 To fix it, add argument to JVM `--illegal-access=deny`
+
+### Troubleshoot
+#### Using Java 10
+Lombok library is not working with Java 10, that's why lombok-edge.jar is used.
+Need to watch for lombok 1.16.21
+
+#### MySql
+Last version of MySql encrypts passwords by default, need to use this command line to create the user:
+`CREATE USER 'spring'@'localhost' IDENTIFIED WITH mysql_native_password BY '<PASSWORD>';`
