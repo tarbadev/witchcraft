@@ -22,3 +22,5 @@ build/
 out/
 
 node_modules
+
+!WitchcraftUi/tasks/build
