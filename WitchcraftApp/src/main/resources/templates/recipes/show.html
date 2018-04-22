@@ -6,21 +6,18 @@
 <section layout:fragment="content">
   <div class="ui equal width grid container">
     <div class="row">
-      <div class="thirteen wide column">
+      <div class="twelve wide column">
         <h1 class="ui header" th:text="${recipe.name}">Name</h1>
       </div>
-      <div class="three wide column right aligned">
-        <a th:href="@{'/recipes/' + ${recipe.id} + '/modify'}" class="ui yellow animated center aligned button">
-          <div class="visible content">
-            <i class="edit icon"></i>
-          </div>
-          <div class="hidden content">
-            Modify
-          </div>
+      <div class="four wide column right aligned">
+        <a th:href="@{'/recipes/' + ${recipe.id} + '/modify'}" class="ui yellow labeled icon button">
+          <i class="edit icon"></i>
+          Edit
         </a>
         <form th:method="delete" th:action="@{'/recipes/' + ${recipe.id}}" style="display: inline">
-          <button class="ui negative icon button" type="submit">
+          <button class="ui negative labeled icon button" type="submit">
             <i class="trash alternate icon"></i>
+            Delete
           </button>
         </form>
       </div>
