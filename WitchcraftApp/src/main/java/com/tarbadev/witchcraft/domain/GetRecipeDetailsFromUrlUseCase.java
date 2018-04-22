@@ -73,8 +73,16 @@ public class GetRecipeDetailsFromUrlUseCase {
     List<Step> steps = new ArrayList<>();
 
     Elements htmlSteps = html.select("div.recipe-instructions ol li");
-    for (Element htmlStep : htmlSteps) {
-      steps.add(Step.builder().name(htmlStep.text()).build());
+    if (htmlSteps.size() > 0) {
+      for (Element htmlStep : htmlSteps) {
+        steps.add(Step.builder().name(htmlStep.text()).build());
+      }
+    } else {
+      Elements paragraph = html.select("div.recipe-instructions p").attr("itemprop", "recipeIntructions");
+      for (String step : paragraph.text().split("(\\d+\\.)")) {
+        if (!step.isEmpty())
+        steps.add(Step.builder().name(step.trim()).build());
+      }
     }
 
     return steps;

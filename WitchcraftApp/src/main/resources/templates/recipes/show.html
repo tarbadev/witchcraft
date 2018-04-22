@@ -11,13 +11,8 @@
       </div>
       <div class="three wide column right aligned">
         <form th:method="delete" th:action="@{'/recipes/' + ${recipe.id}}">
-          <button class="ui negative animated center aligned button" type="submit">
-            <div class="visible content">
-              <i class="trash alternate icon"></i>
-            </div>
-            <div class="hidden content">
-              Delete
-            </div>
+          <button class="ui negative icon button" type="submit">
+            <i class="trash alternate icon"></i>
           </button>
         </form>
       </div>

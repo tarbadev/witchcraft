@@ -11,6 +11,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
@@ -171,5 +172,21 @@ public class GetRecipeDetailsFromUrlUseCaseTest {
 
     assertThat(returnedRecipe.getSteps().size()).isEqualTo(6);
     assertThat(returnedRecipe.getSteps()).isEqualTo(recipe.getSteps());
+  }
+
+  @Test
+  public void execute_ImportStepsFromParagraphTag() {
+    Recipe recipe = subject.execute("https://www.cookincanuck.com/one-pot-whole-wheat-pasta-recipe-chicken-spinach/");
+
+    List<Step> steps = Arrays.asList(
+        Step.builder().name("In a large nonstick saucepan (or nonstick skillet with high sides) set over medium-high heat, heat 2 teaspoons of olive oil. Add the chicken and cook, stirring occasionally, until just cooked through, 4 to 5 minutes. Transfer to a bowl.").build(),
+        Step.builder().name("Reduce the heat to medium and add 1 teaspoon of olive oil to the saucepan. Add the orange pepper and cook for 1 minute. Transfer to the bowl with the chicken. Set aside.").build(),
+        Step.builder().name("Add the remaining 1 teaspoon of olive oil to the saucepan. Add the onion and sauté until softened, about 4 minutes. Add the garlic and oregano, and cook for 30 seconds.").build(),
+        Step.builder().name("Pour in the diced tomatoes, chicken broth and balsamic vinegar. Bring to a boil, then stir in the pasta, stirring to coat and submerge the pasta.").build(),
+        Step.builder().name("Cover and simmer until the pasta is al dente (see note).").build(),
+        Step.builder().name("Stir in the chicken, bell pepper, spinach and parsley, and stir to wilt the spinach. Remove from the heat and sprinkle with the feta cheese. Taste and add salt, if desired. Serve.").build()
+    );
+
+    assertThat(recipe.getSteps()).isEqualTo(steps);
   }
 }
