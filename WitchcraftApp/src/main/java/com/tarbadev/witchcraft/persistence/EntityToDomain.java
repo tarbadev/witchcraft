@@ -8,7 +8,7 @@ public class EntityToDomain {
   public static Recipe recipeMapper(RecipeEntity recipeEntity) {
     return Recipe.builder()
         .id(recipeEntity.getId())
-        .name(recipeEntity.getName())
+        .name(recipeEntity.getName().toLowerCase())
         .url(recipeEntity.getUrl())
         .imgUrl(recipeEntity.getImgUrl())
         .rating(recipeEntity.getRating())

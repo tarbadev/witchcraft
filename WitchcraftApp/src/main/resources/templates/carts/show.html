@@ -12,26 +12,27 @@
         </div>
       </div>
       <div class="column">
+        <div class="ui yellow piled segment">
+          <div class="ui yellow ribbon large label">Ingredients</div>
           <div class="ui list">
             <div class="item" th:each="item : ${cart.items}">
-              <i class="thumbtack icon"></i>
-              <div class="content">
-                <div class="header">
-                  <span th:text="${item.quantity}">Quantity</span>
-                  <span th:text="${item.unit}">Unit</span>
-                  <span th:text="${item.name}">Quantity</span>
-                </div>
+              <div class="ui horizontal label">
+                <span th:text="${item.name}">Ingredient</span>&nbsp;
+                <div class="detail" th:text="${item.quantity} + ' ' + ${item.unit}">Quantity</div>
               </div>
             </div>
+          </div>
         </div>
       </div>
       <div class="column">
-        <div class="ui list">
-          <div class="item" th:each="recipe : ${cart.recipes}">
-            <div class="ui tiny rounded image">
-              <img class="ui medium rounded image" th:src="@{${recipe.imgUrl}}">
+        <div class="ui red piled segment">
+          <div class="ui red ribbon large label">Recipes</div>
+          <div class="ui list">
+            <div class="item" th:each="recipe : ${cart.recipes}">
+              <h3>
+                <a class="header" th:text="${recipe.name}" th:href="@{'/recipes/' + ${recipe.id}}">Recipe</a>
+              </h3>
             </div>
-            <a class="middle aligned content" th:text="${recipe.name}" th:href="@{'/recipes/' + ${recipe.id}}">Recipe</a>
           </div>
         </div>
       </div>

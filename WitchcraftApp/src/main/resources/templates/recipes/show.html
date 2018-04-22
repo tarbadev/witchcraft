@@ -7,7 +7,7 @@
   <div class="ui equal width grid container">
     <div class="row">
       <div class="twelve wide column">
-        <h1 class="ui header" th:text="${recipe.name}">Name</h1>
+        <h1 class="ui header" th:text="${recipe.name}" style="text-transform: capitalize">Name</h1>
       </div>
       <div class="four wide column right aligned">
         <a th:href="@{'/recipes/' + ${recipe.id} + '/modify'}" class="ui yellow labeled icon button">
