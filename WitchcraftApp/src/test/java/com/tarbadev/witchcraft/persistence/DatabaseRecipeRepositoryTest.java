@@ -39,10 +39,10 @@ public class DatabaseRecipeRepositoryTest {
   }
 
   @Test
-  public void createRecipe() {
+  public void saveRecipe() {
     String recipe_url = "URL";
 
-    Recipe recipe = subject.createRecipe(
+    Recipe recipe = subject.saveRecipe(
         Recipe.builder()
             .url(recipe_url)
             .ingredients(Collections.emptyList())
@@ -60,7 +60,7 @@ public class DatabaseRecipeRepositoryTest {
   }
 
   @Test
-  public void createRecipe_savesIngredients() {
+  public void saveRecipe_savesIngredients() {
     Recipe recipe = Recipe.builder()
         .ingredients(Arrays.asList(
             Ingredient.builder().build(),
@@ -69,7 +69,7 @@ public class DatabaseRecipeRepositoryTest {
         .steps(Collections.emptyList())
         .build();
 
-    Recipe returnedRecipe = subject.createRecipe(recipe);
+    Recipe returnedRecipe = subject.saveRecipe(recipe);
 
     Recipe expectedRecipe = Recipe.builder()
         .id(returnedRecipe.getId())
@@ -85,6 +85,33 @@ public class DatabaseRecipeRepositoryTest {
         .build();
 
     assertThat(returnedRecipe).isEqualTo(expectedRecipe);
+  }
+
+  @Test
+  public void updateRecipe_updatesRecipe() {
+    Recipe recipe = subject.saveRecipe(
+        Recipe.builder()
+            .name("Name uncorrect")
+            .url("URL")
+            .ingredients(Collections.emptyList())
+            .steps(Collections.emptyList())
+            .build()
+    );
+
+    entityManager.clear();
+
+    Recipe modifiedRecipe = Recipe.builder()
+        .id(recipe.getId())
+        .name("Fixed name")
+        .url(recipe.getUrl())
+        .imgUrl(recipe.getImgUrl())
+        .ingredients(recipe.getIngredients())
+        .steps(recipe.getSteps())
+        .build();
+
+    recipe = subject.updateRecipe(modifiedRecipe);
+
+    assertThat(recipe.getName()).isEqualTo(modifiedRecipe.getName());
   }
 
   @Test

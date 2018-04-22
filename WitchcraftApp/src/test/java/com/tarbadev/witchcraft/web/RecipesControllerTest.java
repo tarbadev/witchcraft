@@ -32,7 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class RecipesControllerTest {
   @Autowired private MockMvc mvc;
   @Autowired private TestResources testResources;
-  @Autowired private AddRecipeUseCase addRecipeUseCase;
+  @Autowired private SaveRecipeUseCase saveRecipeUseCase;
   @Autowired private RecipeCatalogUseCase recipeCatalogUseCase;
   @Autowired private GetRecipeDetailsFromUrlUseCase getRecipeDetailsFromUrlUseCase;
   @Autowired private GetRecipeUseCase getRecipeUseCase;
@@ -43,7 +43,7 @@ public class RecipesControllerTest {
   @Before
   public void setUp() {
     Mockito.reset(
-        addRecipeUseCase,
+        saveRecipeUseCase,
         recipeCatalogUseCase,
         getRecipeDetailsFromUrlUseCase,
         getRecipeDetailsFromFormUseCase,
@@ -84,7 +84,6 @@ public class RecipesControllerTest {
     Recipe recipe = testResources.getRecipe();
 
     given(getRecipeDetailsFromUrlUseCase.execute(recipe.getUrl())).willReturn(recipe);
-    given(addRecipeUseCase.execute(recipe)).willReturn(recipe);
 
     mvc.perform(post("/recipes/importFromUrl")
         .param("url", recipe.getUrl())
@@ -93,7 +92,7 @@ public class RecipesControllerTest {
         .andExpect(redirectedUrl("/recipes"));
 
     verify(getRecipeDetailsFromUrlUseCase).execute(recipe.getUrl());
-    verify(addRecipeUseCase).execute(recipe);
+    verify(saveRecipeUseCase).execute(recipe);
   }
 
   @Test
@@ -127,7 +126,6 @@ public class RecipesControllerTest {
         .build();
 
     given(getRecipeDetailsFromFormUseCase.execute(recipeName, recipeUrl, recipeIngredients, recipeSteps, recipeImgUrl)).willReturn(recipe);
-    given(addRecipeUseCase.execute(recipe)).willReturn(recipe);
 
     mvc.perform(post("/recipes/importFromForm")
         .param("name", recipeManualForm.getName())
@@ -140,7 +138,7 @@ public class RecipesControllerTest {
         .andExpect(redirectedUrl("/recipes"));
 
     verify(getRecipeDetailsFromFormUseCase).execute(recipeName, recipeUrl, recipeIngredients, recipeSteps, recipeImgUrl);
-    verify(addRecipeUseCase).execute(recipe);
+    verify(saveRecipeUseCase).execute(recipe);
   }
 
   @Test
@@ -186,5 +184,57 @@ public class RecipesControllerTest {
         .andExpect(redirectedUrl("/recipes/123"));
 
     verify(rateRecipeUseCase).execute(123, 4.5);
+  }
+
+  @Test
+  public void showModify() throws Exception {
+    Recipe recipe = Recipe.builder().id(123).build();
+
+    given(getRecipeUseCase.execute(recipe.getId())).willReturn(recipe);
+
+    mvc.perform(get(String.format("/recipes/%s/modify", recipe.getId())))
+        .andExpect(status().isOk())
+        .andExpect(view().name("recipes/modify"))
+        .andExpect(model().attribute("recipe", recipe));
+  }
+
+  @Test
+  public void modify() throws Exception {
+    RecipeModifyForm recipeModifyForm = RecipeModifyForm.builder()
+        .id(123)
+        .name("Recipe name")
+        .url("http url")
+        .imgUrl("http img url")
+        .ingredients(Arrays.asList(
+            IngredientModifyForm.builder().quantity(2.0).name("Ingredient").build(),
+            IngredientModifyForm.builder().quantity(1.5).unit("oz").name("Ingredient 3").build(),
+            IngredientModifyForm.builder().quantity(1.0).unit("tbsp").name("Ingredient 2").build()
+        ))
+        .steps(Arrays.asList(
+            StepModifyForm.builder().name("Step one").build(),
+            StepModifyForm.builder().name("Step two").build()
+        ))
+        .build();
+
+    Recipe recipe = Recipe.builder()
+        .id(123)
+        .name("Recipe name")
+        .url("http url")
+        .imgUrl("http img url")
+        .ingredients(Arrays.asList(
+            Ingredient.builder().quantity(2.0).name("Ingredient").build(),
+            Ingredient.builder().quantity(1.5).unit("oz").name("Ingredient 3").build(),
+            Ingredient.builder().quantity(1.0).unit("tbsp").name("Ingredient 2").build()
+        ))
+        .steps(Arrays.asList(
+            Step.builder().name("Step one").build(),
+            Step.builder().name("Step two").build()
+        ))
+        .build();
+
+    mvc.perform(patch("/recipes/123/modify").flashAttr("recipeModifyForm", recipeModifyForm))
+        .andExpect(redirectedUrl("/recipes/123"));
+
+    verify(saveRecipeUseCase).execute(recipe);
   }
 }

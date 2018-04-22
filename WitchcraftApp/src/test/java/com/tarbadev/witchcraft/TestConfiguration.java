@@ -3,10 +3,7 @@ package com.tarbadev.witchcraft;
 import com.tarbadev.witchcraft.domain.*;
 import com.tarbadev.witchcraft.domain.converter.IngredientConverter;
 import com.tarbadev.witchcraft.domain.converter.UnitConverter;
-import com.tarbadev.witchcraft.persistence.DatabaseCartRepository;
-import com.tarbadev.witchcraft.persistence.DatabaseWeekRepository;
 import com.tarbadev.witchcraft.web.GetRecipeDetailsFromFormUseCase;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,8 +11,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class TestConfiguration {
   @Bean
-  public AddRecipeUseCase addRecipeUseCase() {
-    return Mockito.mock(AddRecipeUseCase.class);
+  public SaveRecipeUseCase saveRecipeUseCase() {
+    return Mockito.mock(SaveRecipeUseCase.class);
   }
 
   @Bean

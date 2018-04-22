@@ -20,15 +20,19 @@ public class DatabaseRecipeRepository implements RecipeRepository {
   }
 
   @Override
-  public Recipe createRecipe(Recipe recipe) {
-    RecipeEntity recipeEntity = RecipeEntity.builder()
-        .name(recipe.getName())
-        .url(recipe.getUrl())
-        .imgUrl(recipe.getImgUrl())
-        .ingredients(recipe.getIngredients().stream().map(DomainToEntity::ingredientEntityMapper).collect(Collectors.toList()))
-        .steps(recipe.getSteps().stream().map(DomainToEntity::stepEntityMapper).collect(Collectors.toList()))
-        .build();
-    return recipeMapper(recipeEntityRepository.saveAndFlush(recipeEntity));
+  public Recipe saveRecipe(Recipe recipe) {
+    return recipeMapper(recipeEntityRepository.saveAndFlush(DomainToEntity.recipeEntityMapper(recipe)));
+  }
+
+  @Override
+  public Recipe updateRecipe(Recipe recipe) {
+    RecipeEntity entity = recipeEntityRepository.findById(recipe.getId()).orElse(null);
+    entity.setName(recipe.getName());
+    entity.setUrl(recipe.getUrl());
+    entity.setImgUrl(recipe.getImgUrl());
+    entity.setIngredients(recipe.getIngredients().stream().map(DomainToEntity::ingredientEntityMapper).collect(Collectors.toList()));
+    entity.setSteps(recipe.getSteps().stream().map(DomainToEntity::stepEntityMapper).collect(Collectors.toList()));
+    return recipeMapper(recipeEntityRepository.saveAndFlush(entity));
   }
 
   @Override

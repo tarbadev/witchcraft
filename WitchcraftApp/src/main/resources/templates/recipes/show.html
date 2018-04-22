@@ -10,7 +10,15 @@
         <h1 class="ui header" th:text="${recipe.name}">Name</h1>
       </div>
       <div class="three wide column right aligned">
-        <form th:method="delete" th:action="@{'/recipes/' + ${recipe.id}}">
+        <a th:href="@{'/recipes/' + ${recipe.id} + '/modify'}" class="ui yellow animated center aligned button">
+          <div class="visible content">
+            <i class="edit icon"></i>
+          </div>
+          <div class="hidden content">
+            Modify
+          </div>
+        </a>
+        <form th:method="delete" th:action="@{'/recipes/' + ${recipe.id}}" style="display: inline">
           <button class="ui negative icon button" type="submit">
             <i class="trash alternate icon"></i>
           </button>
