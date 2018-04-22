@@ -16,9 +16,14 @@
           <div class="ui yellow ribbon large label">Ingredients</div>
           <div class="ui list">
             <div class="item" th:each="item : ${cart.items}">
-              <div class="ui horizontal label">
-                <span th:text="${item.name}">Ingredient</span>&nbsp;
-                <div class="detail" th:text="${item.quantity} + ' ' + ${item.unit}">Quantity</div>
+              <div class="ui toggle checkbox">
+                <input type="checkbox">
+                <label>
+                <div class="ui horizontal label">
+                  <span th:text="${item.name}" th:remove="tag">Ingredient</span>&nbsp;
+                  <div class="detail" th:text="${item.quantity} + ' ' + ${item.unit}">Quantity</div>
+                </div>
+                </label>
               </div>
             </div>
           </div>
