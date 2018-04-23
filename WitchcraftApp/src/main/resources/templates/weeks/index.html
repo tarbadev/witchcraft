@@ -5,7 +5,12 @@
 <body>
 <section layout:fragment="content" class="ui padded grid">
   <div class="ui grid">
-    <div class="thirteen wide column">
+    <div class="row" style="padding-bottom: 0">
+      <div class="right aligned column">
+        <button class="ui primary button" type="submit">Save</button>
+      </div>
+    </div>
+    <div class="thirteen wide column" style="padding-top: 0;">
       <div class="ui internally celled equal width grid" style="height: calc(100% - 55px)">
         <div class="row">
           <div class="column"></div>
@@ -13,41 +18,86 @@
             <div class="header" th:text="${day.name}">Day</div>
           </div>
         </div>
-        <div class="row" style="height: 50%">
+        <div class="row" style="min-height: 30%">
           <div class="middle aligned right aligned column">
             <div class="header">LUNCH</div>
           </div>
-          <div class="column" th:each="day: ${week.days}">
-            <div class="row" th:if="${day.lunch}" th:text="${day.lunch.name}"></div>
+          <div class="column meal" th:each="day: ${week.days}"
+               ondrop="handleOnDrop(event)"
+               ondragover="handleDragOver(event)"
+               ondragleave="handleDragLeave(event)">
+            <div class="ui cards">
+              <a th:if="${day.lunch}" th:insert="~{fragments/recipeCard :: simpleCard (day.lunch, true)}" ></a>
+            </div>
           </div>
         </div>
-        <div class="row" style="height: 50%">
+        <div class="row" style="min-height: 30%">
           <div class="middle aligned right aligned column">
             <div class="header">DINER</div>
           </div>
-          <div class="column" th:each="day: ${week.days}">
-            <div class="row" th:if="${day.diner}" th:text="${day.diner.name}"></div>
+          <div class="column meal" th:each="day: ${week.days}"
+               ondrop="handleOnDrop(event)"
+               ondragover="handleDragOver(event)"
+               ondragleave="handleDragLeave(event)">
+            <div class="ui cards">
+              <a th:if="${day.diner}" th:insert="~{fragments/recipeCard :: simpleCard (day.diner, true)}" ></a>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="three wide column">
+    <div class="three wide column" style="padding-top: 0;">
       <div class="ui internally celled grid">
         <div class="row">
           <div class="center aligned column">
             <div class="header">RECIPES</div>
           </div>
         </div>
-        <div class="row" style="height: calc(100vh - 130px); overflow-y: scroll;">
+        <div class="row" style="height: calc(100vh - 166px); overflow-y: scroll;">
           <div class="column">
             <div class="ui cards">
-              <div th:remove="tag" th:each="recipe : ${recipes}" th:insert="~{fragments/recipeCard :: simpleCard (recipe)}"></div>
+              <div th:remove="tag" th:each="recipe : ${recipes}" th:insert="~{fragments/recipeCard :: simpleCard (recipe, true)}"></div>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script>
+    var currentDraggedElement = null;
+    var currentDropperElement = null;
+
+    function handleDragOver(ev) {
+      currentDropperElement = ev.target;
+      currentDropperElement.classList.add("dropper");
+
+      ev.dataTransfer.dropEffect = "copy";
+
+      ev.stopPropagation();
+      ev.preventDefault();
+    }
+
+    function handleDragLeave(ev) {
+      currentDropperElement.classList.remove("dropper");
+      currentDropperElement = null;
+    }
+    
+    function handleDragStart(ev) {
+      currentDraggedElement = ev.target;
+    }
+
+    function handleOnDrop(ev) {
+      ev.preventDefault();
+
+      var cards = ev.target.children[0];
+      cards.appendChild(currentDraggedElement.cloneNode(true));
+
+      currentDropperElement.classList.remove("dropper");
+      currentDropperElement = null;
+      currentDraggedElement = null;
+    }
+  </script>
 </section>
 </body>
 </html>

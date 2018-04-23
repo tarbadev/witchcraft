@@ -8,7 +8,7 @@
     <div class="header" th:text="${recipe.name}">Recipe</div>
   </div>
 </a>
-<a th:fragment="simpleCard (recipe)" class="card" th:href="@{'/recipes/'+ ${recipe.id}}">
+<a th:fragment="simpleCard (recipe, draggable)" class="card" th:href="@{'/recipes/'+ ${recipe.id}}" th:draggable="${draggable}" th:ondragstart="'handleDragStart(event)'">
   <div class="content">
     <div class="header" th:text="${recipe.name}">Recipe</div>
   </div>
