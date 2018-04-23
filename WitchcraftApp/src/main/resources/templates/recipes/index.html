@@ -15,14 +15,7 @@
   </a>
   <div class="ui hidden divider"></div>
   <div class="ui link cards list">
-    <a class="card" th:each="recipe : ${recipes}" th:href="@{'/recipes/'+ ${recipe.id}}">
-      <div class="image">
-        <img th:src="@{${recipe.imgUrl}}">
-      </div>
-      <div class="content">
-        <div class="header" th:text="${recipe.name}">Recipe</div>
-      </div>
-    </a>
+    <div th:remove="tag" th:each="recipe : ${recipes}" th:insert="~{fragments/recipeCard :: card (recipe)}"></div>
   </div>
   <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
   <script>

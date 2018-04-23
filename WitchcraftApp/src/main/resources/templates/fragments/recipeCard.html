@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<a th:fragment="card (recipe)" class="card" th:href="@{'/recipes/'+ ${recipe.id}}">
+  <div class="image">
+    <img th:src="@{${recipe.imgUrl}}">
+  </div>
+  <div class="content">
+    <div class="header" th:text="${recipe.name}">Recipe</div>
+  </div>
+</a>
+<a th:fragment="simpleCard (recipe)" class="card" th:href="@{'/recipes/'+ ${recipe.id}}">
+  <div class="content">
+    <div class="header" th:text="${recipe.name}">Recipe</div>
+  </div>
+</a>
+</html>

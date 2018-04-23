@@ -3,12 +3,48 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="~{layout.html}" th:with="title='Week',activeHeader='weeks'">
 <body>
-<section layout:fragment="content">
-  <div class="ui equal width grid container">
-    <div class="column" th:each="day: ${week.days}">
-      <div class="header" th:text="${day.name}">Day</div>
-      <div class="row" th:if="${day.lunch}" th:text="${day.lunch.name}">
-      <div class="row" th:if="${day.diner}" th:text="${day.diner.name}">
+<section layout:fragment="content" class="ui padded grid">
+  <div class="ui grid">
+    <div class="thirteen wide column">
+      <div class="ui internally celled equal width grid" style="height: calc(100% - 55px)">
+        <div class="row">
+          <div class="column"></div>
+          <div class="center aligned column" th:each="day: ${week.days}">
+            <div class="header" th:text="${day.name}">Day</div>
+          </div>
+        </div>
+        <div class="row" style="height: 50%">
+          <div class="middle aligned right aligned column">
+            <div class="header">LUNCH</div>
+          </div>
+          <div class="column" th:each="day: ${week.days}">
+            <div class="row" th:if="${day.lunch}" th:text="${day.lunch.name}"></div>
+          </div>
+        </div>
+        <div class="row" style="height: 50%">
+          <div class="middle aligned right aligned column">
+            <div class="header">DINER</div>
+          </div>
+          <div class="column" th:each="day: ${week.days}">
+            <div class="row" th:if="${day.diner}" th:text="${day.diner.name}"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="three wide column">
+      <div class="ui internally celled grid">
+        <div class="row">
+          <div class="center aligned column">
+            <div class="header">RECIPES</div>
+          </div>
+        </div>
+        <div class="row" style="height: calc(100vh - 130px); overflow-y: scroll;">
+          <div class="column">
+            <div class="ui cards">
+              <div th:remove="tag" th:each="recipe : ${recipes}" th:insert="~{fragments/recipeCard :: simpleCard (recipe)}"></div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
