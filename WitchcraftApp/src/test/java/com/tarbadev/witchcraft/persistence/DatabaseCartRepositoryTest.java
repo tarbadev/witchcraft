@@ -58,6 +58,7 @@ public class DatabaseCartRepositoryTest {
         EntityToDomain.recipeMapper(
             entityManager.persistAndFlush(
                 RecipeEntity.builder()
+                    .name("Lasagna")
                     .ingredients(Arrays.asList(
                         IngredientEntity.builder()
                             .name("Ingredient 3")

@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Component
 public class GetRecipeDetailsFromUrlUseCase {
@@ -79,9 +81,16 @@ public class GetRecipeDetailsFromUrlUseCase {
       }
     } else {
       Elements paragraph = html.select("div.recipe-instructions p").attr("itemprop", "recipeIntructions");
-      for (String step : paragraph.text().split("(\\d+\\.)")) {
-        if (!step.isEmpty())
-        steps.add(Step.builder().name(step.trim()).build());
+      String br2n = Jsoup.parse(paragraph.outerHtml().replaceAll("(?i)<br[^>]*>", "br2n")).text();
+      String paragraphs = br2n.replaceAll("br2n", "\n");
+      Pattern pattern = Pattern.compile("( *\\d+\\. |)([\\w ()\\-,\\.é½⅓⅔¼¾⅛:]+)");
+      for (String step : paragraphs.split("(\n)")) {
+        Matcher matcher = pattern.matcher(step);
+        if (matcher.find()) {
+          steps.add(Step.builder().name(matcher.group(2).trim()).build());
+        } else {
+          System.err.println(String.format("No match found: %s", step));
+        }
       }
     }
 

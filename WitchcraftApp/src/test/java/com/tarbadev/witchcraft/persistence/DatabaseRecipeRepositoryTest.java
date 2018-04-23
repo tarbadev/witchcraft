@@ -44,6 +44,7 @@ public class DatabaseRecipeRepositoryTest {
 
     Recipe recipe = subject.saveRecipe(
         Recipe.builder()
+            .name("Lasagna")
             .url(recipe_url)
             .ingredients(Collections.emptyList())
             .steps(Collections.emptyList())
@@ -51,6 +52,7 @@ public class DatabaseRecipeRepositoryTest {
     );
     Recipe expectedRecipe = Recipe.builder()
         .id(recipe.getId())
+        .name("lasagna")
         .url(recipe_url)
         .ingredients(Collections.emptyList())
         .steps(Collections.emptyList())
@@ -62,6 +64,7 @@ public class DatabaseRecipeRepositoryTest {
   @Test
   public void saveRecipe_savesIngredients() {
     Recipe recipe = Recipe.builder()
+        .name("Lasagna")
         .ingredients(Arrays.asList(
             Ingredient.builder().build(),
             Ingredient.builder().build()
@@ -73,6 +76,7 @@ public class DatabaseRecipeRepositoryTest {
 
     Recipe expectedRecipe = Recipe.builder()
         .id(returnedRecipe.getId())
+        .name("lasagna")
         .ingredients(Arrays.asList(
             Ingredient.builder()
                 .id(returnedRecipe.getIngredients().get(0).getId())
@@ -102,7 +106,7 @@ public class DatabaseRecipeRepositoryTest {
 
     Recipe modifiedRecipe = Recipe.builder()
         .id(recipe.getId())
-        .name("Fixed name")
+        .name("fixed name")
         .url(recipe.getUrl())
         .imgUrl(recipe.getImgUrl())
         .ingredients(recipe.getIngredients())
@@ -122,11 +126,13 @@ public class DatabaseRecipeRepositoryTest {
 
     List<RecipeEntity> expectedRecipes = Arrays.asList(
         entityManager.persist(RecipeEntity.builder()
+            .name("Lasagna")
             .ingredients(Collections.emptyList())
             .url(url1)
             .imgUrl("imgUrl1")
             .build()),
         entityManager.persist(RecipeEntity.builder()
+            .name("Tartiflette")
             .ingredients(Collections.emptyList())
             .url(url2)
             .imgUrl("imgUrl2")
@@ -217,7 +223,7 @@ public class DatabaseRecipeRepositoryTest {
   private Recipe toDomain(RecipeEntity recipeEntity) {
     return Recipe.builder()
         .id(recipeEntity.getId())
-        .name(recipeEntity.getName())
+        .name(recipeEntity.getName().toLowerCase())
         .url(recipeEntity.getUrl())
         .imgUrl(recipeEntity.getImgUrl())
         .ingredients(recipeEntity.getIngredients().stream()
@@ -255,7 +261,7 @@ public class DatabaseRecipeRepositoryTest {
   @Test
   public void rateRecipe() {
     Double rating = 4.5;
-    RecipeEntity recipe = entityManager.persistAndFlush(RecipeEntity.builder().build());
+    RecipeEntity recipe = entityManager.persistAndFlush(RecipeEntity.builder().name("Lasagna").build());
     entityManager.clear();
 
     assertThat(subject.findById(recipe.getId()).getRating()).isNull();

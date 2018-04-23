@@ -189,4 +189,24 @@ public class GetRecipeDetailsFromUrlUseCaseTest {
 
     assertThat(recipe.getSteps()).isEqualTo(steps);
   }
+
+  @Test
+  public void execute_importStepsFromBigParagraph() {
+    Recipe recipe = subject.execute("https://www.cookincanuck.com/baked-tortellini-with-turkey-butternut-squash-chard-recipe/");
+
+    List<Step> steps = Arrays.asList(
+        Step.builder().name("Preheat the oven to 350 degrees F.").build(),
+        Step.builder().name("Bring a large saucepan of salted water to a boil over high heat. Add the butternut squash cubes and cook until tender when pierced with a fork, about 10 minutes. Using a slotted spoon, transfer the squash to a bowl and mash with the back of a fork. Set aside.").build(),
+        Step.builder().name("Add the tortellini to the boiling water and cook for 2 minutes less than directed by package instructions. Drain the tortellini and transfer to a large bowl.").build(),
+        Step.builder().name("To the tortellini, add 1 cup tomato sauce, mashed butternut squash, turkey (or chicken) and chard. Stir to combine.").build(),
+        Step.builder().name("Spread ¾ cup tomato sauce on the bottom of a 9- by 12-inch (or 9- by 13 inch) baking dish.").build(),
+        Step.builder().name("Transfer half or the tortellini mixture to the baking dish and spread evenly. Top with ¾ cup tomato sauce.").build(),
+        Step.builder().name("Transfer the remaining tortellini mixture to the baking dish, spreading evenly. Spread remaining ¾ cup tomato sauce over top.").build(),
+        Step.builder().name("Sprinkle the topping evenly on top of the tortellini. Bake, uncovered, until the cheese is melted and the casserole is heated through, about 30 minutes. Serve.").build(),
+        Step.builder().name("The topping:").build(),
+        Step.builder().name("In a medium bowl, stir together the Parmesan cheese, sage and pecans.").build()
+    );
+
+    assertThat(recipe.getSteps()).isEqualTo(steps);
+  }
 }
