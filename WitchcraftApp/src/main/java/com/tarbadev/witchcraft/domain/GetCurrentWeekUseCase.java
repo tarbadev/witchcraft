@@ -20,6 +20,8 @@ public class GetCurrentWeekUseCase {
     Week week = weekRepository.findByYearAndWeekNumber(year, weekNumber);
     if (week == null) {
       week = Week.builder()
+          .year(year)
+          .weekNumber(weekNumber)
           .days(Arrays.asList(
               Day.builder().name(DayName.MONDAY).build(),
               Day.builder().name(DayName.TUESDAY).build(),

@@ -64,8 +64,8 @@ public class EntityToDomain {
     return Day.builder()
         .id(dayEntity.getId())
         .name(DayName.valueOf(dayEntity.getName()))
-        .lunch(recipeMapper(dayEntity.getLunch()))
-        .diner(recipeMapper(dayEntity.getDiner()))
+        .lunch(dayEntity.getLunch() != null ? recipeMapper(dayEntity.getLunch()) : null)
+        .diner(dayEntity.getDiner() != null ? recipeMapper(dayEntity.getDiner()) : null)
         .build();
   }
 }

@@ -4,6 +4,7 @@ import com.tarbadev.witchcraft.domain.*;
 import com.tarbadev.witchcraft.domain.converter.IngredientConverter;
 import com.tarbadev.witchcraft.domain.converter.UnitConverter;
 import com.tarbadev.witchcraft.web.GetRecipeDetailsFromFormUseCase;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -68,6 +69,11 @@ public class TestConfiguration {
   @Bean
   public RateRecipeUseCase rateRecipeUseCase() {
     return Mockito.mock(RateRecipeUseCase.class);
+  }
+
+  @Bean
+  public SaveWeekUseCase saveWeekUseCase() {
+    return Mockito.mock(SaveWeekUseCase.class);
   }
 
   @Bean

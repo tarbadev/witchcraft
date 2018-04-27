@@ -49,4 +49,20 @@ public class DomainToEntity {
         .unit(item.getUnit())
         .build();
   }
+
+  public static WeekEntity weekEntityMapper(Week week) {
+    return WeekEntity.builder()
+        .id(week.getId())
+        .year(week.getYear())
+        .weekNumber(week.getWeekNumber())
+        .days(week.getDays().stream()
+            .map(day -> DayEntity.builder()
+                .id(day.getId())
+                .name(day.getName().toString())
+                .lunch(day.getLunch() != null ? recipeEntityMapper(day.getLunch()) : null)
+                .diner(day.getDiner() != null ? recipeEntityMapper(day.getDiner()) : null)
+                .build())
+            .collect(Collectors.toList()))
+        .build();
+  }
 }

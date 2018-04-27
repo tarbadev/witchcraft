@@ -43,6 +43,8 @@ public class GetCurrentWeekUseCaseTest {
     int year = Calendar.getInstance().get(Calendar.YEAR);
     int weekNumber = Calendar.getInstance().get(Calendar.WEEK_OF_YEAR);
     Week week = Week.builder()
+        .year(year)
+        .weekNumber(weekNumber)
         .days(Arrays.asList(
             Day.builder()
                 .name(DayName.MONDAY)
