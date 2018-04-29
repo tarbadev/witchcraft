@@ -4,44 +4,40 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.Arrays;
-import java.util.Calendar;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
-@ActiveProfiles("test")
-public class GetCurrentWeekUseCaseTest {
-  private GetCurrentWeekUseCase subject;
-
+@RunWith(MockitoJUnitRunner.class)
+public class WeekFromYearAndWeekNumberUseCaseTest {
   @Mock private WeekRepository weekRepository;
+
+  private WeekFromYearAndWeekNumberUseCase subject;
 
   @Before
   public void setUp() {
-    subject = new GetCurrentWeekUseCase(weekRepository);
+    subject = new WeekFromYearAndWeekNumberUseCase(weekRepository);
   }
 
   @Test
   public void execute() {
-    int year = Calendar.getInstance().get(Calendar.YEAR);
-    int weekNumber = Calendar.getInstance().get(Calendar.WEEK_OF_YEAR);
-    Week week = Week.builder().build();
+    Week week = Week.builder()
+        .weekNumber(12)
+        .year(2018)
+        .build();
 
-    given(weekRepository.findByYearAndWeekNumber(year, weekNumber)).willReturn(week);
+    given(weekRepository.findByYearAndWeekNumber(week.getYear(), week.getWeekNumber())).willReturn(week);
 
-    assertThat(subject.execute()).isEqualTo(week);
+    assertThat(subject.execute(week.getYear(), week.getWeekNumber())).isEqualTo(week);
   }
 
   @Test
   public void execute_databaseNullReturnsNewWeek() {
-    int year = Calendar.getInstance().get(Calendar.YEAR);
-    int weekNumber = Calendar.getInstance().get(Calendar.WEEK_OF_YEAR);
+    int year = 2018;
+    int weekNumber = 12;
     Week week = Week.builder()
         .year(year)
         .weekNumber(weekNumber)
@@ -72,6 +68,6 @@ public class GetCurrentWeekUseCaseTest {
 
     given(weekRepository.findByYearAndWeekNumber(year, weekNumber)).willReturn(null);
 
-    assertThat(subject.execute()).isEqualTo(week);
+    assertThat(subject.execute(year, weekNumber)).isEqualTo(week);
   }
 }

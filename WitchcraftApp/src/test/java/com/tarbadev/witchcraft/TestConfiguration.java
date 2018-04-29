@@ -3,8 +3,7 @@ package com.tarbadev.witchcraft;
 import com.tarbadev.witchcraft.domain.*;
 import com.tarbadev.witchcraft.domain.converter.IngredientConverter;
 import com.tarbadev.witchcraft.domain.converter.UnitConverter;
-import com.tarbadev.witchcraft.web.GetRecipeDetailsFromFormUseCase;
-import org.mockito.Mock;
+import com.tarbadev.witchcraft.domain.GetRecipeDetailsFromFormUseCase;
 import org.mockito.Mockito;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -47,11 +46,6 @@ public class TestConfiguration {
   }
 
   @Bean
-  public GetCurrentWeekUseCase getCurrentWeekUseCase() {
-    return Mockito.mock(GetCurrentWeekUseCase.class);
-  }
-
-  @Bean
   public GetRecipeDetailsFromFormUseCase getRecipeDetailsFromFormUseCase() {
     return Mockito.mock(GetRecipeDetailsFromFormUseCase.class);
   }
@@ -74,6 +68,14 @@ public class TestConfiguration {
   @Bean
   public SaveWeekUseCase saveWeekUseCase() {
     return Mockito.mock(SaveWeekUseCase.class);
+  }
+
+  @Bean WeekNavForWeekUseCase weekNavForWeekUseCase() {
+    return Mockito.mock(WeekNavForWeekUseCase.class);
+  }
+
+  @Bean WeekFromYearAndWeekNumberUseCase weekFromYearAndWeekNumberUseCase() {
+    return Mockito.mock(WeekFromYearAndWeekNumberUseCase.class);
   }
 
   @Bean

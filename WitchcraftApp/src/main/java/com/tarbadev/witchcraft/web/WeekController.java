@@ -8,39 +8,28 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.validation.Valid;
+import java.util.Calendar;
 import java.util.stream.Collectors;
 
 @Controller
 public class WeekController {
-  private GetCurrentWeekUseCase getCurrentWeekUseCase;
   private RecipeCatalogUseCase recipeCatalogUseCase;
   private SaveWeekUseCase saveWeekUseCase;
+  private WeekNavForWeekUseCase weekNavForWeekUseCase;
+  private WeekFromYearAndWeekNumberUseCase weekFromYearAndWeekNumberUseCase;
 
-  public WeekController(GetCurrentWeekUseCase getCurrentWeekUseCase, RecipeCatalogUseCase recipeCatalogUseCase, SaveWeekUseCase saveWeekUseCase) {
-    this.getCurrentWeekUseCase = getCurrentWeekUseCase;
+  public WeekController(RecipeCatalogUseCase recipeCatalogUseCase, SaveWeekUseCase saveWeekUseCase, WeekNavForWeekUseCase weekNavForWeekUseCase, WeekFromYearAndWeekNumberUseCase weekFromYearAndWeekNumberUseCase) {
     this.recipeCatalogUseCase = recipeCatalogUseCase;
     this.saveWeekUseCase = saveWeekUseCase;
+    this.weekNavForWeekUseCase = weekNavForWeekUseCase;
+    this.weekFromYearAndWeekNumberUseCase = weekFromYearAndWeekNumberUseCase;
   }
 
   @GetMapping("/weeks")
   public String index(Model model) {
-    Week week = getCurrentWeekUseCase.execute();
-    model.addAttribute("week", week);
-    model.addAttribute("weekForm", WeekForm.builder()
-        .id(week.getId())
-        .year(week.getYear())
-        .days(week.getDays().stream()
-            .map(day -> DayForm.builder()
-                .id(day.getId())
-                .name(day.getName())
-                .lunchId(day.getLunch() != null ? day.getLunch().getId() : null)
-                .dinerId(day.getDiner() != null ? day.getDiner().getId() : null)
-                .build())
-            .collect(Collectors.toList())
-        )
-        .build());
-    model.addAttribute("recipes", recipeCatalogUseCase.execute());
-    return "weeks/index";
+    int year = Calendar.getInstance().get(Calendar.YEAR);
+    int weekNumber = Calendar.getInstance().get(Calendar.WEEK_OF_YEAR);
+    return String.format("redirect:/weeks/%s/%s", year, weekNumber);
   }
 
   @PatchMapping("/weeks/{weekNumber}/save")
@@ -62,5 +51,29 @@ public class WeekController {
     saveWeekUseCase.execute(week);
 
     return "redirect:/weeks";
+  }
+
+  @GetMapping("/weeks/{year}/{weekNumber}")
+  public String show(Model model, @PathVariable Integer year, @PathVariable Integer weekNumber) {
+    Week week = weekFromYearAndWeekNumberUseCase.execute(year, weekNumber);
+    model.addAttribute("week", week);
+    model.addAttribute("weekForm", WeekForm.builder()
+        .id(week.getId())
+        .year(week.getYear())
+        .days(week.getDays().stream()
+            .map(day -> DayForm.builder()
+                .id(day.getId())
+                .name(day.getName())
+                .lunchId(day.getLunch() != null ? day.getLunch().getId() : null)
+                .dinerId(day.getDiner() != null ? day.getDiner().getId() : null)
+                .build())
+            .collect(Collectors.toList())
+        )
+        .build());
+    WeekNav weekNav = weekNavForWeekUseCase.execute(week);
+    model.addAttribute("weekNav", weekNav);
+    model.addAttribute("recipes", recipeCatalogUseCase.execute());
+
+    return "weeks/index";
   }
 }

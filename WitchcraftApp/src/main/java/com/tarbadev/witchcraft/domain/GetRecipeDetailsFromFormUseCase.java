@@ -1,6 +1,5 @@
-package com.tarbadev.witchcraft.web;
+package com.tarbadev.witchcraft.domain;
 
-import com.tarbadev.witchcraft.domain.*;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;

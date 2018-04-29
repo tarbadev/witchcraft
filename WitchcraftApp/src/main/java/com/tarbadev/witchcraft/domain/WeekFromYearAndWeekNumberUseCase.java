@@ -3,21 +3,18 @@ package com.tarbadev.witchcraft.domain;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
-import java.util.Calendar;
 
 @Component
-public class GetCurrentWeekUseCase {
+public class WeekFromYearAndWeekNumberUseCase {
   private final WeekRepository weekRepository;
 
-  public GetCurrentWeekUseCase(WeekRepository weekRepository) {
+  public WeekFromYearAndWeekNumberUseCase(WeekRepository weekRepository) {
     this.weekRepository = weekRepository;
   }
 
-  public Week execute() {
-    int year = Calendar.getInstance().get(Calendar.YEAR);
-    int weekNumber = Calendar.getInstance().get(Calendar.WEEK_OF_YEAR);
-
+  public Week execute(Integer year, Integer weekNumber) {
     Week week = weekRepository.findByYearAndWeekNumber(year, weekNumber);
+
     if (week == null) {
       week = Week.builder()
           .year(year)
