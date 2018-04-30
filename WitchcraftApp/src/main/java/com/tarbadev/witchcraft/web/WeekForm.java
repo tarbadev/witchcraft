@@ -13,6 +13,5 @@ import java.util.List;
 @NoArgsConstructor
 public class WeekForm {
   private Integer id;
-  private Integer year;
   private List<DayForm> days;
 }

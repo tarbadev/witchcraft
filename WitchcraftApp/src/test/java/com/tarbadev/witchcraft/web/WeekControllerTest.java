@@ -58,7 +58,6 @@ public class WeekControllerTest {
   public void save() throws Exception {
     WeekForm weekForm = WeekForm.builder()
         .id(345)
-        .year(2018)
         .days(Arrays.asList(
             DayForm.builder()
                 .id(234)
@@ -73,9 +72,9 @@ public class WeekControllerTest {
         ))
         .build();
 
-    mvc.perform(patch("/weeks/12/save")
+    mvc.perform(patch("/weeks/2018/12/save")
         .flashAttr("weekForm", weekForm))
-        .andExpect(redirectedUrl("/weeks"));
+        .andExpect(redirectedUrl("/weeks/2018/12"));
 
     Week week = Week.builder()
         .id(345)
@@ -102,7 +101,6 @@ public class WeekControllerTest {
   public void save_post() throws Exception {
     WeekForm weekForm = WeekForm.builder()
         .id(345)
-        .year(2018)
         .days(Arrays.asList(
             DayForm.builder()
                 .id(234)
@@ -117,10 +115,10 @@ public class WeekControllerTest {
         ))
         .build();
 
-    mvc.perform(post("/weeks/12/save")
+    mvc.perform(post("/weeks/2018/12/save")
         .param("_method", "patch")
         .flashAttr("weekForm", weekForm))
-        .andExpect(redirectedUrl("/weeks"));
+        .andExpect(redirectedUrl("/weeks/2018/12"));
 
     Week week = Week.builder()
         .id(345)
@@ -185,7 +183,6 @@ public class WeekControllerTest {
 
     WeekForm weekForm = WeekForm.builder()
         .id(345)
-        .year(2018)
         .days(Arrays.asList(
             DayForm.builder()
                 .id(234)

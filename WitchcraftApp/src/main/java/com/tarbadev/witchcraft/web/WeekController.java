@@ -32,11 +32,11 @@ public class WeekController {
     return String.format("redirect:/weeks/%s/%s", year, weekNumber);
   }
 
-  @PatchMapping("/weeks/{weekNumber}/save")
-  public String save(@PathVariable Integer weekNumber, @Valid WeekForm weekForm) {
+  @PatchMapping("/weeks/{year}/{weekNumber}/save")
+  public String save(@PathVariable Integer year, @PathVariable Integer weekNumber, @Valid WeekForm weekForm) {
     Week week = Week.builder()
         .id(weekForm.getId())
-        .year(weekForm.getYear())
+        .year(year)
         .weekNumber(weekNumber)
         .days(weekForm.getDays().stream()
             .map(dayForm -> Day.builder()
@@ -50,7 +50,7 @@ public class WeekController {
 
     saveWeekUseCase.execute(week);
 
-    return "redirect:/weeks";
+    return String.format("redirect:/weeks/%s/%s", year, weekNumber);
   }
 
   @GetMapping("/weeks/{year}/{weekNumber}")
@@ -59,7 +59,6 @@ public class WeekController {
     model.addAttribute("week", week);
     model.addAttribute("weekForm", WeekForm.builder()
         .id(week.getId())
-        .year(week.getYear())
         .days(week.getDays().stream()
             .map(day -> DayForm.builder()
                 .id(day.getId())

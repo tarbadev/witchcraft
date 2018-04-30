@@ -4,9 +4,8 @@
       layout:decorator="~{layout.html}" th:with="title='Week',activeHeader='weeks'">
 <body>
 <section layout:fragment="content" class="ui padded grid">
-  <form th:action="'/weeks/' + ${week.weekNumber} + '/save'" th:method="patch" th:object="${weekForm}">
+  <form th:action="'/weeks/' + ${week.year} + '/' + ${week.weekNumber} + '/save'" th:method="patch" th:object="${weekForm}">
     <input type="hidden" th:value="${week.id}" th:field="*{id}">
-    <input type="hidden" th:value="${week.year}" th:field="*{year}">
     <h2 class="ui center aligned header" style="margin-top: 10px;">
       <a class="ui icon button" th:href="'/weeks/' + ${weekNav.prevYear} + '/' + ${weekNav.prevWeekNumber}">
         <i class="angle double left icon"></i>
@@ -17,17 +16,16 @@
       </a>
       <button class="ui right floated primary button" type="submit">Save</button>
     </h2>
-    <div class="ui hidden divider"></div>
     <div class="ui grid">
-      <div class="thirteen wide column" style="padding-top: 0;">
-        <div class="ui internally celled equal width grid" style="height: calc(100% - 55px)">
-          <div class="row">
+      <div class="thirteen wide column" style="height: 100%">
+        <div class="ui internally celled grid" style="height: 100%">
+          <div class="eight column row" style="">
             <div class="column"></div>
             <div class="center aligned column" th:each="day: ${week.days}">
               <div class="header" th:text="${day.name}">Day</div>
             </div>
           </div>
-          <div class="row" style="min-height: 30%">
+          <div class="eight column row" style="min-height: 250px">
             <div class="middle aligned right aligned column">
               <div class="header">LUNCH</div>
             </div>
@@ -46,7 +44,7 @@
               </div>
             </div>
           </div>
-          <div class="row" style="min-height: 30%">
+          <div class="eight column row" style="min-height: 250px">
             <div class="middle aligned right aligned column">
               <div class="header">DINER</div>
             </div>
@@ -65,7 +63,7 @@
           </div>
         </div>
       </div>
-      <div class="three wide column" style="padding-top: 0;">
+      <div class="three wide column">
         <div class="ui internally celled grid">
           <div class="row">
             <div class="center aligned column">
