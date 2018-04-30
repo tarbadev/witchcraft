@@ -14,6 +14,7 @@
       <a class="ui icon button" th:href="'/weeks/' + ${weekNav.nextYear} + '/' + ${weekNav.nextWeekNumber}">
         <i class="angle double right icon"></i>
       </a>
+      <a class="ui right floated secondary button" th:href="'/weeks/' + ${week.year} + '/' + ${week.weekNumber} + '/createCart'">Create Cart</a>
       <button class="ui right floated primary button" type="submit">Save</button>
     </h2>
     <div class="ui grid">

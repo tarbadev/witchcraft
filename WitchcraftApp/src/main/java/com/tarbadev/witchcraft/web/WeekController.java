@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.validation.Valid;
 import java.util.Calendar;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
@@ -17,12 +18,16 @@ public class WeekController {
   private SaveWeekUseCase saveWeekUseCase;
   private WeekNavForWeekUseCase weekNavForWeekUseCase;
   private WeekFromYearAndWeekNumberUseCase weekFromYearAndWeekNumberUseCase;
+  private RecipesFromWeekUseCase recipesFromWeekUseCase;
+  private CreateCartUseCase createCartUseCase;
 
-  public WeekController(RecipeCatalogUseCase recipeCatalogUseCase, SaveWeekUseCase saveWeekUseCase, WeekNavForWeekUseCase weekNavForWeekUseCase, WeekFromYearAndWeekNumberUseCase weekFromYearAndWeekNumberUseCase) {
+  public WeekController(RecipeCatalogUseCase recipeCatalogUseCase, SaveWeekUseCase saveWeekUseCase, WeekNavForWeekUseCase weekNavForWeekUseCase, WeekFromYearAndWeekNumberUseCase weekFromYearAndWeekNumberUseCase, RecipesFromWeekUseCase recipesFromWeekUseCase, CreateCartUseCase createCartUseCase) {
     this.recipeCatalogUseCase = recipeCatalogUseCase;
     this.saveWeekUseCase = saveWeekUseCase;
     this.weekNavForWeekUseCase = weekNavForWeekUseCase;
     this.weekFromYearAndWeekNumberUseCase = weekFromYearAndWeekNumberUseCase;
+    this.recipesFromWeekUseCase = recipesFromWeekUseCase;
+    this.createCartUseCase = createCartUseCase;
   }
 
   @GetMapping("/weeks")
@@ -74,5 +79,14 @@ public class WeekController {
     model.addAttribute("recipes", recipeCatalogUseCase.execute());
 
     return "weeks/index";
+  }
+
+  @GetMapping("/weeks/{year}/{weekNumber}/createCart")
+  public String createCart(Model model, @PathVariable Integer year, @PathVariable Integer weekNumber) {
+    Week week = weekFromYearAndWeekNumberUseCase.execute(year, weekNumber);
+    List<Recipe> recipes = recipesFromWeekUseCase.execute(week);
+    Cart cart = createCartUseCase.execute(recipes);
+
+    return String.format("redirect:/carts/%s", cart.getId());
   }
 }

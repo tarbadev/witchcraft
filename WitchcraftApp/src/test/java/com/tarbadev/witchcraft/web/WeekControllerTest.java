@@ -34,6 +34,8 @@ public class WeekControllerTest {
   @Autowired private SaveWeekUseCase saveWeekUseCase;
   @Autowired private WeekNavForWeekUseCase weekNavForWeekUseCase;
   @Autowired private WeekFromYearAndWeekNumberUseCase weekFromYearAndWeekNumberUseCase;
+  @Autowired private CreateCartUseCase createCartUseCase;
+  @Autowired private RecipesFromWeekUseCase recipesFromWeekUseCase;
 
   @Before
   public void setUp() {
@@ -41,7 +43,8 @@ public class WeekControllerTest {
         recipesCatalogUseCase,
         saveWeekUseCase,
         weekNavForWeekUseCase,
-        weekFromYearAndWeekNumberUseCase
+        weekFromYearAndWeekNumberUseCase,
+        createCartUseCase
     );
   }
 
@@ -215,5 +218,36 @@ public class WeekControllerTest {
         .andExpect(model().attribute("weekNav", weekNav))
         .andExpect(model().attribute("weekForm", weekForm))
         .andExpect(model().attribute("recipes", recipes));
+  }
+
+  @Test
+  public void createCart() throws Exception {
+    Recipe lunch = Recipe.builder().id(57).build();
+    Recipe diner = Recipe.builder().id(90).build();
+    List<Recipe> recipes = Arrays.asList(lunch, diner);
+    Week week = Week.builder()
+        .id(345)
+        .year(2018)
+        .weekNumber(36)
+        .days(Arrays.asList(
+            Day.builder()
+                .id(234)
+                .name(DayName.MONDAY)
+                .lunch(lunch)
+                .build(),
+            Day.builder()
+                .id(789)
+                .name(DayName.THURSDAY)
+                .diner(diner)
+                .build()
+        ))
+        .build();
+
+    given(weekFromYearAndWeekNumberUseCase.execute(2018, 36)).willReturn(week);
+    given(recipesFromWeekUseCase.execute(week)).willReturn(recipes);
+    given(createCartUseCase.execute(recipes)).willReturn(Cart.builder().id(123).recipes(recipes).build());
+
+    mvc.perform(get("/weeks/2018/36/createCart"))
+        .andExpect(redirectedUrl("/carts/123"));
   }
 }

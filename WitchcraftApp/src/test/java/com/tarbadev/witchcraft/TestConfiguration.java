@@ -70,12 +70,16 @@ public class TestConfiguration {
     return Mockito.mock(SaveWeekUseCase.class);
   }
 
-  @Bean WeekNavForWeekUseCase weekNavForWeekUseCase() {
+  @Bean public WeekNavForWeekUseCase weekNavForWeekUseCase() {
     return Mockito.mock(WeekNavForWeekUseCase.class);
   }
 
-  @Bean WeekFromYearAndWeekNumberUseCase weekFromYearAndWeekNumberUseCase() {
+  @Bean public WeekFromYearAndWeekNumberUseCase weekFromYearAndWeekNumberUseCase() {
     return Mockito.mock(WeekFromYearAndWeekNumberUseCase.class);
+  }
+
+  @Bean public RecipesFromWeekUseCase recipesFromWeekUseCase() {
+    return Mockito.mock(RecipesFromWeekUseCase.class);
   }
 
   @Bean
