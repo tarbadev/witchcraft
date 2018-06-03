@@ -14,9 +14,7 @@
     New Recipe
   </a>
   <div class="ui hidden divider"></div>
-  <div class="ui link cards list">
-    <div th:remove="tag" th:each="recipe : ${recipes}" th:insert="~{fragments/recipeCard :: card (recipe)}"></div>
-  </div>
+  <div th:replace="~{fragments/recipes :: cards (${recipes})}"></div>
   <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
   <script>
     var options = {

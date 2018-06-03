@@ -65,4 +65,19 @@ public class DatabaseRecipeRepository implements RecipeRepository {
     recipeEntity.setRating(rating);
     recipeEntityRepository.flush();
   }
+
+  @Override
+  public List<Recipe> findTopFiveRecipes() {
+    return recipeEntityRepository.findTop5ByOrderByRatingDesc().stream()
+        .filter(recipeEntity -> recipeEntity.getRating() != null)
+        .map(EntityToDomain::recipeMapper)
+        .collect(Collectors.toList());
+  }
+
+  @Override
+  public List<Recipe> findLastAddedRecipes() {
+    return recipeEntityRepository.findTop5ByOrderByIdDesc().stream()
+        .map(EntityToDomain::recipeMapper)
+        .collect(Collectors.toList());
+  }
 }

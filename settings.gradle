@@ -1,5 +1,3 @@
-include 'WitchcraftUi'
+include 'WitchcraftUi', 'WitchcraftApp'
 findProject(':WitchcraftUi')?.name = 'witchcraft-ui'
-include 'WitchcraftApp'
 findProject(':WitchcraftApp')?.name = 'witchcraft-app'
-

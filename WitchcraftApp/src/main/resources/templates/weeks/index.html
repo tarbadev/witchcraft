@@ -18,51 +18,7 @@
       <button class="ui right floated primary button" type="submit">Save</button>
     </h2>
     <div class="ui grid">
-      <div class="thirteen wide column" style="height: 100%">
-        <div class="ui internally celled grid" style="height: 100%">
-          <div class="eight column row" style="">
-            <div class="column"></div>
-            <div class="center aligned column" th:each="day: ${week.days}">
-              <div class="header" th:text="${day.name}">Day</div>
-            </div>
-          </div>
-          <div class="eight column row" style="min-height: 250px">
-            <div class="middle aligned right aligned column">
-              <div class="header">LUNCH</div>
-            </div>
-            <div class="column meal" th:each="day, stat : ${week.days}"
-                 ondrop="handleOnDrop(event)"
-                 ondragover="handleDragOver(event)"
-                 ondragleave="handleDragLeave(event)">
-              <input type="hidden" th:field="*{days[__${stat.index}__].id}" th:value="${day.id}">
-              <input type="hidden" th:field="*{days[__${stat.index}__].name}" th:value="${day.name}">
-              <div class="ui cards" th:if="${day.lunch != null}">
-                <input type="hidden" th:field="*{days[__${stat.index}__].lunchId}" th:value="${day.lunch.id}">
-                <a th:insert="~{fragments/recipeCard :: simpleCard (${day.lunch}, true)}"></a>
-              </div>
-              <div class="ui cards" th:unless="${day.lunch != null}">
-                <input type="hidden" th:field="*{days[__${stat.index}__].lunchId}">
-              </div>
-            </div>
-          </div>
-          <div class="eight column row" style="min-height: 250px">
-            <div class="middle aligned right aligned column">
-              <div class="header">DINER</div>
-            </div>
-            <div class="column meal" th:each="day, stat: ${week.days}"
-                 ondrop="handleOnDrop(event)"
-                 ondragover="handleDragOver(event)"
-                 ondragleave="handleDragLeave(event)">
-              <div class="ui cards" th:if="${day.diner != null}">
-                <input type="hidden" th:field="*{days[__${stat.index}__].dinerId}" th:value="${day.diner.id}">
-                <a th:insert="~{fragments/recipeCard :: simpleCard (${day.diner}, true)}"></a>
-              </div>
-              <div class="ui cards" th:unless="${day.diner != null}">
-                <input type="hidden" th:field="*{days[__${stat.index}__].dinerId}">
-              </div>
-            </div>
-          </div>
-        </div>
+      <div class="thirteen wide column" style="height: 100%" layout:insert="fragments/week :: edit (${week})">
       </div>
       <div class="three wide column">
         <div class="ui internally celled grid">
@@ -114,10 +70,6 @@
       cards.remove("a");
       cards.append(currentDraggedElement);
       cards.find("input").val($(currentDraggedElement).attr("value"));
-
-      console.log(cards.find("input"));
-      console.log($(currentDraggedElement).attr("value"));
-      console.log(currentDraggedElement);
 
       currentDropperElement.classList.remove("dropper");
 

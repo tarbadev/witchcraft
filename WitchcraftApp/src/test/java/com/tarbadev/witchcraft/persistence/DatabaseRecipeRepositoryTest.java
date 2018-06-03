@@ -15,11 +15,12 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import static java.util.Collections.emptyList;
+import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
@@ -46,16 +47,16 @@ public class DatabaseRecipeRepositoryTest {
         Recipe.builder()
             .name("Lasagna")
             .url(recipe_url)
-            .ingredients(Collections.emptyList())
-            .steps(Collections.emptyList())
+            .ingredients(emptyList())
+            .steps(emptyList())
             .build()
     );
     Recipe expectedRecipe = Recipe.builder()
         .id(recipe.getId())
         .name("lasagna")
         .url(recipe_url)
-        .ingredients(Collections.emptyList())
-        .steps(Collections.emptyList())
+        .ingredients(emptyList())
+        .steps(emptyList())
         .build();
 
     assertThat(recipe).isEqualTo(expectedRecipe);
@@ -69,7 +70,7 @@ public class DatabaseRecipeRepositoryTest {
             Ingredient.builder().build(),
             Ingredient.builder().build()
         ))
-        .steps(Collections.emptyList())
+        .steps(emptyList())
         .build();
 
     Recipe returnedRecipe = subject.saveRecipe(recipe);
@@ -85,7 +86,7 @@ public class DatabaseRecipeRepositoryTest {
                 .id(returnedRecipe.getIngredients().get(1).getId())
                 .build()
         ))
-        .steps(Collections.emptyList())
+        .steps(emptyList())
         .build();
 
     assertThat(returnedRecipe).isEqualTo(expectedRecipe);
@@ -97,8 +98,8 @@ public class DatabaseRecipeRepositoryTest {
         Recipe.builder()
             .name("Name uncorrect")
             .url("URL")
-            .ingredients(Collections.emptyList())
-            .steps(Collections.emptyList())
+            .ingredients(emptyList())
+            .steps(emptyList())
             .build()
     );
 
@@ -127,13 +128,13 @@ public class DatabaseRecipeRepositoryTest {
     List<RecipeEntity> expectedRecipes = Arrays.asList(
         entityManager.persist(RecipeEntity.builder()
             .name("Lasagna")
-            .ingredients(Collections.emptyList())
+            .ingredients(emptyList())
             .url(url1)
             .imgUrl("imgUrl1")
             .build()),
         entityManager.persist(RecipeEntity.builder()
             .name("Tartiflette")
-            .ingredients(Collections.emptyList())
+            .ingredients(emptyList())
             .url(url2)
             .imgUrl("imgUrl2")
             .build())
@@ -150,22 +151,22 @@ public class DatabaseRecipeRepositoryTest {
     Recipe tartiflette = toDomain(
         entityManager.persist(RecipeEntity.builder()
             .name("Tartiflette")
-            .ingredients(Collections.emptyList())
-            .steps(Collections.emptyList())
+            .ingredients(emptyList())
+            .steps(emptyList())
             .build())
     );
     Recipe pizza = toDomain(
         entityManager.persist(RecipeEntity.builder()
             .name("Pizza")
-            .ingredients(Collections.emptyList())
-            .steps(Collections.emptyList())
+            .ingredients(emptyList())
+            .steps(emptyList())
             .build())
     );
     Recipe burger = toDomain(
         entityManager.persistAndFlush(RecipeEntity.builder()
             .name("Burger")
-            .ingredients(Collections.emptyList())
-            .steps(Collections.emptyList())
+            .ingredients(emptyList())
+            .steps(emptyList())
             .build())
     );
 
@@ -185,8 +186,8 @@ public class DatabaseRecipeRepositoryTest {
     Recipe recipe = toDomain(
         entityManager.persistAndFlush(RecipeEntity.builder()
             .name("Recipe 1")
-            .ingredients(Collections.emptyList())
-            .steps(Collections.emptyList())
+            .ingredients(emptyList())
+            .steps(emptyList())
             .url("URL")
             .build()
         )
@@ -207,7 +208,7 @@ public class DatabaseRecipeRepositoryTest {
                 IngredientEntity.builder().name("Cilantro").build(),
                 IngredientEntity.builder().name("Egg").build()
             ))
-            .steps(Collections.emptyList())
+            .steps(emptyList())
             .url("URL")
             .build()
         )
@@ -233,13 +234,13 @@ public class DatabaseRecipeRepositoryTest {
                 .quantity(ingredientEntity.getQuantity())
                 .unit(ingredientEntity.getUnit())
                 .build())
-            .collect(Collectors.toList()))
+            .collect(toList()))
         .steps(recipeEntity.getSteps().stream()
             .map(stepEntity -> Step.builder()
                 .id(stepEntity.getId())
                 .name(stepEntity.getName())
                 .build())
-            .collect(Collectors.toList()))
+            .collect(toList()))
         .build();
   }
 
@@ -270,5 +271,51 @@ public class DatabaseRecipeRepositoryTest {
     entityManager.clear();
 
     assertThat(subject.findById(recipe.getId()).getRating()).isEqualTo(rating);
+  }
+
+  @Test
+  public void findTopFiveRecipes() {
+    List<Recipe> recipes = Stream.of(
+        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).rating(5.0).build()),
+        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).rating(5.0).build()),
+        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).rating(0.0).build()),
+        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).rating(4.0).build()),
+        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).rating(null).build()),
+        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).rating(0.5).build()),
+        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).rating(1.0).build()),
+        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).rating(null).build())
+    )
+        .filter(recipeEntity -> recipeEntity.getRating() != null && recipeEntity.getRating() > 0)
+        .map(EntityToDomain::recipeMapper)
+        .sorted(Comparator.comparing(Recipe::getRating).reversed())
+        .collect(toList());
+
+    entityManager.flush();
+    entityManager.clear();
+
+    assertThat(subject.findTopFiveRecipes()).isEqualTo(recipes);
+  }
+
+  @Test
+  public void findLastAddedRecipes() {
+    List<Recipe> recipes = Stream.of(
+        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).rating(5.0).build()),
+        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).rating(5.0).build()),
+        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).rating(0.0).build()),
+        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).rating(4.0).build()),
+        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).rating(null).build()),
+        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).rating(0.5).build()),
+        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).rating(1.0).build()),
+        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).rating(null).build())
+    )
+        .map(EntityToDomain::recipeMapper)
+        .sorted(Comparator.comparing(Recipe::getId).reversed())
+        .limit(5)
+        .collect(toList());
+
+    entityManager.flush();
+    entityManager.clear();
+
+    assertThat(subject.findLastAddedRecipes()).isEqualTo(recipes);
   }
 }

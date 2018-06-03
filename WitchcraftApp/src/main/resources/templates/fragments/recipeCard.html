@@ -12,7 +12,7 @@
    th:href="@{'/recipes/'+ ${recipe.id}}"
    th:value="${recipe.id}"
    th:draggable="${draggable}"
-   th:ondragstart="'handleDragStart(event)'">
+   th:ondragstart="${draggable} ? 'handleDragStart(event)'">
   <div class="content">
     <div class="header" th:text="${recipe.name}">Recipe</div>
   </div>

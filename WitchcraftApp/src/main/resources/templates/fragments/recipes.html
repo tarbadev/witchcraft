@@ -1,0 +1,6 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="cards (recipes)" class="ui link cards list">
+  <div th:remove="tag" th:each="recipe : ${recipes}" th:insert="~{fragments/recipeCard :: card (recipe)}"></div>
+</div>
+</html>
