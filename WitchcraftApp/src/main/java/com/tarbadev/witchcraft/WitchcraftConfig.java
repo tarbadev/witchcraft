@@ -11,7 +11,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @ConfigurationProperties
 public class WitchcraftConfig implements WebMvcConfigurer {
     private static final String BACKEND = "/WitchcraftApp";
-    private static final String FRONTEND = "/WitchcraftUi";
+    private static final String WITCHCRAFT_UI = "/WitchcraftUi";
+    private static final String FRONTEND = "/Frontend";
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -24,6 +25,7 @@ public class WitchcraftConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/**").addResourceLocations(
                 "classpath:/static/",
                 "classpath:/",
+                "file:///" + workingDirectory + WITCHCRAFT_UI + "/build/dist/",
                 "file:///" + workingDirectory + FRONTEND + "/build/dist/"
         );
     }

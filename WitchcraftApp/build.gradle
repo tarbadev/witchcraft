@@ -1,16 +1,16 @@
 buildscript {
-    ext {
-        springBootVersion = '2.0.0.RELEASE'
+  ext {
+    springBootVersion = '2.0.0.RELEASE'
+  }
+  repositories {
+    mavenCentral()
+    flatDir {
+      dirs 'libs'
     }
-    repositories {
-        mavenCentral()
-        flatDir {
-            dirs 'libs'
-        }
-    }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-    }
+  }
+  dependencies {
+    classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+  }
 }
 
 apply plugin: 'java'
@@ -23,22 +23,24 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
 
 repositories {
-    mavenCentral()
+  mavenCentral()
 }
 
 dependencies {
-    compile('org.springframework.boot:spring-boot-starter-web')
-    compile("org.springframework.boot:spring-boot-starter-thymeleaf")
-    compile('org.springframework.boot:spring-boot-starter-data-jpa')
-    compile('org.springframework.boot:spring-boot-devtools')
-    compile("nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect")
-    compile(files("libs/lombok-edge.jar"))
-    compile('mysql:mysql-connector-java')
-    compile('javax.xml.bind:jaxb-api:2.3.0')
-    compile('org.jsoup:jsoup:1.11.2')
-    testCompile('org.springframework.boot:spring-boot-starter-test')
+  compile('org.springframework.boot:spring-boot-starter-web')
+  compile("org.springframework.boot:spring-boot-starter-thymeleaf")
+  compile('org.springframework.boot:spring-boot-starter-data-jpa')
+  compile('org.springframework.boot:spring-boot-devtools')
+  compile("nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect")
+  compile(files("libs/lombok-edge.jar"))
+  compile('mysql:mysql-connector-java')
+  compile('javax.xml.bind:jaxb-api:2.3.0')
+  compile('org.jsoup:jsoup:1.11.2')
+  testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 
 jar {
-    baseName = 'witchcraft-app'
+  baseName = 'witchcraft-app'
 }
+
+test.dependsOn ':frontend:test'

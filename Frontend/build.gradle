@@ -1,0 +1,40 @@
+buildscript {
+  repositories {
+    mavenCentral()
+  }
+}
+
+plugins {
+  id "com.moowork.node" version "1.2.0"
+}
+
+version 'unspecified'
+
+jar {
+  from('build/dist') {
+    into 'static'
+  }
+
+  includeEmptyDirs = false
+}
+
+task webpack(type: NodeTask, dependsOn: 'npmInstall') {
+  script = project.file('node_modules/.bin/webpack')
+}
+
+task webpackWatch(type: NodeTask, dependsOn: 'npmInstall') {
+  script = project.file('node_modules/.bin/webpack')
+  args = ['--watch', '--display-error-details']
+}
+
+task testReact(type: NpmTask) {
+  args = ['run', 'test']
+}
+
+task testReactWatch(type: NpmTask) {
+  args = ['run', 'testWatch']
+}
+
+processResources.dependsOn 'webpack'
+clean.delete << file('build')
+test.dependsOn 'testReact'
