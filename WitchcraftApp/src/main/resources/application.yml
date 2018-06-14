@@ -5,6 +5,9 @@ spring:
     url: jdbc:mysql://localhost:3306/witchcraft?autoReconnect=true&useSSL=false
     username: spring
     password:
+  data.rest:
+    basePath: /api
+    detection-strategy: annotated
 
 test-resources:
   recipe-url: SOME_RECIPE_HTTP_URL

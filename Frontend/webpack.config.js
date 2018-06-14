@@ -13,7 +13,9 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.jsx'],
     alias: {
-      'app-components': path.resolve(__dirname, 'src/main/js/components/')
+      'app-components': path.resolve(__dirname, 'src/main/js/components/'),
+      'app-services': path.resolve(__dirname, 'src/main/js/services/'),
+      'test-resources': path.resolve(__dirname, 'src/test/resources/')
     }
   },
   output: {
@@ -24,7 +26,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.jsx?$/,  // Notice the regex here. We're matching on js and jsx files.
+        test: /\.jsx?$/,
         loader: 'babel-loader',
         query: {
           presets: ['react', 'es2015']

@@ -27,11 +27,11 @@ task webpackWatch(type: NodeTask, dependsOn: 'npmInstall') {
   args = ['--watch', '--display-error-details']
 }
 
-task testReact(type: NpmTask) {
+task testReact(type: NpmTask, group: 'Verification', description: 'Runs the tests for the React App') {
   args = ['run', 'test']
 }
 
-task testReactWatch(type: NpmTask) {
+task testReactWatch(type: NpmTask, group: 'Verification', description: 'Same as testReact but watches for changes') {
   args = ['run', 'testWatch']
 }
 

@@ -1,11 +1,22 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import ReactTestUtils from 'react-dom/test-utils';
+import { shallow } from 'enzyme';
+
 import App from 'app-components/App';
+import RecipeList from 'app-components/RecipeList';
 
 describe("App", function () {
   it('renders without crashing', () => {
-    let app = ReactTestUtils.renderIntoDocument(<App />);
+    const app = shallow(<App />);
     expect(app).toBeDefined();
+  });
+
+  describe("Content", function() {
+    beforeEach(() => {
+      this.instance = shallow(<App />);
+    });
+
+    it('contains a list of recipes', () => {
+      expect(this.instance.find(RecipeList).length).toBe(1);
+    });
   });
 });
