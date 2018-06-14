@@ -21,7 +21,7 @@ export default class RecipeList extends Component {
 
   render() {
     let recipeCards = this.state.recipes.map(recipe => <RecipeCard key={recipe.id} />);
-    
+
     return (
       <div>
         {recipeCards}
