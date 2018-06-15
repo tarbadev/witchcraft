@@ -18,6 +18,10 @@ jar {
   includeEmptyDirs = false
 }
 
+node {
+  download = true
+}
+
 task webpack(type: NodeTask, dependsOn: 'npmInstall') {
   script = project.file('node_modules/.bin/webpack')
 }

@@ -13,8 +13,6 @@ plugins {
     id "com.moowork.gulp" version "1.2.0"
 }
 
-apply plugin: "com.moowork.node"
-
 group 'com.tarbadev.witchcraft'
 version '0.0.1-SNAPSHOT'
 
