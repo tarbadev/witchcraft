@@ -1,6 +1,8 @@
 buildscript {
   repositories {
-    mavenCentral()
+    maven {
+        url "https://plugins.gradle.org/m2/"
+    }
   }
 }
 
@@ -8,7 +10,11 @@ plugins {
   id "com.moowork.node" version "1.2.0"
 }
 
-version 'unspecified'
+version '0.0.1-SNAPSHOT'
+
+node {
+    download = true
+}
 
 jar {
   from('build/dist') {
@@ -31,7 +37,7 @@ task webpackWatch(type: NodeTask, dependsOn: 'npmInstall') {
   args = ['--watch', '--display-error-details']
 }
 
-task testReact(type: NpmTask, group: 'Verification', description: 'Runs the tests for the React App') {
+task testReact(type: NpmTask, dependsOn: 'npmInstall') {
   args = ['run', 'test']
 }
 
