@@ -11,9 +11,10 @@ describe("RecipeCard", function () {
 
   describe("Content", function() {
     let expectedTitle = "Recipe title";
+    let expectedImgUrl = "http://example.com/image.png";
 
     beforeEach(() => {
-      this.instance = shallow(<RecipeCard title={expectedTitle} />);
+      this.instance = shallow(<RecipeCard title={expectedTitle} imgUrl={expectedImgUrl} />);
     });
 
     it('has a class card', () => {
@@ -35,6 +36,17 @@ describe("RecipeCard", function () {
       let headerDiv = contentDiv.find('div.header');
       expect(headerDiv.length).toBe(1);
       expect(headerDiv.text()).toBe(expectedTitle);
+    });
+
+    it('renders an image', () => {
+      expect(this.instance.instance().props.imgUrl).toBe(expectedImgUrl);
+
+      let imageDiv = this.instance.find('div.image');
+      expect(imageDiv.length).toBe(1);
+
+      let imageTag = imageDiv.find('img');
+      expect(imageTag.length).toBe(1);
+      expect(imageTag.prop('src')).toBe(expectedImgUrl);
     });
   });
 });
