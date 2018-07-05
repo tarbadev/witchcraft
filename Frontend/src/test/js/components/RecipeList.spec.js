@@ -2,6 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 
 import RecipeList from 'app-components/RecipeList';
+import RecipeCard from 'app-components/RecipeCard';
 import RecipeService from 'app-services/RecipeService';
 
 const promisedRecipeList = require('test-resources/recipeList.json');
@@ -17,10 +18,18 @@ describe("RecipeList", function () {
   });
 
   describe("Content", function() {
-    it('fetches a list of recipes', async () => {
-      const recipeList = await shallow(<RecipeList />);
+    beforeEach(async () => {
+      this.instance = await shallow(<RecipeList />);
+      this.instance.update();
+    });
+
+    it('fetches a list of recipes', () => {
       expect(RecipeService.fetchRecipes).toHaveBeenCalled();
-      expect(recipeList.state('recipes')).toBe(promisedRecipeList);
+      expect(this.instance.state('recipes')).toBe(promisedRecipeList.recipes);
+    });
+
+    it('renders a RecipeCard for each recipe', () => {
+      expect(this.instance.find(RecipeCard).length).toBe(promisedRecipeList.recipes.length);
     });
   });
 });
