@@ -12,10 +12,10 @@ mysql_db_test=${mysql_db}_test
 echo 'Remove existing databases'
 mysql -uroot -e "DROP DATABASE IF EXISTS $mysql_db;"
 mysql -uroot -e "DROP DATABASE IF EXISTS $mysql_db_test;"
-mysql -uroot -e "DROP USER '$mysql_user'@'localhost';"
+mysql -uroot -e "DROP USER IF EXISTS '$mysql_user'@'localhost';"
 
 echo "Create user '$mysql_user'"
-mysql -uroot -e "CREATE USER '$mysql_user'@'localhost' IDENTIFIED BY ''";
+mysql -uroot -e "CREATE USER '$mysql_user'@'localhost' IDENTIFIED WITH mysql_native_password BY ''";
 
 echo "Create database $mysql_db and grant access to $mysql_user"
 mysql -uroot -e "CREATE DATABASE $mysql_db";
