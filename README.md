@@ -1,9 +1,6 @@
 # Witchcraft
 ## Set Up
-1. Install mysql and create 2 databases:
-    - witchcraft
-    - witchcraft_test
-1. Create a user `spring`
+1. Run the `setup.sh` script to install mysql, create the `spring` user, `witchcraft` and `witchcraft_test` databases
 1. Load `build.gradle` to import project in IntelliJ
 
 ## Run the project
