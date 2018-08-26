@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.Value;
 
 @Value
-@Builder
+@Builder(toBuilder = true)
 public class Ingredient {
   private Integer id;
   private String name;
@@ -12,11 +12,8 @@ public class Ingredient {
   private String unit;
 
   public Ingredient addQuantity(Double quantity) {
-    return Ingredient.builder()
-        .id(this.id)
-        .name(this.name)
+    return this.toBuilder()
         .quantity(this.quantity + quantity)
-        .unit(this.unit)
         .build();
   }
 }
