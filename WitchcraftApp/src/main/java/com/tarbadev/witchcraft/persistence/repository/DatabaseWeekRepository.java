@@ -1,7 +1,9 @@
-package com.tarbadev.witchcraft.persistence;
+package com.tarbadev.witchcraft.persistence.repository;
 
 import com.tarbadev.witchcraft.domain.entity.Week;
 import com.tarbadev.witchcraft.domain.repository.WeekRepository;
+import com.tarbadev.witchcraft.persistence.helpers.DomainToEntity;
+import com.tarbadev.witchcraft.persistence.helpers.EntityToDomain;
 import org.springframework.stereotype.Repository;
 
 @Repository

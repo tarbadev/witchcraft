@@ -1,5 +1,6 @@
-package com.tarbadev.witchcraft.persistence;
+package com.tarbadev.witchcraft.persistence.entity;
 
+import com.tarbadev.witchcraft.persistence.repository.IngredientEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

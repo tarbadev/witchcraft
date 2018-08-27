@@ -1,15 +1,18 @@
-package com.tarbadev.witchcraft.persistence;
+package com.tarbadev.witchcraft.persistence.repository;
 
 import com.tarbadev.witchcraft.domain.entity.Ingredient;
 import com.tarbadev.witchcraft.domain.entity.Recipe;
 import com.tarbadev.witchcraft.domain.repository.RecipeRepository;
+import com.tarbadev.witchcraft.persistence.helpers.DomainToEntity;
+import com.tarbadev.witchcraft.persistence.helpers.EntityToDomain;
+import com.tarbadev.witchcraft.persistence.entity.RecipeEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.tarbadev.witchcraft.persistence.EntityToDomain.recipeMapper;
+import static com.tarbadev.witchcraft.persistence.helpers.EntityToDomain.recipeMapper;
 
 @Component
 public class DatabaseRecipeRepository implements RecipeRepository {

@@ -1,5 +1,6 @@
-package com.tarbadev.witchcraft.persistence;
+package com.tarbadev.witchcraft.persistence.repository;
 
+import com.tarbadev.witchcraft.persistence.entity.RecipeEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

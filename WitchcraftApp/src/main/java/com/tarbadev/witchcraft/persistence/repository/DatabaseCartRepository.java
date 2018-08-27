@@ -1,16 +1,17 @@
-package com.tarbadev.witchcraft.persistence;
+package com.tarbadev.witchcraft.persistence.repository;
 
 import com.tarbadev.witchcraft.domain.entity.Cart;
 import com.tarbadev.witchcraft.domain.repository.CartRepository;
 import com.tarbadev.witchcraft.domain.entity.Item;
+import com.tarbadev.witchcraft.persistence.helpers.EntityToDomain;
 import org.springframework.stereotype.Repository;
 
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.tarbadev.witchcraft.persistence.DomainToEntity.cartEntityMapper;
-import static com.tarbadev.witchcraft.persistence.EntityToDomain.cartMapper;
+import static com.tarbadev.witchcraft.persistence.helpers.DomainToEntity.cartEntityMapper;
+import static com.tarbadev.witchcraft.persistence.helpers.EntityToDomain.cartMapper;
 
 @Repository
 public class DatabaseCartRepository implements CartRepository {

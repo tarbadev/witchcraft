@@ -1,6 +1,8 @@
-package com.tarbadev.witchcraft.persistence;
+package com.tarbadev.witchcraft.persistence.helpers;
 
 import com.tarbadev.witchcraft.domain.entity.*;
+import com.tarbadev.witchcraft.persistence.entity.*;
+import com.tarbadev.witchcraft.persistence.repository.IngredientEntity;
 
 import java.util.stream.Collectors;
 

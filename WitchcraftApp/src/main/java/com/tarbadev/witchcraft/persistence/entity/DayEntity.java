@@ -1,4 +1,4 @@
-package com.tarbadev.witchcraft.persistence;
+package com.tarbadev.witchcraft.persistence.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
