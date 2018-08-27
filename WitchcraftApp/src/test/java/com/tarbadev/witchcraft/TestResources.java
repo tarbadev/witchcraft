@@ -1,8 +1,8 @@
 package com.tarbadev.witchcraft;
 
-import com.tarbadev.witchcraft.domain.Ingredient;
-import com.tarbadev.witchcraft.domain.Recipe;
-import com.tarbadev.witchcraft.domain.Step;
+import com.tarbadev.witchcraft.domain.entity.Ingredient;
+import com.tarbadev.witchcraft.domain.entity.Recipe;
+import com.tarbadev.witchcraft.domain.entity.Step;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;

@@ -1,5 +1,7 @@
-package com.tarbadev.witchcraft.domain;
+package com.tarbadev.witchcraft.domain.usecase;
 
+import com.tarbadev.witchcraft.domain.entity.Recipe;
+import com.tarbadev.witchcraft.domain.entity.Week;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;

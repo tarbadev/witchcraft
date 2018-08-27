@@ -1,6 +1,10 @@
 package com.tarbadev.witchcraft.web;
 
-import com.tarbadev.witchcraft.domain.*;
+import com.tarbadev.witchcraft.domain.entity.Recipe;
+import com.tarbadev.witchcraft.domain.entity.Week;
+import com.tarbadev.witchcraft.domain.usecase.BestRatedRecipesUseCase;
+import com.tarbadev.witchcraft.domain.usecase.LastAddedRecipesUseCase;
+import com.tarbadev.witchcraft.domain.usecase.WeekFromYearAndWeekNumberUseCase;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

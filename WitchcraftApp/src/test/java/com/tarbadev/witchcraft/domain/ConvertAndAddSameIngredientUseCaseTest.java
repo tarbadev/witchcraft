@@ -1,6 +1,8 @@
 package com.tarbadev.witchcraft.domain;
 
 import com.tarbadev.witchcraft.domain.converter.IngredientConverter;
+import com.tarbadev.witchcraft.domain.entity.Ingredient;
+import com.tarbadev.witchcraft.domain.usecase.ConvertAndAddSameIngredientUseCase;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

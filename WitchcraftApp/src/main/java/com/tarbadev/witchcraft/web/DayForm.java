@@ -1,6 +1,6 @@
 package com.tarbadev.witchcraft.web;
 
-import com.tarbadev.witchcraft.domain.DayName;
+import com.tarbadev.witchcraft.domain.entity.DayName;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

@@ -1,15 +1,18 @@
 package com.tarbadev.witchcraft.domain;
 
+import com.tarbadev.witchcraft.domain.entity.Day;
+import com.tarbadev.witchcraft.domain.entity.DayName;
+import com.tarbadev.witchcraft.domain.entity.Recipe;
+import com.tarbadev.witchcraft.domain.entity.Week;
+import com.tarbadev.witchcraft.domain.repository.RecipeRepository;
+import com.tarbadev.witchcraft.domain.repository.WeekRepository;
+import com.tarbadev.witchcraft.domain.usecase.SaveWeekUseCase;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
 

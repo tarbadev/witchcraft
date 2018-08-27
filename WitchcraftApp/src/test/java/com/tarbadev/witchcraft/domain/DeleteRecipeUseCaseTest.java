@@ -1,5 +1,7 @@
 package com.tarbadev.witchcraft.domain;
 
+import com.tarbadev.witchcraft.domain.repository.RecipeRepository;
+import com.tarbadev.witchcraft.domain.usecase.DeleteRecipeUseCase;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

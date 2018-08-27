@@ -1,4 +1,4 @@
-package com.tarbadev.witchcraft.domain;
+package com.tarbadev.witchcraft.domain.entity;
 
 public enum DayName {
   MONDAY,

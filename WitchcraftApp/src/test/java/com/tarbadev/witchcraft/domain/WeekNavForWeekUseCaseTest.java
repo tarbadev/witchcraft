@@ -1,5 +1,8 @@
 package com.tarbadev.witchcraft.domain;
 
+import com.tarbadev.witchcraft.domain.entity.Week;
+import com.tarbadev.witchcraft.domain.entity.WeekNav;
+import com.tarbadev.witchcraft.domain.usecase.WeekNavForWeekUseCase;
 import org.junit.Before;
 import org.junit.Test;
 

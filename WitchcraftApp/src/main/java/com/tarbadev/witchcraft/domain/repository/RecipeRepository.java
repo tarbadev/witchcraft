@@ -1,4 +1,6 @@
-package com.tarbadev.witchcraft.domain;
+package com.tarbadev.witchcraft.domain.repository;
+
+import com.tarbadev.witchcraft.domain.entity.Recipe;
 
 import java.util.List;
 

@@ -1,9 +1,8 @@
 package com.tarbadev.witchcraft;
 
-import com.tarbadev.witchcraft.domain.*;
 import com.tarbadev.witchcraft.domain.converter.IngredientConverter;
 import com.tarbadev.witchcraft.domain.converter.UnitConverter;
-import com.tarbadev.witchcraft.domain.GetRecipeDetailsFromFormUseCase;
+import com.tarbadev.witchcraft.domain.usecase.*;
 import org.mockito.Mockito;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,6 +1,9 @@
 package com.tarbadev.witchcraft.web;
 
-import com.tarbadev.witchcraft.domain.*;
+import com.tarbadev.witchcraft.domain.entity.Ingredient;
+import com.tarbadev.witchcraft.domain.entity.Recipe;
+import com.tarbadev.witchcraft.domain.entity.Step;
+import com.tarbadev.witchcraft.domain.usecase.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;

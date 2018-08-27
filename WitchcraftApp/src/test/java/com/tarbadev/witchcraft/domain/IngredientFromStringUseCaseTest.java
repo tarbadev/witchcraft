@@ -1,5 +1,7 @@
 package com.tarbadev.witchcraft.domain;
 
+import com.tarbadev.witchcraft.domain.entity.Ingredient;
+import com.tarbadev.witchcraft.domain.usecase.IngredientFromStringUseCase;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -1,8 +1,11 @@
-package com.tarbadev.witchcraft.domain;
+package com.tarbadev.witchcraft.domain.usecase;
 
 import com.tarbadev.witchcraft.domain.converter.IngredientConverter;
-import com.tarbadev.witchcraft.persistence.DomainToEntity;
-import com.tarbadev.witchcraft.persistence.RecipeEntity;
+import com.tarbadev.witchcraft.domain.entity.Cart;
+import com.tarbadev.witchcraft.domain.entity.Ingredient;
+import com.tarbadev.witchcraft.domain.entity.Item;
+import com.tarbadev.witchcraft.domain.entity.Recipe;
+import com.tarbadev.witchcraft.domain.repository.CartRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.*;

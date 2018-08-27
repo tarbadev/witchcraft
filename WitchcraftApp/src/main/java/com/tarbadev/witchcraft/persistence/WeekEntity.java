@@ -1,6 +1,5 @@
 package com.tarbadev.witchcraft.persistence;
 
-import com.tarbadev.witchcraft.domain.Day;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

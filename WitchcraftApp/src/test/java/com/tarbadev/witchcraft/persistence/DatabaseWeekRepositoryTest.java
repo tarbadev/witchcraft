@@ -1,9 +1,9 @@
 package com.tarbadev.witchcraft.persistence;
 
-import com.tarbadev.witchcraft.domain.Day;
-import com.tarbadev.witchcraft.domain.DayName;
-import com.tarbadev.witchcraft.domain.Recipe;
-import com.tarbadev.witchcraft.domain.Week;
+import com.tarbadev.witchcraft.domain.entity.Day;
+import com.tarbadev.witchcraft.domain.entity.DayName;
+import com.tarbadev.witchcraft.domain.entity.Recipe;
+import com.tarbadev.witchcraft.domain.entity.Week;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

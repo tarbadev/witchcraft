@@ -1,6 +1,11 @@
 package com.tarbadev.witchcraft.web;
 
-import com.tarbadev.witchcraft.domain.*;
+import com.tarbadev.witchcraft.domain.entity.Ingredient;
+import com.tarbadev.witchcraft.domain.entity.Recipe;
+import com.tarbadev.witchcraft.domain.entity.Step;
+import com.tarbadev.witchcraft.domain.usecase.ConvertAndAddSameIngredientUseCase;
+import com.tarbadev.witchcraft.domain.usecase.GetRecipeDetailsFromFormUseCase;
+import com.tarbadev.witchcraft.domain.usecase.IngredientFromStringUseCase;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

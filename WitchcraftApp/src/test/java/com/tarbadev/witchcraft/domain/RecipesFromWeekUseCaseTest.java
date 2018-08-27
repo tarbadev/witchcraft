@@ -1,5 +1,10 @@
 package com.tarbadev.witchcraft.domain;
 
+import com.tarbadev.witchcraft.domain.entity.Day;
+import com.tarbadev.witchcraft.domain.entity.DayName;
+import com.tarbadev.witchcraft.domain.entity.Recipe;
+import com.tarbadev.witchcraft.domain.entity.Week;
+import com.tarbadev.witchcraft.domain.usecase.RecipesFromWeekUseCase;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -1,7 +1,10 @@
 package com.tarbadev.witchcraft.web;
 
 import com.tarbadev.witchcraft.*;
-import com.tarbadev.witchcraft.domain.*;
+import com.tarbadev.witchcraft.domain.entity.Ingredient;
+import com.tarbadev.witchcraft.domain.entity.Recipe;
+import com.tarbadev.witchcraft.domain.entity.Step;
+import com.tarbadev.witchcraft.domain.usecase.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

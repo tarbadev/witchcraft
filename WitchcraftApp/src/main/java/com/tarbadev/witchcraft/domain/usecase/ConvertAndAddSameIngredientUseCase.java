@@ -1,5 +1,6 @@
-package com.tarbadev.witchcraft.domain;
+package com.tarbadev.witchcraft.domain.usecase;
 
+import com.tarbadev.witchcraft.domain.entity.Ingredient;
 import com.tarbadev.witchcraft.domain.converter.IngredientConverter;
 import org.springframework.stereotype.Component;
 

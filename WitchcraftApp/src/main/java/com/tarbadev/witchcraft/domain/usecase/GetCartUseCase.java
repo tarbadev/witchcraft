@@ -1,5 +1,7 @@
-package com.tarbadev.witchcraft.domain;
+package com.tarbadev.witchcraft.domain.usecase;
 
+import com.tarbadev.witchcraft.domain.entity.Cart;
+import com.tarbadev.witchcraft.domain.repository.CartRepository;
 import org.springframework.stereotype.Component;
 
 @Component

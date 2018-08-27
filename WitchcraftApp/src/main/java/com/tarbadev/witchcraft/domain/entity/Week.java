@@ -1,8 +1,7 @@
-package com.tarbadev.witchcraft.domain;
+package com.tarbadev.witchcraft.domain.entity;
 
 import lombok.*;
 
-import javax.persistence.*;
 import java.util.List;
 
 @Value

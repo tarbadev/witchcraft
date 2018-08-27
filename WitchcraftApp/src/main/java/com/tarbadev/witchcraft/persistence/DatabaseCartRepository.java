@@ -1,8 +1,8 @@
 package com.tarbadev.witchcraft.persistence;
 
-import com.tarbadev.witchcraft.domain.Cart;
-import com.tarbadev.witchcraft.domain.CartRepository;
-import com.tarbadev.witchcraft.domain.Item;
+import com.tarbadev.witchcraft.domain.entity.Cart;
+import com.tarbadev.witchcraft.domain.repository.CartRepository;
+import com.tarbadev.witchcraft.domain.entity.Item;
 import org.springframework.stereotype.Repository;
 
 import java.util.Comparator;

@@ -1,13 +1,8 @@
 package com.tarbadev.witchcraft.persistence;
 
-import com.tarbadev.witchcraft.domain.Day;
-import com.tarbadev.witchcraft.domain.Week;
-import com.tarbadev.witchcraft.domain.WeekRepository;
+import com.tarbadev.witchcraft.domain.entity.Week;
+import com.tarbadev.witchcraft.domain.repository.WeekRepository;
 import org.springframework.stereotype.Repository;
-
-import java.util.stream.Collectors;
-
-import static com.tarbadev.witchcraft.persistence.EntityToDomain.weekMapper;
 
 @Repository
 public class DatabaseWeekRepository implements WeekRepository {

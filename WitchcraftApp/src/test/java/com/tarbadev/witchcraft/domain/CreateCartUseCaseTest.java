@@ -1,6 +1,12 @@
 package com.tarbadev.witchcraft.domain;
 
 import com.tarbadev.witchcraft.domain.converter.IngredientConverter;
+import com.tarbadev.witchcraft.domain.entity.Cart;
+import com.tarbadev.witchcraft.domain.entity.Ingredient;
+import com.tarbadev.witchcraft.domain.entity.Item;
+import com.tarbadev.witchcraft.domain.entity.Recipe;
+import com.tarbadev.witchcraft.domain.repository.CartRepository;
+import com.tarbadev.witchcraft.domain.usecase.CreateCartUseCase;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,7 +33,8 @@ import static org.mockito.Mockito.verify;
 @ActiveProfiles("test")
 public class CreateCartUseCaseTest {
   @Autowired private IngredientConverter ingredientConverter;
-  @Mock CartRepository cartRepository;
+  @Mock
+  CartRepository cartRepository;
 
   private CreateCartUseCase subject;
 

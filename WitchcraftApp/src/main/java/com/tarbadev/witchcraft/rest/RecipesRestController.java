@@ -1,7 +1,7 @@
 package com.tarbadev.witchcraft.rest;
 
-import com.tarbadev.witchcraft.domain.Recipe;
-import com.tarbadev.witchcraft.domain.RecipeCatalogUseCase;
+import com.tarbadev.witchcraft.domain.entity.Recipe;
+import com.tarbadev.witchcraft.domain.usecase.RecipeCatalogUseCase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

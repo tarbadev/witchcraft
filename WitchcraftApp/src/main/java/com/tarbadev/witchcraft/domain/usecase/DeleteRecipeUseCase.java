@@ -1,5 +1,6 @@
-package com.tarbadev.witchcraft.domain;
+package com.tarbadev.witchcraft.domain.usecase;
 
+import com.tarbadev.witchcraft.domain.repository.RecipeRepository;
 import org.springframework.stereotype.Component;
 
 @Component

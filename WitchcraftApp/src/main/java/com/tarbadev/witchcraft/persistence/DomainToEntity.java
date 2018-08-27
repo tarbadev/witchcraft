@@ -1,6 +1,6 @@
 package com.tarbadev.witchcraft.persistence;
 
-import com.tarbadev.witchcraft.domain.*;
+import com.tarbadev.witchcraft.domain.entity.*;
 
 import java.util.stream.Collectors;
 

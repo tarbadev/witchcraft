@@ -1,5 +1,9 @@
-package com.tarbadev.witchcraft.domain;
+package com.tarbadev.witchcraft.domain.usecase;
 
+import com.tarbadev.witchcraft.domain.entity.Day;
+import com.tarbadev.witchcraft.domain.repository.RecipeRepository;
+import com.tarbadev.witchcraft.domain.entity.Week;
+import com.tarbadev.witchcraft.domain.repository.WeekRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;

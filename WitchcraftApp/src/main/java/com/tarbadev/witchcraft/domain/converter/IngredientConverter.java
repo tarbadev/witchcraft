@@ -1,6 +1,6 @@
 package com.tarbadev.witchcraft.domain.converter;
 
-import com.tarbadev.witchcraft.domain.Ingredient;
+import com.tarbadev.witchcraft.domain.entity.Ingredient;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;

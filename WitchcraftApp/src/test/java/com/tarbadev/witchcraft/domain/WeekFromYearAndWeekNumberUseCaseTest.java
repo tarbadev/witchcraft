@@ -1,5 +1,10 @@
 package com.tarbadev.witchcraft.domain;
 
+import com.tarbadev.witchcraft.domain.entity.Day;
+import com.tarbadev.witchcraft.domain.entity.DayName;
+import com.tarbadev.witchcraft.domain.entity.Week;
+import com.tarbadev.witchcraft.domain.repository.WeekRepository;
+import com.tarbadev.witchcraft.domain.usecase.WeekFromYearAndWeekNumberUseCase;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

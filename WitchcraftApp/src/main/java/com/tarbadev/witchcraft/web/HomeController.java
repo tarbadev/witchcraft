@@ -1,8 +1,8 @@
 package com.tarbadev.witchcraft.web;
 
-import com.tarbadev.witchcraft.domain.BestRatedRecipesUseCase;
-import com.tarbadev.witchcraft.domain.LastAddedRecipesUseCase;
-import com.tarbadev.witchcraft.domain.WeekFromYearAndWeekNumberUseCase;
+import com.tarbadev.witchcraft.domain.usecase.BestRatedRecipesUseCase;
+import com.tarbadev.witchcraft.domain.usecase.LastAddedRecipesUseCase;
+import com.tarbadev.witchcraft.domain.usecase.WeekFromYearAndWeekNumberUseCase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

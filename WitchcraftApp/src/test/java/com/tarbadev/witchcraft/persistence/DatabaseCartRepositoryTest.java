@@ -1,9 +1,8 @@
 package com.tarbadev.witchcraft.persistence;
 
-import com.tarbadev.witchcraft.domain.Cart;
-import com.tarbadev.witchcraft.domain.Ingredient;
-import com.tarbadev.witchcraft.domain.Item;
-import com.tarbadev.witchcraft.domain.Recipe;
+import com.tarbadev.witchcraft.domain.entity.Cart;
+import com.tarbadev.witchcraft.domain.entity.Item;
+import com.tarbadev.witchcraft.domain.entity.Recipe;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

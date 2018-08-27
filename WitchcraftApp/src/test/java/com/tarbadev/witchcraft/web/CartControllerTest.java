@@ -1,6 +1,11 @@
 package com.tarbadev.witchcraft.web;
 
-import com.tarbadev.witchcraft.domain.*;
+import com.tarbadev.witchcraft.domain.entity.Cart;
+import com.tarbadev.witchcraft.domain.entity.Recipe;
+import com.tarbadev.witchcraft.domain.usecase.CartCatalogUseCase;
+import com.tarbadev.witchcraft.domain.usecase.CreateCartUseCase;
+import com.tarbadev.witchcraft.domain.usecase.GetCartUseCase;
+import com.tarbadev.witchcraft.domain.usecase.RecipeCatalogUseCase;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

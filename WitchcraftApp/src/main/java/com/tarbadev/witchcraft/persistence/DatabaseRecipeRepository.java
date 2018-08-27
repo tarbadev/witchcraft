@@ -1,8 +1,8 @@
 package com.tarbadev.witchcraft.persistence;
 
-import com.tarbadev.witchcraft.domain.Ingredient;
-import com.tarbadev.witchcraft.domain.Recipe;
-import com.tarbadev.witchcraft.domain.RecipeRepository;
+import com.tarbadev.witchcraft.domain.entity.Ingredient;
+import com.tarbadev.witchcraft.domain.entity.Recipe;
+import com.tarbadev.witchcraft.domain.repository.RecipeRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.Comparator;
