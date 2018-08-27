@@ -58,7 +58,7 @@ public class RecipesController {
 
   @PostMapping("/recipes/importFromUrl")
   public String addRecipe(@Valid RecipeUrlForm recipeUrlForm) {
-    Recipe recipe = getRecipeDetailsFromUrlUseCase.execute(recipeUrlForm.getUrl());
+    Recipe recipe = getRecipeDetailsFromUrlUseCase.execute(recipeUrlForm.getOriginUrl());
     saveRecipeUseCase.execute(recipe);
 
     return "redirect:/recipes";
@@ -68,7 +68,7 @@ public class RecipesController {
   public String addRecipe(@Valid RecipeManualForm recipeManualForm) {
     Recipe recipe = getRecipeDetailsFromFormUseCase.execute(
         recipeManualForm.getName(),
-        recipeManualForm.getUrl(),
+        recipeManualForm.getOriginUrl(),
         recipeManualForm.getIngredients(),
         recipeManualForm.getSteps(),
         recipeManualForm.getImgUrl());

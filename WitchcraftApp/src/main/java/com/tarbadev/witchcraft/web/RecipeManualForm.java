@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class RecipeManualForm {
   private String name;
-  private String url;
+  private String originUrl;
   private String imgUrl;
   private String ingredients;
   private String steps;

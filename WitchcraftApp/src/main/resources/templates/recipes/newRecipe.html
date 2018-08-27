@@ -17,7 +17,7 @@
           </div>
           <div class="field">
             <label>Url</label>
-            <input type="text" th:field="*{url}" placeholder="http://example.com/recipe/32434">
+            <input type="text" th:field="*{originUrl}" placeholder="http://example.com/recipe/32434">
           </div>
           <div class="field">
             <label>Image Url</label>
@@ -45,7 +45,7 @@
         <form class="ui form" action="#" th:action="@{/recipes/importFromUrl}" th:object="${recipeUrlForm}" method="post">
           <h3>Add from URL</h3>
           <div class="field">
-            <input type="text" th:field="*{url}" placeholder="http://example.com/recipe/32434">
+            <input type="text" th:field="*{originUrl}" placeholder="http://example.com/recipe/32434">
           </div>
           <button class="ui primary right floated button" type="submit">Submit</button>
         </form>

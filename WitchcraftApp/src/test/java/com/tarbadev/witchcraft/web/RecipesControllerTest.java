@@ -57,9 +57,9 @@ public class RecipesControllerTest {
     mvc.perform(get("/recipes/new"))
         .andExpect(status().isOk())
         .andExpect(view().name("recipes/newRecipe"))
-        .andExpect(model().attribute("recipeUrlForm", hasProperty("url", isEmptyOrNullString())))
+        .andExpect(model().attribute("recipeUrlForm", hasProperty("originUrl", isEmptyOrNullString())))
         .andExpect(model().attribute("recipeManualForm", hasProperty("name", isEmptyOrNullString())))
-        .andExpect(model().attribute("recipeManualForm", hasProperty("url", isEmptyOrNullString())))
+        .andExpect(model().attribute("recipeManualForm", hasProperty("originUrl", isEmptyOrNullString())))
         .andExpect(model().attribute("recipeManualForm", hasProperty("ingredients", isEmptyOrNullString())))
         .andExpect(model().attribute("recipeManualForm", hasProperty("steps", isEmptyOrNullString())));
   }
@@ -86,7 +86,7 @@ public class RecipesControllerTest {
     given(getRecipeDetailsFromUrlUseCase.execute(recipe.getOriginUrl())).willReturn(recipe);
 
     mvc.perform(post("/recipes/importFromUrl")
-        .param("url", recipe.getOriginUrl())
+        .param("originUrl", recipe.getOriginUrl())
         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
     )
         .andExpect(redirectedUrl("/recipes"));
@@ -112,7 +112,7 @@ public class RecipesControllerTest {
 
     RecipeManualForm recipeManualForm = new RecipeManualForm();
     recipeManualForm.setName(recipeName);
-    recipeManualForm.setUrl(recipeOriginUrl);
+    recipeManualForm.setOriginUrl(recipeOriginUrl);
     recipeManualForm.setImgUrl(recipeImgUrl);
     recipeManualForm.setIngredients(recipeIngredients);
     recipeManualForm.setSteps(recipeSteps);
@@ -129,7 +129,7 @@ public class RecipesControllerTest {
 
     mvc.perform(post("/recipes/importFromForm")
         .param("name", recipeManualForm.getName())
-        .param("url", recipeManualForm.getUrl())
+        .param("originUrl", recipeManualForm.getOriginUrl())
         .param("imgUrl", recipeManualForm.getImgUrl())
         .param("ingredients", recipeManualForm.getIngredients())
         .param("steps", recipeManualForm.getSteps())
