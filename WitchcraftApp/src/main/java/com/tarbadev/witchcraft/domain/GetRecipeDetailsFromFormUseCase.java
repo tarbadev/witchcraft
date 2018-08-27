@@ -19,7 +19,7 @@ public class GetRecipeDetailsFromFormUseCase {
   public Recipe execute(String name, String url, String ingredients, String steps, String imgUrl) {
     return Recipe.builder()
         .name(name)
-        .url(url)
+        .originUrl(url)
         .imgUrl(imgUrl)
         .ingredients(getIngredientsFromString(ingredients))
         .steps(Arrays.stream(steps.split("\n"))

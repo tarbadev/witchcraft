@@ -100,7 +100,7 @@ public class RecipesController {
     saveRecipeUseCase.execute(Recipe.builder()
         .id(recipeModifyForm.getId())
         .name(recipeModifyForm.getName())
-        .url(recipeModifyForm.getUrl())
+        .originUrl(recipeModifyForm.getUrl())
         .imgUrl(recipeModifyForm.getImgUrl())
         .rating(recipeModifyForm.getRating())
         .ingredients(recipeModifyForm.getIngredients().stream()

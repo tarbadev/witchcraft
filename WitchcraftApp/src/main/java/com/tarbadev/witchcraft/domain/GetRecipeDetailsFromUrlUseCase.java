@@ -22,8 +22,8 @@ public class GetRecipeDetailsFromUrlUseCase {
     this.convertAndAddSameIngredientUseCase = convertAndAddSameIngredientUseCase;
   }
 
-  public Recipe execute(String url) {
-    Document html = getRecipeHtml(url);
+  public Recipe execute(String originUrl) {
+    Document html = getRecipeHtml(originUrl);
     String name = getRecipeNameFromHtml(html);
     String imgUrl = getImgUrl(html);
     List<Ingredient> ingredients = getIngredientsFromHtml(html);
@@ -31,7 +31,7 @@ public class GetRecipeDetailsFromUrlUseCase {
 
     return Recipe.builder()
         .name(name)
-        .url(url)
+        .originUrl(originUrl)
         .imgUrl(imgUrl)
         .ingredients(ingredients)
         .steps(steps)

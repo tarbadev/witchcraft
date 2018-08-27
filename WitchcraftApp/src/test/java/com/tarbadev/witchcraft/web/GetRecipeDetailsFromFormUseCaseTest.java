@@ -35,7 +35,7 @@ public class GetRecipeDetailsFromFormUseCaseTest {
   @Test
   public void execute() {
     String name = "Some recipe name";
-    String url = "http://some/url/of/recipe";
+    String originUrl = "http://some/url/of/recipe";
     String imgUrl = "http://some/url/of/recipe.png";
     String ingredients = String.join("\n"
         , "10 tbsp sugar"
@@ -49,7 +49,7 @@ public class GetRecipeDetailsFromFormUseCaseTest {
 
     Recipe recipe = Recipe.builder()
         .name(name)
-        .url(url)
+        .originUrl(originUrl)
         .imgUrl(imgUrl)
         .ingredients(Arrays.asList(
             Ingredient.builder()
@@ -76,7 +76,7 @@ public class GetRecipeDetailsFromFormUseCaseTest {
     given(convertAndAddSameIngredientsUseCase.execute(recipe.getIngredients()))
         .willReturn(recipe.getIngredients());
 
-    assertThat(subject.execute(name, url, ingredients, steps, imgUrl)).isEqualTo(recipe);
+    assertThat(subject.execute(name, originUrl, ingredients, steps, imgUrl)).isEqualTo(recipe);
   }
 
   @Test
@@ -137,7 +137,7 @@ public class GetRecipeDetailsFromFormUseCaseTest {
     );
     Recipe recipe = Recipe.builder()
         .name(name)
-        .url(url)
+        .originUrl(url)
         .imgUrl(imgUrl)
         .ingredients(
             expectedIngredients)

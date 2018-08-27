@@ -83,22 +83,22 @@ public class RecipesControllerTest {
   public void importFromUrl() throws Exception {
     Recipe recipe = testResources.getRecipe();
 
-    given(getRecipeDetailsFromUrlUseCase.execute(recipe.getUrl())).willReturn(recipe);
+    given(getRecipeDetailsFromUrlUseCase.execute(recipe.getOriginUrl())).willReturn(recipe);
 
     mvc.perform(post("/recipes/importFromUrl")
-        .param("url", recipe.getUrl())
+        .param("url", recipe.getOriginUrl())
         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
     )
         .andExpect(redirectedUrl("/recipes"));
 
-    verify(getRecipeDetailsFromUrlUseCase).execute(recipe.getUrl());
+    verify(getRecipeDetailsFromUrlUseCase).execute(recipe.getOriginUrl());
     verify(saveRecipeUseCase).execute(recipe);
   }
 
   @Test
   public void importFromForm() throws Exception {
     String recipeName = "Some recipe name";
-    String recipeUrl = "http://some/url/of/recipe";
+    String recipeOriginUrl = "http://some/url/of/recipe";
     String recipeImgUrl = "http://some/url/of/recipe.png";
     String recipeIngredients = String.join("\n"
         , "10 tbsp sugar"
@@ -112,20 +112,20 @@ public class RecipesControllerTest {
 
     RecipeManualForm recipeManualForm = new RecipeManualForm();
     recipeManualForm.setName(recipeName);
-    recipeManualForm.setUrl(recipeUrl);
+    recipeManualForm.setUrl(recipeOriginUrl);
     recipeManualForm.setImgUrl(recipeImgUrl);
     recipeManualForm.setIngredients(recipeIngredients);
     recipeManualForm.setSteps(recipeSteps);
 
     Recipe recipe = Recipe.builder()
         .name(recipeName)
-        .url(recipeUrl)
+        .originUrl(recipeOriginUrl)
         .imgUrl(recipeImgUrl)
         .ingredients(Arrays.stream(recipeIngredients.split("\n")).map(ingredient -> Ingredient.builder().name(ingredient).build()).collect(Collectors.toList()))
         .steps(Arrays.stream(recipeSteps.split("\n")).map(step -> Step.builder().name(step).build()).collect(Collectors.toList()))
         .build();
 
-    given(getRecipeDetailsFromFormUseCase.execute(recipeName, recipeUrl, recipeIngredients, recipeSteps, recipeImgUrl)).willReturn(recipe);
+    given(getRecipeDetailsFromFormUseCase.execute(recipeName, recipeOriginUrl, recipeIngredients, recipeSteps, recipeImgUrl)).willReturn(recipe);
 
     mvc.perform(post("/recipes/importFromForm")
         .param("name", recipeManualForm.getName())
@@ -137,7 +137,7 @@ public class RecipesControllerTest {
     )
         .andExpect(redirectedUrl("/recipes"));
 
-    verify(getRecipeDetailsFromFormUseCase).execute(recipeName, recipeUrl, recipeIngredients, recipeSteps, recipeImgUrl);
+    verify(getRecipeDetailsFromFormUseCase).execute(recipeName, recipeOriginUrl, recipeIngredients, recipeSteps, recipeImgUrl);
     verify(saveRecipeUseCase).execute(recipe);
   }
 
@@ -219,7 +219,7 @@ public class RecipesControllerTest {
     Recipe recipe = Recipe.builder()
         .id(123)
         .name("Recipe name")
-        .url("http url")
+        .originUrl("http url")
         .imgUrl("http img url")
         .ingredients(Arrays.asList(
             Ingredient.builder().quantity(2.0).name("Ingredient").build(),

@@ -15,7 +15,7 @@ import java.util.Arrays;
 public class TestResources {
   private Recipe recipe = Recipe.builder()
       .name("Mini Goat Cheese Stuffed Potato Appetizers – Greek-Inspired")
-      .url("https://www.cookincanuck.com/mini-goat-cheese-stuffed-potato-appetizers/")
+      .originUrl("https://www.cookincanuck.com/mini-goat-cheese-stuffed-potato-appetizers/")
       .imgUrl("https://www.cookincanuck.com/wp-content/uploads/2017/11/Mini-Goat-Cheese-Stuffed-Potato-Appetizers-Greek-Inspired-Cookin-Canuck-4.jpg")
       .ingredients(Arrays.asList(
           Ingredient.builder()

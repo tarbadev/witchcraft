@@ -9,7 +9,7 @@ public class DomainToEntity {
     return RecipeEntity.builder()
         .id(recipe.getId())
         .name(recipe.getName())
-        .url(recipe.getUrl())
+        .url(recipe.getOriginUrl())
         .imgUrl(recipe.getImgUrl())
         .ingredients(recipe.getIngredients().stream().map(DomainToEntity::ingredientEntityMapper).collect(Collectors.toList()))
         .steps(recipe.getSteps().stream().map(DomainToEntity::stepEntityMapper).collect(Collectors.toList()))

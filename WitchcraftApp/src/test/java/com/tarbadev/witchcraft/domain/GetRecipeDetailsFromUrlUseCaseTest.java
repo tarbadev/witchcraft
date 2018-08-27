@@ -85,7 +85,7 @@ public class GetRecipeDetailsFromUrlUseCaseTest {
                 .build()))
     ).willReturn(recipe.getIngredients());
 
-    Recipe returnedRecipe = subject.execute(recipe.getUrl());
+    Recipe returnedRecipe = subject.execute(recipe.getOriginUrl());
     assertThat(returnedRecipe).isEqualTo(recipe);
   }
 
@@ -96,7 +96,7 @@ public class GetRecipeDetailsFromUrlUseCaseTest {
     given(convertAndAddSameIngredientUseCase.execute(recipe.getIngredients()))
         .willReturn(recipe.getIngredients());
 
-    assertThat(subject.execute(recipe.getUrl()).getName()).isEqualTo(recipe.getName());
+    assertThat(subject.execute(recipe.getOriginUrl()).getName()).isEqualTo(recipe.getName());
   }
 
   @Test
@@ -152,7 +152,7 @@ public class GetRecipeDetailsFromUrlUseCaseTest {
                 .build()))
     ).willReturn(recipe.getIngredients());
 
-    Recipe returnedRecipe = subject.execute(recipe.getUrl());
+    Recipe returnedRecipe = subject.execute(recipe.getOriginUrl());
     assertThat(returnedRecipe.getIngredients()).isEqualTo(recipe.getIngredients());
   }
 
@@ -160,7 +160,7 @@ public class GetRecipeDetailsFromUrlUseCaseTest {
   public void execute_getsRecipeImageUrl() {
     Recipe recipe = testResources.getRecipe();
 
-    Recipe returnedRecipe = subject.execute(recipe.getUrl());
+    Recipe returnedRecipe = subject.execute(recipe.getOriginUrl());
     assertThat(returnedRecipe.getImgUrl()).isEqualTo(recipe.getImgUrl());
   }
 
@@ -168,7 +168,7 @@ public class GetRecipeDetailsFromUrlUseCaseTest {
   public void execute_getsRecipesSteps() {
     Recipe recipe = testResources.getRecipe();
 
-    Recipe returnedRecipe = subject.execute(recipe.getUrl());
+    Recipe returnedRecipe = subject.execute(recipe.getOriginUrl());
 
     assertThat(returnedRecipe.getSteps().size()).isEqualTo(6);
     assertThat(returnedRecipe.getSteps()).isEqualTo(recipe.getSteps());
