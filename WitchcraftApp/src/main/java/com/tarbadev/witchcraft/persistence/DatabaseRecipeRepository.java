@@ -28,7 +28,7 @@ public class DatabaseRecipeRepository implements RecipeRepository {
   public Recipe updateRecipe(Recipe recipe) {
     RecipeEntity entity = recipeEntityRepository.findById(recipe.getId()).orElse(null);
     entity.setName(recipe.getName());
-    entity.setUrl(recipe.getOriginUrl());
+    entity.setOriginUrl(recipe.getOriginUrl());
     entity.setImgUrl(recipe.getImgUrl());
     entity.setIngredients(recipe.getIngredients().stream().map(DomainToEntity::ingredientEntityMapper).collect(Collectors.toList()));
     entity.setSteps(recipe.getSteps().stream().map(DomainToEntity::stepEntityMapper).collect(Collectors.toList()));

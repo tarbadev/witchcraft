@@ -203,8 +203,8 @@ public class RecipesControllerTest {
     RecipeModifyForm recipeModifyForm = RecipeModifyForm.builder()
         .id(123)
         .name("Recipe name")
-        .url("http url")
-        .imgUrl("http img url")
+        .url("http originUrl")
+        .imgUrl("http img originUrl")
         .ingredients(Arrays.asList(
             IngredientModifyForm.builder().quantity(2.0).name("Ingredient").build(),
             IngredientModifyForm.builder().quantity(1.5).unit("oz").name("Ingredient 3").build(),
@@ -219,8 +219,8 @@ public class RecipesControllerTest {
     Recipe recipe = Recipe.builder()
         .id(123)
         .name("Recipe name")
-        .originUrl("http url")
-        .imgUrl("http img url")
+        .originUrl("http originUrl")
+        .imgUrl("http img originUrl")
         .ingredients(Arrays.asList(
             Ingredient.builder().quantity(2.0).name("Ingredient").build(),
             Ingredient.builder().quantity(1.5).unit("oz").name("Ingredient 3").build(),

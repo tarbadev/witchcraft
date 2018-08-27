@@ -9,7 +9,7 @@ public class EntityToDomain {
     return Recipe.builder()
         .id(recipeEntity.getId())
         .name(recipeEntity.getName().toLowerCase())
-        .originUrl(recipeEntity.getUrl())
+        .originUrl(recipeEntity.getOriginUrl())
         .imgUrl(recipeEntity.getImgUrl())
         .rating(recipeEntity.getRating())
         .ingredients(recipeEntity.getIngredients().stream().map(EntityToDomain::ingredientMapper).collect(Collectors.toList()))

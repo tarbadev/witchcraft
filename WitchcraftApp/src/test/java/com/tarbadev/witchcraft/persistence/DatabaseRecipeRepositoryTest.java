@@ -129,13 +129,13 @@ public class DatabaseRecipeRepositoryTest {
         entityManager.persist(RecipeEntity.builder()
             .name("Lasagna")
             .ingredients(emptyList())
-            .url(url1)
+            .originUrl(url1)
             .imgUrl("imgUrl1")
             .build()),
         entityManager.persist(RecipeEntity.builder()
             .name("Tartiflette")
             .ingredients(emptyList())
-            .url(url2)
+            .originUrl(url2)
             .imgUrl("imgUrl2")
             .build())
     );
@@ -188,7 +188,7 @@ public class DatabaseRecipeRepositoryTest {
             .name("Recipe 1")
             .ingredients(emptyList())
             .steps(emptyList())
-            .url("URL")
+            .originUrl("URL")
             .build()
         )
     );
@@ -209,7 +209,7 @@ public class DatabaseRecipeRepositoryTest {
                 IngredientEntity.builder().name("Egg").build()
             ))
             .steps(emptyList())
-            .url("URL")
+            .originUrl("URL")
             .build()
         )
     );
@@ -225,7 +225,7 @@ public class DatabaseRecipeRepositoryTest {
     return Recipe.builder()
         .id(recipeEntity.getId())
         .name(recipeEntity.getName().toLowerCase())
-        .originUrl(recipeEntity.getUrl())
+        .originUrl(recipeEntity.getOriginUrl())
         .imgUrl(recipeEntity.getImgUrl())
         .ingredients(recipeEntity.getIngredients().stream()
             .map(ingredientEntity -> Ingredient.builder()

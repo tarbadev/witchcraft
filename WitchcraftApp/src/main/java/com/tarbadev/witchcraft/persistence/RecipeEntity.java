@@ -17,7 +17,7 @@ public class RecipeEntity {
   @Id
   @GeneratedValue(strategy= GenerationType.AUTO)
   private Integer id;
-  private String url;
+  private String originUrl;
   private String name;
   private String imgUrl;
   private Double rating;

@@ -35,8 +35,8 @@ public class GetRecipeDetailsFromFormUseCaseTest {
   @Test
   public void execute() {
     String name = "Some recipe name";
-    String originUrl = "http://some/url/of/recipe";
-    String imgUrl = "http://some/url/of/recipe.png";
+    String originUrl = "http://some/originUrl/of/recipe";
+    String imgUrl = "http://some/originUrl/of/recipe.png";
     String ingredients = String.join("\n"
         , "10 tbsp sugar"
         , "1/2 cup olive oil"
@@ -82,8 +82,8 @@ public class GetRecipeDetailsFromFormUseCaseTest {
   @Test
   public void execute_addsSameIngredients() {
     String name = "Some recipe name";
-    String url = "http://some/url/of/recipe";
-    String imgUrl = "http://some/url/of/recipe.png";
+    String url = "http://some/originUrl/of/recipe";
+    String imgUrl = "http://some/originUrl/of/recipe.png";
     String ingredients = String.join("\n"
         , "10 tbsp sugar"
         , "1/2 cup olive oil"
