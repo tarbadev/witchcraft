@@ -11,10 +11,11 @@ describe("RecipeCard", function () {
 
   describe("Content", function() {
     let expectedTitle = "Recipe title";
+    let expectedUrl = "/recipes/url";
     let expectedImgUrl = "http://example.com/image.png";
 
     beforeEach(() => {
-      this.instance = shallow(<RecipeCard title={expectedTitle} imgUrl={expectedImgUrl} />);
+      this.instance = shallow(<RecipeCard title={expectedTitle} imgUrl={expectedImgUrl} url={expectedUrl} />);
     });
 
     it('has a class card', () => {
@@ -23,6 +24,11 @@ describe("RecipeCard", function () {
 
     it('is an anchor', () => {
       expect(this.instance.is('a')).toBeTruthy();
+    });
+
+    it('has an anchor with a url matching a given prop', () => {
+      expect(this.instance.instance().props.url).toBe(expectedUrl);
+      expect(this.instance.prop('href')).toBe(expectedUrl);
     });
 
     it('has a div with a class content', () => {

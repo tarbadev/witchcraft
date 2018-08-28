@@ -31,5 +31,21 @@ describe("RecipeList", function () {
     it('renders a RecipeCard for each recipe', () => {
       expect(this.instance.find(RecipeCard).length).toBe(promisedRecipeList.recipes.length);
     });
+
+    it('renders a RecipeCard with an imgUrl prop', () => {
+      expect(this.instance.find(RecipeCard).get(0).props.imgUrl).toBe(promisedRecipeList.recipes[0].imgUrl);
+    });
+
+    it('renders a RecipeCard with a title prop', () => {
+      expect(this.instance.find(RecipeCard).get(0).props.title).toBe(promisedRecipeList.recipes[0].name);
+    });
+
+    it('renders a RecipeCard with a url prop', () => {
+      expect(this.instance.find(RecipeCard).get(0).props.url).toBe(promisedRecipeList.recipes[0].url);
+    });
+
+    it('has classes "ui link cards list"', () => {
+      expect(this.instance.hasClass('ui link cards list')).toBeTruthy();
+    });
   });
 });

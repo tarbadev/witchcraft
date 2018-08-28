@@ -2,7 +2,8 @@ import React from 'react';
 import { shallow } from 'enzyme';
 
 import App from 'app-components/App';
-import RecipeList from 'app-components/RecipeList';
+import Header from 'app-components/Header'
+import Content from 'app-components/Content'
 
 describe("App", function () {
   it('renders without crashing', () => {
@@ -15,8 +16,16 @@ describe("App", function () {
       this.instance = shallow(<App />);
     });
 
-    it('contains a list of recipes', () => {
-      expect(this.instance.find(RecipeList).length).toBe(1);
+    it('is a div', () => {
+      expect(this.instance.is('div')).toBeTruthy();
+    });
+
+    it('contains a Header', () => {
+      expect(this.instance.find(Header).length).toBe(1);
+    });
+
+    it('contains a Content', () => {
+      expect(this.instance.find(Content).length).toBe(1);
     });
   });
 });

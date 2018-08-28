@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 export default class RecipeCard extends Component {
   render() {
     return (
-      <a className='card'>
+      <a className='card' href={this.props.url}>
         <div className='image'>
           <img src={this.props.imgUrl} />
         </div>

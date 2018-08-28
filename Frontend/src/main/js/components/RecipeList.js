@@ -20,10 +20,14 @@ export default class RecipeList extends Component {
   }
 
   render() {
-    let recipeCards = this.state.recipes.map(recipe => <RecipeCard key={recipe.id} />);
+    let recipeCards = this.state.recipes.map(recipe => <RecipeCard
+      key={recipe.id}
+      imgUrl={recipe.imgUrl}
+      title={recipe.name}
+      url={recipe.url} />);
 
     return (
-      <div>
+      <div className="ui link cards list">
         {recipeCards}
       </div>
     );

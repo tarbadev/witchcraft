@@ -1,11 +1,18 @@
 import React, { Component } from 'react';
-import RecipeList from './RecipeList'
+import {
+  Route,
+  HashRouter, Switch
+} from "react-router-dom";
+
+import Header from './Header'
+import Content from './Content'
 
 export default class App extends Component {
   render() {
     return (
       <div>
-        <RecipeList />
+        <Header />
+        <Content />
       </div>
     );
   }
