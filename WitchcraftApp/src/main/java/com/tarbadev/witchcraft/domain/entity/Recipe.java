@@ -5,9 +5,10 @@ import lombok.*;
 import java.util.List;
 
 @Value
-@Builder
+@Builder(toBuilder = true)
 public class Recipe {
   private Integer id;
+  private String url;
   private String originUrl;
   private String name;
   private String imgUrl;

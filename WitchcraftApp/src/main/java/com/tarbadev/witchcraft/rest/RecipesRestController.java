@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/recipes")
@@ -24,7 +25,13 @@ public class RecipesRestController {
   @GetMapping
   public Map<String, List<Recipe>> list() {
     Map<String, List<Recipe>> returnMap = new HashMap<>();
-    returnMap.put("recipes", recipeCatalogUseCase.execute());
+    List<Recipe> recipeList = recipeCatalogUseCase.execute();
+
+    recipeList = recipeList.stream()
+        .map(recipe -> recipe.toBuilder().url("/recipes/" + recipe.getId()).build())
+        .collect(Collectors.toList());
+
+    returnMap.put("recipes", recipeList);
 
     return returnMap;
   }

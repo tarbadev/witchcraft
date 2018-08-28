@@ -1,7 +1,7 @@
 package com.tarbadev.witchcraft.rest;
 
-import com.tarbadev.witchcraft.domain.Recipe;
-import com.tarbadev.witchcraft.domain.RecipeCatalogUseCase;
+import com.tarbadev.witchcraft.domain.entity.Recipe;
+import com.tarbadev.witchcraft.domain.usecase.RecipeCatalogUseCase;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,9 +36,21 @@ public class RecipesRestControllerTest {
 
   @Test
   public void list() throws Exception {
+    String recipe1Name = "Test";
+    String recipe1ImageUrl = "exampleImageUrl";
+    Integer recipe1Id = 10;
+    String recipe1Url = "/recipes/" + recipe1Id;
+    String recipe2Name = "New Lasagna";
+
+    Recipe recipe1 = Recipe.builder()
+        .id(recipe1Id)
+        .name(recipe1Name)
+        .imgUrl(recipe1ImageUrl)
+        .build();
+
     List<Recipe> recipes = Arrays.asList(
-        Recipe.builder().name("Test").build(),
-        Recipe.builder().name("New Lasagna").build()
+        recipe1,
+        Recipe.builder().name(recipe2Name).build()
     );
 
     given(recipeCatalogUseCase.execute()).willReturn(recipes);
@@ -46,7 +58,10 @@ public class RecipesRestControllerTest {
     mvc.perform(get("/api/recipes"))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.recipes", hasSize(2)))
-        .andExpect(jsonPath("$.recipes[0].name", is("Test")))
-        .andExpect(jsonPath("$.recipes[1].name", is("New Lasagna")));
+        .andExpect(jsonPath("$.recipes[0].id", is(recipe1Id)))
+        .andExpect(jsonPath("$.recipes[0].name", is(recipe1Name)))
+        .andExpect(jsonPath("$.recipes[0].imgUrl", is(recipe1ImageUrl)))
+        .andExpect(jsonPath("$.recipes[0].url", is(recipe1Url)))
+        .andExpect(jsonPath("$.recipes[1].name", is(recipe2Name)));
   }
 }
