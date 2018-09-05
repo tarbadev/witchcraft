@@ -3,6 +3,7 @@ import {
   Route,
   HashRouter, Switch
 } from "react-router-dom";
+import Grid from '@material-ui/core/Grid';
 
 import Header from './Header'
 import Content from './Content'
@@ -10,10 +11,14 @@ import Content from './Content'
 export default class App extends Component {
   render() {
     return (
-      <div>
-        <Header />
-        <Content />
-      </div>
+      <Grid container spacing={24} justify="center">
+        <Grid item xs={10}>
+          <Header />
+        </Grid>
+        <Grid item xs={10}>
+          <Content />
+        </Grid>
+      </Grid>
     );
   }
 }

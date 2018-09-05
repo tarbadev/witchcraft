@@ -19,39 +19,40 @@ describe("Header", function () {
     });
 
     it('is a Toolbar', () => {
-      expect(this.instance.find(Toolbar).length).toBe(1);
+      expect(this.instance.is(Toolbar)).toBeTruthy();
+      expect(this.instance.props().disableGutters).toBeTruthy();
     });
 
-    it('contains a 4 Button', () => {
-      expect(this.instance.find(Button).length).toBe(4);
+    it('contains a 4 Link', () => {
+      expect(this.instance.find(Link).length).toBe(4);
     });
 
-    it('contains a home Link', () => {
-      let button = this.instance.find(Button).at(0);
+    it('contains a home Button', () => {
+      let link = this.instance.find(Link).at(0);
 
-      expect(button.find(Link).at(0).children().text()).toBe("Home");
-      expect(button.find(Link).at(0).props().to).toBe("/");
+      expect(link.props().to).toBe("/");
+      expect(link.find(Button).at(0).children().text()).toBe("Home");
     });
 
-    it('contains a recipes Link', () => {
-      let button = this.instance.find(Button).at(1);
+    it('contains a recipes Button', () => {
+      let link = this.instance.find(Link).at(1);
 
-      expect(button.find(Link).at(0).children().text()).toBe("Recipes");
-      expect(button.find(Link).at(0).props().to).toBe("/recipes");
+      expect(link.props().to).toBe("/recipes");
+      expect(link.find(Button).at(0).children().text()).toBe("Recipes");
     });
 
-    it('contains a weeks Link', () => {
-      let button = this.instance.find(Button).at(2);
+    it('contains a weeks Button', () => {
+      let link = this.instance.find(Link).at(2);
 
-      expect(button.find(Link).at(0).children().text()).toBe("Weeks");
-      expect(button.find(Link).at(0).props().to).toBe("/weeks");
+      expect(link.props().to).toBe("/weeks");
+      expect(link.find(Button).at(0).children().text()).toBe("Weeks");
     });
 
-    it('contains a cart Link', () => {
-      let button = this.instance.find(Button).at(3);
+    it('contains a cart Button', () => {
+      let link = this.instance.find(Link).at(3);
 
-      expect(button.find(Link).at(0).children().text()).toBe("Carts");
-      expect(button.find(Link).at(0).props().to).toBe("/carts");
+      expect(link.props().to).toBe("/carts");
+      expect(link.find(Button).at(0).children().text()).toBe("Carts");
     });
   });
 });

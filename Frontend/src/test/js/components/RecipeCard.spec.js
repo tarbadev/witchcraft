@@ -1,6 +1,10 @@
 import React from 'react';
 import { shallow } from 'enzyme';
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardMedia from '@material-ui/core/CardMedia';
 
+import styles from 'app-components/RecipeCard.css';
 import RecipeCard from 'app-components/RecipeCard';
 
 describe("RecipeCard", function () {
@@ -18,41 +22,33 @@ describe("RecipeCard", function () {
       this.instance = shallow(<RecipeCard title={expectedTitle} imgUrl={expectedImgUrl} url={expectedUrl} />);
     });
 
-    it('has a class card', () => {
-      expect(this.instance.hasClass('card')).toBeTruthy();
+    it('is a Card', () => {
+      expect(this.instance.is(Card)).toBeTruthy();
     });
 
-    it('is an anchor', () => {
-      expect(this.instance.is('a')).toBeTruthy();
+    it('is has a class recipeCard', () => {
+      expect(this.instance.props().className).not.toBeUndefined();
+      expect(this.instance.props().className).toBe(styles.recipeCard);
     });
 
-    it('has an anchor with a url matching a given prop', () => {
-      expect(this.instance.instance().props.url).toBe(expectedUrl);
-      expect(this.instance.prop('href')).toBe(expectedUrl);
+    it('contains a CardHeader with a title from props and a classes prop', () => {
+      expect(this.instance.find(CardHeader).length).toBe(1);
+
+      let cardHeader = this.instance.find(CardHeader).at(0);
+      expect(cardHeader.props().title).toBe(expectedTitle);
+
+      expect(cardHeader.props().classes.root).toBe(styles.cardHeaderRoot);
+      expect(cardHeader.props().classes.title).toBe(styles.cardHeaderTitle);
     });
 
-    it('has a div with a class content', () => {
-      expect(this.instance.find('div.content').length).toBe(1);
-    });
+    it('contains a CardMedia with a image url and title from props and a className', () => {
+      expect(this.instance.find(CardMedia).length).toBe(1);
 
-    it('renders a title', () => {
-      expect(this.instance.instance().props.title).toBe(expectedTitle);
+      let cardMedia = this.instance.find(CardMedia).at(0);
+      expect(cardMedia.props().image).toBe(expectedImgUrl);
+      expect(cardMedia.props().title).toBe(expectedTitle);
 
-      let contentDiv = this.instance.find('div.content');
-      let headerDiv = contentDiv.find('div.header');
-      expect(headerDiv.length).toBe(1);
-      expect(headerDiv.text()).toBe(expectedTitle);
-    });
-
-    it('renders an image', () => {
-      expect(this.instance.instance().props.imgUrl).toBe(expectedImgUrl);
-
-      let imageDiv = this.instance.find('div.image');
-      expect(imageDiv.length).toBe(1);
-
-      let imageTag = imageDiv.find('img');
-      expect(imageTag.length).toBe(1);
-      expect(imageTag.prop('src')).toBe(expectedImgUrl);
+      expect(cardMedia.props().className).toBe(styles.cardMedia);
     });
   });
 });

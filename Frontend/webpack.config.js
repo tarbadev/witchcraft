@@ -30,13 +30,14 @@ module.exports = {
         loader: 'babel-loader',
         query: {
           presets: ['react', 'es2015']
-          // plugins: ['transform-decorators-legacy']
         },
         exclude: '/node_modules/',
         include: ROOT
+      },
+      {
+        test: /\.css$/,
+        loader: [ 'style-loader', 'css-loader' ]
       }
-
-//      {test: /\.css$/, loader: 'style-loader!css-loader'}
     ]
   }
 };

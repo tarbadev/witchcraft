@@ -1,5 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
+import Grid from '@material-ui/core/Grid';
 
 import App from 'app-components/App';
 import Header from 'app-components/Header'
@@ -16,16 +17,23 @@ describe("App", function () {
       this.instance = shallow(<App />);
     });
 
-    it('is a div', () => {
-      expect(this.instance.is('div')).toBeTruthy();
+    it('is a Grid container with spacing and justify props', () => {
+      expect(this.instance.is(Grid)).toBeTruthy();
+      expect(this.instance.props().container).toBeTruthy();
+      expect(this.instance.props().spacing).toBe(24);
+      expect(this.instance.props().justify).toBe("center");
     });
 
-    it('contains a Header', () => {
-      expect(this.instance.find(Header).length).toBe(1);
+    it('contains a Header in a Grid item', () => {
+      let item = this.instance.findWhere(node => node.props().item).at(0);
+      expect(item.props().xs).toBe(10);
+      expect(item.find(Header).length).toBe(1);
     });
 
-    it('contains a Content', () => {
-      expect(this.instance.find(Content).length).toBe(1);
+    it('contains a Content in a Grid item', () => {
+      let item = this.instance.findWhere(node => node.props().item).at(1);
+      expect(item.props().xs).toBe(10);
+      expect(item.find(Content).length).toBe(1);
     });
   });
 });
