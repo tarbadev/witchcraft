@@ -7,25 +7,9 @@ import RecipeCard from './RecipeCard'
 import RecipeService from 'app-services/RecipeService';
 
 export default class RecipeList extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      recipes: []
-    };
-  }
-
-  componentDidMount() {
-    RecipeService.fetchRecipes()
-      .then((data) => {
-        this.setState({
-          recipes: data.recipes
-        })
-      });
-  }
-
   render() {
-    let recipeCards = this.state.recipes.map(recipe =>
-      <Grid item xs={3} key={recipe.id}>
+    let recipeCards = this.props.recipes.map(recipe =>
+      <Grid item lg={3} md={4} sm={6} key={recipe.id}>
         <Link to={recipe.url} className={styles.link}>
           <RecipeCard
           imgUrl={recipe.imgUrl}
@@ -41,3 +25,7 @@ export default class RecipeList extends Component {
     );
   }
 }
+
+RecipeList.defaultProps = {
+    recipes: []
+ };

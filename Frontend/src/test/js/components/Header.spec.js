@@ -23,36 +23,40 @@ describe("Header", function () {
       expect(this.instance.props().disableGutters).toBeTruthy();
     });
 
-    it('contains a 4 Link', () => {
-      expect(this.instance.find(Link).length).toBe(4);
+    it('contains a 4 Button', () => {
+      expect(this.instance.find(Button).length).toBe(4);
     });
 
     it('contains a home Button', () => {
-      let link = this.instance.find(Link).at(0);
+      let button = this.instance.find(Button).at(0);
 
-      expect(link.props().to).toBe("/");
-      expect(link.find(Button).at(0).children().text()).toBe("Home");
+      expect(button.props().to).toBe("/home");
+      expect(button.props().component).toBe(Link);
+      expect(button.find(Button).at(0).children().text()).toBe("Home");
     });
 
     it('contains a recipes Button', () => {
-      let link = this.instance.find(Link).at(1);
+      let button = this.instance.find(Button).at(1);
 
-      expect(link.props().to).toBe("/recipes");
-      expect(link.find(Button).at(0).children().text()).toBe("Recipes");
+      expect(button.props().to).toBe("/recipes");
+      expect(button.props().component).toBe(Link);
+      expect(button.find(Button).at(0).children().text()).toBe("Recipes");
     });
 
     it('contains a weeks Button', () => {
-      let link = this.instance.find(Link).at(2);
+      let button = this.instance.find(Button).at(2);
 
-      expect(link.props().to).toBe("/weeks");
-      expect(link.find(Button).at(0).children().text()).toBe("Weeks");
+      expect(button.props().to).toBe("/weeks");
+      expect(button.props().component).toBe(Link);
+      expect(button.find(Button).at(0).children().text()).toBe("Weeks");
     });
 
     it('contains a cart Button', () => {
-      let link = this.instance.find(Link).at(3);
+      let button = this.instance.find(Button).at(3);
 
-      expect(link.props().to).toBe("/carts");
-      expect(link.find(Button).at(0).children().text()).toBe("Carts");
+      expect(button.props().to).toBe("/carts");
+      expect(button.props().component).toBe(Link);
+      expect(button.find(Button).at(0).children().text()).toBe("Carts");
     });
   });
 });

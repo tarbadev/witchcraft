@@ -7,10 +7,10 @@ export default class Header extends Component {
   render() {
     return (
       <Toolbar disableGutters={true}>
-        <Link to="/"><Button>Home</Button></Link>
-        <Link to="/recipes"><Button>Recipes</Button></Link>
-        <Link to="/weeks"><Button>Weeks</Button></Link>
-        <Link to="/carts"><Button>Carts</Button></Link>
+        <Button component={Link} to="/home">Home</Button>
+        <Button component={Link} to="/recipes">Recipes</Button>
+        <Button component={Link} to="/weeks">Weeks</Button>
+        <Button component={Link} to="/carts">Carts</Button>
       </Toolbar>
     );
   }

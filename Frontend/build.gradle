@@ -26,20 +26,20 @@ node {
   download = true
 }
 
-task webpack(type: NodeTask, dependsOn: 'npmInstall') {
+task webpack(type: NodeTask, dependsOn: 'npmInstall', group: 'build', description: 'Builds the frontend component') {
   script = project.file('node_modules/.bin/webpack')
 }
 
-task webpackWatch(type: NodeTask, dependsOn: 'npmInstall') {
+task webpackWatch(type: NodeTask, dependsOn: 'npmInstall', group: 'build', description: 'Builds the frontend component and watches for changes') {
   script = project.file('node_modules/.bin/webpack')
   args = ['--watch', '--display-error-details']
 }
 
-task testReact(type: NpmTask, dependsOn: 'npmInstall') {
+task testReact(type: NpmTask, dependsOn: 'npmInstall', group: 'Verification', description: 'Runs the tests for React') {
   args = ['run', 'test']
 }
 
-task testReactWatch(type: NpmTask, group: 'Verification', description: 'Same as testReact but watches for changes') {
+task testReactWatch(type: NpmTask, dependsOn: 'npmInstall', group: 'Verification', description: 'Runs the tests for React and watches for changes') {
   args = ['run', 'testWatch']
 }
 

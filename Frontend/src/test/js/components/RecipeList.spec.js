@@ -6,35 +6,32 @@ import { Link } from "react-router-dom";
 import styles from 'app-components/RecipeList.css';
 import RecipeList from 'app-components/RecipeList';
 import RecipeCard from 'app-components/RecipeCard';
-import RecipeService from 'app-services/RecipeService';
 
 const promisedRecipeList = require('test-resources/recipeList.json');
 
 describe("RecipeList", function () {
-  beforeEach(function() {
-    spyOn(RecipeService, 'fetchRecipes').and.returnValue(Promise.resolve(promisedRecipeList));
-  });
-
   it('renders without crashing', () => {
-    const recipeList = shallow(<RecipeList />);
+    const recipeList = shallow(<RecipeList recipes={promisedRecipeList.recipes} />);
     expect(recipeList).toBeDefined();
   });
 
   describe("Content", function() {
-    beforeEach(async () => {
-      this.instance = await shallow(<RecipeList />);
+    beforeEach(() => {
+      this.instance = shallow(<RecipeList recipes={promisedRecipeList.recipes} />);
       this.instance.update();
     });
 
     it('is a Grid and has spacing', () => {
+      expect(this.instance.instance().props.recipes).toBe(promisedRecipeList.recipes);
+
       expect(this.instance.is(Grid)).toBeTruthy();
       expect(this.instance.props().container).toBeTruthy();
       expect(this.instance.props().spacing).toBe(24);
     });
 
-    it('fetches a list of recipes', () => {
-      expect(RecipeService.fetchRecipes).toHaveBeenCalled();
-      expect(this.instance.state('recipes')).toBe(promisedRecipeList.recipes);
+    it('has a recipes prop defined even when not specified', () => {
+      let recipeList = shallow(<RecipeList />);
+      expect(recipeList.instance().props.recipes).toEqual([]);
     });
 
     it('renders a RecipeCard for each recipe in a Grid', () => {
@@ -43,7 +40,9 @@ describe("RecipeList", function () {
 
       let index = 0;
       grids.map((grid) => {
-        expect(grid.props().xs).toBe(3);
+        expect(grid.props().sm).toBe(6);
+        expect(grid.props().md).toBe(4);
+        expect(grid.props().lg).toBe(3);
         expect(grid.find(Link).length).toBe(1);
 
         let link = grid.find(Link).at(0);
