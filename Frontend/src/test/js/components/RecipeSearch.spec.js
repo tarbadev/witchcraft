@@ -2,9 +2,6 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
 
 import styles from 'app-components/RecipeSearch.css';
 import RecipeSearch from 'app-components/RecipeSearch';
