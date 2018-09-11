@@ -1,0 +1,11 @@
+:local(.title) {
+  text-transform: capitalize;
+}
+
+:local(.image) {
+   width: 100%;
+}
+
+:local(.leftIcon) {
+   margin-right: .5em;
+}

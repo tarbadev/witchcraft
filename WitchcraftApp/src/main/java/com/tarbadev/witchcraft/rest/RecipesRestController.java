@@ -1,9 +1,11 @@
 package com.tarbadev.witchcraft.rest;
 
 import com.tarbadev.witchcraft.domain.entity.Recipe;
+import com.tarbadev.witchcraft.domain.usecase.GetRecipeUseCase;
 import com.tarbadev.witchcraft.domain.usecase.RecipeCatalogUseCase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,10 +18,12 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/recipes")
 public class RecipesRestController {
   private RecipeCatalogUseCase recipeCatalogUseCase;
+  private GetRecipeUseCase getRecipeUseCase;
 
   @Autowired
-  public RecipesRestController(RecipeCatalogUseCase recipeCatalogUseCase) {
+  public RecipesRestController(RecipeCatalogUseCase recipeCatalogUseCase, GetRecipeUseCase getRecipeUseCase) {
     this.recipeCatalogUseCase = recipeCatalogUseCase;
+    this.getRecipeUseCase = getRecipeUseCase;
   }
 
   @GetMapping
@@ -34,5 +38,10 @@ public class RecipesRestController {
     returnMap.put("recipes", recipeList);
 
     return returnMap;
+  }
+
+  @GetMapping("/{id}")
+  public Recipe show(@PathVariable("id") String id) {
+    return getRecipeUseCase.execute(Integer.parseInt(id));
   }
 }

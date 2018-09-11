@@ -18,7 +18,6 @@ describe("RecipeList", function () {
   describe("Content", function() {
     beforeEach(() => {
       this.instance = shallow(<RecipeList recipes={promisedRecipeList.recipes} />);
-      this.instance.update();
     });
 
     it('is a Grid and has spacing', () => {

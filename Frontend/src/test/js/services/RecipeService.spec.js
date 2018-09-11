@@ -57,4 +57,45 @@ describe("RecipeService", function () {
   		});
   	});
   });
+
+  describe(".fetchRecipe()", function () {
+  	let recipePromise;
+  	let promiseHelper;
+  	let id = 33;
+
+    beforeEach(function() {
+      let fetchPromise = new Promise(function(resolve, reject) {
+  			promiseHelper = {
+  				resolve: resolve,
+  				reject: reject
+  			};
+  		});
+
+  		spyOn(window, 'fetch').and.returnValue(fetchPromise);
+  		recipePromise = RecipeService.fetchRecipe(id);
+  	});
+
+    it('calls the witchcraft API', () => {
+      expect(window.fetch).toHaveBeenCalledWith('/api/recipes/' + id);
+    });
+
+    it('returns a promise', () => {
+      expect(recipePromise).toEqual(jasmine.any(Promise));
+  	});
+
+    describe('on successful fetch', function() {
+      beforeEach(function() {
+        let responseJson = JSON.stringify(promisedRecipeList.recipes[0]);
+  			let response = new Response(responseJson);
+  			promiseHelper.resolve(response);
+  		});
+
+      it('resolves its promise with the current recipes list', function(done) {
+  			recipePromise.then(function(recipes) {
+  				expect(recipes).toEqual(promisedRecipeList.recipes[0]);
+  				done();
+  			});
+  		});
+    });
+	});
 });

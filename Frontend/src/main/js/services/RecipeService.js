@@ -5,4 +5,11 @@ export default class RecipeService {
   			return response.json();
   		});
   }
+
+  static fetchRecipe(id) {
+    return fetch("/api/recipes/" + id)
+  		.then(function(response) {
+  			return response.json();
+  		});
+  }
 }

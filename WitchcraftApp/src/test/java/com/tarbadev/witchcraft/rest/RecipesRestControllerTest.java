@@ -1,6 +1,9 @@
 package com.tarbadev.witchcraft.rest;
 
+import com.tarbadev.witchcraft.domain.BestRatedRecipesUseCaseTest;
+import com.tarbadev.witchcraft.domain.GetRecipeDetailsFromUrlUseCaseTest;
 import com.tarbadev.witchcraft.domain.entity.Recipe;
+import com.tarbadev.witchcraft.domain.usecase.GetRecipeUseCase;
 import com.tarbadev.witchcraft.domain.usecase.RecipeCatalogUseCase;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,12 +29,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 public class RecipesRestControllerTest {
-  @Autowired private MockMvc mvc;
-  @Autowired private RecipeCatalogUseCase recipeCatalogUseCase;
+  @Autowired
+  private MockMvc mvc;
+  @Autowired
+  private RecipeCatalogUseCase recipeCatalogUseCase;
+  @Autowired
+  private GetRecipeUseCase getRecipeUseCase;
 
   @Before
   public void setUp() {
-    Mockito.reset(recipeCatalogUseCase);
+    Mockito.reset(recipeCatalogUseCase, getRecipeUseCase);
   }
 
   @Test
@@ -63,5 +70,22 @@ public class RecipesRestControllerTest {
         .andExpect(jsonPath("$.recipes[0].imgUrl", is(recipe1ImageUrl)))
         .andExpect(jsonPath("$.recipes[0].url", is(recipe1Url)))
         .andExpect(jsonPath("$.recipes[1].name", is(recipe2Name)));
+  }
+
+  @Test
+  public void show() throws Exception {
+    Recipe recipe = Recipe.builder()
+        .id(33)
+        .name("Test")
+        .url("url")
+        .build();
+
+    given(getRecipeUseCase.execute(recipe.getId())).willReturn(recipe);
+
+    mvc.perform(get("/api/recipes/" + recipe.getId()))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.id", is(recipe.getId())))
+        .andExpect(jsonPath("$.url", is(recipe.getUrl())))
+        .andExpect(jsonPath("$.name", is(recipe.getName())));
   }
 }
