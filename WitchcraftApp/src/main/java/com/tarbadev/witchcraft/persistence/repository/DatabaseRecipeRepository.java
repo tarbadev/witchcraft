@@ -83,4 +83,9 @@ public class DatabaseRecipeRepository implements RecipeRepository {
         .map(EntityToDomain::recipeMapper)
         .collect(Collectors.toList());
   }
+
+  @Override
+  public Boolean existsById(Integer id) {
+    return recipeEntityRepository.existsById(id);
+  }
 }

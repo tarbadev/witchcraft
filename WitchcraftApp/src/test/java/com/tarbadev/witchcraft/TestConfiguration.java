@@ -95,6 +95,11 @@ public class TestConfiguration {
   }
 
   @Bean
+  public DoesRecipeExistUseCase doesRecipeExistUseCase() {
+    return Mockito.mock(DoesRecipeExistUseCase.class);
+  }
+
+  @Bean
   public UnitConverter unitConverter() {
     return Mockito.mock(UnitConverter.class);
   }

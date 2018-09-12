@@ -20,4 +20,6 @@ public interface RecipeRepository {
   List<Recipe> findTopFiveRecipes();
 
   List<Recipe> findLastAddedRecipes();
+
+  Boolean existsById(Integer id);
 }

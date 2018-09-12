@@ -1,10 +1,7 @@
 package com.tarbadev.witchcraft.rest;
 
-import com.tarbadev.witchcraft.domain.BestRatedRecipesUseCaseTest;
-import com.tarbadev.witchcraft.domain.GetRecipeDetailsFromUrlUseCaseTest;
 import com.tarbadev.witchcraft.domain.entity.Recipe;
-import com.tarbadev.witchcraft.domain.usecase.GetRecipeUseCase;
-import com.tarbadev.witchcraft.domain.usecase.RecipeCatalogUseCase;
+import com.tarbadev.witchcraft.domain.usecase.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,8 +9,10 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,7 +20,10 @@ import java.util.List;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -35,10 +37,21 @@ public class RecipesRestControllerTest {
   private RecipeCatalogUseCase recipeCatalogUseCase;
   @Autowired
   private GetRecipeUseCase getRecipeUseCase;
+  @Autowired
+  private RateRecipeUseCase rateRecipeUseCase;
+  @Autowired
+  private DeleteRecipeUseCase deleteRecipeUseCase;
+  @Autowired
+  private DoesRecipeExistUseCase doesRecipeExistUseCase;
 
   @Before
   public void setUp() {
-    Mockito.reset(recipeCatalogUseCase, getRecipeUseCase);
+    Mockito.reset(
+        recipeCatalogUseCase,
+        getRecipeUseCase,
+        rateRecipeUseCase,
+        deleteRecipeUseCase
+    );
   }
 
   @Test
@@ -87,5 +100,29 @@ public class RecipesRestControllerTest {
         .andExpect(jsonPath("$.id", is(recipe.getId())))
         .andExpect(jsonPath("$.url", is(recipe.getUrl())))
         .andExpect(jsonPath("$.name", is(recipe.getName())));
+  }
+
+  @Test
+  public void delete() throws Exception {
+    int id = 32;
+
+    given(doesRecipeExistUseCase.execute(id)).willReturn(true);
+
+    mvc.perform(MockMvcRequestBuilders.delete(String.format("/api/recipes/%s", id)))
+        .andExpect(status().is(HttpStatus.NO_CONTENT.value()));
+
+    verify(deleteRecipeUseCase).execute(id);
+  }
+
+  @Test
+  public void delete_returnsNotFound_whenRecipeIsNotFound() throws Exception {
+    int id = 32;
+
+    given(doesRecipeExistUseCase.execute(id)).willReturn(false);
+
+    mvc.perform(MockMvcRequestBuilders.delete(String.format("/api/recipes/%s", id)))
+        .andExpect(status().isNotFound());
+
+    verify(deleteRecipeUseCase, never()).execute(id);
   }
 }

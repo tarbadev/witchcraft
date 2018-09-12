@@ -323,4 +323,18 @@ public class DatabaseRecipeRepositoryTest {
 
     assertThat(subject.findLastAddedRecipes()).isEqualTo(recipes);
   }
+
+  @Test
+  public void exists_returnsTrueWhenRecipeExists() {
+    RecipeEntity recipeEntity = entityManager.persistAndFlush(
+        RecipeEntity.builder().build()
+    );
+
+    assertThat(subject.existsById(recipeEntity.getId())).isTrue();
+  }
+
+  @Test
+  public void exists_returnsFalseWhenRecipeDoesNotExist() {
+    assertThat(subject.existsById(32)).isFalse();
+  }
 }
