@@ -41,7 +41,7 @@ public class RecipesControllerTest {
   @Autowired private GetRecipeUseCase getRecipeUseCase;
   @Autowired private GetRecipeDetailsFromFormUseCase getRecipeDetailsFromFormUseCase;
   @Autowired private DeleteRecipeUseCase deleteRecipeUseCase;
-  @Autowired private RateRecipeUseCase rateRecipeUseCase;
+  @Autowired private SetFavoriteRecipeUseCase setFavoriteRecipeUseCase;
 
   @Before
   public void setUp() {
@@ -51,7 +51,7 @@ public class RecipesControllerTest {
         getRecipeDetailsFromUrlUseCase,
         getRecipeDetailsFromFormUseCase,
         deleteRecipeUseCase,
-        rateRecipeUseCase
+        setFavoriteRecipeUseCase
     );
   }
 
@@ -178,7 +178,7 @@ public class RecipesControllerTest {
     mvc.perform(patch("/recipes/123/rate/4.5"))
         .andExpect(redirectedUrl("/recipes/123"));
 
-    verify(rateRecipeUseCase).execute(123, 4.5);
+    verify(setFavoriteRecipeUseCase).execute(123, true);
   }
 
   @Test
@@ -186,7 +186,7 @@ public class RecipesControllerTest {
     mvc.perform(post("/recipes/123/rate/4.5").param("_method", "patch"))
         .andExpect(redirectedUrl("/recipes/123"));
 
-    verify(rateRecipeUseCase).execute(123, 4.5);
+    verify(setFavoriteRecipeUseCase).execute(123, true);
   }
 
   @Test

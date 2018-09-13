@@ -1,28 +1,32 @@
-package com.tarbadev.witchcraft.domain;
+package com.tarbadev.witchcraft.domain.usecase;
 
 import com.tarbadev.witchcraft.domain.entity.Recipe;
 import com.tarbadev.witchcraft.domain.repository.RecipeRepository;
-import com.tarbadev.witchcraft.domain.usecase.BestRatedRecipesUseCase;
+import com.tarbadev.witchcraft.domain.usecase.RecipeCatalogUseCase;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
 @RunWith(MockitoJUnitRunner.class)
-public class BestRatedRecipesUseCaseTest {
+@SpringBootTest
+public class RecipeCatalogUseCaseTest {
+
     @Mock private RecipeRepository recipeRepository;
-    private BestRatedRecipesUseCase subject;
+
+    private RecipeCatalogUseCase subject;
 
     @Before
     public void setUp() {
-        subject = new BestRatedRecipesUseCase(recipeRepository);
+        subject = new RecipeCatalogUseCase(recipeRepository);
     }
 
     @Test
@@ -30,11 +34,10 @@ public class BestRatedRecipesUseCaseTest {
         List<Recipe> recipes = Arrays.asList(
                 Recipe.builder().build(),
                 Recipe.builder().build(),
-                Recipe.builder().build(),
                 Recipe.builder().build()
         );
 
-        given(recipeRepository.findTopFiveRecipes()).willReturn(recipes);
+        given(recipeRepository.findAll()).willReturn(recipes);
 
         assertThat(subject.execute()).isEqualTo(recipes);
     }

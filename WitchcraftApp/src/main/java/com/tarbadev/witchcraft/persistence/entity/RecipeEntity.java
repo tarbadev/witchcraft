@@ -21,7 +21,8 @@ public class RecipeEntity {
   private String originUrl;
   private String name;
   private String imgUrl;
-  private Double rating;
+  @Builder.Default
+  private Boolean favorite = false;
   @OneToMany(cascade = CascadeType.ALL)
   @JoinColumn(name = "recipe_id")
   private List<IngredientEntity> ingredients;

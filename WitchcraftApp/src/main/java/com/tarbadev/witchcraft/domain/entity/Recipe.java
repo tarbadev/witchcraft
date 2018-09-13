@@ -12,7 +12,8 @@ public class Recipe {
   private String originUrl;
   private String name;
   private String imgUrl;
-  private Double rating;
+  @Builder.Default
+  private Boolean favorite = false;
   private List<Ingredient> ingredients;
   private List<Step> steps;
 }

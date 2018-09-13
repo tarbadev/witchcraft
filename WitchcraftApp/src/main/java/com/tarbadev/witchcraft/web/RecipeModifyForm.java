@@ -16,7 +16,8 @@ public class RecipeModifyForm {
   private String url;
   private String name;
   private String imgUrl;
-  private Double rating;
+  @Builder.Default
+  private Boolean favorite = false;
   private List<IngredientModifyForm> ingredients;
   private List<StepModifyForm> steps;
 }

@@ -265,53 +265,51 @@ public class DatabaseRecipeRepositoryTest {
   }
 
   @Test
-  public void rateRecipe() {
-    Double rating = 4.5;
+  public void setFavorite() {
     RecipeEntity recipe = entityManager.persistAndFlush(RecipeEntity.builder().name("Lasagna").build());
     entityManager.clear();
 
-    assertThat(subject.findById(recipe.getId()).getRating()).isNull();
+    assertThat(subject.findById(recipe.getId()).getFavorite()).isFalse();
 
-    subject.rateRecipe(recipe.getId(), rating);
+    subject.setFavorite(recipe.getId(), true);
     entityManager.clear();
 
-    assertThat(subject.findById(recipe.getId()).getRating()).isEqualTo(rating);
+    assertThat(subject.findById(recipe.getId()).getFavorite()).isTrue();
   }
 
   @Test
-  public void findTopFiveRecipes() {
+  public void findAllFavorite() {
     List<Recipe> recipes = Stream.of(
-        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).rating(5.0).build()),
-        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).rating(5.0).build()),
-        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).rating(0.0).build()),
-        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).rating(4.0).build()),
-        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).rating(null).build()),
-        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).rating(0.5).build()),
-        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).rating(1.0).build()),
-        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).rating(null).build())
+        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).favorite(true).build()),
+        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).favorite(true).build()),
+        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).favorite(false).build()),
+        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).favorite(true).build()),
+        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).favorite(true).build()),
+        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).favorite(false).build()),
+        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).favorite(true).build()),
+        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).favorite(false).build())
     )
-        .filter(recipeEntity -> recipeEntity.getRating() != null && recipeEntity.getRating() > 0)
+        .filter(RecipeEntity::getFavorite)
         .map(EntityToDomain::recipeMapper)
-        .sorted(Comparator.comparing(Recipe::getRating).reversed())
         .collect(toList());
 
     entityManager.flush();
     entityManager.clear();
 
-    assertThat(subject.findTopFiveRecipes()).isEqualTo(recipes);
+    assertThat(subject.findAllFavorite()).isEqualTo(recipes);
   }
 
   @Test
   public void findLastAddedRecipes() {
     List<Recipe> recipes = Stream.of(
-        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).rating(5.0).build()),
-        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).rating(5.0).build()),
-        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).rating(0.0).build()),
-        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).rating(4.0).build()),
-        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).rating(null).build()),
-        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).rating(0.5).build()),
-        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).rating(1.0).build()),
-        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).rating(null).build())
+        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).build()),
+        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).build()),
+        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).build()),
+        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).build()),
+        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).build()),
+        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).build()),
+        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).build()),
+        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).build())
     )
         .map(EntityToDomain::recipeMapper)
         .sorted(Comparator.comparing(Recipe::getId).reversed())

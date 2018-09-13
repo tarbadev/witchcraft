@@ -20,7 +20,7 @@ public class RecipesController {
   private GetRecipeUseCase getRecipeUseCase;
   private GetRecipeDetailsFromFormUseCase getRecipeDetailsFromFormUseCase;
   private DeleteRecipeUseCase deleteRecipeUseCase;
-  private RateRecipeUseCase rateRecipeUseCase;
+  private SetFavoriteRecipeUseCase setFavoriteRecipeUseCase;
 
   public RecipesController(
       SaveRecipeUseCase saveRecipeUseCase,
@@ -29,14 +29,14 @@ public class RecipesController {
       GetRecipeUseCase getRecipeUseCase,
       GetRecipeDetailsFromFormUseCase getRecipeDetailsFromFormUseCase,
       DeleteRecipeUseCase deleteRecipeUseCase,
-      RateRecipeUseCase rateRecipeUseCase) {
+      SetFavoriteRecipeUseCase setFavoriteRecipeUseCase) {
     this.saveRecipeUseCase = saveRecipeUseCase;
     this.recipeCatalogUseCase = recipeCatalogUseCase;
     this.getRecipeDetailsFromUrlUseCase = getRecipeDetailsFromUrlUseCase;
     this.getRecipeUseCase = getRecipeUseCase;
     this.getRecipeDetailsFromFormUseCase = getRecipeDetailsFromFormUseCase;
     this.deleteRecipeUseCase = deleteRecipeUseCase;
-    this.rateRecipeUseCase = rateRecipeUseCase;
+    this.setFavoriteRecipeUseCase = setFavoriteRecipeUseCase;
   }
 
   @GetMapping("/recipes")
@@ -88,7 +88,7 @@ public class RecipesController {
 
   @PatchMapping("/recipes/{id}/rate/{rating}")
   public String rate(@PathVariable Integer id, @PathVariable Double rating) {
-    rateRecipeUseCase.execute(id, rating);
+    setFavoriteRecipeUseCase.execute(id, true);
     return "redirect:/recipes/" + id;
   }
 
@@ -105,7 +105,7 @@ public class RecipesController {
         .name(recipeModifyForm.getName())
         .originUrl(recipeModifyForm.getUrl())
         .imgUrl(recipeModifyForm.getImgUrl())
-        .rating(recipeModifyForm.getRating())
+        .favorite(recipeModifyForm.getFavorite())
         .ingredients(recipeModifyForm.getIngredients().stream()
             .map(ingredientModifyForm -> Ingredient.builder()
             .id(ingredientModifyForm.getId())

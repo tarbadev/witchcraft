@@ -38,18 +38,18 @@ public class RecipesRestControllerTest {
   @Autowired
   private GetRecipeUseCase getRecipeUseCase;
   @Autowired
-  private RateRecipeUseCase rateRecipeUseCase;
-  @Autowired
   private DeleteRecipeUseCase deleteRecipeUseCase;
   @Autowired
   private DoesRecipeExistUseCase doesRecipeExistUseCase;
+  @Autowired
+  private SetFavoriteRecipeUseCase setFavoriteRecipeUseCase;
 
   @Before
   public void setUp() {
     Mockito.reset(
         recipeCatalogUseCase,
         getRecipeUseCase,
-        rateRecipeUseCase,
+        setFavoriteRecipeUseCase,
         deleteRecipeUseCase
     );
   }
@@ -100,6 +100,19 @@ public class RecipesRestControllerTest {
         .andExpect(jsonPath("$.id", is(recipe.getId())))
         .andExpect(jsonPath("$.url", is(recipe.getUrl())))
         .andExpect(jsonPath("$.name", is(recipe.getName())));
+  }
+
+  @Test
+  public void setFavorite() throws Exception {
+    int id = 32;
+    Boolean favorite = true;
+
+    mvc.perform(patch(String.format("/api/recipes/%s", id))
+        .param("favorite", favorite.toString())
+    )
+        .andExpect(status().is(HttpStatus.NO_CONTENT.value()));
+
+    verify(setFavoriteRecipeUseCase).execute(id, favorite);
   }
 
   @Test

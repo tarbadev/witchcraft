@@ -63,16 +63,15 @@ public class DatabaseRecipeRepository implements RecipeRepository {
   }
 
   @Override
-  public void rateRecipe(int id, double rating) {
+  public void setFavorite(int id, Boolean favorite) {
     RecipeEntity recipeEntity = recipeEntityRepository.findById(id).get();
-    recipeEntity.setRating(rating);
+    recipeEntity.setFavorite(favorite);
     recipeEntityRepository.flush();
   }
 
   @Override
-  public List<Recipe> findTopFiveRecipes() {
-    return recipeEntityRepository.findTop5ByOrderByRatingDesc().stream()
-        .filter(recipeEntity -> recipeEntity.getRating() != null)
+  public List<Recipe> findAllFavorite() {
+    return recipeEntityRepository.findAllByFavorite(true).stream()
         .map(EntityToDomain::recipeMapper)
         .collect(Collectors.toList());
   }

@@ -1,4 +1,4 @@
-package com.tarbadev.witchcraft.domain;
+package com.tarbadev.witchcraft.domain.usecase;
 
 import com.tarbadev.witchcraft.TestResources;
 import com.tarbadev.witchcraft.domain.entity.Ingredient;

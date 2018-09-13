@@ -17,17 +17,23 @@ import java.util.stream.Collectors;
 public class RecipesRestController {
   private RecipeCatalogUseCase recipeCatalogUseCase;
   private GetRecipeUseCase getRecipeUseCase;
-  private RateRecipeUseCase rateRecipeUseCase;
   private DeleteRecipeUseCase deleteRecipeUseCase;
   private DoesRecipeExistUseCase doesRecipeExistUseCase;
+  private SetFavoriteRecipeUseCase setFavoriteRecipeUseCase;
 
   @Autowired
-  public RecipesRestController(RecipeCatalogUseCase recipeCatalogUseCase, GetRecipeUseCase getRecipeUseCase, RateRecipeUseCase rateRecipeUseCase, DeleteRecipeUseCase deleteRecipeUseCase, DoesRecipeExistUseCase doesRecipeExistUseCase) {
+  public RecipesRestController(
+      RecipeCatalogUseCase recipeCatalogUseCase,
+      GetRecipeUseCase getRecipeUseCase,
+      DeleteRecipeUseCase deleteRecipeUseCase,
+      DoesRecipeExistUseCase doesRecipeExistUseCase,
+      SetFavoriteRecipeUseCase setFavoriteRecipeUseCase
+  ) {
     this.recipeCatalogUseCase = recipeCatalogUseCase;
     this.getRecipeUseCase = getRecipeUseCase;
-    this.rateRecipeUseCase = rateRecipeUseCase;
     this.deleteRecipeUseCase = deleteRecipeUseCase;
     this.doesRecipeExistUseCase = doesRecipeExistUseCase;
+    this.setFavoriteRecipeUseCase = setFavoriteRecipeUseCase;
   }
 
   @GetMapping
@@ -45,8 +51,14 @@ public class RecipesRestController {
   }
 
   @GetMapping("/{id}")
-  public Recipe show(@PathVariable("id") String id) {
-    return getRecipeUseCase.execute(Integer.parseInt(id));
+  public Recipe show(@PathVariable("id") Integer id) {
+    return getRecipeUseCase.execute(id);
+  }
+
+  @PatchMapping("/{id}")
+  public ResponseEntity setFavorite(@PathVariable("id") Integer id, @RequestParam("favorite") Boolean favorite) {
+    setFavoriteRecipeUseCase.execute(id, favorite);
+    return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
   }
 
   @DeleteMapping("/{id}")

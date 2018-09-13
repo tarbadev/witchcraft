@@ -15,9 +15,9 @@ public interface RecipeRepository {
 
   void delete(int id);
 
-  void rateRecipe(int id, double rating);
+  void setFavorite(int id, Boolean isFavorite);
 
-  List<Recipe> findTopFiveRecipes();
+  List<Recipe> findAllFavorite();
 
   List<Recipe> findLastAddedRecipes();
 

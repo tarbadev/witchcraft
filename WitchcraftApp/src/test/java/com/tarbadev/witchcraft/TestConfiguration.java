@@ -60,11 +60,6 @@ public class TestConfiguration {
   }
 
   @Bean
-  public RateRecipeUseCase rateRecipeUseCase() {
-    return Mockito.mock(RateRecipeUseCase.class);
-  }
-
-  @Bean
   public SaveWeekUseCase saveWeekUseCase() {
     return Mockito.mock(SaveWeekUseCase.class);
   }
@@ -85,8 +80,8 @@ public class TestConfiguration {
   }
 
   @Bean
-  public BestRatedRecipesUseCase bestRatedRecipesUseCase() {
-    return Mockito.mock(BestRatedRecipesUseCase.class);
+  public GetFavoriteRecipesUseCase getFavoriteRecipesUseCase() {
+    return Mockito.mock(GetFavoriteRecipesUseCase.class);
   }
 
   @Bean
@@ -97,6 +92,11 @@ public class TestConfiguration {
   @Bean
   public DoesRecipeExistUseCase doesRecipeExistUseCase() {
     return Mockito.mock(DoesRecipeExistUseCase.class);
+  }
+
+  @Bean
+  public SetFavoriteRecipeUseCase setFavoriteRecipeUseCase() {
+    return Mockito.mock(SetFavoriteRecipeUseCase.class);
   }
 
   @Bean

@@ -13,6 +13,7 @@ public class DomainToEntity {
         .name(recipe.getName())
         .originUrl(recipe.getOriginUrl())
         .imgUrl(recipe.getImgUrl())
+        .favorite(recipe.getFavorite())
         .ingredients(recipe.getIngredients().stream().map(DomainToEntity::ingredientEntityMapper).collect(Collectors.toList()))
         .steps(recipe.getSteps().stream().map(DomainToEntity::stepEntityMapper).collect(Collectors.toList()))
         .build();

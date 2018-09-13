@@ -1,7 +1,7 @@
-package com.tarbadev.witchcraft.domain;
+package com.tarbadev.witchcraft.domain.usecase;
 
 import com.tarbadev.witchcraft.domain.repository.RecipeRepository;
-import com.tarbadev.witchcraft.domain.usecase.RateRecipeUseCase;
+import com.tarbadev.witchcraft.domain.usecase.DeleteRecipeUseCase;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,20 +13,20 @@ import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 @ActiveProfiles("test")
-public class RateRecipeUseCaseTest {
+public class DeleteRecipeUseCaseTest {
   @Mock private RecipeRepository recipeRepository;
 
-  private RateRecipeUseCase subject;
+  private DeleteRecipeUseCase subject;
 
   @Before
   public void setUp() {
-    subject = new RateRecipeUseCase(recipeRepository);
+    subject = new DeleteRecipeUseCase(recipeRepository);
   }
 
   @Test
   public void execute() {
-    subject.execute(123, 4.5);
+    subject.execute(123);
 
-    verify(recipeRepository).rateRecipe(123, 4.5);
+    verify(recipeRepository).delete(123);
   }
 }

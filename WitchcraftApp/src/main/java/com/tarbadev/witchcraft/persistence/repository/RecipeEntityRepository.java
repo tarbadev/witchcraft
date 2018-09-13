@@ -8,7 +8,7 @@ import java.util.List;
 public interface RecipeEntityRepository extends JpaRepository<RecipeEntity, Integer> {
   List<RecipeEntity> findAllByOrderByName();
 
-  List<RecipeEntity> findTop5ByOrderByRatingDesc();
+  List<RecipeEntity> findAllByFavorite(Boolean favorite);
 
   List<RecipeEntity> findTop5ByOrderByIdDesc();
 }

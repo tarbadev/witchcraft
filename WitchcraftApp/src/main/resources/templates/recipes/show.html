@@ -72,8 +72,8 @@
     }
 
     $('#rating').rating({
-      initialRating: /*[[${recipe.rating}]]*/ 0,
-      maxRating: 5,
+      initialRating: /*[[${recipe.favorite}]]*/ 0,
+      maxRating: 1,
       clearable: true,
       onRate: rateRecipe
     });
