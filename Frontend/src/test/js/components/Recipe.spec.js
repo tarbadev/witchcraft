@@ -4,8 +4,10 @@ import { Redirect } from 'react-router-dom'
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
+import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import FavoriteIcon from '@material-ui/icons/Favorite'
 import DeleteIcon from '@material-ui/icons/Delete'
 import OpenInNewIcon from '@material-ui/icons/OpenInNew'
 
@@ -91,6 +93,13 @@ describe("Recipe", function () {
         expect(title.props().className).toBe(styles.title);
         expect(title.props().variant).toBe("headline");
         expect(title.children().text()).toBe(promisedRecipe.name);
+
+        expect(grid1.find(IconButton).length).toBe(1);
+
+        let favoriteButton = grid1.find(IconButton).at(0);
+        expect(favoriteButton.props().onClick).toBe(this.instance.instance().setFavorite);
+        expect(favoriteButton.props().className).toBe(styles.favoriteButton + ' ' + styles.favorite);
+        expect(favoriteButton.find(FavoriteIcon).length).toBe(1);
 
         let grid2 = gridContainer.children().find(Grid).at(1);
         expect(grid2.find(Button).length).toBe(1);
@@ -199,7 +208,7 @@ describe("Recipe", function () {
 
     describe(".onDeleteButtonClick", function() {
       let promiseHelper;
-      let id = 1;
+      let id = 70;
 
       beforeEach(async () => {
         this.instance = await shallow(<Recipe match={{params: {id: id}}} />);
@@ -280,6 +289,52 @@ describe("Recipe", function () {
         expect(this.instance.state('isDeleting')).toBeFalsy();
         expect(deleteButton.props().disabled).toBeFalsy();
         expect(this.instance.find(CircularProgress).length).toBe(0);
+      });
+    });
+
+    describe(".setFavorite", function() {
+      let promiseHelper;
+      let recipe = recipeList.recipes[1];
+      let updatedRecipe = recipeList.recipes[0];
+      let id = recipe.id;
+
+      beforeEach(async () => {
+        RecipeService.fetchRecipe.and.returnValue(Promise.resolve(recipe));
+        this.instance = await shallow(<Recipe match={{params: {id: id}}} />);
+
+        let setFavoritePromise = new Promise(function(resolve, reject) {
+    			promiseHelper = {
+    				resolve: resolve,
+    				reject: reject
+    			};
+    		});
+        spyOn(RecipeService, 'setFavoriteRecipe').and.returnValue(setFavoritePromise);;
+      });
+
+      it('calls setFavorite API and retrieves recipe after success', async () => {
+        spyOn(this.instance.instance(), 'retrieveRecipe').and.callThrough();
+        RecipeService.fetchRecipe.and.returnValue(Promise.resolve(updatedRecipe));
+
+        let favoriteButton = this.instance.findWhere(node => node.props().name === "title")
+          .at(0)
+          .find(IconButton)
+          .at(0);
+        expect(favoriteButton.props().className).toBe(styles.favoriteButton);
+
+        this.instance.instance().setFavorite();
+        expect(RecipeService.setFavoriteRecipe).toHaveBeenCalledWith(id, !recipe.favorite);
+
+        await promiseHelper.resolve({ok:true});
+        expect(this.instance.instance().retrieveRecipe).toHaveBeenCalled();
+
+        await this.instance.update();
+        expect(this.instance.state('recipe')).toBe(updatedRecipe);
+
+        favoriteButton = this.instance.findWhere(node => node.props().name === "title")
+          .at(0)
+          .find(IconButton)
+          .at(0);
+        expect(favoriteButton.props().className).toBe(styles.favoriteButton + ' ' + styles.favorite);
       });
     });
   });

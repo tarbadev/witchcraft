@@ -19,4 +19,15 @@ export default class RecipeService {
   static deleteRecipe(id) {
     return fetch("/api/recipes/" + id, { method: 'delete' });
   }
+
+  static setFavoriteRecipe(id, favorite) {
+    let options = {
+      method: 'PATCH',
+      headers:{
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ favorite: favorite })
+    }
+    return fetch("/api/recipes/" + id, options);
+  }
 }

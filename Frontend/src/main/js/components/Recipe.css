@@ -1,5 +1,6 @@
 :local(.title) {
   text-transform: capitalize;
+  display: inline !important;
 }
 
 :local(.image) {
@@ -37,4 +38,12 @@
    left: 50%;
    margin-top: -12px;
    margin-left: -12px;
+}
+
+:local(.favoriteButton) {
+   margin-top: -8px !important;
+}
+
+:local(.favorite) {
+   color: #db2828 !important;
 }

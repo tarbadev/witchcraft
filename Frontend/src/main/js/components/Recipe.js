@@ -4,7 +4,9 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import FavoriteIcon from '@material-ui/icons/Favorite'
 import DeleteIcon from '@material-ui/icons/Delete'
 import OpenInNewIcon from '@material-ui/icons/OpenInNew'
 
@@ -25,12 +27,16 @@ export default class Recipe extends Component {
   }
 
   componentDidMount() {
+    this.retrieveRecipe();
+  }
+
+  retrieveRecipe() {
     let response = RecipeService.fetchRecipe(this.props.match.params.id);
 
     if (response) {
       response.then((data) => {
         if (data) {
-          this.setState({recipe: data})
+          this.setState({ recipe: data })
         } else {
           this.setState({ redirect: true })
         }
@@ -53,9 +59,20 @@ export default class Recipe extends Component {
       });
   }
 
+  setFavorite = () => {
+    let recipe = this.state.recipe;
+    RecipeService.setFavoriteRecipe(recipe.id, !recipe.favorite)
+      .then((response) => {
+        if (response.ok) {
+          this.retrieveRecipe();
+        }
+      });
+  }
+
   render() {
     let steps;
     let ingredients;
+    let favoriteClassName = styles.favoriteButton;
 
     if (this.state.recipe.steps) {
       steps = this.state.recipe.steps.map((step, index) => (
@@ -76,6 +93,10 @@ export default class Recipe extends Component {
       ));
     }
 
+    if (this.state.recipe.favorite) {
+      favoriteClassName += ' ' + styles.favorite;
+    }
+
     return (
       <Grid container spacing={24}>
         {this.state.redirect && <Redirect to="/recipes" />}
@@ -85,6 +106,9 @@ export default class Recipe extends Component {
               <Typography variant="headline" className={styles.title}>
                 {this.state.recipe.name}
               </Typography>
+              <IconButton onClick={this.setFavorite} className={favoriteClassName}>
+                <FavoriteIcon />
+              </IconButton>
             </Grid>
             <Grid item className={styles.circularProgressContainer}>
               <Button

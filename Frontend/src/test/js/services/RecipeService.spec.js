@@ -111,6 +111,7 @@ describe("RecipeService", function () {
   		});
     });
 	});
+
   describe(".deleteRecipe()", function () {
     let id = 33;
     let recipePromise;
@@ -131,6 +132,41 @@ describe("RecipeService", function () {
 
     it('calls the witchcraft API', () => {
       expect(window.fetch).toHaveBeenCalledWith('/api/recipes/' + id, {method: 'delete'});
+    });
+
+    it('returns a promise', () => {
+      expect(recipePromise).toEqual(jasmine.any(Promise));
+  	});
+  });
+
+  describe(".setFavoriteRecipe()", function () {
+    let id = 33;
+    let favorite = true;
+    let recipePromise;
+  	let promiseHelper;
+
+    beforeEach(function() {
+      let setFavoritePromise = new Promise(function(resolve, reject) {
+  			promiseHelper = {
+  				resolve: resolve,
+  				reject: reject
+  			};
+  		});
+
+      spyOn(window, 'fetch').and.returnValue(setFavoritePromise);
+
+      recipePromise = RecipeService.setFavoriteRecipe(id, favorite);
+  	});
+
+    it('calls the witchcraft API', () => {
+      let options = {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ favorite: favorite })
+      }
+      expect(window.fetch).toHaveBeenCalledWith('/api/recipes/' + id, options);
     });
 
     it('returns a promise', () => {
