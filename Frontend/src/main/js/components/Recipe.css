@@ -9,3 +9,32 @@
 :local(.leftIcon) {
    margin-right: .5em;
 }
+
+:local(.deleteButton) {
+   background-color: #db2828 !important;
+   color: #fff !important;
+}
+
+:local(.deleteButton:hover) {
+  background-color: #d01919 !important;
+}
+
+:local(.deleteButton:disabled) {
+  background-color: rgb(0,0,0,.5) !important;
+}
+
+:local(.deleteIcon) {
+   margin-right: .5em;
+}
+
+:local(.circularProgressContainer) {
+   position: relative;
+}
+
+:local(.circularProgress) {
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   margin-top: -12px;
+   margin-left: -12px;
+}

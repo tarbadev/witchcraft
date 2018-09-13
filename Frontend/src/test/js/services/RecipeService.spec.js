@@ -97,5 +97,44 @@ describe("RecipeService", function () {
   			});
   		});
     });
+
+    describe('on unsuccessful fetch', function() {
+      beforeEach(function() {
+  			promiseHelper.resolve();
+  		});
+
+      it('catches the error and returns null', function(done) {
+  			recipePromise.then(function(response) {
+  				expect(response).toBeNull();
+  				done();
+  			});
+  		});
+    });
 	});
+  describe(".deleteRecipe()", function () {
+    let id = 33;
+    let recipePromise;
+  	let promiseHelper;
+
+    beforeEach(function() {
+      let deletePromise = new Promise(function(resolve, reject) {
+  			promiseHelper = {
+  				resolve: resolve,
+  				reject: reject
+  			};
+  		});
+
+      spyOn(window, 'fetch').and.returnValue(deletePromise);
+
+      recipePromise = RecipeService.deleteRecipe(id);
+  	});
+
+    it('calls the witchcraft API', () => {
+      expect(window.fetch).toHaveBeenCalledWith('/api/recipes/' + id, {method: 'delete'});
+    });
+
+    it('returns a promise', () => {
+      expect(recipePromise).toEqual(jasmine.any(Promise));
+  	});
+  });
 });

@@ -10,6 +10,13 @@ export default class RecipeService {
     return fetch("/api/recipes/" + id)
   		.then(function(response) {
   			return response.json();
-  		});
+  		})
+      .catch(function(error) {
+        return null;
+      });
+  }
+
+  static deleteRecipe(id) {
+    return fetch("/api/recipes/" + id, { method: 'delete' });
   }
 }

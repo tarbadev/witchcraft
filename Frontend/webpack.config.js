@@ -29,7 +29,8 @@ module.exports = {
         test: /\.jsx?$/,
         loader: 'babel-loader',
         query: {
-          presets: ['react', 'es2015']
+          presets: ['es2015', 'react'],
+          plugins: ['transform-class-properties']
         },
         exclude: '/node_modules/',
         include: ROOT

@@ -1,8 +1,11 @@
 import React, {Component} from 'react';
+import { Redirect } from 'react-router-dom'
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import DeleteIcon from '@material-ui/icons/Delete'
 import OpenInNewIcon from '@material-ui/icons/OpenInNew'
 
 import styles from 'app-components/Recipe.css';
@@ -15,14 +18,39 @@ export default class Recipe extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      recipe: {}
+      recipe: {},
+      isDeleting: false,
+      redirect: false
     };
   }
 
   componentDidMount() {
-    RecipeService.fetchRecipe(this.props.match.params.id).then((data) => {
-      this.setState({recipe: data})
-    });
+    let response = RecipeService.fetchRecipe(this.props.match.params.id);
+
+    if (response) {
+      response.then((data) => {
+        if (data) {
+          this.setState({recipe: data})
+        } else {
+          this.setState({ redirect: true })
+        }
+      });
+    } else {
+      this.setState({ redirect: true })
+    }
+  }
+
+  onDeleteButtonClick = () => {
+    this.setState({ isDeleting: true });
+
+    RecipeService.deleteRecipe(this.props.match.params.id)
+      .then((response) => {
+        if (response.ok) {
+          this.setState({ isDeleting: false });
+        }
+
+        this.setState({ redirect: true });
+      });
   }
 
   render() {
@@ -50,10 +78,26 @@ export default class Recipe extends Component {
 
     return (
       <Grid container spacing={24}>
+        {this.state.redirect && <Redirect to="/recipes" />}
         <Grid item sm={12} name="title">
-          <Typography variant="headline" className={styles.title}>
-            {this.state.recipe.name}
-          </Typography>
+          <Grid container justify="space-between">
+            <Grid item sm={10}>
+              <Typography variant="headline" className={styles.title}>
+                {this.state.recipe.name}
+              </Typography>
+            </Grid>
+            <Grid item className={styles.circularProgressContainer}>
+              <Button
+                className={styles.deleteButton}
+                variant="contained"
+                onClick={this.onDeleteButtonClick}
+                disabled={this.state.isDeleting}>
+                <DeleteIcon className={styles.deleteIcon} />
+                Delete
+              </Button>
+              {this.state.isDeleting && <CircularProgress size={24} className={styles.circularProgress} />}
+            </Grid>
+          </Grid>
         </Grid>
         <Grid item sm={12} name="top-bar" container justify="space-between">
           <Grid item></Grid>
