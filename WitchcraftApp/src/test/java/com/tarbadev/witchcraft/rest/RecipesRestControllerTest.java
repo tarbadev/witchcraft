@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -108,7 +109,8 @@ public class RecipesRestControllerTest {
     Boolean favorite = true;
 
     mvc.perform(patch(String.format("/api/recipes/%s", id))
-        .param("favorite", favorite.toString())
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(String.format("{ \"favorite\": %s }", favorite.toString()))
     )
         .andExpect(status().is(HttpStatus.NO_CONTENT.value()));
 

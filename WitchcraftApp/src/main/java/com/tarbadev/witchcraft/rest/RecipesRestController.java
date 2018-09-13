@@ -56,7 +56,8 @@ public class RecipesRestController {
   }
 
   @PatchMapping("/{id}")
-  public ResponseEntity setFavorite(@PathVariable("id") Integer id, @RequestParam("favorite") Boolean favorite) {
+  public ResponseEntity setFavorite(@PathVariable("id") Integer id, @RequestBody Map<String, String> requestParams) {
+    boolean favorite = Boolean.parseBoolean(requestParams.get("favorite"));
     setFavoriteRecipeUseCase.execute(id, favorite);
     return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
   }

@@ -9,5 +9,7 @@ spring:
     basePath: /api
     detection-strategy: annotated
 
+logging.level.org.springframework.web: DEBUG
+
 test-resources:
   recipe-url: SOME_RECIPE_HTTP_URL
