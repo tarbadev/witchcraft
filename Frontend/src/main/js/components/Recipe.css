@@ -42,6 +42,7 @@
 
 :local(.favoriteButton) {
    margin-top: -8px !important;
+   margin-left: 5px !important;
 }
 
 :local(.favorite) {
