@@ -2,11 +2,14 @@ package com.tarbadev.witchcraft.rest;
 
 import com.tarbadev.witchcraft.domain.entity.Recipe;
 import com.tarbadev.witchcraft.domain.usecase.*;
+import com.tarbadev.witchcraft.web.RecipeUrlForm;
+import com.tarbadev.witchcraft.web.RecipeUrlRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +23,8 @@ public class RecipesRestController {
   private DeleteRecipeUseCase deleteRecipeUseCase;
   private DoesRecipeExistUseCase doesRecipeExistUseCase;
   private SetFavoriteRecipeUseCase setFavoriteRecipeUseCase;
+  private GetRecipeDetailsFromUrlUseCase getRecipeDetailsFromUrlUseCase;
+  private SaveRecipeUseCase saveRecipeUseCase;
 
   @Autowired
   public RecipesRestController(
@@ -27,13 +32,15 @@ public class RecipesRestController {
       GetRecipeUseCase getRecipeUseCase,
       DeleteRecipeUseCase deleteRecipeUseCase,
       DoesRecipeExistUseCase doesRecipeExistUseCase,
-      SetFavoriteRecipeUseCase setFavoriteRecipeUseCase
-  ) {
+      SetFavoriteRecipeUseCase setFavoriteRecipeUseCase,
+      GetRecipeDetailsFromUrlUseCase getRecipeDetailsFromUrlUseCase, SaveRecipeUseCase saveRecipeUseCase) {
     this.recipeCatalogUseCase = recipeCatalogUseCase;
     this.getRecipeUseCase = getRecipeUseCase;
     this.deleteRecipeUseCase = deleteRecipeUseCase;
     this.doesRecipeExistUseCase = doesRecipeExistUseCase;
     this.setFavoriteRecipeUseCase = setFavoriteRecipeUseCase;
+    this.getRecipeDetailsFromUrlUseCase = getRecipeDetailsFromUrlUseCase;
+    this.saveRecipeUseCase = saveRecipeUseCase;
   }
 
   @GetMapping
@@ -71,5 +78,14 @@ public class RecipesRestController {
     deleteRecipeUseCase.execute(id);
 
     return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+  }
+
+
+
+  @PostMapping("/importFromUrl")
+  public Recipe addRecipe(@Valid @RequestBody RecipeUrlRequest recipeUrlRequest) {
+    Recipe recipe = getRecipeDetailsFromUrlUseCase.execute(recipeUrlRequest.getUrl());
+
+    return saveRecipeUseCase.execute(recipe);
   }
 }

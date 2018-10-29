@@ -12,10 +12,12 @@ public class SaveRecipeUseCase {
     this.recipeRepository = recipeRepository;
   }
 
-  public void execute(Recipe recipe) {
+  public Recipe execute(Recipe recipe) {
     if (recipe.getId() != null)
-      recipeRepository.updateRecipe(recipe);
+      recipe = recipeRepository.updateRecipe(recipe);
     else
-      recipeRepository.saveRecipe(recipe);
+      recipe = recipeRepository.saveRecipe(recipe);
+
+    return recipe;
   }
 }

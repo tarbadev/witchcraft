@@ -13,8 +13,10 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.jsx'],
     alias: {
+      'app-root': path.resolve(__dirname, 'src/main/js/'),
       'app-components': path.resolve(__dirname, 'src/main/js/components/'),
       'app-services': path.resolve(__dirname, 'src/main/js/services/'),
+      'app-actions': path.resolve(__dirname, 'src/main/js/actions/'),
       'test-resources': path.resolve(__dirname, 'src/test/resources/')
     }
   },
@@ -30,7 +32,7 @@ module.exports = {
         loader: 'babel-loader',
         query: {
           presets: ['es2015', 'react'],
-          plugins: ['transform-class-properties']
+          plugins: ['transform-class-properties', 'babel-plugin-transform-object-rest-spread']
         },
         exclude: '/node_modules/',
         include: ROOT

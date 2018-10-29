@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 
 import RecipeList from './RecipeList'
 import RecipeSearch from './RecipeSearch'
@@ -14,6 +15,7 @@ export default class Recipes extends Component {
       recipes: []
     };
     this.onSearch = this.onSearch.bind(this);
+    this.onNewRecipeClick = this.onNewRecipeClick.bind(this);
   }
 
   componentDidMount() {
@@ -38,11 +40,20 @@ export default class Recipes extends Component {
     });
   }
 
+  onNewRecipeClick(event) {
+    this.props.history.push('/recipes/new');
+  }
+
   render() {
     return (
         <Grid container spacing={24}>
           <Grid item xs={12}>
             <RecipeSearch onSearch={this.onSearch} />
+          </Grid>
+          <Grid item xs={12}>
+            <Button variant="contained" color="primary" onClick={this.onNewRecipeClick}>
+              New Recipe
+            </Button>
           </Grid>
           <Grid item>
             <RecipeList recipes={this.state.recipes} />

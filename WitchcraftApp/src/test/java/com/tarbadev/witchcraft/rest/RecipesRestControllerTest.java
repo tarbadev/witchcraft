@@ -1,7 +1,11 @@
 package com.tarbadev.witchcraft.rest;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tarbadev.witchcraft.TestResources;
 import com.tarbadev.witchcraft.domain.entity.Recipe;
 import com.tarbadev.witchcraft.domain.usecase.*;
+import com.tarbadev.witchcraft.web.RecipeUrlForm;
+import com.tarbadev.witchcraft.web.RecipeUrlRequest;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,8 +29,8 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -34,6 +38,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class RecipesRestControllerTest {
   @Autowired
   private MockMvc mvc;
+  @Autowired
+  private TestResources testResources;
   @Autowired
   private RecipeCatalogUseCase recipeCatalogUseCase;
   @Autowired
@@ -44,6 +50,10 @@ public class RecipesRestControllerTest {
   private DoesRecipeExistUseCase doesRecipeExistUseCase;
   @Autowired
   private SetFavoriteRecipeUseCase setFavoriteRecipeUseCase;
+  @Autowired
+  private GetRecipeDetailsFromUrlUseCase getRecipeDetailsFromUrlUseCase;
+  @Autowired
+  private SaveRecipeUseCase saveRecipeUseCase;
 
   @Before
   public void setUp() {
@@ -139,5 +149,21 @@ public class RecipesRestControllerTest {
         .andExpect(status().isNotFound());
 
     verify(deleteRecipeUseCase, never()).execute(id);
+  }
+
+  @Test
+  public void importFromUrl() throws Exception {
+    Recipe recipe = testResources.getRecipe();
+
+    given(getRecipeDetailsFromUrlUseCase.execute(recipe.getOriginUrl())).willReturn(recipe);
+    given(saveRecipeUseCase.execute(recipe)).willReturn(recipe);
+
+    mvc.perform(post("/api/recipes/importFromUrl")
+        .flashAttr("recipeUrlRequest", RecipeUrlRequest.builder().url(recipe.getOriginUrl()).build())
+    )
+        .andExpect(content().json(new ObjectMapper().writeValueAsString(recipe)));
+
+    verify(getRecipeDetailsFromUrlUseCase).execute(recipe.getOriginUrl());
+    verify(saveRecipeUseCase).execute(recipe);
   }
 }

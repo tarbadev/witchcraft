@@ -45,14 +45,6 @@ describe("Recipes", function () {
       expect(grid.find(RecipeSearch).length).toBe(1);
       expect(grid.find(RecipeSearch).at(0).props().onSearch).toBe(this.instance.instance().onSearch);
     });
-
-    it('contains a list of recipes in a Grid item and the list of recipes in it', () => {
-      let grid = this.instance.findWhere(node => node.props().item).at(1);
-      expect(grid.props().item).toBeTruthy();
-
-      expect(grid.find(RecipeList).length).toBe(1);
-      expect(grid.find(RecipeList).at(0).props().recipes).toBe(promisedRecipeList.recipes);
-    });
   });
 
   describe("onSearch", function() {
