@@ -12,8 +12,17 @@ export function setState(key, payload) {
 
 const initialState = {
 	newRecipe: {
-		form: {
-			url: ''
+		forms: {
+			autoUrl: {
+				url: ''
+			},
+			manualUrl: {
+				name: '',
+				url: '',
+				imageUrl: '',
+				ingredients: '',
+				steps: '',
+			}
 		}
 	}
 }

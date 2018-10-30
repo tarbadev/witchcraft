@@ -2,10 +2,11 @@ package com.tarbadev.witchcraft.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tarbadev.witchcraft.TestResources;
+import com.tarbadev.witchcraft.domain.entity.Ingredient;
 import com.tarbadev.witchcraft.domain.entity.Recipe;
+import com.tarbadev.witchcraft.domain.entity.Step;
 import com.tarbadev.witchcraft.domain.usecase.*;
-import com.tarbadev.witchcraft.web.RecipeUrlForm;
-import com.tarbadev.witchcraft.web.RecipeUrlRequest;
+import com.tarbadev.witchcraft.web.RecipeFormRequest;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,6 +22,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.core.Is.is;
@@ -54,6 +56,8 @@ public class RecipesRestControllerTest {
   private GetRecipeDetailsFromUrlUseCase getRecipeDetailsFromUrlUseCase;
   @Autowired
   private SaveRecipeUseCase saveRecipeUseCase;
+  @Autowired
+  private GetRecipeDetailsFromFormUseCase getRecipeDetailsFromFormUseCase;
 
   @Before
   public void setUp() {
@@ -154,16 +158,58 @@ public class RecipesRestControllerTest {
   @Test
   public void importFromUrl() throws Exception {
     Recipe recipe = testResources.getRecipe();
+    RecipeFormRequest recipeFormRequest = RecipeFormRequest.builder().url(recipe.getOriginUrl()).build();
 
     given(getRecipeDetailsFromUrlUseCase.execute(recipe.getOriginUrl())).willReturn(recipe);
     given(saveRecipeUseCase.execute(recipe)).willReturn(recipe);
 
     mvc.perform(post("/api/recipes/importFromUrl")
-        .flashAttr("recipeUrlRequest", RecipeUrlRequest.builder().url(recipe.getOriginUrl()).build())
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(new ObjectMapper().writeValueAsString(recipeFormRequest))
     )
         .andExpect(content().json(new ObjectMapper().writeValueAsString(recipe)));
 
     verify(getRecipeDetailsFromUrlUseCase).execute(recipe.getOriginUrl());
     verify(saveRecipeUseCase).execute(recipe);
+  }
+
+  @Test
+  public void importFromForm() throws Exception {
+    RecipeFormRequest recipeFormRequest = RecipeFormRequest.builder()
+        .name("Some recipe name")
+        .url("http://some/url/of/recipe")
+        .imageUrl("http://some/url/of/recipe.png")
+        .ingredients(String.join("\n"
+            , "10 tbsp sugar"
+            , "1/2 cup olive oil"
+            , "1 lemon"
+        ))
+        .steps(String.join("\n"
+            , "Add ingredients and stir"
+            , "Serve on each plate"
+        ))
+        .build();
+    Recipe recipe = Recipe.builder()
+        .name(recipeFormRequest.getName())
+        .originUrl(recipeFormRequest.getUrl())
+        .imgUrl(recipeFormRequest.getImageUrl())
+        .ingredients(Arrays.stream(recipeFormRequest.getIngredients().split("\n")).map(ingredient -> Ingredient.builder().name(ingredient).build()).collect(Collectors.toList()))
+        .steps(Arrays.stream(recipeFormRequest.getSteps().split("\n")).map(step -> Step.builder().name(step).build()).collect(Collectors.toList()))
+        .build();
+
+    given(getRecipeDetailsFromFormUseCase.execute(
+        recipeFormRequest.getName(),
+        recipeFormRequest.getUrl(),
+        recipeFormRequest.getIngredients(),
+        recipeFormRequest.getSteps(),
+        recipeFormRequest.getImageUrl()
+    )).willReturn(recipe);
+    given(saveRecipeUseCase.execute(recipe)).willReturn(recipe);
+
+    mvc.perform(post("/api/recipes/importFromForm")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(new ObjectMapper().writeValueAsString(recipeFormRequest))
+    )
+        .andExpect(content().json(new ObjectMapper().writeValueAsString(recipe)));
   }
 }

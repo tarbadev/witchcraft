@@ -2,14 +2,12 @@ package com.tarbadev.witchcraft.rest;
 
 import com.tarbadev.witchcraft.domain.entity.Recipe;
 import com.tarbadev.witchcraft.domain.usecase.*;
-import com.tarbadev.witchcraft.web.RecipeUrlForm;
-import com.tarbadev.witchcraft.web.RecipeUrlRequest;
+import com.tarbadev.witchcraft.web.RecipeFormRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +23,7 @@ public class RecipesRestController {
   private SetFavoriteRecipeUseCase setFavoriteRecipeUseCase;
   private GetRecipeDetailsFromUrlUseCase getRecipeDetailsFromUrlUseCase;
   private SaveRecipeUseCase saveRecipeUseCase;
+  private GetRecipeDetailsFromFormUseCase getRecipeDetailsFromFormUseCase;
 
   @Autowired
   public RecipesRestController(
@@ -33,7 +32,10 @@ public class RecipesRestController {
       DeleteRecipeUseCase deleteRecipeUseCase,
       DoesRecipeExistUseCase doesRecipeExistUseCase,
       SetFavoriteRecipeUseCase setFavoriteRecipeUseCase,
-      GetRecipeDetailsFromUrlUseCase getRecipeDetailsFromUrlUseCase, SaveRecipeUseCase saveRecipeUseCase) {
+      GetRecipeDetailsFromUrlUseCase getRecipeDetailsFromUrlUseCase,
+      SaveRecipeUseCase saveRecipeUseCase,
+      GetRecipeDetailsFromFormUseCase getRecipeDetailsFromFormUseCase
+  ) {
     this.recipeCatalogUseCase = recipeCatalogUseCase;
     this.getRecipeUseCase = getRecipeUseCase;
     this.deleteRecipeUseCase = deleteRecipeUseCase;
@@ -41,6 +43,7 @@ public class RecipesRestController {
     this.setFavoriteRecipeUseCase = setFavoriteRecipeUseCase;
     this.getRecipeDetailsFromUrlUseCase = getRecipeDetailsFromUrlUseCase;
     this.saveRecipeUseCase = saveRecipeUseCase;
+    this.getRecipeDetailsFromFormUseCase = getRecipeDetailsFromFormUseCase;
   }
 
   @GetMapping
@@ -80,11 +83,22 @@ public class RecipesRestController {
     return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
   }
 
-
-
   @PostMapping("/importFromUrl")
-  public Recipe addRecipe(@Valid @RequestBody RecipeUrlRequest recipeUrlRequest) {
-    Recipe recipe = getRecipeDetailsFromUrlUseCase.execute(recipeUrlRequest.getUrl());
+  public Recipe importFromUrl(@RequestBody RecipeFormRequest recipeFormRequest) {
+    Recipe recipe = getRecipeDetailsFromUrlUseCase.execute(recipeFormRequest.getUrl());
+
+    return saveRecipeUseCase.execute(recipe);
+  }
+
+  @PostMapping("/importFromForm")
+  public Recipe importFromForm(@RequestBody RecipeFormRequest recipeFormRequest) {
+    Recipe recipe = getRecipeDetailsFromFormUseCase.execute(
+        recipeFormRequest.getName(),
+        recipeFormRequest.getUrl(),
+        recipeFormRequest.getIngredients(),
+        recipeFormRequest.getSteps(),
+        recipeFormRequest.getImageUrl()
+    );
 
     return saveRecipeUseCase.execute(recipe);
   }
