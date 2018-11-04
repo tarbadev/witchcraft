@@ -55,6 +55,7 @@ export const NewCartPage = ({
 NewCartPage.propTypes = {
   form: PropTypes.array,
   toggleRecipeSwitch: PropTypes.func,
+  generateCart: PropTypes.func,
 }
 
 const mapStateToProps = state => {
