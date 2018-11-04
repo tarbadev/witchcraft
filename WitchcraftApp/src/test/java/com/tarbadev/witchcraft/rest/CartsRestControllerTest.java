@@ -3,8 +3,7 @@ package com.tarbadev.witchcraft.rest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tarbadev.witchcraft.domain.entity.Cart;
 import com.tarbadev.witchcraft.domain.entity.Recipe;
-import com.tarbadev.witchcraft.domain.usecase.CreateCartUseCase;
-import com.tarbadev.witchcraft.domain.usecase.RecipeCatalogUseCase;
+import com.tarbadev.witchcraft.domain.usecase.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +18,7 @@ import java.util.stream.Collectors;
 
 import static java.util.Arrays.asList;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -33,6 +33,23 @@ public class CartsRestControllerTest {
   private RecipeCatalogUseCase recipeCatalogUseCase;
   @Autowired
   private CreateCartUseCase createCartUseCase;
+  @Autowired
+  private CartCatalogUseCase cartCatalogUseCase;
+
+  @Test
+  public void getAll() throws Exception {
+    List<Cart> carts = asList(
+        Cart.builder().build(),
+        Cart.builder().build(),
+        Cart.builder().build()
+    );
+
+    given(cartCatalogUseCase.execute()).willReturn(carts);
+
+    mvc.perform(get("/api/carts"))
+    .andExpect(status().isOk())
+    .andExpect(content().json(new ObjectMapper().writeValueAsString(carts)));
+  }
 
   @Test
   public void create() throws Exception {

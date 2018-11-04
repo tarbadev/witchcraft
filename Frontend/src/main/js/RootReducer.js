@@ -62,6 +62,7 @@ const initialState = {
   newCartPage: {
     form: [],
   },
+  carts: [],
 }
 
 export const reducer = (state = initialState, action) => {

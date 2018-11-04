@@ -7,6 +7,7 @@ import thunk from 'redux-thunk'
 import {reducer} from './RootReducer'
 import {createHistoryObserver} from './HistoryObserver'
 import {getAllRecipes} from 'app-actions/RecipesActions'
+import {getAllCarts} from 'app-actions/CartsActions'
 import {getRecipe} from 'app-actions/RecipeActions'
 import {WitchcraftMiddleware} from 'app-root/WitchcraftMiddleware'
 
@@ -23,6 +24,9 @@ const pathRegexes = [
   }, {
     regex: /^#\/recipes$/,
     callback: () => store.dispatch(getAllRecipes())
+  }, {
+    regex: /^#\/carts$/,
+    callback: () => store.dispatch(getAllCarts())
   }, {
     regex: /^#\/carts\/new$/,
     callback: () => store.dispatch(getAllRecipes())
