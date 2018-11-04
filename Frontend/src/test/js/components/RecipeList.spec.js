@@ -1,6 +1,5 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-import Grid from '@material-ui/core/Grid'
 import { Link } from 'react-router-dom'
 
 import styles from 'app-components/RecipeList.css'
@@ -18,19 +17,6 @@ describe('RecipeList', function () {
   describe('Content', function() {
     beforeEach(() => {
       this.instance = shallow(<RecipeList recipes={promisedRecipeList.recipes} />)
-    })
-
-    it('is a Grid and has spacing', () => {
-      expect(this.instance.instance().props.recipes).toBe(promisedRecipeList.recipes)
-
-      expect(this.instance.is(Grid)).toBeTruthy()
-      expect(this.instance.props().container).toBeTruthy()
-      expect(this.instance.props().spacing).toBe(24)
-    })
-
-    it('has a recipes prop defined even when not specified', () => {
-      let recipeList = shallow(<RecipeList />)
-      expect(recipeList.instance().props.recipes).toEqual([])
     })
 
     it('renders a RecipeCard for each recipe in a Grid', () => {

@@ -58,7 +58,10 @@ const initialState = {
       ],
       favorite: false
     }
-  }
+  },
+  newCartPage: {
+    form: [],
+  },
 }
 
 export const reducer = (state = initialState, action) => {

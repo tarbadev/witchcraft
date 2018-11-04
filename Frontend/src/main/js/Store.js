@@ -15,13 +15,16 @@ export const store = createStore(connectRouter(history)(reducer), composeWithDev
 
 const pathRegexes = [
   {
-    regex: /^#\/recipes\/(\d+)/,
+    regex: /^#\/recipes\/(\d+)$/,
     callback: (id) => store.dispatch(getRecipe(id))
   }, {
-    regex: /^#\/recipes\/(\d+)\/edit/,
+    regex: /^#\/recipes\/(\d+)\/edit$/,
     callback: (id) => store.dispatch(getRecipe(id))
   }, {
     regex: /^#\/recipes$/,
+    callback: () => store.dispatch(getAllRecipes())
+  }, {
+    regex: /^#\/carts\/new$/,
     callback: () => store.dispatch(getAllRecipes())
   }
 ]

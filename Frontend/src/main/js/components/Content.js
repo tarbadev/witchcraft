@@ -6,6 +6,8 @@ import { RecipesContainer } from './Recipes'
 import { RecipeContainer } from './Recipe'
 import { NewRecipeContainer } from './NewRecipe'
 import { EditRecipeContainer } from './EditRecipe'
+import { CartsPage } from './CartsPage'
+import { NewCartPageContainer } from './NewCartPage'
 
 export const Content = () => {
   return (
@@ -16,6 +18,8 @@ export const Content = () => {
         <Route exact path="/recipes/new" component={NewRecipeContainer} />
         <Route exact path="/recipes/:id" component={RecipeContainer} />
         <Route exact path="/recipes/:id/edit" component={EditRecipeContainer} />
+        <Route exact path="/carts" component={CartsPage} />
+        <Route exact path="/carts/new" component={NewCartPageContainer} />
       </Switch>
     </div>
   )

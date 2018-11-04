@@ -4,6 +4,7 @@ import { fetchAction } from 'app-root/WitchcraftMiddleware'
 export const getAllRecipesSuccess = data => dispatch => {
   dispatch(setState('allRecipes', data.recipes))
   dispatch(setState('recipes', data.recipes))
+  dispatch(setState('newCartPage.form', data.recipes.map(recipe => ({ id: recipe.id, name: recipe.name, selected: false }))))
 }
 
 export const getAllRecipes = () => (dispatch) => {

@@ -5,7 +5,7 @@ import { EditRecipe } from 'app-components/EditRecipe'
 
 import promisedRecipeList from 'test-resources/recipeList.json'
 
-describe('EditRecipe', function () {
+describe('EditRecipe', () => {
   it('calls the callback when input value changes', () => {
     const changeFormInputSpy = jasmine.createSpy()
     const editRecipe = shallow(<EditRecipe changeFormInput={changeFormInputSpy} form={promisedRecipeList.recipes[0]} />)
