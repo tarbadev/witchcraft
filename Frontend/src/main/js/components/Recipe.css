@@ -28,6 +28,20 @@
    margin-right: .5em;
 }
 
+:local(.modifyButton) {
+   background-color: #fbbd08 !important;
+   color: #fff !important;
+   margin-right: 10px !important;
+}
+
+:local(.modifyButton:hover) {
+  background-color: #ffb300 !important;
+}
+
+:local(.modifyIcon) {
+   margin-right: .5em;
+}
+
 :local(.circularProgressContainer) {
    position: relative;
 }

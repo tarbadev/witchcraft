@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
-import Grid from '@material-ui/core/Grid';
-import { Link } from "react-router-dom";
+import React, { Component } from 'react'
+import Grid from '@material-ui/core/Grid'
+import { Link } from "react-router-dom"
 
-import styles from 'app-components/RecipeList.css';
+import styles from 'app-components/RecipeList.css'
 import RecipeCard from './RecipeCard'
-import RecipeService from 'app-services/RecipeService';
 
 export default class RecipeList extends Component {
   render() {
@@ -16,16 +15,16 @@ export default class RecipeList extends Component {
           title={recipe.name} />
         </Link>
       </Grid>
-    );
+    )
 
     return (
       <Grid container spacing={24}>
         {recipeCards}
       </Grid>
-    );
+    )
   }
 }
 
 RecipeList.defaultProps = {
     recipes: []
- };
+ }

@@ -1,8 +1,11 @@
 package com.tarbadev.witchcraft.rest;
 
+import com.tarbadev.witchcraft.domain.entity.Ingredient;
 import com.tarbadev.witchcraft.domain.entity.Recipe;
+import com.tarbadev.witchcraft.domain.entity.Step;
 import com.tarbadev.witchcraft.domain.usecase.*;
 import com.tarbadev.witchcraft.web.RecipeFormRequest;
+import com.tarbadev.witchcraft.web.RecipeModifyForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -99,6 +102,36 @@ public class RecipesRestController {
         recipeFormRequest.getSteps(),
         recipeFormRequest.getImageUrl()
     );
+
+    return saveRecipeUseCase.execute(recipe);
+  }
+
+  @PutMapping("/{id}/update")
+  public Recipe update(@RequestBody RecipeModifyForm recipeModifyForm) {
+    Recipe recipe = Recipe.builder()
+        .id(recipeModifyForm.getId())
+        .name(recipeModifyForm.getName())
+        .originUrl(recipeModifyForm.getUrl())
+        .imgUrl(recipeModifyForm.getImgUrl())
+        .favorite(recipeModifyForm.getFavorite())
+        .ingredients(recipeModifyForm.getIngredients().stream()
+            .map(ingredientModifyForm -> Ingredient.builder()
+                .id(ingredientModifyForm.getId())
+                .name(ingredientModifyForm.getName())
+                .unit(ingredientModifyForm.getUnit())
+                .quantity(ingredientModifyForm.getQuantity())
+                .build()
+            ).collect(Collectors.toList())
+        )
+        .steps(recipeModifyForm.getSteps().stream()
+            .map(stepModifyForm -> Step.builder()
+                .id(stepModifyForm.getId())
+                .name(stepModifyForm.getName())
+                .build()
+            )
+            .collect(Collectors.toList())
+        )
+        .build();
 
     return saveRecipeUseCase.execute(recipe);
   }

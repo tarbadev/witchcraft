@@ -6,7 +6,10 @@ import com.tarbadev.witchcraft.domain.entity.Ingredient;
 import com.tarbadev.witchcraft.domain.entity.Recipe;
 import com.tarbadev.witchcraft.domain.entity.Step;
 import com.tarbadev.witchcraft.domain.usecase.*;
+import com.tarbadev.witchcraft.web.IngredientModifyForm;
 import com.tarbadev.witchcraft.web.RecipeFormRequest;
+import com.tarbadev.witchcraft.web.RecipeModifyForm;
+import com.tarbadev.witchcraft.web.StepModifyForm;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,17 +24,17 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.util.Arrays.asList;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
@@ -83,7 +86,7 @@ public class RecipesRestControllerTest {
         .imgUrl(recipe1ImageUrl)
         .build();
 
-    List<Recipe> recipes = Arrays.asList(
+    List<Recipe> recipes = asList(
         recipe1,
         Recipe.builder().name(recipe2Name).build()
     );
@@ -210,6 +213,55 @@ public class RecipesRestControllerTest {
         .contentType(MediaType.APPLICATION_JSON)
         .content(new ObjectMapper().writeValueAsString(recipeFormRequest))
     )
+        .andExpect(content().json(new ObjectMapper().writeValueAsString(recipe)));
+  }
+
+  @Test
+  public void update() throws Exception {
+    RecipeModifyForm recipeModifyForm = RecipeModifyForm.builder()
+        .id(12)
+        .name("Recipe Name")
+        .url("http://fake/url")
+        .imgUrl("http://fake/url.png")
+        .favorite(true)
+        .ingredients(Collections.singletonList(
+            IngredientModifyForm.builder().name("Ingredient").build()
+        ))
+        .steps(Collections.singletonList(StepModifyForm.builder().name("First Step").build()))
+        .build();
+
+    Recipe recipe = Recipe.builder()
+        .id(recipeModifyForm.getId())
+        .name(recipeModifyForm.getName())
+        .originUrl(recipeModifyForm.getUrl())
+        .imgUrl(recipeModifyForm.getImgUrl())
+        .favorite(recipeModifyForm.getFavorite())
+        .ingredients(recipeModifyForm.getIngredients().stream()
+            .map(ingredientModifyForm -> Ingredient.builder()
+                .id(ingredientModifyForm.getId())
+                .name(ingredientModifyForm.getName())
+                .unit(ingredientModifyForm.getUnit())
+                .quantity(ingredientModifyForm.getQuantity())
+                .build()
+            ).collect(Collectors.toList())
+        )
+        .steps(recipeModifyForm.getSteps().stream()
+            .map(stepModifyForm -> Step.builder()
+                .id(stepModifyForm.getId())
+                .name(stepModifyForm.getName())
+                .build()
+            )
+            .collect(Collectors.toList())
+        )
+        .build();
+
+    given(saveRecipeUseCase.execute(recipe)).willReturn(recipe);
+
+    mvc.perform(put("/api/recipes/" + recipeModifyForm.getId() + "/update")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(new ObjectMapper().writeValueAsString(recipeModifyForm))
+    )
+        .andExpect(status().isOk())
         .andExpect(content().json(new ObjectMapper().writeValueAsString(recipe)));
   }
 }

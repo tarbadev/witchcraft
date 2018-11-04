@@ -5,6 +5,10 @@ import {composeWithDevTools} from 'redux-devtools-extension'
 import thunk from 'redux-thunk'
 
 import {reducer} from './RootReducer'
+import { createHistoryObserver } from './HistoryObserver'
+import { getAllRecipes } from 'app-actions/RecipesActions'
+import { getRecipe } from 'app-actions/RecipeActions'
+import { WitchcraftMiddleware } from 'app-root/WitchcraftMiddleware'
 
 export const history = createBrowserHistory()
 export const store = createStore(
@@ -12,8 +16,18 @@ export const store = createStore(
 	composeWithDevTools(
 		applyMiddleware(
 			routerMiddleware(history),
-			thunk
-			//...middlewares
+			thunk,
+			WitchcraftMiddleware
 		)
 	)
 )
+
+const pathRegexes = [
+  { regex: /^#\/recipes\/(\d+)/, callback: (id) => store.dispatch(getRecipe(id)) },
+  { regex: /^#\/recipes\/(\d+)\/edit/, callback: (id) => store.dispatch(getRecipe(id)) },
+  { regex: /^#\/recipes$/, callback: () => store.dispatch(getAllRecipes()) },
+]
+
+const historyObserver = createHistoryObserver(pathRegexes)
+historyObserver(history.location)
+history.listen(historyObserver)

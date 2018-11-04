@@ -9,7 +9,7 @@ export const formInputChange = (key, value) => {
 }
 
 export const submitForm = (url, form) => {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     request(
       {
         url: url,

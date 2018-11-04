@@ -24,6 +24,40 @@ const initialState = {
 				steps: '',
 			}
 		}
+	},
+	recipe: {
+		id: 0,
+		name: '',
+		url: '',
+		originUrl: '',
+		imgUrl: '',
+		ingredients: [],
+		steps: [],
+		favorite: false
+	},
+	recipes: [],
+	allRecipes: [],
+	recipePage: {
+		isDeleting: false
+	},
+	editRecipe: {
+		form: {
+			id: 0,
+			name: '',
+			url: '',
+			imgUrl: '',
+			ingredients: [{
+				id: 0,
+				name: '',
+				quantity: 0,
+				unit: '',
+			}],
+			steps: [{
+				id: 0,
+				name: '',
+			}],
+			favorite: false,
+		}
 	}
 }
 
