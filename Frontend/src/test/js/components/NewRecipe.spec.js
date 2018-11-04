@@ -1,26 +1,24 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-import TextField from '@material-ui/core/TextField'
-import Button from '@material-ui/core/Button'
 
 import {NewRecipe} from 'app-components/NewRecipe'
 
-describe("NewRecipe", function () {
+describe('NewRecipe', function () {
   it('calls the callback when input value changes', () => {
     const changeFormInputSpy = jasmine.createSpy()
     const newRecipe = shallow(<NewRecipe changeFormInput={changeFormInputSpy} classes={{}} autoUrl={{}} manualUrl={{}} />)
-    const url = "fakeUrl"
-    const name = "name"
-    const imageUrl = "imageUrl"
-    const ingredients = "ingredients"
-    const steps = "steps"
+    const url = 'fakeUrl'
+    const name = 'name'
+    const imageUrl = 'imageUrl'
+    const ingredients = 'ingredients'
+    const steps = 'steps'
 
-    newRecipe.find(".auto__url").simulate('change', {target: {value: url }})
-    newRecipe.find(".manual__name").simulate('change', {target: {value: name }})
-    newRecipe.find(".manual__url").simulate('change', {target: {value: url }})
-    newRecipe.find(".manual__imageUrl").simulate('change', {target: {value: imageUrl }})
-    newRecipe.find(".manual__ingredients").simulate('change', {target: {value: ingredients }})
-    newRecipe.find(".manual__steps").simulate('change', {target: {value: steps }})
+    newRecipe.find('.auto__url').simulate('change', {target: {value: url }})
+    newRecipe.find('.manual__name').simulate('change', {target: {value: name }})
+    newRecipe.find('.manual__url').simulate('change', {target: {value: url }})
+    newRecipe.find('.manual__imageUrl').simulate('change', {target: {value: imageUrl }})
+    newRecipe.find('.manual__ingredients').simulate('change', {target: {value: ingredients }})
+    newRecipe.find('.manual__steps').simulate('change', {target: {value: steps }})
 
     expect(changeFormInputSpy).toHaveBeenCalledWith('autoUrl.url', url)
     expect(changeFormInputSpy).toHaveBeenCalledWith('manualUrl.name', name)
@@ -35,7 +33,7 @@ describe("NewRecipe", function () {
     const url = 'fakeUrl'
     const newRecipe = shallow(<NewRecipe submitForm={submitFormSpy} classes={{}} autoUrl={{ url: url }} />)
 
-    newRecipe.find(".auto__submit-button").simulate('click', {})
+    newRecipe.find('.auto__submit-button').simulate('click', {})
 
     expect(submitFormSpy).toHaveBeenCalledWith('/api/recipes/importFromUrl', {url: url})
   })
@@ -51,7 +49,7 @@ describe("NewRecipe", function () {
     }
     const newRecipe = shallow(<NewRecipe submitForm={submitFormSpy} classes={{}} manualUrl={manualUrl} />)
 
-    newRecipe.find(".manual__submit-button").simulate('click', {})
+    newRecipe.find('.manual__submit-button').simulate('click', {})
 
     expect(submitFormSpy).toHaveBeenCalledWith('/api/recipes/importFromForm', manualUrl)
   })
@@ -63,6 +61,6 @@ describe("NewRecipe", function () {
     shallow(<NewRecipe setState={setStateSpy} history={{ push: pushSpy }} redirect classes={{}} />)
 
     expect(pushSpy).toHaveBeenCalledWith('/recipes')
-    expect(setStateSpy).toHaveBeenCalledWith("newRecipe.forms", { recipeAdded: false, autoUrl: {}, manualUrl: {} })
+    expect(setStateSpy).toHaveBeenCalledWith('newRecipe.forms', { recipeAdded: false, autoUrl: {}, manualUrl: {} })
   })
 })

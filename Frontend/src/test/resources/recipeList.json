@@ -1,4 +1,4 @@
-{
+export default recipeList = {
   "recipes": [
     {
       "id": 70,

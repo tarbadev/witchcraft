@@ -2,7 +2,6 @@ import {
   getRecipe,
   getRecipeSuccess,
   getRecipeError,
-  filterRecipes,
   setFavorite,
   setFavoriteSuccess,
   updateRecipe,
@@ -11,10 +10,10 @@ import {
   deleteRecipeCallback,
 } from 'app-actions/RecipeActions'
 
-const promisedRecipeList = require('test-resources/recipeList.json')
+import promisedRecipeList from 'test-resources/recipeList.json'
 
 describe('RecipeActions', () => {
-  describe("getRecipe", () => {
+  describe('getRecipe', () => {
     it('calls the witchcraft API and sets the state with the recipe', () => {
       const dispatchSpy = jasmine.createSpy()
 

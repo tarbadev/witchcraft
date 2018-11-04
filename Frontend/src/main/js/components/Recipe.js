@@ -1,6 +1,7 @@
 import React from 'react'
-import {connect} from "react-redux"
-import {bindActionCreators} from "redux"
+import PropTypes from 'prop-types'
+import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
@@ -12,8 +13,8 @@ import EditIcon from '@material-ui/icons/Edit'
 import OpenInNewIcon from '@material-ui/icons/OpenInNew'
 
 import styles from 'app-components/Recipe.css'
-import Step from 'app-components/Step'
-import Ingredient from 'app-components/Ingredient'
+import {Step} from 'app-components/Step'
+import {Ingredient} from 'app-components/Ingredient'
 
 import { setFavorite, deleteRecipe } from 'app-actions/RecipeActions'
 
@@ -33,7 +34,7 @@ export const Recipe = ({ recipe, history, toggleFavorite, isDeleting, deleteReci
   }
 
   if (recipe.ingredients) {
-    ingredients = recipe.ingredients.map((ingredient, index) => (<Grid item key={ingredient.id} sm={12}>
+    ingredients = recipe.ingredients.map((ingredient) => (<Grid item key={ingredient.id} sm={12}>
       <Ingredient ingredient={ingredient.name} unit={ingredient.unit} quantity={ingredient.quantity}/>
     </Grid>))
   }
@@ -44,10 +45,10 @@ export const Recipe = ({ recipe, history, toggleFavorite, isDeleting, deleteReci
 
   return (
     <Grid container spacing={24}>
-      <Grid item sm={12} name="title">
-        <Grid container justify="space-between">
+      <Grid item sm={12} name='title'>
+        <Grid container justify='space-between'>
           <Grid item sm={8}>
-            <Typography variant="headline" className={styles.title}>
+            <Typography variant='headline' className={styles.title}>
               {recipe.name}
             </Typography>
             <IconButton onClick={() => toggleFavorite(recipe.id, !recipe.favorite)} className={favoriteClassName}>
@@ -55,11 +56,11 @@ export const Recipe = ({ recipe, history, toggleFavorite, isDeleting, deleteReci
             </IconButton>
           </Grid>
           <Grid item className={styles.circularProgressContainer}>
-            <Button className={styles.modifyButton} variant="contained" onClick={onModifyButtonClick}>
+            <Button className={styles.modifyButton} variant='contained' onClick={onModifyButtonClick}>
               <EditIcon className={styles.editIcon}/>
               Modify
             </Button>
-            <Button className={styles.deleteButton} variant="contained" onClick={() => deleteRecipe(recipe.id)} disabled={isDeleting}>
+            <Button className={styles.deleteButton} variant='contained' onClick={() => deleteRecipe(recipe.id)} disabled={isDeleting}>
               <DeleteIcon className={styles.deleteIcon}/>
               Delete
             </Button>
@@ -67,27 +68,27 @@ export const Recipe = ({ recipe, history, toggleFavorite, isDeleting, deleteReci
           </Grid>
         </Grid>
       </Grid>
-      <Grid item sm={12} name="top-bar" container justify="space-between">
+      <Grid item sm={12} name='top-bar' container justify='space-between'>
         <Grid item></Grid>
         <Grid item>
-          <Button target="_blank" variant="contained" size="small" href={recipe.originUrl}>
+          <Button target='_blank' variant='contained' size='small' href={recipe.originUrl}>
             <OpenInNewIcon className={styles.leftIcon}/>
             Go to recipe
           </Button>
         </Grid>
       </Grid>
-      <Grid item sm={3} name="image">
+      <Grid item sm={3} name='image'>
         <img src={recipe.imgUrl} className={styles.image}/>
       </Grid>
-      <Grid item sm={5} name="steps">
-        <Typography variant="title" gutterBottom>Steps</Typography>
-        <Grid container alignItems="baseline" spacing={8}>
+      <Grid item sm={5} name='steps'>
+        <Typography variant='title' gutterBottom>Steps</Typography>
+        <Grid container alignItems='baseline' spacing={8}>
           {steps}
         </Grid>
       </Grid>
-      <Grid item sm={4} name="ingredients">
-        <Typography variant="title" gutterBottom>Ingredients</Typography>
-        <Grid container alignItems="baseline" spacing={8}>
+      <Grid item sm={4} name='ingredients'>
+        <Typography variant='title' gutterBottom>Ingredients</Typography>
+        <Grid container alignItems='baseline' spacing={8}>
           {ingredients}
         </Grid>
       </Grid>
@@ -95,22 +96,30 @@ export const Recipe = ({ recipe, history, toggleFavorite, isDeleting, deleteReci
   )
 }
 
+Recipe.propTypes = {
+  recipe: PropTypes.object,
+  history: PropTypes.object,
+  toggleFavorite: PropTypes.func,
+  isDeleting: PropTypes.bool,
+  deleteRecipe: PropTypes.func,
+}
+
 const mapStateToProps = state => {
-	return {
+  return {
     recipe: state.recipe,
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
-	return bindActionCreators({
+  return bindActionCreators({
     toggleFavorite: setFavorite,
     deleteRecipe: deleteRecipe
   },
-		dispatch
-	)
+  dispatch
+  )
 }
 
 export const RecipeContainer = connect(
-	mapStateToProps,
-	mapDispatchToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(Recipe)

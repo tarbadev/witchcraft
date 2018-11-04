@@ -1,17 +1,18 @@
 import React from 'react'
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 import Paper from '@material-ui/core/Paper'
 import TextField from '@material-ui/core/TextField'
 import { withStyles } from '@material-ui/core/styles'
 
-import RecipeList from './RecipeList'
+import {RecipeList} from './RecipeList'
 
 import { filterRecipes } from 'app-actions/RecipesActions'
 
-const styles = theme => ({
+const styles = () => ({
   paper: {
     padding: '.6em'
   }
@@ -28,14 +29,14 @@ export const Recipes = ({recipes, searchRecipe, classes = {}, history}) => {
         <Paper elevation={1} className={classes.paper}>
           <TextField
             fullWidth
-            label="Search for a recipe"
-            type="search"
-            className="recipes__search-input"
+            label='Search for a recipe'
+            type='search'
+            className='recipes__search-input'
             onChange={(e) => searchRecipe(e.target.value)} />
         </Paper>
       </Grid>
       <Grid item xs={12}>
-        <Button variant="contained" color="primary" onClick={onNewRecipeClick}>
+        <Button variant='contained' color='primary' onClick={onNewRecipeClick}>
           New Recipe
         </Button>
       </Grid>
@@ -44,6 +45,13 @@ export const Recipes = ({recipes, searchRecipe, classes = {}, history}) => {
       </Grid>
     </Grid>
   )
+}
+
+Recipes.propTypes = {
+  recipes: PropTypes.array,
+  searchRecipe: PropTypes.func,
+  classes: PropTypes.object,
+  history: PropTypes.object,
 }
 
 const mapStateToProps = state => {

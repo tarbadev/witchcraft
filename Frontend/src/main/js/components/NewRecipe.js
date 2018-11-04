@@ -1,6 +1,7 @@
 import React from 'react'
-import {connect} from "react-redux"
-import {bindActionCreators} from "redux"
+import PropTypes from 'prop-types'
+import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
 import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
 import TextField from '@material-ui/core/TextField'
@@ -9,14 +10,14 @@ import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
 import { setState } from 'app-root/RootReducer'
 
-import { formInputChange, submitForm } from 'app-actions/newRecipeActions'
+import { formInputChange, submitForm } from 'app-actions/NewRecipeActions'
 
-const styles = theme => ({
+const styles = () => ({
   root: {
     flexGrow: 1,
   },
   paper: {
-     padding: '.5em 1em !important'
+    padding: '.5em 1em !important'
   }
 })
 
@@ -30,81 +31,77 @@ export const NewRecipe = ({
   history,
   setState
 }) => {
-  const onUrlInputChange = (event) => {
-    changeFormInput(event.target.value)
-  }
-
-  const onUrlFormSubmit = (e) => {
+  const onUrlFormSubmit = () => {
     submitForm('/api/recipes/importFromUrl', autoUrl)
   }
 
-  const onManualUrlFormSubmit = (e) => {
+  const onManualUrlFormSubmit = () => {
     submitForm('/api/recipes/importFromForm', manualUrl)
   }
 
   if (redirect) {
     history.push('/recipes')
-    setState("newRecipe.forms", { recipeAdded: false, autoUrl: {}, manualUrl: {} })
+    setState('newRecipe.forms', { recipeAdded: false, autoUrl: {}, manualUrl: {} })
   }
 
   return (
     <Grid container spacing={24}>
       <Grid item xs={12}>
-        <Typography variant="display1">New Recipe</Typography>
+        <Typography variant='display1'>New Recipe</Typography>
       </Grid>
       <Grid item xs={6}>
         <Paper className={classes.paper}>
           <form>
             <Grid container spacing={24}>
               <Grid item xs={12} >
-                <Typography variant="title">Add manually</Typography>
+                <Typography variant='title'>Add manually</Typography>
               </Grid>
               <Grid item xs={12} >
                 <TextField
-                  label="Name"
-                  className="manual__name"
+                  label='Name'
+                  className='manual__name'
                   fullWidth
                   onChange={(e) => {changeFormInput('manualUrl.name', e.target.value)}}
                   value={manualUrl.name}
-                  placeholder="Mini Goat Cheese Stuffed Potato Appetizers"
-                  type="text" />
+                  placeholder='Mini Goat Cheese Stuffed Potato Appetizers'
+                  type='text' />
                 <TextField
-                  label="Url"
-                  className="manual__url"
+                  label='Url'
+                  className='manual__url'
                   fullWidth
                   onChange={(e) => {changeFormInput('manualUrl.url', e.target.value)}}
                   value={manualUrl.url}
-                  placeholder="http://example.com/recipe/32434"
-                  type="text" />
+                  placeholder='http://example.com/recipe/32434'
+                  type='text' />
                 <TextField
-                  label="Image Url"
-                  className="manual__imageUrl"
-                   fullWidth
-                   onChange={(e) => {changeFormInput('manualUrl.imageUrl', e.target.value)}}
-                   value={manualUrl.imageUrl}
-                   placeholder="http://example.com/recipe/32434.png"
-                   type="text" />
+                  label='Image Url'
+                  className='manual__imageUrl'
+                  fullWidth
+                  onChange={(e) => {changeFormInput('manualUrl.imageUrl', e.target.value)}}
+                  value={manualUrl.imageUrl}
+                  placeholder='http://example.com/recipe/32434.png'
+                  type='text' />
                 <TextField
-                  label="Ingredients"
-                  className="manual__ingredients"
+                  label='Ingredients'
+                  className='manual__ingredients'
                   multiline
                   fullWidth
                   onChange={(e) => {changeFormInput('manualUrl.ingredients', e.target.value)}}
                   value={manualUrl.ingredients}
-                  placeholder="2 oz. soft goat cheese"
-                  type="text" />
+                  placeholder='2 oz. soft goat cheese'
+                  type='text' />
                 <TextField
-                  label="Steps"
-                  className="manual__steps"
+                  label='Steps'
+                  className='manual__steps'
                   multiline
                   fullWidth
                   onChange={(e) => {changeFormInput('manualUrl.steps', e.target.value)}}
                   value={manualUrl.steps}
-                  placeholder="Test\nTest"
-                  type="text" />
+                  placeholder='Test\nTest'
+                  type='text' />
               </Grid>
               <Grid item xs={12} >
-                <Button variant="contained" className="manual__submit-button" color="primary" onClick={onManualUrlFormSubmit}>
+                <Button variant='contained' className='manual__submit-button' color='primary' onClick={onManualUrlFormSubmit}>
                   Submit
                 </Button>
               </Grid>
@@ -116,19 +113,19 @@ export const NewRecipe = ({
         <Paper className={classes.paper}>
           <Grid container spacing={24}>
             <Grid item xs={12} >
-              <Typography variant="title">Add from URL</Typography>
+              <Typography variant='title'>Add from URL</Typography>
             </Grid>
             <Grid item xs={12} >
               <TextField
                 fullWidth
-                className="auto__url"
+                className='auto__url'
                 onChange={(e) => {changeFormInput('autoUrl.url', e.target.value)}}
                 value={autoUrl.url}
-                label="http://example.com/recipe/32434"
-                type="search" />
+                label='http://example.com/recipe/32434'
+                type='search' />
             </Grid>
             <Grid item xs={12} >
-              <Button variant="contained" className="auto__submit-button" color="primary" onClick={onUrlFormSubmit}>
+              <Button variant='contained' className='auto__submit-button' color='primary' onClick={onUrlFormSubmit}>
                 Submit
               </Button>
             </Grid>
@@ -139,8 +136,19 @@ export const NewRecipe = ({
   )
 }
 
+NewRecipe.propTypes = {
+  classes: PropTypes.object,
+  changeFormInput: PropTypes.func,
+  submitForm: PropTypes.func,
+  autoUrl: PropTypes.object,
+  manualUrl: PropTypes.object,
+  redirect: PropTypes.bool,
+  history: PropTypes.object,
+  setState: PropTypes.func,
+}
+
 const mapStateToProps = state => {
-	return {
+  return {
     autoUrl: state.newRecipe.forms.autoUrl,
     manualUrl: state.newRecipe.forms.manualUrl,
     redirect: state.newRecipe.forms.recipeAdded
@@ -148,18 +156,18 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = (dispatch) => {
-	return bindActionCreators({
+  return bindActionCreators({
     changeFormInput: formInputChange,
     submitForm: submitForm,
     setState: setState
   },
-		dispatch
-	)
+  dispatch
+  )
 }
 
 const NewRecipeWithStyles = withStyles(styles)(NewRecipe)
 
 export const NewRecipeContainer = connect(
-	mapStateToProps,
-	mapDispatchToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(NewRecipeWithStyles)

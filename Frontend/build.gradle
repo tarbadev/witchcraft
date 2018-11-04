@@ -26,13 +26,27 @@ node {
   download = true
 }
 
-task webpack(type: NodeTask, dependsOn: 'npmInstall', group: 'build', description: 'Builds the frontend component') {
+task buildProject(type: Exec) {
+  commandLine "npm", "start"
+}
+
+task webpack(type: NodeTask, dependsOn: 'eslint', group: 'build', description: 'Builds the frontend component') {
   script = project.file('node_modules/.bin/webpack')
 }
 
-task webpackWatch(type: NodeTask, dependsOn: 'npmInstall', group: 'build', description: 'Builds the frontend component and watches for changes') {
+task webpackWatch(type: NodeTask, dependsOn: 'eslintWatch', group: 'build', description: 'Builds the frontend component and watches for changes') {
   script = project.file('node_modules/.bin/webpack')
   args = ['--watch', '--display-error-details']
+}
+
+task eslint(type: NodeTask, dependsOn: 'npmInstall', group: 'build', description: 'Executes eslint') {
+  script = project.file('node_modules/.bin/esw')
+  args = ['src']
+}
+
+task eslintWatch(type: NodeTask, dependsOn: 'npmInstall', group: 'build', description: 'Executes eslint and watches for changes') {
+  script = project.file('node_modules/.bin/esw')
+  args = ['src', '--watch']
 }
 
 task testReact(type: NpmTask, dependsOn: 'npmInstall', group: 'Verification', description: 'Runs the tests for React') {

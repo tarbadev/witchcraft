@@ -1,9 +1,9 @@
 import { getAllRecipes, getAllRecipesSuccess, filterRecipes } from 'app-actions/RecipesActions'
 
-const promisedRecipeList = require('test-resources/recipeList.json')
+import promisedRecipeList from 'test-resources/recipeList.json'
 
 describe('RecipesActions', () => {
-  describe("getAllRecipes", () => {
+  describe('getAllRecipes', () => {
     it('calls the witchcraft API and sets the state with the list of recipes', () => {
       const dispatchSpy = jasmine.createSpy()
 
@@ -37,7 +37,7 @@ describe('RecipesActions', () => {
     })
   })
 
-  describe("filterRecipes", () => {
+  describe('filterRecipes', () => {
     it('filters the list of recipes based on the input', () => {
       const dispatchSpy = jasmine.createSpy()
       const state = {

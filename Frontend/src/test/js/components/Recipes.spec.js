@@ -3,7 +3,7 @@ import {shallow} from 'enzyme'
 
 import { Recipes } from 'app-components/Recipes'
 
-describe("Recipes", () => {
+describe('Recipes', () => {
   it('calls searchRecipe callback on search input change', () => {
     const searchSpy = jasmine.createSpy()
     const recipes = shallow(<Recipes searchRecipe={searchSpy} />)

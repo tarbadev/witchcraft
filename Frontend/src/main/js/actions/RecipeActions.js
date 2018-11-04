@@ -1,4 +1,4 @@
-import {setState} from "app-root/RootReducer"
+import {setState} from 'app-root/RootReducer'
 import {fetchAction} from 'app-root/WitchcraftMiddleware'
 import { push } from 'connected-react-router'
 
@@ -16,7 +16,7 @@ export const getRecipeSuccess = data => dispatch => {
   dispatch(setState('editRecipe.form', form))
 }
 
-export const getRecipeError = error => dispatch => {
+export const getRecipeError = () => dispatch => {
   dispatch(push('#/recipes'))
 }
 
@@ -44,7 +44,7 @@ export const setFavorite = (id, isFavorite) => dispatch => {
   }))
 }
 
-export const deleteRecipeCallback = data => dispatch => {
+export const deleteRecipeCallback = () => dispatch => {
   dispatch(setState('recipePage.isDeleting', false))
   dispatch(push('#/recipes'))
 }

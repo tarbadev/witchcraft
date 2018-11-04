@@ -1,13 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react'
 
-import RecipeList from './RecipeList'
+import {RecipeList} from './RecipeList'
 
-export default class Home extends Component {
-  render() {
-    return (
-      <div>
-        <RecipeList />
-      </div>
-    );
-  }
+export const Home = () => {
+  return (
+    <div>
+      <RecipeList />
+    </div>
+  )
 }

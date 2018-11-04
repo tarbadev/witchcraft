@@ -3,28 +3,27 @@ import { shallow } from 'enzyme'
 
 import { EditRecipe } from 'app-components/EditRecipe'
 
-const promisedRecipeList = require('test-resources/recipeList.json');
+import promisedRecipeList from 'test-resources/recipeList.json'
 
-describe("EditRecipe", function () {
+describe('EditRecipe', function () {
   it('calls the callback when input value changes', () => {
     const changeFormInputSpy = jasmine.createSpy()
     const editRecipe = shallow(<EditRecipe changeFormInput={changeFormInputSpy} form={promisedRecipeList.recipes[0]} />)
-    const url = "fakeUrl"
-    const name = "name"
-    const imgUrl = "imgUrl"
-    const steps = "steps"
+    const url = 'fakeUrl'
+    const name = 'name'
+    const imgUrl = 'imgUrl'
 
-    editRecipe.find(".modify-form__name").simulate('change', {target: {value: name }})
-    editRecipe.find(".modify-form__url").simulate('change', {target: {value: url }})
-    editRecipe.find(".modify-form__imgUrl").simulate('change', {target: {value: imgUrl }})
-    editRecipe.find(".modify-form__ingredient-quantity-0").simulate('change', {target: {value: 12 }})
-    editRecipe.find(".modify-form__ingredient-unit-0").simulate('change', {target: {value: 'tbsp' }})
-    editRecipe.find(".modify-form__ingredient-name-0").simulate('change', {target: {value: 'Sugar' }})
-    editRecipe.find(".modify-form__ingredient-quantity-3").simulate('change', {target: {value: 5 }})
-    editRecipe.find(".modify-form__ingredient-unit-3").simulate('change', {target: {value: 'cup' }})
-    editRecipe.find(".modify-form__ingredient-name-3").simulate('change', {target: {value: 'All Purpose Flour' }})
-    editRecipe.find(".modify-form__step-name-0").simulate('change', {target: {value: 'Add Sugar' }})
-    editRecipe.find(".modify-form__step-name-3").simulate('change', {target: {value: 'Mix with flour' }})
+    editRecipe.find('.modify-form__name').simulate('change', {target: {value: name }})
+    editRecipe.find('.modify-form__url').simulate('change', {target: {value: url }})
+    editRecipe.find('.modify-form__imgUrl').simulate('change', {target: {value: imgUrl }})
+    editRecipe.find('.modify-form__ingredient-quantity-0').simulate('change', {target: {value: 12 }})
+    editRecipe.find('.modify-form__ingredient-unit-0').simulate('change', {target: {value: 'tbsp' }})
+    editRecipe.find('.modify-form__ingredient-name-0').simulate('change', {target: {value: 'Sugar' }})
+    editRecipe.find('.modify-form__ingredient-quantity-3').simulate('change', {target: {value: 5 }})
+    editRecipe.find('.modify-form__ingredient-unit-3').simulate('change', {target: {value: 'cup' }})
+    editRecipe.find('.modify-form__ingredient-name-3').simulate('change', {target: {value: 'All Purpose Flour' }})
+    editRecipe.find('.modify-form__step-name-0').simulate('change', {target: {value: 'Add Sugar' }})
+    editRecipe.find('.modify-form__step-name-3').simulate('change', {target: {value: 'Mix with flour' }})
 
     expect(changeFormInputSpy).toHaveBeenCalledWith('editRecipe.form.name', name)
     expect(changeFormInputSpy).toHaveBeenCalledWith('editRecipe.form.url', url)
@@ -63,7 +62,7 @@ describe("EditRecipe", function () {
     }
     const editRecipe = shallow(<EditRecipe submitForm={submitFormSpy} form={form} />)
 
-    editRecipe.find(".modify-form__submit-button").simulate('click')
+    editRecipe.find('.modify-form__submit-button').simulate('click')
 
     expect(submitFormSpy).toHaveBeenCalledWith(form)
   })
