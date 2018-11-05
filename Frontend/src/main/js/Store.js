@@ -9,6 +9,7 @@ import {createHistoryObserver} from './HistoryObserver'
 import {getAllRecipes} from 'app-actions/RecipesActions'
 import {getAllCarts} from 'app-actions/CartsActions'
 import {getRecipe} from 'app-actions/RecipeActions'
+import {getCart} from 'app-actions/CartActions'
 import {WitchcraftMiddleware} from 'app-root/WitchcraftMiddleware'
 
 export const history = createBrowserHistory()
@@ -27,6 +28,9 @@ const pathRegexes = [
   }, {
     regex: /^#\/carts$/,
     callback: () => store.dispatch(getAllCarts())
+  }, {
+    regex: /^#\/carts\/(\d+)$/,
+    callback: (id) => store.dispatch(getCart(id))
   }, {
     regex: /^#\/carts\/new$/,
     callback: () => store.dispatch(getAllRecipes())

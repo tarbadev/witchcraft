@@ -63,6 +63,7 @@ const initialState = {
     form: [],
   },
   carts: [],
+  cart: {},
 }
 
 export const reducer = (state = initialState, action) => {

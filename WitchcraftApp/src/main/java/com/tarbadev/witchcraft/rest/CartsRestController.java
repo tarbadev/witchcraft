@@ -4,6 +4,7 @@ import com.tarbadev.witchcraft.domain.entity.Cart;
 import com.tarbadev.witchcraft.domain.entity.Recipe;
 import com.tarbadev.witchcraft.domain.usecase.CartCatalogUseCase;
 import com.tarbadev.witchcraft.domain.usecase.CreateCartUseCase;
+import com.tarbadev.witchcraft.domain.usecase.GetCartUseCase;
 import com.tarbadev.witchcraft.domain.usecase.RecipeCatalogUseCase;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,15 +17,22 @@ public class CartsRestController {
   private RecipeCatalogUseCase recipeCatalogUseCase;
   private CreateCartUseCase createCartUseCase;
   private CartCatalogUseCase cartCatalogUseCase;
+  private GetCartUseCase getCartUseCase;
 
   public CartsRestController(
       RecipeCatalogUseCase recipeCatalogUseCase,
       CreateCartUseCase createCartUseCase,
-      CartCatalogUseCase cartCatalogUseCase
-  ) {
+      CartCatalogUseCase cartCatalogUseCase,
+      GetCartUseCase getCartUseCase) {
     this.recipeCatalogUseCase = recipeCatalogUseCase;
     this.createCartUseCase = createCartUseCase;
     this.cartCatalogUseCase = cartCatalogUseCase;
+    this.getCartUseCase = getCartUseCase;
+  }
+
+  @GetMapping("/{id}")
+  public Cart getCart(@PathVariable Integer id) {
+    return getCartUseCase.execute(id);
   }
 
   @GetMapping

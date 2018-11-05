@@ -35,6 +35,19 @@ public class CartsRestControllerTest {
   private CreateCartUseCase createCartUseCase;
   @Autowired
   private CartCatalogUseCase cartCatalogUseCase;
+  @Autowired
+  private GetCartUseCase getCartUseCase;
+
+  @Test
+  public void getCart() throws Exception {
+    Cart cart = Cart.builder().id(12).build();
+
+    given(getCartUseCase.execute(cart.getId())).willReturn(cart);
+
+    mvc.perform(get("/api/carts/" + cart.getId()))
+        .andExpect(status().isOk())
+        .andExpect(content().json(new ObjectMapper().writeValueAsString(cart)));
+  }
 
   @Test
   public void getAll() throws Exception {

@@ -34,9 +34,11 @@ export const Recipe = ({ recipe, history, toggleFavorite, isDeleting, deleteReci
   }
 
   if (recipe.ingredients) {
-    ingredients = recipe.ingredients.map((ingredient) => (<Grid item key={ingredient.id} sm={12}>
-      <Ingredient ingredient={ingredient.name} unit={ingredient.unit} quantity={ingredient.quantity}/>
-    </Grid>))
+    ingredients = recipe.ingredients.map((ingredient) => (
+      <Grid item key={ingredient.id} sm={12}>
+        <Ingredient ingredient={ingredient.name} unit={ingredient.unit} quantity={ingredient.quantity}/>
+      </Grid>
+    ))
   }
 
   if (recipe.favorite) {
