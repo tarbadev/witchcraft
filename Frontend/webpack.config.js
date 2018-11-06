@@ -31,8 +31,11 @@ module.exports = {
         test: /\.jsx?$/,
         loader: 'babel-loader',
         query: {
-          presets: ['es2015', 'react'],
-          plugins: ['transform-class-properties', 'babel-plugin-transform-object-rest-spread']
+          presets: ['@babel/preset-env', '@babel/preset-react'],
+          plugins: [
+            '@babel/plugin-proposal-object-rest-spread',
+            '@babel/plugin-proposal-optional-chaining',
+          ]
         },
         exclude: '/node_modules/',
         include: ROOT

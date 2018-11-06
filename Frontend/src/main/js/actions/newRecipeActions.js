@@ -1,16 +1,16 @@
-import {setState} from 'app-root/RootReducer'
-import {request} from 'app-root/Utils'
+import { setState } from 'app-root/RootReducer'
+import { fetchAction } from 'app-root/WitchcraftMiddleware'
 
-export const formInputChange = (key, value) => {
-  return(dispatch) => {
-    return dispatch(setState(`newRecipe.forms.${key}`, value))
-  }
-}
+export const formInputChange = (key, value) => dispatch =>
+  dispatch(setState(`newRecipe.forms.${key}`, value))
 
-export const submitForm = (url, form) => {
-  return(dispatch) => {
-    request({url: url, method: 'post', body: JSON.stringify(form)}).then(() => {
-      return dispatch(setState('newRecipe.forms.recipeAdded', true))
-    })
-  }
-}
+export const submitFormSuccess = () => dispatch =>
+  dispatch(setState('newRecipe.forms.recipeAdded', true))
+
+export const submitForm = (url, form) => dispatch =>
+  dispatch(fetchAction({
+    url: url,
+    method: 'POST',
+    body: form,
+    onSuccess: submitFormSuccess,
+  }))

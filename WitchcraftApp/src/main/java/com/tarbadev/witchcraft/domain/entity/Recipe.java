@@ -2,18 +2,26 @@ package com.tarbadev.witchcraft.domain.entity;
 
 import lombok.*;
 
+import java.util.Collections;
 import java.util.List;
 
 @Value
 @Builder(toBuilder = true)
 public class Recipe {
-  private Integer id;
-  private String url;
-  private String originUrl;
-  private String name;
-  private String imgUrl;
+  @Builder.Default
+  private Integer id = 0;
+  @Builder.Default
+  private String url = "";
+  @Builder.Default
+  private String originUrl = "";
+  @Builder.Default
+  private String name = "";
+  @Builder.Default
+  private String imgUrl = "";
   @Builder.Default
   private Boolean favorite = false;
-  private List<Ingredient> ingredients;
-  private List<Step> steps;
+  @Builder.Default
+  private List<Ingredient> ingredients = Collections.emptyList();
+  @Builder.Default
+  private List<Step> steps = Collections.emptyList();
 }

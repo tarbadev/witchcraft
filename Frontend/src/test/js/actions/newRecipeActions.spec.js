@@ -1,6 +1,4 @@
-import {formInputChange, submitForm} from 'app-actions/NewRecipeActions'
-import {history} from 'app-root/Store'
-import * as Utils from 'app-root/Utils'
+import {formInputChange, submitForm, submitFormSuccess} from 'app-actions/NewRecipeActions'
 
 describe('newRecipeActions', () => {
   describe('formInputChange', function() {
@@ -15,19 +13,31 @@ describe('newRecipeActions', () => {
   })
 
   describe('submitForm', function() {
-    it('submits the form when called', async () => {
+    it('submits the form when called', () => {
       const dispatchSpy = jasmine.createSpy()
-      spyOn(Utils, 'request').and.returnValue(Promise.resolve({}))
-      spyOn(history, 'push')
       const url = '/api/recipes/importFromUrl'
       const form = {
         url: 'fakeUrl'
       }
 
-      await submitForm(url, form)(dispatchSpy)
+      submitForm(url, form)(dispatchSpy)
 
-      expect(Utils.request)
-        .toHaveBeenCalledWith({url: url, method: 'post', body: JSON.stringify(form)})
+      expect(dispatchSpy).toHaveBeenCalledWith({
+        type: 'FETCH',
+        url: url,
+        method: 'POST',
+        body: form,
+        onSuccess: submitFormSuccess,
+        onError: undefined,
+      })
+    })
+  })
+
+  describe('submitFormSuccess', function() {
+    it('saves the recipeAdded state', () => {
+      const dispatchSpy = jasmine.createSpy()
+
+      submitFormSuccess()(dispatchSpy)
 
       expect(dispatchSpy).toHaveBeenCalledWith({type: 'SET_STATE', key: 'newRecipe.forms.recipeAdded', payload: true})
     })

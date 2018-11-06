@@ -64,6 +64,14 @@ const initialState = {
   },
   carts: [],
   cart: {},
+  week: {
+    days: [
+      {
+        lunch: {},
+        diner: {},
+      }
+    ],
+  },
 }
 
 export const reducer = (state = initialState, action) => {
