@@ -18,7 +18,7 @@ public class SaveWeekUseCase {
     this.recipeRepository = recipeRepository;
   }
 
-  public void execute(Week week) {
+  public Week execute(Week week) {
     Week weekWithRecipes = Week.builder()
         .id(week.getId())
         .year(week.getYear())
@@ -33,6 +33,6 @@ public class SaveWeekUseCase {
             .collect(Collectors.toList()))
         .build();
 
-    weekRepository.save(weekWithRecipes);
+    return weekRepository.save(weekWithRecipes);
   }
 }

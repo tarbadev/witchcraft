@@ -1,39 +1,33 @@
 package com.tarbadev.witchcraft.domain.usecase;
 
-import com.tarbadev.witchcraft.TestResources;
 import com.tarbadev.witchcraft.domain.entity.Recipe;
 import com.tarbadev.witchcraft.domain.repository.RecipeRepository;
-import com.tarbadev.witchcraft.domain.usecase.SaveRecipeUseCase;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
+import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
-@ActiveProfiles("test")
+@RunWith(MockitoJUnitRunner.class)
 public class SaveRecipeUseCaseTest {
-  private SaveRecipeUseCase subject;
+  private SaveRecipeUseCase saveRecipeUseCase;
 
-  @Autowired private TestResources testResources;
   @Mock private RecipeRepository recipeRepository;
 
   @Before
   public void setUp() {
-    subject = new SaveRecipeUseCase(recipeRepository);
+    saveRecipeUseCase = new SaveRecipeUseCase(recipeRepository);
+    reset(recipeRepository);
   }
 
   @Test
   public void execute() {
-    Recipe recipe = testResources.getRecipe();
+    Recipe recipe = Recipe.builder().build();
 
-    subject.execute(recipe);
+    saveRecipeUseCase.execute(recipe);
 
     verify(recipeRepository).saveRecipe(recipe);
   }
@@ -42,7 +36,7 @@ public class SaveRecipeUseCaseTest {
   public void execute_updatesRecipe() {
     Recipe recipe = Recipe.builder().id(123).build();
 
-    subject.execute(recipe);
+    saveRecipeUseCase.execute(recipe);
 
     verify(recipeRepository).updateRecipe(recipe);
   }

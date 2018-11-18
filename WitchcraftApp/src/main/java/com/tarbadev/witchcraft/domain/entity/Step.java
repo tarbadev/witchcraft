@@ -1,11 +1,14 @@
 package com.tarbadev.witchcraft.domain.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-
-@Value
+@Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Step {
   private Integer id;
   private String name;

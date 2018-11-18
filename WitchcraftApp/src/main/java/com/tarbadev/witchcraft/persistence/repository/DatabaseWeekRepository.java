@@ -20,7 +20,9 @@ public class DatabaseWeekRepository implements WeekRepository {
   }
 
   @Override
-  public void save(Week week) {
-    weekEntityRepository.save(DomainToEntity.weekEntityMapper(week));
+  public Week save(Week week) {
+    return EntityToDomain.weekMapper(
+        weekEntityRepository.saveAndFlush(DomainToEntity.weekEntityMapper(week))
+    );
   }
 }

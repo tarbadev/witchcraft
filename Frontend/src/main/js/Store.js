@@ -47,7 +47,10 @@ const pathRegexes = [
     callback: () => history.push(getCurrentWeekUrl())
   }, {
     regex: /^#\/weeks\/(\d+)\/(\d+)$/,
-    callback: ([year, week]) => store.dispatch(getWeek(year, week))
+    callback: ([year, week]) => {
+      store.dispatch(getAllRecipes())
+      store.dispatch(getWeek(year, week))
+    }
   }
 ]
 

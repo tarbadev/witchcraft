@@ -5,8 +5,10 @@ import lombok.*;
 import java.util.Collections;
 import java.util.List;
 
-@Value
+@Data
 @Builder(toBuilder = true)
+@AllArgsConstructor
+@NoArgsConstructor
 public class Recipe {
   @Builder.Default
   private Integer id = 0;

@@ -62,6 +62,13 @@ const initialState = {
   newCartPage: {
     form: [],
   },
+  weekPage: {
+    modal: {
+      isModalOpen: false,
+      day: '',
+      meal: '',
+    }
+  },
   carts: [],
   cart: {},
   week: {

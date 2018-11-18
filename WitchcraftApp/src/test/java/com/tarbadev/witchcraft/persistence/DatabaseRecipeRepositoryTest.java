@@ -58,6 +58,7 @@ public class DatabaseRecipeRepositoryTest {
     );
     Recipe expectedRecipe = Recipe.builder()
         .id(recipe.getId())
+        .url("/recipes/" + recipe.getId())
         .name("lasagna")
         .originUrl(recipe_url)
         .ingredients(emptyList())
@@ -82,6 +83,7 @@ public class DatabaseRecipeRepositoryTest {
 
     Recipe expectedRecipe = Recipe.builder()
         .id(returnedRecipe.getId())
+        .url("/recipes/" + returnedRecipe.getId())
         .name("lasagna")
         .ingredients(Arrays.asList(
             Ingredient.builder()
@@ -229,6 +231,7 @@ public class DatabaseRecipeRepositoryTest {
   private Recipe toDomain(RecipeEntity recipeEntity) {
     return Recipe.builder()
         .id(recipeEntity.getId())
+        .url("/recipes/" + recipeEntity.getId())
         .name(recipeEntity.getName().toLowerCase())
         .originUrl(recipeEntity.getOriginUrl())
         .imgUrl(recipeEntity.getImgUrl())

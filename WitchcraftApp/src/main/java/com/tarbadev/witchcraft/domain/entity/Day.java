@@ -1,10 +1,11 @@
 package com.tarbadev.witchcraft.domain.entity;
 
-import lombok.Builder;
-import lombok.Value;
+import lombok.*;
 
-@Value
-@Builder
+@Data
+@Builder(toBuilder = true)
+@AllArgsConstructor
+@NoArgsConstructor
 public class Day {
   private Integer id;
   private DayName name;

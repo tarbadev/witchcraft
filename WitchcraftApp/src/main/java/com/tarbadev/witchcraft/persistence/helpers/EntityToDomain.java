@@ -11,6 +11,7 @@ public class EntityToDomain {
     return Recipe.builder()
         .id(recipeEntity.getId())
         .name(recipeEntity.getName().toLowerCase())
+        .url("/recipes/" + recipeEntity.getId())
         .originUrl(recipeEntity.getOriginUrl())
         .imgUrl(recipeEntity.getImgUrl())
         .favorite(recipeEntity.getFavorite())

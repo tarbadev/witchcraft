@@ -1,10 +1,11 @@
 package com.tarbadev.witchcraft.domain.entity;
 
-import lombok.Builder;
-import lombok.Value;
+import lombok.*;
 
-@Value
+@Data
 @Builder(toBuilder = true)
+@AllArgsConstructor
+@NoArgsConstructor
 public class Ingredient {
   private Integer id;
   private String name;

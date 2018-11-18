@@ -13,7 +13,7 @@ public class SaveRecipeUseCase {
   }
 
   public Recipe execute(Recipe recipe) {
-    if (recipe.getId() != null)
+    if (recipe.getId() != null && recipe.getId() > 0)
       recipe = recipeRepository.updateRecipe(recipe);
     else
       recipe = recipeRepository.saveRecipe(recipe);
