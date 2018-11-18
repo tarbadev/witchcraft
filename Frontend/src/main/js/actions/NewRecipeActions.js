@@ -1,5 +1,5 @@
-import { setState } from 'app-root/RootReducer'
 import { fetchAction } from 'app-root/WitchcraftMiddleware'
+import { setState } from 'app-root/RootReducer'
 
 export const formInputChange = (key, value) => dispatch =>
   dispatch(setState(`newRecipe.forms.${key}`, value))
