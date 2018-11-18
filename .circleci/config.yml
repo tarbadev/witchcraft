@@ -1,0 +1,18 @@
+version: 2.1
+jobs:
+  build:
+    working_directory: ~/witchcraft
+    docker:
+    - image: circleci/openjdk:8-jdk
+    - image: circleci/mysql
+    steps:
+    - checkout
+    - restore_cache:
+        keys:
+        - v1-dependencies-{{ checksum "build.gradle" }}
+        - v1-dependencies-
+    - run: gradle build
+    - save_cache:
+        paths:
+        - .gradle
+        key: v1-dependencies-{{ checksum "build.gradle" }}
