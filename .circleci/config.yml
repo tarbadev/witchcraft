@@ -2,6 +2,9 @@ version: 2.1
 jobs:
   build:
     working_directory: ~/witchcraft
+    branches:
+      only:
+      - wip/refactorRecipesList
     docker:
     - image: circleci/openjdk:8-jdk
     - image: circleci/mysql
