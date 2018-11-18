@@ -15,7 +15,7 @@ import promisedRecipeList from 'test-resources/recipeList.json'
 describe('RecipeActions', () => {
   describe('getRecipe', () => {
     it('calls the witchcraft API and sets the state with the recipe', () => {
-      const dispatchSpy = jasmine.createSpy()
+      const dispatchSpy = jest.fn()
 
       getRecipe(1)(dispatchSpy)
 
@@ -32,7 +32,7 @@ describe('RecipeActions', () => {
 
   describe('getRecipeSuccess', () => {
     it('success callback saves recipes in state', () => {
-      const dispatchSpy = jasmine.createSpy()
+      const dispatchSpy = jest.fn()
       getRecipeSuccess(promisedRecipeList.recipes[0])(dispatchSpy)
       expect(dispatchSpy).toHaveBeenCalledWith({
         type: 'SET_STATE',
@@ -58,7 +58,7 @@ describe('RecipeActions', () => {
 
   describe('getRecipeError', () => {
     it('error callback redirects to recipes', () => {
-      const dispatchSpy = jasmine.createSpy()
+      const dispatchSpy = jest.fn()
       getRecipeError()(dispatchSpy)
       expect(dispatchSpy).toHaveBeenCalledWith({
         type: '@@router/CALL_HISTORY_METHOD',
@@ -69,7 +69,7 @@ describe('RecipeActions', () => {
 
   describe('setFavorite', () => {
     it('success callback saves recipes in state', () => {
-      const dispatchSpy = jasmine.createSpy()
+      const dispatchSpy = jest.fn()
       setFavorite(2, true)(dispatchSpy)
       expect(dispatchSpy).toHaveBeenCalledWith({
         type: 'FETCH',
@@ -84,7 +84,7 @@ describe('RecipeActions', () => {
 
   describe('setFavoriteSuccess', () => {
     it('success callback saves recipes in state', () => {
-      const dispatchSpy = jasmine.createSpy()
+      const dispatchSpy = jest.fn()
       setFavoriteSuccess(promisedRecipeList.recipes[0])(dispatchSpy)
       expect(dispatchSpy).toHaveBeenCalledWith({
         type: 'SET_STATE',
@@ -96,7 +96,7 @@ describe('RecipeActions', () => {
 
   describe('updateRecipe', () => {
     it('success callback updates the recipe on the backend', () => {
-      const dispatchSpy = jasmine.createSpy()
+      const dispatchSpy = jest.fn()
       const form = {
         id: 12,
         name: 'Mini Goat Cheese Stuffed Potato Appetizers',
@@ -132,7 +132,7 @@ describe('RecipeActions', () => {
 
   describe('updateRecipeSuccess', () => {
     it('success callback saves recipes in state', () => {
-      const dispatchSpy = jasmine.createSpy()
+      const dispatchSpy = jest.fn()
       updateRecipeSuccess(promisedRecipeList.recipes[0])(dispatchSpy)
       expect(dispatchSpy).toHaveBeenCalledWith({
         type: '@@router/CALL_HISTORY_METHOD',
@@ -143,7 +143,7 @@ describe('RecipeActions', () => {
 
   describe('deleteRecipe', () => {
     it('success callback saves recipes in state', () => {
-      const dispatchSpy = jasmine.createSpy()
+      const dispatchSpy = jest.fn()
       deleteRecipe(2)(dispatchSpy)
       expect(dispatchSpy).toHaveBeenCalledWith({
         type: 'FETCH',
@@ -158,7 +158,7 @@ describe('RecipeActions', () => {
 
   describe('deleteRecipeCallback', () => {
     it('success callback saves recipes in state', () => {
-      const dispatchSpy = jasmine.createSpy()
+      const dispatchSpy = jest.fn()
       deleteRecipeCallback()(dispatchSpy)
       expect(dispatchSpy).toHaveBeenCalledWith({
         type: 'SET_STATE',

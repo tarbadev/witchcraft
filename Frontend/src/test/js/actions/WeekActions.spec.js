@@ -2,7 +2,7 @@ import { getWeekSuccess, getWeek } from 'app-actions/WeekActions'
 
 describe('WeekActions', () => {
   it('getWeek sends a request to retrieve a week', () => {
-    const dispatchSpy = jasmine.createSpy()
+    const dispatchSpy = jest.fn()
 
     getWeek(2018, 33)(dispatchSpy)
 
@@ -17,7 +17,7 @@ describe('WeekActions', () => {
   })
 
   it('getWeekSuccess sends a request to retrieve a week', () => {
-    const dispatchSpy = jasmine.createSpy()
+    const dispatchSpy = jest.fn()
     const week = { id: 1, recipes: [] }
 
     getWeekSuccess(week)(dispatchSpy)

@@ -2,7 +2,7 @@ import { getAllCarts, getAllCartsSuccess } from 'app-actions/CartsActions'
 
 describe('CartsActions', () => {
   it('getAllCarts calls the getAllCarts API endpoint', () => {
-    const dispatchSpy = jasmine.createSpy()
+    const dispatchSpy = jest.fn()
 
     getAllCarts()(dispatchSpy)
 
@@ -17,7 +17,7 @@ describe('CartsActions', () => {
   })
 
   it('getAllCartsSuccess saves the carts to the state', () => {
-    const dispatchSpy = jasmine.createSpy()
+    const dispatchSpy = jest.fn()
     const carts = [{
       id: 12,
       recipes: []

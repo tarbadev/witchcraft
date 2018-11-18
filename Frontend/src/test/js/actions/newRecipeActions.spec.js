@@ -3,7 +3,7 @@ import {formInputChange, submitForm, submitFormSuccess} from 'app-actions/NewRec
 describe('newRecipeActions', () => {
   describe('formInputChange', function() {
     it('updates the state when called', () => {
-      const dispatchSpy = jasmine.createSpy()
+      const dispatchSpy = jest.fn()
       const url = 'fakeUrl'
 
       formInputChange('url', url)(dispatchSpy)
@@ -14,7 +14,7 @@ describe('newRecipeActions', () => {
 
   describe('submitForm', function() {
     it('submits the form when called', () => {
-      const dispatchSpy = jasmine.createSpy()
+      const dispatchSpy = jest.fn()
       const url = '/api/recipes/importFromUrl'
       const form = {
         url: 'fakeUrl'
@@ -35,7 +35,7 @@ describe('newRecipeActions', () => {
 
   describe('submitFormSuccess', function() {
     it('saves the recipeAdded state', () => {
-      const dispatchSpy = jasmine.createSpy()
+      const dispatchSpy = jest.fn()
 
       submitFormSuccess()(dispatchSpy)
 

@@ -6,7 +6,7 @@ import { WeekPage, WEEKS_IN_A_YEAR } from 'app-components/WeekPage'
 describe('WeekPage', () => {
   describe('when previous button clicked', () => {
     it('calls history.push', () => {
-      const pushSpy = jasmine.createSpy()
+      const pushSpy = jest.fn()
       const week = { year: 2018, weekNumber: 45, days: [] }
       const weekPage = shallow(<WeekPage history={{push: pushSpy}} week={week} />)
 
@@ -16,7 +16,7 @@ describe('WeekPage', () => {
     })
 
     it('calculates the previous year if weekNumber = 1', () => {
-      const pushSpy = jasmine.createSpy()
+      const pushSpy = jest.fn()
       const week = { year: 2018, weekNumber: 1, days: [] }
       const weekPage = shallow(<WeekPage history={{push: pushSpy}} week={week} />)
 
@@ -28,7 +28,7 @@ describe('WeekPage', () => {
 
   describe('when next button clicked', () => {
     it('calls history.push', () => {
-      const pushSpy = jasmine.createSpy()
+      const pushSpy = jest.fn()
       const week = { year: 2018, weekNumber: 45, days: [] }
       const weekPage = shallow(<WeekPage history={{push: pushSpy}} week={week} />)
 
@@ -38,7 +38,7 @@ describe('WeekPage', () => {
     })
 
     it('calculates the next year if weekNumber = MAX_WEEK', () => {
-      const pushSpy = jasmine.createSpy()
+      const pushSpy = jest.fn()
       const week = { year: 2018, weekNumber: WEEKS_IN_A_YEAR, days: [] }
       const weekPage = shallow(<WeekPage history={{push: pushSpy}} week={week} />)
 
@@ -50,7 +50,7 @@ describe('WeekPage', () => {
 
   describe('when save button clicked', () => {
     it('calls saveWeek', () => {
-      const onSaveClick = jasmine.createSpy()
+      const onSaveClick = jest.fn()
       const week = { year: 2018, weekNumber: 45, days: [] }
       const weekPage = shallow(<WeekPage onSaveClick={onSaveClick} week={week} />)
 
@@ -60,7 +60,7 @@ describe('WeekPage', () => {
     })
 
     it('calculates the next year if weekNumber = MAX_WEEK', () => {
-      const pushSpy = jasmine.createSpy()
+      const pushSpy = jest.fn()
       const week = { year: 2018, weekNumber: WEEKS_IN_A_YEAR, days: [] }
       const weekPage = shallow(<WeekPage history={{push: pushSpy}} week={week} />)
 

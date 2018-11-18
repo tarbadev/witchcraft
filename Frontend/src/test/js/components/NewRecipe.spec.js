@@ -5,7 +5,7 @@ import {NewRecipe} from 'app-components/NewRecipe'
 
 describe('NewRecipe', function () {
   it('calls the callback when input value changes', () => {
-    const changeFormInputSpy = jasmine.createSpy()
+    const changeFormInputSpy = jest.fn()
     const newRecipe = shallow(<NewRecipe changeFormInput={changeFormInputSpy} classes={{}} autoUrl={{}} manualUrl={{}} />)
     const url = 'fakeUrl'
     const name = 'name'
@@ -29,7 +29,7 @@ describe('NewRecipe', function () {
   })
 
   it('calls the callback when submit button is clicked on auto url', () => {
-    const submitFormSpy = jasmine.createSpy()
+    const submitFormSpy = jest.fn()
     const url = 'fakeUrl'
     const newRecipe = shallow(<NewRecipe submitForm={submitFormSpy} classes={{}} autoUrl={{ url: url }} />)
 
@@ -39,7 +39,7 @@ describe('NewRecipe', function () {
   })
 
   it('calls the callback when submit button is clicked on manual url', () => {
-    const submitFormSpy = jasmine.createSpy()
+    const submitFormSpy = jest.fn()
     const manualUrl = {
       name: 'Mini Goat Cheese Stuffed Potato Appetizers',
       url: 'http://example.com/recipe/32434',
@@ -55,8 +55,8 @@ describe('NewRecipe', function () {
   })
 
   it('redirects to /recipes when redirect set to true', () => {
-    const setStateSpy = jasmine.createSpy()
-    const pushSpy = jasmine.createSpy()
+    const setStateSpy = jest.fn()
+    const pushSpy = jest.fn()
 
     shallow(<NewRecipe setState={setStateSpy} history={{ push: pushSpy }} redirect classes={{}} />)
 

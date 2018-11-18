@@ -4,7 +4,7 @@ import { fetchAction } from 'app-root/WitchcraftMiddleware'
 
 describe('WeekPageActions', () => {
   it('toggleModal changes the current state', () => {
-    const dispatchSpy = jasmine.createSpy()
+    const dispatchSpy = jest.fn()
     const day = 'Monday'
     const meal = 'Lunch'
     const recipeId = 23
@@ -22,7 +22,7 @@ describe('WeekPageActions', () => {
 
   describe('saveWeek', () => {
     it('calls the save week API', () => {
-      const dispatchSpy = jasmine.createSpy()
+      const dispatchSpy = jest.fn()
       const week = {
         id: 12,
         year: 2018,
@@ -43,7 +43,7 @@ describe('WeekPageActions', () => {
 
   describe('saveWeekSuccess', () => {
     it('success callback saves week in state', () => {
-      const dispatchSpy = jasmine.createSpy()
+      const dispatchSpy = jest.fn()
       const week = {
         id: 12,
         year: 2018,

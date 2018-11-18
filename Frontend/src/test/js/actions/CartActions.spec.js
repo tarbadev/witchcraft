@@ -2,7 +2,7 @@ import { getCartSuccess, getCart } from 'app-actions/CartActions'
 
 describe('CartActions', () => {
   it('getCart sends a request to retrieve a cart', () => {
-    const dispatchSpy = jasmine.createSpy()
+    const dispatchSpy = jest.fn()
     const cartRequest = { id: 1 }
 
     getCart(cartRequest.id)(dispatchSpy)
@@ -18,7 +18,7 @@ describe('CartActions', () => {
   })
 
   it('getCartSuccess sends a request to retrieve a cart', () => {
-    const dispatchSpy = jasmine.createSpy()
+    const dispatchSpy = jest.fn()
     const cart = { id: 1, recipes: [] }
 
     getCartSuccess(cart)(dispatchSpy)

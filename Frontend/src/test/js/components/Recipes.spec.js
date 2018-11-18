@@ -5,7 +5,7 @@ import { Recipes } from 'app-components/Recipes'
 
 describe('Recipes', () => {
   it('calls searchRecipe callback on search input change', () => {
-    const searchSpy = jasmine.createSpy()
+    const searchSpy = jest.fn()
     const recipes = shallow(<Recipes searchRecipe={searchSpy} />)
     const search = 'search'
 

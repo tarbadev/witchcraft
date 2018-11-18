@@ -16,33 +16,33 @@ export const EditRecipe = ({changeFormInput, form, submitForm}) => {
   }
 
   const ingredients = form.ingredients
-    ? form.ingredients.map((ingredient, index) => (<Grid item="item" xs={12} container="container" key={index}>
-      <Grid item="item" xs={12}>
+    ? form.ingredients.map((ingredient, index) => (<Grid item xs={12} container="container" key={index}>
+      <Grid item xs={12}>
         <Typography variant='body1'>Ingredient {index + 1}</Typography>
       </Grid>
-      <Grid item="item" xs={2}>
+      <Grid item xs={2}>
         <TextField
           label='Quantity'
           className={`modify-form__ingredient-quantity-${index}`}
-          fullWidth="fullWidth"
+          fullWidth
           onChange={(e) => { changeFormInput(`editRecipe.form.ingredients.${index}.quantity`, e.target.value) }}
           value={ingredient.quantity}
           type='text'/>
       </Grid>
-      <Grid item="item" xs={2}>
+      <Grid item xs={2}>
         <TextField
           label='Unit'
           className={`modify-form__ingredient-unit-${index}`}
-          fullWidth="fullWidth"
+          fullWidth
           onChange={(e) => {changeFormInput(`editRecipe.form.ingredients.${index}.unit`, e.target.value)}}
           value={ingredient.unit}
           type='text'/>
       </Grid>
-      <Grid item="item" xs={8}>
+      <Grid item xs={8}>
         <TextField
           label='Name'
           className={`modify-form__ingredient-name-${index}`}
-          fullWidth="fullWidth"
+          fullWidth
           onChange={(e) => {changeFormInput(`editRecipe.form.ingredients.${index}.name`, e.target.value)}}
           value={ingredient.name}
           type='text'/>
@@ -51,13 +51,13 @@ export const EditRecipe = ({changeFormInput, form, submitForm}) => {
     : undefined
 
   const steps = form.steps
-    ? form.steps.map((step, index) => (<Grid item="item" xs={12} container="container" key={index}>
-      <Grid item="item" xs={12}>
+    ? form.steps.map((step, index) => (<Grid item xs={12} container="container" key={index}>
+      <Grid item xs={12}>
         <Typography variant='body1'>Step {index + 1}</Typography>
         <TextField
           label='Name'
           className={`modify-form__step-name-${index}`}
-          fullWidth="fullWidth"
+          fullWidth
           onChange={(e) => {changeFormInput(`editRecipe.form.steps.${index}.name`, e.target.value)}}
           value={step.name}
           type='text'/>
@@ -66,40 +66,40 @@ export const EditRecipe = ({changeFormInput, form, submitForm}) => {
     : undefined
 
   return (<Grid container="container" spacing={24}>
-    <Grid item="item" xs={12}>
+    <Grid item xs={12}>
       <TextField
         label='Name'
         className='modify-form__name'
-        fullWidth="fullWidth"
+        fullWidth
         onChange={(e) => {changeFormInput('editRecipe.form.name', e.target.value)}}
         value={form.name}
         placeholder='Mini Goat Cheese Stuffed Potato Appetizers'
         type='text'/>
     </Grid>
-    <Grid item="item" xs={6}>
+    <Grid item xs={6}>
       <TextField
         label='Url'
         className='modify-form__url'
-        fullWidth="fullWidth"
+        fullWidth
         onChange={(e) => {changeFormInput('editRecipe.form.url', e.target.value)}}
         value={form.url}
         placeholder='http://example.com/recipes/32434'
         type='text'/>
     </Grid>
-    <Grid item="item" xs={6}>
+    <Grid item xs={6}>
       <TextField
         label='Image
         Url'
         className='modify-form__imgUrl'
-        fullWidth="fullWidth"
-        onChange={(e) => {changeFormInput('editRecipe.form.imgUrl', e.target.value)}} 
+        fullWidth
+        onChange={(e) => {changeFormInput('editRecipe.form.imgUrl', e.target.value)}}
         value={form.imgUrl}
         placeholder='http://example.com/recipes/32434.png'
         type='text'/>
     </Grid>
     {ingredients}
     {steps}
-    <Grid item="item" xs={12}>
+    <Grid item xs={12}>
       <Button variant='contained' className='modify-form__submit-button' color='primary' onClick={onFormSubmit}>
         Modify
       </Button>

@@ -7,7 +7,7 @@ import promisedRecipeList from 'test-resources/recipeList.json'
 
 describe('EditRecipe', () => {
   it('calls the callback when input value changes', () => {
-    const changeFormInputSpy = jasmine.createSpy()
+    const changeFormInputSpy = jest.fn()
     const editRecipe = shallow(<EditRecipe changeFormInput={changeFormInputSpy} form={promisedRecipeList.recipes[0]} />)
     const url = 'fakeUrl'
     const name = 'name'
@@ -39,7 +39,7 @@ describe('EditRecipe', () => {
   })
 
   it('calls the callback when submit button is clicked on modify-form url', () => {
-    const submitFormSpy = jasmine.createSpy()
+    const submitFormSpy = jest.fn()
     const form = {
       id: 12,
       name: 'Mini Goat Cheese Stuffed Potato Appetizers',

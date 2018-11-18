@@ -3,8 +3,8 @@ import { createHistoryObserver } from 'app-root/HistoryObserver'
 describe('createHistoryObserver', () => {
   it('it calls callbacks whose regex matches the history event path with captures', () => {
     const interestingPaths = [
-      { regex: /^#\/foos\/(\d+)\/bars\/(\d+)$/, callback: jasmine.createSpy() },
-      { regex: /^#\/foos\/(\d+)$/, callback: jasmine.createSpy() },
+      { regex: /^#\/foos\/(\d+)\/bars\/(\d+)$/, callback: jest.fn() },
+      { regex: /^#\/foos\/(\d+)$/, callback: jest.fn() },
     ]
 
     const historyObserver = createHistoryObserver(interestingPaths)

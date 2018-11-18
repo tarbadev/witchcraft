@@ -12,7 +12,7 @@ import DeleteIcon from '@material-ui/icons/Delete'
 import EditIcon from '@material-ui/icons/Edit'
 import OpenInNewIcon from '@material-ui/icons/OpenInNew'
 
-import styles from 'app-components/Recipe.css'
+import 'app-components/Recipe.css'
 import {Step} from 'app-components/Step'
 import {Ingredient} from 'app-components/Ingredient'
 
@@ -25,7 +25,7 @@ export const Recipe = ({ recipe, history, toggleFavorite, isDeleting, deleteReci
 
   let steps
   let ingredients
-  let favoriteClassName = styles.favoriteButton
+  let favoriteClassName = "favoriteButton"
 
   if (recipe.steps) {
     steps = recipe.steps.map((step, index) => (<Grid item key={step.id} sm={12}>
@@ -42,7 +42,7 @@ export const Recipe = ({ recipe, history, toggleFavorite, isDeleting, deleteReci
   }
 
   if (recipe.favorite) {
-    favoriteClassName += ' ' + styles.favorite
+    favoriteClassName += ' ' + "favorite"
   }
 
   return (
@@ -50,23 +50,23 @@ export const Recipe = ({ recipe, history, toggleFavorite, isDeleting, deleteReci
       <Grid item sm={12} name='title'>
         <Grid container justify='space-between'>
           <Grid item sm={8}>
-            <Typography variant='headline' className={styles.title}>
+            <Typography variant='headline' className="title">
               {recipe.name}
             </Typography>
             <IconButton onClick={() => toggleFavorite(recipe.id, !recipe.favorite)} className={favoriteClassName}>
               <FavoriteIcon/>
             </IconButton>
           </Grid>
-          <Grid item className={styles.circularProgressContainer}>
-            <Button className={styles.modifyButton} variant='contained' onClick={onModifyButtonClick}>
-              <EditIcon className={styles.editIcon}/>
+          <Grid item className="circularProgressContainer">
+            <Button className="modifyButton" variant='contained' onClick={onModifyButtonClick}>
+              <EditIcon className="editIcon"/>
               Modify
             </Button>
-            <Button className={styles.deleteButton} variant='contained' onClick={() => deleteRecipe(recipe.id)} disabled={isDeleting}>
-              <DeleteIcon className={styles.deleteIcon}/>
+            <Button className="deleteButton" variant='contained' onClick={() => deleteRecipe(recipe.id)} disabled={isDeleting}>
+              <DeleteIcon className="deleteIcon"/>
               Delete
             </Button>
-            {isDeleting && <CircularProgress size={24} className={styles.circularProgress}/>}
+            {isDeleting && <CircularProgress size={24} className="circularProgress"/>}
           </Grid>
         </Grid>
       </Grid>
@@ -74,13 +74,13 @@ export const Recipe = ({ recipe, history, toggleFavorite, isDeleting, deleteReci
         <Grid item></Grid>
         <Grid item>
           <Button target='_blank' variant='contained' size='small' href={recipe.originUrl}>
-            <OpenInNewIcon className={styles.leftIcon}/>
+            <OpenInNewIcon className="leftIcon"/>
             Go to recipe
           </Button>
         </Grid>
       </Grid>
       <Grid item sm={3} name='image'>
-        <img src={recipe.imgUrl} className={styles.image}/>
+        <img src={recipe.imgUrl} className="image"/>
       </Grid>
       <Grid item sm={5} name='steps'>
         <Typography variant='title' gutterBottom>Steps</Typography>

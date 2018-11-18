@@ -5,7 +5,7 @@ import promisedRecipeList from 'test-resources/recipeList.json'
 describe('RecipesActions', () => {
   describe('getAllRecipes', () => {
     it('calls the witchcraft API and sets the state with the list of recipes', () => {
-      const dispatchSpy = jasmine.createSpy()
+      const dispatchSpy = jest.fn()
 
       getAllRecipes()(dispatchSpy)
 
@@ -22,7 +22,7 @@ describe('RecipesActions', () => {
 
   describe('getAllRecipesSuccess', () => {
     it('success callback saves recipes in state', () => {
-      const dispatchSpy = jasmine.createSpy()
+      const dispatchSpy = jest.fn()
       getAllRecipesSuccess(promisedRecipeList)(dispatchSpy)
       expect(dispatchSpy).toHaveBeenCalledWith({
         type: 'SET_STATE',
@@ -39,7 +39,7 @@ describe('RecipesActions', () => {
 
   describe('filterRecipes', () => {
     it('filters the list of recipes based on the input', () => {
-      const dispatchSpy = jasmine.createSpy()
+      const dispatchSpy = jest.fn()
       const state = {
         allRecipes: [
           { name: 'Recipe test' },

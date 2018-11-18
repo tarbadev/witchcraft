@@ -4,7 +4,7 @@ import { setState } from 'app-root/RootReducer'
 describe('RecipeListModalActions', () => {
   describe('setRecipe', () => {
     it('sets the meal on a given day based on the recipe and closes modal', () => {
-      const dispatchSpy = jasmine.createSpy()
+      const dispatchSpy = jest.fn()
       const day = 'Monday'
       const meal = 'Lunch'
       const recipe = { name: 'recipeName' }

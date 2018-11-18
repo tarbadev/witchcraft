@@ -26,11 +26,6 @@ describe('RecipeCard', function () {
       expect(this.instance.is(Card)).toBeTruthy()
     })
 
-    it('is has a class recipeCard', () => {
-      expect(this.instance.props().className).not.toBeUndefined()
-      expect(this.instance.props().className).toBe(styles.recipeCard)
-    })
-
     it('contains a CardHeader with a title from props and a classes prop', () => {
       expect(this.instance.find(CardHeader).length).toBe(1)
 

@@ -2,7 +2,7 @@ import { createCart, createCartSuccess } from 'app-actions/NewCartActions'
 
 describe('NewCartActions', () => {
   it('createCart sends a request to create the cart', () => {
-    const dispatchSpy = jasmine.createSpy()
+    const dispatchSpy = jest.fn()
     const form = [
       {
         id: 1,
@@ -29,7 +29,7 @@ describe('NewCartActions', () => {
   })
 
   it('createCartSuccess redirects to generated cart', () => {
-    const dispatchSpy = jasmine.createSpy()
+    const dispatchSpy = jest.fn()
     const cart = {id: 1}
 
     createCartSuccess(cart)(dispatchSpy)

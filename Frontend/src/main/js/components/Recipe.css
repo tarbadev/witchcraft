@@ -1,52 +1,52 @@
-:local(.title) {
+.title {
   text-transform: capitalize;
   display: inline !important;
 }
 
-:local(.image) {
+.image {
    width: 100%;
 }
 
-:local(.leftIcon) {
+.leftIcon {
    margin-right: .5em;
 }
 
-:local(.deleteButton) {
+.deleteButton {
    background-color: #db2828 !important;
    color: #fff !important;
 }
 
-:local(.deleteButton:hover) {
+.deleteButtonhover) {
   background-color: #d01919 !important;
 }
 
-:local(.deleteButton:disabled) {
+.deleteButtondisabled) {
   background-color: rgb(0,0,0,.5) !important;
 }
 
-:local(.deleteIcon) {
+.deleteIcon {
    margin-right: .5em;
 }
 
-:local(.modifyButton) {
+.modifyButton {
    background-color: #fbbd08 !important;
    color: #fff !important;
    margin-right: 10px !important;
 }
 
-:local(.modifyButton:hover) {
+.modifyButtonhover) {
   background-color: #ffb300 !important;
 }
 
-:local(.modifyIcon) {
+.modifyIcon {
    margin-right: .5em;
 }
 
-:local(.circularProgressContainer) {
+.circularProgressContainer {
    position: relative;
 }
 
-:local(.circularProgress) {
+.circularProgress {
    position: absolute;
    top: 50%;
    left: 50%;
@@ -54,11 +54,11 @@
    margin-left: -12px;
 }
 
-:local(.favoriteButton) {
+.favoriteButton {
    margin-top: -8px !important;
    margin-left: 5px !important;
 }
 
-:local(.favorite) {
+.favorite {
    color: #db2828 !important;
 }
