@@ -7,22 +7,22 @@ jobs:
     - image: circleci/mysql
     steps:
     - checkout
-    - restore_cache:
-        keys:
-        - witchcraft-app-{{ checksum "WitchcraftApp/build.gradle" }}
-        - witchcraft-app-
-    - restore_cache:
-        keys:
-        - witchcraft-node-modules-{{ checksum "package-lock.json" }}
-        - witchcraft-node-modules-
+    # - restore_cache:
+    #     keys:
+    #     - witchcraft-app-{{ checksum "WitchcraftApp/build.gradle" }}
+    #     - witchcraft-app-
+    # - restore_cache:
+    #     keys:
+    #     - witchcraft-node-modules-{{ checksum "package-lock.json" }}
+    #     - witchcraft-node-modules-
 
-    - run: gradle build
+    - run: ./gradlew build
 
-    - save_cache:
-        paths:
-        - .gradle
-        key: witchcraft-app-{{ checksum "WitchcraftApp/build.gradle" }}
-    - save_cache:
-        paths:
-        - node_modules
-        key: witchcraft-node-modules-{{ checksum "package-lock.json" }}
+    # - save_cache:
+    #     paths:
+    #     - .gradle
+    #     key: witchcraft-app-{{ checksum "WitchcraftApp/build.gradle" }}
+    # - save_cache:
+    #     paths:
+    #     - node_modules
+    #     key: witchcraft-node-modules-{{ checksum "package-lock.json" }}
