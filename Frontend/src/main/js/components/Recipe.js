@@ -25,7 +25,7 @@ export const Recipe = ({ recipe, history, toggleFavorite, isDeleting, deleteReci
 
   let steps
   let ingredients
-  let favoriteClassName = "favoriteButton"
+  let favoriteClassName = 'favoriteButton'
 
   if (recipe.steps) {
     steps = recipe.steps.map((step, index) => (<Grid item key={step.id} sm={12}>
@@ -42,7 +42,7 @@ export const Recipe = ({ recipe, history, toggleFavorite, isDeleting, deleteReci
   }
 
   if (recipe.favorite) {
-    favoriteClassName += ' ' + "favorite"
+    favoriteClassName += ' ' + 'favorite'
   }
 
   return (

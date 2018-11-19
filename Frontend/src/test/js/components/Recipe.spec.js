@@ -1,7 +1,6 @@
 import React from 'react'
 import {shallow} from 'enzyme'
 
-import styles from 'app-components/Recipe.css'
 import { Recipe } from 'app-components/Recipe'
 
 import promisedRecipeList from 'test-resources/recipeList.json'
@@ -12,7 +11,7 @@ describe('Recipe', function() {
   describe('setFavorite', () => {
     it('calls setFavorite on FavoriteIcon click', () => {
       const recipePage = shallow(<Recipe toggleFavorite={toggleFavoriteSpy} recipe={promisedRecipe} />)
-      recipePage.find(".favoriteButton").simulate('click')
+      recipePage.find('.favoriteButton').simulate('click')
 
       expect(toggleFavoriteSpy).toHaveBeenCalledWith(promisedRecipe.id, !promisedRecipe.favorite)
     })
@@ -23,7 +22,7 @@ describe('Recipe', function() {
       const pushSpy = jest.fn()
       const recipePage = shallow(<Recipe toggleFavorite={toggleFavoriteSpy} history={{push: pushSpy}} recipe={promisedRecipe} />)
 
-      recipePage.find(".modifyButton").simulate('click')
+      recipePage.find('.modifyButton').simulate('click')
 
       expect(pushSpy).toHaveBeenCalledWith(`/recipes/${promisedRecipe.id}/edit`)
     })
@@ -34,7 +33,7 @@ describe('Recipe', function() {
       const deleteRecipeSpy = jest.fn()
       const recipePage = shallow(<Recipe toggleFavorite={toggleFavoriteSpy} deleteRecipe={deleteRecipeSpy} recipe={promisedRecipe} />)
 
-      recipePage.find(".deleteButton").simulate('click')
+      recipePage.find('.deleteButton').simulate('click')
 
       expect(deleteRecipeSpy).toHaveBeenCalledWith(promisedRecipe.id)
     })
