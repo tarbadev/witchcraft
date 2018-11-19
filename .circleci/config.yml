@@ -16,11 +16,13 @@ jobs:
     #     - witchcraft-node-modules-{{ checksum "package-lock.json" }}
     #     - witchcraft-node-modules-
 
-    - run: |
-      DATABASE_NAME=circle_test \
-      DATABASE_USERNAME=root \
-      DATABASE_HOST=127.0.0.1 \
-      ./gradlew build
+    - run:
+        name: Build
+        command: |
+          DATABASE_NAME=circle_test \
+          DATABASE_USERNAME=root \
+          DATABASE_HOST=127.0.0.1 \
+          ./gradlew build
 
     # - save_cache:
     #     paths:
