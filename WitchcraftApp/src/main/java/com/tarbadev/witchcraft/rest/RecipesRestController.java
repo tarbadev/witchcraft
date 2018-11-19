@@ -27,6 +27,7 @@ public class RecipesRestController {
   private GetRecipeDetailsFromUrlUseCase getRecipeDetailsFromUrlUseCase;
   private SaveRecipeUseCase saveRecipeUseCase;
   private GetRecipeDetailsFromFormUseCase getRecipeDetailsFromFormUseCase;
+  private GetFavoriteRecipesUseCase getFavoriteRecipesUseCase;
 
   @Autowired
   public RecipesRestController(
@@ -37,8 +38,8 @@ public class RecipesRestController {
       SetFavoriteRecipeUseCase setFavoriteRecipeUseCase,
       GetRecipeDetailsFromUrlUseCase getRecipeDetailsFromUrlUseCase,
       SaveRecipeUseCase saveRecipeUseCase,
-      GetRecipeDetailsFromFormUseCase getRecipeDetailsFromFormUseCase
-  ) {
+      GetRecipeDetailsFromFormUseCase getRecipeDetailsFromFormUseCase,
+      GetFavoriteRecipesUseCase getFavoriteRecipesUseCase) {
     this.recipeCatalogUseCase = recipeCatalogUseCase;
     this.getRecipeUseCase = getRecipeUseCase;
     this.deleteRecipeUseCase = deleteRecipeUseCase;
@@ -47,6 +48,7 @@ public class RecipesRestController {
     this.getRecipeDetailsFromUrlUseCase = getRecipeDetailsFromUrlUseCase;
     this.saveRecipeUseCase = saveRecipeUseCase;
     this.getRecipeDetailsFromFormUseCase = getRecipeDetailsFromFormUseCase;
+    this.getFavoriteRecipesUseCase = getFavoriteRecipesUseCase;
   }
 
   @GetMapping
@@ -134,5 +136,10 @@ public class RecipesRestController {
         .build();
 
     return saveRecipeUseCase.execute(recipe);
+  }
+
+  @GetMapping("/favorites")
+  public List<Recipe> favorites() {
+    return getFavoriteRecipesUseCase.execute();
   }
 }

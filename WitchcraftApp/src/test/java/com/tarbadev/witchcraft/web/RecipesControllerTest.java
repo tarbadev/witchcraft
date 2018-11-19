@@ -1,6 +1,6 @@
 package com.tarbadev.witchcraft.web;
 
-import com.tarbadev.witchcraft.*;
+import com.tarbadev.witchcraft.TestResources;
 import com.tarbadev.witchcraft.domain.entity.Ingredient;
 import com.tarbadev.witchcraft.domain.entity.Recipe;
 import com.tarbadev.witchcraft.domain.entity.Step;
@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.util.Arrays.asList;
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.text.IsEmptyString.isEmptyOrNullString;
 import static org.mockito.BDDMockito.given;
@@ -69,7 +70,7 @@ public class RecipesControllerTest {
 
   @Test
   public void index() throws Exception {
-    List<Recipe> recipes = Arrays.asList(
+    List<Recipe> recipes = asList(
         Recipe.builder().build(),
         Recipe.builder().build()
     );
@@ -208,12 +209,12 @@ public class RecipesControllerTest {
         .name("Recipe name")
         .url("http originUrl")
         .imgUrl("http img originUrl")
-        .ingredients(Arrays.asList(
+        .ingredients(asList(
             IngredientModifyForm.builder().quantity(2.0).name("Ingredient").build(),
             IngredientModifyForm.builder().quantity(1.5).unit("oz").name("Ingredient 3").build(),
             IngredientModifyForm.builder().quantity(1.0).unit("tbsp").name("Ingredient 2").build()
         ))
-        .steps(Arrays.asList(
+        .steps(asList(
             StepModifyForm.builder().name("Step one").build(),
             StepModifyForm.builder().name("Step two").build()
         ))
@@ -224,12 +225,12 @@ public class RecipesControllerTest {
         .name("Recipe name")
         .originUrl("http originUrl")
         .imgUrl("http img originUrl")
-        .ingredients(Arrays.asList(
+        .ingredients(asList(
             Ingredient.builder().quantity(2.0).name("Ingredient").build(),
             Ingredient.builder().quantity(1.5).unit("oz").name("Ingredient 3").build(),
             Ingredient.builder().quantity(1.0).unit("tbsp").name("Ingredient 2").build()
         ))
-        .steps(Arrays.asList(
+        .steps(asList(
             Step.builder().name("Step one").build(),
             Step.builder().name("Step two").build()
         ))

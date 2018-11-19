@@ -41,26 +41,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 public class RecipesRestControllerTest {
-  @Autowired
-  private MockMvc mvc;
-  @Autowired
-  private TestResources testResources;
-  @Autowired
-  private RecipeCatalogUseCase recipeCatalogUseCase;
-  @Autowired
-  private GetRecipeUseCase getRecipeUseCase;
-  @Autowired
-  private DeleteRecipeUseCase deleteRecipeUseCase;
-  @Autowired
-  private DoesRecipeExistUseCase doesRecipeExistUseCase;
-  @Autowired
-  private SetFavoriteRecipeUseCase setFavoriteRecipeUseCase;
-  @Autowired
-  private GetRecipeDetailsFromUrlUseCase getRecipeDetailsFromUrlUseCase;
-  @Autowired
-  private SaveRecipeUseCase saveRecipeUseCase;
-  @Autowired
-  private GetRecipeDetailsFromFormUseCase getRecipeDetailsFromFormUseCase;
+  @Autowired private MockMvc mvc;
+  @Autowired private TestResources testResources;
+  @Autowired private RecipeCatalogUseCase recipeCatalogUseCase;
+  @Autowired private GetRecipeUseCase getRecipeUseCase;
+  @Autowired private DeleteRecipeUseCase deleteRecipeUseCase;
+  @Autowired private DoesRecipeExistUseCase doesRecipeExistUseCase;
+  @Autowired private SetFavoriteRecipeUseCase setFavoriteRecipeUseCase;
+  @Autowired private GetRecipeDetailsFromUrlUseCase getRecipeDetailsFromUrlUseCase;
+  @Autowired private SaveRecipeUseCase saveRecipeUseCase;
+  @Autowired private GetRecipeDetailsFromFormUseCase getRecipeDetailsFromFormUseCase;
+  @Autowired private GetFavoriteRecipesUseCase getFavoriteRecipesUseCase;
 
   @Before
   public void setUp() {
@@ -68,7 +59,8 @@ public class RecipesRestControllerTest {
         recipeCatalogUseCase,
         getRecipeUseCase,
         setFavoriteRecipeUseCase,
-        deleteRecipeUseCase
+        deleteRecipeUseCase,
+        getFavoriteRecipesUseCase
     );
   }
 
@@ -263,5 +255,20 @@ public class RecipesRestControllerTest {
     )
         .andExpect(status().isOk())
         .andExpect(content().json(new ObjectMapper().writeValueAsString(recipe)));
+  }
+
+  @Test
+  public void favorites() throws Exception {
+    List<Recipe> recipes = asList(
+        Recipe.builder().build(),
+        Recipe.builder().build(),
+        Recipe.builder().build()
+    );
+
+    given(getFavoriteRecipesUseCase.execute()).willReturn(recipes);
+
+    mvc.perform(get("/api/recipes/favorites"))
+        .andExpect(status().isOk())
+        .andExpect(content().json(new ObjectMapper().writeValueAsString(recipes)));
   }
 }

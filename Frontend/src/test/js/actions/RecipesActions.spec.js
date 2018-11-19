@@ -1,4 +1,12 @@
-import { getAllRecipes, getAllRecipesSuccess, filterRecipes } from 'app-actions/RecipesActions'
+import {
+  getAllRecipes,
+  getAllRecipesSuccess,
+  getFavoriteRecipes,
+  getFavoriteRecipesSuccess,
+  filterRecipes
+} from 'app-actions/RecipesActions'
+
+import { fetchAction } from 'app-root/WitchcraftMiddleware'
 
 import promisedRecipeList from 'test-resources/recipeList.json'
 
@@ -33,6 +41,38 @@ describe('RecipesActions', () => {
         type: 'SET_STATE',
         key: 'recipes',
         payload: promisedRecipeList.recipes,
+      })
+    })
+  })
+
+  describe('getFavoriteRecipes', () => {
+    it('calls the witchcraft API and sets the state with the list of recipes', () => {
+      const dispatchSpy = jest.fn()
+
+      getFavoriteRecipes()(dispatchSpy)
+
+      expect(dispatchSpy).toHaveBeenCalledWith(fetchAction({
+        url: '/api/recipes/favorites',
+        method: 'GET',
+        onSuccess: getFavoriteRecipesSuccess,
+      }))
+    })
+  })
+
+  describe('getFavoriteRecipesSuccess', () => {
+    it('success callback saves recipes in state', () => {
+      const dispatchSpy = jest.fn()
+      const recipes = [
+        { id: 1 },
+        { id: 2 }
+      ]
+
+      getFavoriteRecipesSuccess(recipes)(dispatchSpy)
+
+      expect(dispatchSpy).toHaveBeenCalledWith({
+        type: 'SET_STATE',
+        key: 'homePage.favoriteRecipes',
+        payload: recipes,
       })
     })
   })

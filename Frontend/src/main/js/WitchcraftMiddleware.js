@@ -20,7 +20,7 @@ export const WitchcraftMiddleware = store => next => (action) => {
       method: action.method,
     }
 
-    if (action.method === 'POST' || action.method === 'PUT') {
+    if (action.method === 'POST' || action.method === 'PUT' || action.method === 'PATCH') {
       requestOptions.body = JSON.stringify(action.body)
     }
 

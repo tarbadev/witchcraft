@@ -1,5 +1,17 @@
-import {setState} from 'app-root/RootReducer'
+import { setState } from 'app-root/RootReducer'
 import { fetchAction } from 'app-root/WitchcraftMiddleware'
+
+export const getFavoriteRecipesSuccess = favorites => dispatch => {
+  dispatch(setState('homePage.favoriteRecipes', favorites))
+}
+
+export const getFavoriteRecipes = () => (dispatch) => {
+  dispatch(fetchAction({
+    url: '/api/recipes/favorites',
+    method: 'GET',
+    onSuccess: getFavoriteRecipesSuccess
+  }))
+}
 
 export const getAllRecipesSuccess = data => dispatch => {
   dispatch(setState('allRecipes', data.recipes))

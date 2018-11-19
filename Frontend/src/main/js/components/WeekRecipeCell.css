@@ -1,16 +1,19 @@
-:local(.tableCell) {
+.table-cell {
   width: calc(100% / 7);
   padding: 4px 18px !important;
   text-transform: capitalize;
-  cursor: pointer;
   position: relative;
 }
 
-:local(.tableCell:hover .hoverMask) {
+.table-cell-clickable {
+  cursor: pointer;
+}
+
+.table-cell-clickable:hover .hover-mask {
   background-color: rgba(33, 150, 243, .6);
 }
 
-:local(.hoverMask) {
+.hover-mask {
   background-color: rgba(33, 150, 243, 0);
   position: absolute;
   top: 0;

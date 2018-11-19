@@ -79,6 +79,10 @@ const initialState = {
       }
     ],
   },
+  homePage: {
+    favoriteRecipes: [],
+    lastRecipes: [],
+  },
 }
 
 export const reducer = (state = initialState, action) => {

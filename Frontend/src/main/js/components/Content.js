@@ -1,7 +1,7 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 
-import {Home} from './Home'
+import { HomePageContainer } from './HomePage'
 import { RecipesContainer } from './Recipes'
 import { RecipeContainer } from './Recipe'
 import { NewRecipeContainer } from './NewRecipe'
@@ -15,7 +15,7 @@ export const Content = () => {
   return (
     <div>
       <Switch>
-        <Route exact path="/" component={Home} />
+        <Route exact path="/" component={HomePageContainer} />
         <Route exact path="/recipes" component={RecipesContainer} />
         <Route exact path="/recipes/new" component={NewRecipeContainer} />
         <Route exact path="/recipes/:id" component={RecipeContainer} />

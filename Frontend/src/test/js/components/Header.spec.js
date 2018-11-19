@@ -30,7 +30,7 @@ describe('Header', function () {
     it('contains a home Button', () => {
       let button = this.instance.find(Button).at(0)
 
-      expect(button.props().to).toBe('/home')
+      expect(button.props().to).toBe('/')
       expect(button.props().component).toBe(Link)
       expect(button.find(Button).at(0).children().text()).toBe('Home')
     })

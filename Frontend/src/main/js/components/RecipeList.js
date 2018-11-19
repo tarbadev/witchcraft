@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid'
 import { Link } from 'react-router-dom'
 
 import styles from 'app-components/RecipeList.css'
-import {RecipeCard} from './RecipeCard'
+import { RecipeCard } from './RecipeCard'
 
 export const RecipeList = ({recipes = []}) => {
   const recipeCards = recipes.map(recipe =>
