@@ -23,7 +23,7 @@
     "build": "./node_modules/.bin/webpack",
     "build:watch": "npm run build -- --watch --display-error-details",
     "test": "NODE_PATH=. jest",
-    "testWatch": "jest --watch",
+    "testWatch": "npm run test -- --watchAll",
     "eject": "react-scripts eject",
     "lint": "esw src",
     "lint:watch": "npm run lint -- --watch"
@@ -64,8 +64,7 @@
       "^app-actions(.*)$": "<rootDir>/src/main/js/actions$1",
       "^app-components(.*)$": "<rootDir>/src/main/js/components$1",
       "^app-root(.*)$": "<rootDir>/src/main/js$1",
-      "^test-resources(.*)$": "<rootDir>/src/test/resources$1",
-      "\\.(css|png)$": "<rootDir>src/test/js/importMocks.js"
+      "^test-resources(.*)$": "<rootDir>/src/test/resources$1"
     },
     "transform": {
       "^.+\\.js$": "babel-jest",
