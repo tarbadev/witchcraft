@@ -1,31 +1,22 @@
+import { fetchAction } from 'app-root/WitchcraftMiddleware'
 import { createCart, createCartSuccess } from 'app-actions/NewCartActions'
 
 describe('NewCartActions', () => {
   it('createCart sends a request to create the cart', () => {
     const dispatchSpy = jest.fn()
-    const form = [
-      {
-        id: 1,
-        name: 'test',
-        selected: true
-      },
-      {
-        id: 2,
-        name: 'test',
-        selected: false
-      }
+    const recipeIds = [
+      { id: 1 },
+      { id: 2 },
     ]
 
-    createCart(form)(dispatchSpy)
+    createCart(recipeIds)(dispatchSpy)
 
-    expect(dispatchSpy).toHaveBeenCalledWith({
-      type: 'FETCH',
+    expect(dispatchSpy).toHaveBeenCalledWith(fetchAction({
       url: '/api/carts',
       method: 'POST',
-      body: [{id:1}],
+      body: recipeIds,
       onSuccess: createCartSuccess,
-      onError: undefined,
-    })
+    }))
   })
 
   it('createCartSuccess redirects to generated cart', () => {

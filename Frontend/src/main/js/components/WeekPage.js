@@ -19,6 +19,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 import { toggleModal, saveWeek } from 'app-actions/WeekPageActions'
 import { WeekRecipeCell } from 'app-components/WeekRecipeCell'
 import { RecipeListModalContainer } from 'app-components/RecipeListModal'
+import { createCart } from 'app-actions/NewCartActions'
 
 export const WEEKS_IN_A_YEAR = 52
 
@@ -59,6 +60,7 @@ export const WeekPage = ({
   history,
   openModal,
   onSaveClick,
+  createCart,
 }) => {
   const onPreviousWeekClick = () => {
     const previousWeekNumber = week.weekNumber <= 1 ? WEEKS_IN_A_YEAR : (week.weekNumber - 1)
@@ -96,11 +98,20 @@ export const WeekPage = ({
     )
   })
 
+  const onCreateCartClick = () => {
+    const recipeIds = week.days
+      .map(day => [{ id: day.lunch?.id }, { id: day.diner?.id }])
+      .reduce((prev, curr) => prev.concat(curr))
+      .filter(recipeId => recipeId.id > 0)
+
+    createCart(recipeIds)
+  }
+
   return (
     <Grid container spacing={24} justify='center'>
-      <Grid item xs={1}>
+      <Grid item xs={3}>
       </Grid>
-      <Grid item container xs={10} justify='center' alignItems='center'>
+      <Grid item container xs={6} justify='center' alignItems='center'>
         <IconButtonStyled fontSize='large' className='week-page__previous-week' onClick={onPreviousWeekClick}>
           <ChevronLeftIcon />
         </IconButtonStyled>
@@ -109,14 +120,25 @@ export const WeekPage = ({
           <ChevronRightIcon />
         </IconButtonStyled>
       </Grid>
-      <Grid item xs={1}>
-        <Button
-          className='week-page__save-button'
-          variant='contained'
-          color='primary'
-          onClick={() => onSaveClick(week)} >
-          Save
-        </Button>
+      <Grid item container xs={3} spacing={24} justify='flex-end' alignItems='center'>
+        <Grid item>
+          <Button
+            className='week-page__save-button'
+            variant='contained'
+            color='primary'
+            onClick={() => onSaveClick(week)} >
+            Save
+          </Button>
+        </Grid>
+        <Grid item>
+          <Button
+            className='week-page__create-cart-button'
+            variant='contained'
+            color='primary'
+            onClick={onCreateCartClick} >
+            Create Cart
+          </Button>
+        </Grid>
       </Grid>
       <Grid item xs={12}>
         <Paper>
@@ -154,6 +176,7 @@ WeekPage.propTypes = {
   history: PropTypes.object,
   openModal: PropTypes.func,
   onSaveClick: PropTypes.func,
+  createCart: PropTypes.func,
 }
 
 const mapStateToProps = state => {
@@ -166,6 +189,7 @@ const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     openModal: (day, meal, currentRecipeId) => toggleModal(true, day, meal, currentRecipeId),
     onSaveClick: saveWeek,
+    createCart: createCart,
   }, dispatch)
 }
 

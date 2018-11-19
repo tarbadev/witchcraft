@@ -58,15 +58,39 @@ describe('WeekPage', () => {
 
       expect(onSaveClick).toHaveBeenCalled()
     })
+  })
 
-    it('calculates the next year if weekNumber = MAX_WEEK', () => {
-      const pushSpy = jest.fn()
-      const week = { year: 2018, weekNumber: WEEKS_IN_A_YEAR, days: [] }
-      const weekPage = shallow(<WeekPage history={{push: pushSpy}} week={week} />)
+  describe('when create Cart button clicked', () => {
+    it('calls createCartFromWeek', () => {
+      const createCartFromWeek = jest.fn()
+      const week = {
+        year: 2018,
+        weekNumber: 45,
+        days: [
+          {
+            lunch: { id: 1 },
+            diner: { id: 3 },
+          },
+          {
+            lunch: { id: 9 },
+            diner: { id: 0 },
+          },
+          {
+            lunch: null,
+            diner: null,
+          },
+        ],
+      }
+      const recipeIds = [
+        { id: 1 },
+        { id: 3 },
+        { id: 9 },
+      ]
+      const weekPage = shallow(<WeekPage createCart={createCartFromWeek} week={week} />)
 
-      weekPage.find('.week-page__next-week').simulate('click')
+      weekPage.find('.week-page__create-cart-button').simulate('click')
 
-      expect(pushSpy).toHaveBeenCalledWith(`/weeks/${week.year + 1}/1`)
+      expect(createCartFromWeek).toHaveBeenCalledWith(recipeIds)
     })
   })
 })

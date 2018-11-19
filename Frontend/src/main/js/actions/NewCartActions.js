@@ -5,13 +5,11 @@ export const createCartSuccess = cart => dispatch => {
   dispatch(push(`#/carts/${cart.id}`))
 }
 
-export const createCart = form => dispatch => {
-  const body = form.filter(recipe => recipe.selected).map(recipe => ({id: recipe.id}))
-
+export const createCart = recipeIds => dispatch => {
   dispatch(fetchAction({
     url: '/api/carts',
     method: 'POST',
-    body: body,
+    body: recipeIds,
     onSuccess: createCartSuccess,
   }))
 }

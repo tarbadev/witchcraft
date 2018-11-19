@@ -32,6 +32,11 @@ export const NewCartPage = ({
     />
   ))
 
+  const onGenerateCartClick = () => {
+    const recipeIds = form.filter(recipe => recipe.selected).map(recipe => ({ id: recipe.id }))
+    generateCart(recipeIds)
+  }
+
   return (
     <Grid container spacing={24}>
       <Grid item xs={12}>
@@ -44,7 +49,7 @@ export const NewCartPage = ({
           variant='contained'
           color='primary'
           className='new-cart-page__generate-button'
-          onClick={() => generateCart(form)}>
+          onClick={onGenerateCartClick}>
           Generate
         </Button>
       </Grid>
