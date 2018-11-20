@@ -45,7 +45,7 @@ export const WeekPane = ({
   const lunches = week.days.map((day, index) => {
     let onCellClick
     if (onMealClick) {
-      onCellClick = onMealClick(day.name.toLowerCase(), 'lunch', day.lunch?.id)
+      onCellClick = () => onMealClick(day.name.toLowerCase(), 'lunch', day.lunch?.id)
     }
 
     return (
@@ -59,7 +59,7 @@ export const WeekPane = ({
   const diners = week.days.map((day, index) => {
     let onCellClick
     if (onMealClick) {
-      onCellClick = onMealClick(day.name.toLowerCase(), 'diner', day.diner?.id)
+      onCellClick = () => onMealClick(day.name.toLowerCase(), 'diner', day.diner?.id)
     }
 
     return (

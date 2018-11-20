@@ -52,6 +52,7 @@ public class RecipesRestControllerTest {
   @Autowired private SaveRecipeUseCase saveRecipeUseCase;
   @Autowired private GetRecipeDetailsFromFormUseCase getRecipeDetailsFromFormUseCase;
   @Autowired private GetFavoriteRecipesUseCase getFavoriteRecipesUseCase;
+  @Autowired private LastAddedRecipesUseCase lastAddedRecipesUseCase;
 
   @Before
   public void setUp() {
@@ -60,7 +61,8 @@ public class RecipesRestControllerTest {
         getRecipeUseCase,
         setFavoriteRecipeUseCase,
         deleteRecipeUseCase,
-        getFavoriteRecipesUseCase
+        getFavoriteRecipesUseCase,
+        lastAddedRecipesUseCase
     );
   }
 
@@ -268,6 +270,21 @@ public class RecipesRestControllerTest {
     given(getFavoriteRecipesUseCase.execute()).willReturn(recipes);
 
     mvc.perform(get("/api/recipes/favorites"))
+        .andExpect(status().isOk())
+        .andExpect(content().json(new ObjectMapper().writeValueAsString(recipes)));
+  }
+
+  @Test
+  public void latest() throws Exception {
+    List<Recipe> recipes = asList(
+        Recipe.builder().build(),
+        Recipe.builder().build(),
+        Recipe.builder().build()
+    );
+
+    given(lastAddedRecipesUseCase.execute()).willReturn(recipes);
+
+    mvc.perform(get("/api/recipes/latest"))
         .andExpect(status().isOk())
         .andExpect(content().json(new ObjectMapper().writeValueAsString(recipes)));
   }

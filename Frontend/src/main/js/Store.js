@@ -7,7 +7,7 @@ import {weekNumber} from 'weeknumber'
 
 import {reducer} from './RootReducer'
 import {createHistoryObserver} from './HistoryObserver'
-import { getAllRecipes, getFavoriteRecipes } from 'app-actions/RecipesActions'
+import { getAllRecipes, getFavoriteRecipes, getLatestRecipes } from 'app-actions/RecipesActions'
 import { getAllCarts } from 'app-actions/CartsActions'
 import { getRecipe } from 'app-actions/RecipeActions'
 import { getCart } from 'app-actions/CartActions'
@@ -62,6 +62,7 @@ const pathRegexes = [
       const { year, week } = getCurrentWeek()
       store.dispatch(getWeek(year, week))
       store.dispatch(getFavoriteRecipes())
+      store.dispatch(getLatestRecipes())
     }
   }
 ]

@@ -13,6 +13,18 @@ export const getFavoriteRecipes = () => (dispatch) => {
   }))
 }
 
+export const getLatestRecipesSuccess = latest => dispatch => {
+  dispatch(setState('homePage.latestRecipes', latest))
+}
+
+export const getLatestRecipes = () => (dispatch) => {
+  dispatch(fetchAction({
+    url: '/api/recipes/latest',
+    method: 'GET',
+    onSuccess: getLatestRecipesSuccess
+  }))
+}
+
 export const getAllRecipesSuccess = data => dispatch => {
   dispatch(setState('allRecipes', data.recipes))
   dispatch(setState('recipes', data.recipes))

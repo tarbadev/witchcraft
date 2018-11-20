@@ -78,7 +78,7 @@ public class DatabaseRecipeRepository implements RecipeRepository {
 
   @Override
   public List<Recipe> findLastAddedRecipes() {
-    return recipeEntityRepository.findTop5ByOrderByIdDesc().stream()
+    return recipeEntityRepository.findTop8ByOrderByIdDesc().stream()
         .map(EntityToDomain::recipeMapper)
         .collect(Collectors.toList());
   }

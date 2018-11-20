@@ -3,6 +3,8 @@ import {
   getAllRecipesSuccess,
   getFavoriteRecipes,
   getFavoriteRecipesSuccess,
+  getLatestRecipes,
+  getLatestRecipesSuccess,
   filterRecipes
 } from 'app-actions/RecipesActions'
 
@@ -72,6 +74,38 @@ describe('RecipesActions', () => {
       expect(dispatchSpy).toHaveBeenCalledWith({
         type: 'SET_STATE',
         key: 'homePage.favoriteRecipes',
+        payload: recipes,
+      })
+    })
+  })
+
+  describe('getLatestRecipes', () => {
+    it('calls the witchcraft API and sets the state with the list of recipes', () => {
+      const dispatchSpy = jest.fn()
+
+      getLatestRecipes()(dispatchSpy)
+
+      expect(dispatchSpy).toHaveBeenCalledWith(fetchAction({
+        url: '/api/recipes/latest',
+        method: 'GET',
+        onSuccess: getLatestRecipesSuccess,
+      }))
+    })
+  })
+
+  describe('getLatestRecipesSuccess', () => {
+    it('success callback saves recipes in state', () => {
+      const dispatchSpy = jest.fn()
+      const recipes = [
+        { id: 1 },
+        { id: 2 }
+      ]
+
+      getLatestRecipesSuccess(recipes)(dispatchSpy)
+
+      expect(dispatchSpy).toHaveBeenCalledWith({
+        type: 'SET_STATE',
+        key: 'homePage.latestRecipes',
         payload: recipes,
       })
     })

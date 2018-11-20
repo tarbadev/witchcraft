@@ -10,5 +10,5 @@ public interface RecipeEntityRepository extends JpaRepository<RecipeEntity, Inte
 
   List<RecipeEntity> findAllByFavorite(Boolean favorite);
 
-  List<RecipeEntity> findTop5ByOrderByIdDesc();
+  List<RecipeEntity> findTop8ByOrderByIdDesc();
 }

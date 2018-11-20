@@ -11,6 +11,7 @@ import { WeekPane } from './WeekPane'
 export const HomePage = ({
   week,
   favoriteRecipes,
+  latestRecipes,
 }) => {
   return (
     <Grid container spacing={24}>
@@ -24,6 +25,7 @@ export const HomePage = ({
       </Grid>
       <Grid item xs={12}>
         <Typography variant='title' gutterBottom>Last Added Recipes</Typography>
+        <RecipeList recipes={latestRecipes} />
       </Grid>
     </Grid>
   )
@@ -32,12 +34,14 @@ export const HomePage = ({
 HomePage.propTypes = {
   week: PropTypes.object,
   favoriteRecipes: PropTypes.array,
+  latestRecipes: PropTypes.array,
 }
 
 const mapStateToProps = state => {
   return {
     week: state.week,
     favoriteRecipes: state.homePage.favoriteRecipes,
+    latestRecipes: state.homePage.latestRecipes,
   }
 }
 
