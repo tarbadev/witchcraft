@@ -1,8 +1,13 @@
 package com.tarbadev.witchcraft;
 
-import com.tarbadev.witchcraft.domain.converter.IngredientConverter;
-import com.tarbadev.witchcraft.domain.converter.UnitConverter;
-import com.tarbadev.witchcraft.domain.usecase.*;
+import com.tarbadev.witchcraft.carts.domain.usecase.CartCatalogUseCase;
+import com.tarbadev.witchcraft.carts.domain.usecase.CreateCartUseCase;
+import com.tarbadev.witchcraft.carts.domain.usecase.GetCartUseCase;
+import com.tarbadev.witchcraft.converter.IngredientConverter;
+import com.tarbadev.witchcraft.converter.UnitConverter;
+import com.tarbadev.witchcraft.recipes.domain.usecase.*;
+import com.tarbadev.witchcraft.weeks.domain.usecase.SaveWeekUseCase;
+import com.tarbadev.witchcraft.weeks.domain.usecase.WeekFromYearAndWeekNumberUseCase;
 import org.mockito.Mockito;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -65,18 +70,8 @@ public class TestConfiguration {
   }
 
   @Bean
-  public WeekNavForWeekUseCase weekNavForWeekUseCase() {
-    return Mockito.mock(WeekNavForWeekUseCase.class);
-  }
-
-  @Bean
   public WeekFromYearAndWeekNumberUseCase weekFromYearAndWeekNumberUseCase() {
     return Mockito.mock(WeekFromYearAndWeekNumberUseCase.class);
-  }
-
-  @Bean
-  public RecipesFromWeekUseCase recipesFromWeekUseCase() {
-    return Mockito.mock(RecipesFromWeekUseCase.class);
   }
 
   @Bean
