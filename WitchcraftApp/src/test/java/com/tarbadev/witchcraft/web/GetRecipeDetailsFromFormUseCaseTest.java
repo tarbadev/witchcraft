@@ -1,6 +1,11 @@
 package com.tarbadev.witchcraft.web;
 
-import com.tarbadev.witchcraft.domain.*;
+import com.tarbadev.witchcraft.domain.entity.Ingredient;
+import com.tarbadev.witchcraft.domain.entity.Recipe;
+import com.tarbadev.witchcraft.domain.entity.Step;
+import com.tarbadev.witchcraft.domain.usecase.ConvertAndAddSameIngredientUseCase;
+import com.tarbadev.witchcraft.domain.usecase.GetRecipeDetailsFromFormUseCase;
+import com.tarbadev.witchcraft.domain.usecase.IngredientFromStringUseCase;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,8 +40,8 @@ public class GetRecipeDetailsFromFormUseCaseTest {
   @Test
   public void execute() {
     String name = "Some recipe name";
-    String url = "http://some/url/of/recipe";
-    String imgUrl = "http://some/url/of/recipe.png";
+    String originUrl = "http://some/originUrl/of/recipe";
+    String imgUrl = "http://some/originUrl/of/recipe.png";
     String ingredients = String.join("\n"
         , "10 tbsp sugar"
         , "1/2 cup olive oil"
@@ -49,7 +54,7 @@ public class GetRecipeDetailsFromFormUseCaseTest {
 
     Recipe recipe = Recipe.builder()
         .name(name)
-        .url(url)
+        .originUrl(originUrl)
         .imgUrl(imgUrl)
         .ingredients(Arrays.asList(
             Ingredient.builder()
@@ -76,14 +81,14 @@ public class GetRecipeDetailsFromFormUseCaseTest {
     given(convertAndAddSameIngredientsUseCase.execute(recipe.getIngredients()))
         .willReturn(recipe.getIngredients());
 
-    assertThat(subject.execute(name, url, ingredients, steps, imgUrl)).isEqualTo(recipe);
+    assertThat(subject.execute(name, originUrl, ingredients, steps, imgUrl)).isEqualTo(recipe);
   }
 
   @Test
   public void execute_addsSameIngredients() {
     String name = "Some recipe name";
-    String url = "http://some/url/of/recipe";
-    String imgUrl = "http://some/url/of/recipe.png";
+    String url = "http://some/originUrl/of/recipe";
+    String imgUrl = "http://some/originUrl/of/recipe.png";
     String ingredients = String.join("\n"
         , "10 tbsp sugar"
         , "1/2 cup olive oil"
@@ -137,7 +142,7 @@ public class GetRecipeDetailsFromFormUseCaseTest {
     );
     Recipe recipe = Recipe.builder()
         .name(name)
-        .url(url)
+        .originUrl(url)
         .imgUrl(imgUrl)
         .ingredients(
             expectedIngredients)

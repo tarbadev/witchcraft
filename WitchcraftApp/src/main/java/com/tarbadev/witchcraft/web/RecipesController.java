@@ -1,6 +1,9 @@
 package com.tarbadev.witchcraft.web;
 
-import com.tarbadev.witchcraft.domain.*;
+import com.tarbadev.witchcraft.domain.entity.Ingredient;
+import com.tarbadev.witchcraft.domain.entity.Recipe;
+import com.tarbadev.witchcraft.domain.entity.Step;
+import com.tarbadev.witchcraft.domain.usecase.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +20,7 @@ public class RecipesController {
   private GetRecipeUseCase getRecipeUseCase;
   private GetRecipeDetailsFromFormUseCase getRecipeDetailsFromFormUseCase;
   private DeleteRecipeUseCase deleteRecipeUseCase;
-  private RateRecipeUseCase rateRecipeUseCase;
+  private SetFavoriteRecipeUseCase setFavoriteRecipeUseCase;
 
   public RecipesController(
       SaveRecipeUseCase saveRecipeUseCase,
@@ -26,14 +29,14 @@ public class RecipesController {
       GetRecipeUseCase getRecipeUseCase,
       GetRecipeDetailsFromFormUseCase getRecipeDetailsFromFormUseCase,
       DeleteRecipeUseCase deleteRecipeUseCase,
-      RateRecipeUseCase rateRecipeUseCase) {
+      SetFavoriteRecipeUseCase setFavoriteRecipeUseCase) {
     this.saveRecipeUseCase = saveRecipeUseCase;
     this.recipeCatalogUseCase = recipeCatalogUseCase;
     this.getRecipeDetailsFromUrlUseCase = getRecipeDetailsFromUrlUseCase;
     this.getRecipeUseCase = getRecipeUseCase;
     this.getRecipeDetailsFromFormUseCase = getRecipeDetailsFromFormUseCase;
     this.deleteRecipeUseCase = deleteRecipeUseCase;
-    this.rateRecipeUseCase = rateRecipeUseCase;
+    this.setFavoriteRecipeUseCase = setFavoriteRecipeUseCase;
   }
 
   @GetMapping("/recipes")
@@ -58,7 +61,7 @@ public class RecipesController {
 
   @PostMapping("/recipes/importFromUrl")
   public String addRecipe(@Valid RecipeUrlForm recipeUrlForm) {
-    Recipe recipe = getRecipeDetailsFromUrlUseCase.execute(recipeUrlForm.getUrl());
+    Recipe recipe = getRecipeDetailsFromUrlUseCase.execute(recipeUrlForm.getOriginUrl());
     saveRecipeUseCase.execute(recipe);
 
     return "redirect:/recipes";
@@ -68,7 +71,7 @@ public class RecipesController {
   public String addRecipe(@Valid RecipeManualForm recipeManualForm) {
     Recipe recipe = getRecipeDetailsFromFormUseCase.execute(
         recipeManualForm.getName(),
-        recipeManualForm.getUrl(),
+        recipeManualForm.getOriginUrl(),
         recipeManualForm.getIngredients(),
         recipeManualForm.getSteps(),
         recipeManualForm.getImgUrl());
@@ -85,7 +88,7 @@ public class RecipesController {
 
   @PatchMapping("/recipes/{id}/rate/{rating}")
   public String rate(@PathVariable Integer id, @PathVariable Double rating) {
-    rateRecipeUseCase.execute(id, rating);
+    setFavoriteRecipeUseCase.execute(id, true);
     return "redirect:/recipes/" + id;
   }
 
@@ -100,9 +103,9 @@ public class RecipesController {
     saveRecipeUseCase.execute(Recipe.builder()
         .id(recipeModifyForm.getId())
         .name(recipeModifyForm.getName())
-        .url(recipeModifyForm.getUrl())
+        .originUrl(recipeModifyForm.getUrl())
         .imgUrl(recipeModifyForm.getImgUrl())
-        .rating(recipeModifyForm.getRating())
+        .favorite(recipeModifyForm.getFavorite())
         .ingredients(recipeModifyForm.getIngredients().stream()
             .map(ingredientModifyForm -> Ingredient.builder()
             .id(ingredientModifyForm.getId())

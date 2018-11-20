@@ -1,9 +1,8 @@
 package com.tarbadev.witchcraft;
 
-import com.tarbadev.witchcraft.domain.*;
 import com.tarbadev.witchcraft.domain.converter.IngredientConverter;
 import com.tarbadev.witchcraft.domain.converter.UnitConverter;
-import com.tarbadev.witchcraft.domain.GetRecipeDetailsFromFormUseCase;
+import com.tarbadev.witchcraft.domain.usecase.*;
 import org.mockito.Mockito;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -61,11 +60,6 @@ public class TestConfiguration {
   }
 
   @Bean
-  public RateRecipeUseCase rateRecipeUseCase() {
-    return Mockito.mock(RateRecipeUseCase.class);
-  }
-
-  @Bean
   public SaveWeekUseCase saveWeekUseCase() {
     return Mockito.mock(SaveWeekUseCase.class);
   }
@@ -86,13 +80,23 @@ public class TestConfiguration {
   }
 
   @Bean
-  public BestRatedRecipesUseCase bestRatedRecipesUseCase() {
-    return Mockito.mock(BestRatedRecipesUseCase.class);
+  public GetFavoriteRecipesUseCase getFavoriteRecipesUseCase() {
+    return Mockito.mock(GetFavoriteRecipesUseCase.class);
   }
 
   @Bean
   public LastAddedRecipesUseCase lastAddedRecipesUseCase() {
     return Mockito.mock(LastAddedRecipesUseCase.class);
+  }
+
+  @Bean
+  public DoesRecipeExistUseCase doesRecipeExistUseCase() {
+    return Mockito.mock(DoesRecipeExistUseCase.class);
+  }
+
+  @Bean
+  public SetFavoriteRecipeUseCase setFavoriteRecipeUseCase() {
+    return Mockito.mock(SetFavoriteRecipeUseCase.class);
   }
 
   @Bean

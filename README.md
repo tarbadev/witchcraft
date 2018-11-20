@@ -4,9 +4,15 @@
 1. Load `build.gradle` to import project in IntelliJ
 
 ## Run the project
+1. To build the React Frontend, run `./gradlew webpack`. If you want it to watch for changes, run `./gradlew webpackWatch`
 1. To run the server, run `./gradlew bootrun`.
   It should install dependencies, build the sources, generate the javascript for react and run the server.
 2. The application is served at `localhost:8080` by default
+
+## Run the tests
+- Run all tests: `./gradlew test`
+- Run only React tests: `./gradlew testReact`
+- Watch for React test changes: `./gradlew testReactWatch`
 
 ## Troubleshoot
 ### Fix spring boot warning

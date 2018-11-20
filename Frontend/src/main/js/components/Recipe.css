@@ -1,0 +1,64 @@
+.title {
+  text-transform: capitalize;
+  display: inline !important;
+}
+
+.image {
+   width: 100%;
+}
+
+.leftIcon {
+   margin-right: .5em;
+}
+
+.deleteButton {
+   background-color: #db2828 !important;
+   color: #fff !important;
+}
+
+.deleteButtonhover) {
+  background-color: #d01919 !important;
+}
+
+.deleteButtondisabled) {
+  background-color: rgb(0,0,0,.5) !important;
+}
+
+.deleteIcon {
+   margin-right: .5em;
+}
+
+.modifyButton {
+   background-color: #fbbd08 !important;
+   color: #fff !important;
+   margin-right: 10px !important;
+}
+
+.modifyButtonhover) {
+  background-color: #ffb300 !important;
+}
+
+.modifyIcon {
+   margin-right: .5em;
+}
+
+.circularProgressContainer {
+   position: relative;
+}
+
+.circularProgress {
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   margin-top: -12px;
+   margin-left: -12px;
+}
+
+.favoriteButton {
+   margin-top: -8px !important;
+   margin-left: 5px !important;
+}
+
+.favorite {
+   color: #db2828 !important;
+}

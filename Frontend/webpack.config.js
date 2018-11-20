@@ -13,7 +13,11 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.jsx'],
     alias: {
-      'app-components': path.resolve(__dirname, 'src/main/js/components/')
+      'app-root': path.resolve(__dirname, 'src/main/js/'),
+      'app-components': path.resolve(__dirname, 'src/main/js/components/'),
+      'app-services': path.resolve(__dirname, 'src/main/js/services/'),
+      'app-actions': path.resolve(__dirname, 'src/main/js/actions/'),
+      'test-resources': path.resolve(__dirname, 'src/test/resources/')
     }
   },
   output: {
@@ -24,17 +28,22 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.jsx?$/,  // Notice the regex here. We're matching on js and jsx files.
+        test: /\.jsx?$/,
         loader: 'babel-loader',
         query: {
-          presets: ['react', 'es2015']
-          // plugins: ['transform-decorators-legacy']
+          presets: ['@babel/preset-env', '@babel/preset-react'],
+          plugins: [
+            '@babel/plugin-proposal-object-rest-spread',
+            '@babel/plugin-proposal-optional-chaining',
+          ]
         },
         exclude: '/node_modules/',
         include: ROOT
+      },
+      {
+        test: /\.css$/,
+        loader: [ 'style-loader', 'css-loader' ]
       }
-
-//      {test: /\.css$/, loader: 'style-loader!css-loader'}
     ]
   }
 };

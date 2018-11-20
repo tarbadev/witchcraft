@@ -1,8 +1,13 @@
 package com.tarbadev.witchcraft.persistence;
 
-import com.tarbadev.witchcraft.domain.Ingredient;
-import com.tarbadev.witchcraft.domain.Recipe;
-import com.tarbadev.witchcraft.domain.Step;
+import com.tarbadev.witchcraft.domain.entity.Ingredient;
+import com.tarbadev.witchcraft.domain.entity.Recipe;
+import com.tarbadev.witchcraft.domain.entity.Step;
+import com.tarbadev.witchcraft.persistence.entity.RecipeEntity;
+import com.tarbadev.witchcraft.persistence.helpers.EntityToDomain;
+import com.tarbadev.witchcraft.persistence.repository.DatabaseRecipeRepository;
+import com.tarbadev.witchcraft.persistence.repository.IngredientEntity;
+import com.tarbadev.witchcraft.persistence.repository.RecipeEntityRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -46,15 +51,16 @@ public class DatabaseRecipeRepositoryTest {
     Recipe recipe = subject.saveRecipe(
         Recipe.builder()
             .name("Lasagna")
-            .url(recipe_url)
+            .originUrl(recipe_url)
             .ingredients(emptyList())
             .steps(emptyList())
             .build()
     );
     Recipe expectedRecipe = Recipe.builder()
         .id(recipe.getId())
+        .url("/recipes/" + recipe.getId())
         .name("lasagna")
-        .url(recipe_url)
+        .originUrl(recipe_url)
         .ingredients(emptyList())
         .steps(emptyList())
         .build();
@@ -77,6 +83,7 @@ public class DatabaseRecipeRepositoryTest {
 
     Recipe expectedRecipe = Recipe.builder()
         .id(returnedRecipe.getId())
+        .url("/recipes/" + returnedRecipe.getId())
         .name("lasagna")
         .ingredients(Arrays.asList(
             Ingredient.builder()
@@ -97,7 +104,7 @@ public class DatabaseRecipeRepositoryTest {
     Recipe recipe = subject.saveRecipe(
         Recipe.builder()
             .name("Name uncorrect")
-            .url("URL")
+            .originUrl("URL")
             .ingredients(emptyList())
             .steps(emptyList())
             .build()
@@ -108,7 +115,7 @@ public class DatabaseRecipeRepositoryTest {
     Recipe modifiedRecipe = Recipe.builder()
         .id(recipe.getId())
         .name("fixed name")
-        .url(recipe.getUrl())
+        .originUrl(recipe.getOriginUrl())
         .imgUrl(recipe.getImgUrl())
         .ingredients(recipe.getIngredients())
         .steps(recipe.getSteps())
@@ -129,13 +136,13 @@ public class DatabaseRecipeRepositoryTest {
         entityManager.persist(RecipeEntity.builder()
             .name("Lasagna")
             .ingredients(emptyList())
-            .url(url1)
+            .originUrl(url1)
             .imgUrl("imgUrl1")
             .build()),
         entityManager.persist(RecipeEntity.builder()
             .name("Tartiflette")
             .ingredients(emptyList())
-            .url(url2)
+            .originUrl(url2)
             .imgUrl("imgUrl2")
             .build())
     );
@@ -188,7 +195,7 @@ public class DatabaseRecipeRepositoryTest {
             .name("Recipe 1")
             .ingredients(emptyList())
             .steps(emptyList())
-            .url("URL")
+            .originUrl("URL")
             .build()
         )
     );
@@ -209,7 +216,7 @@ public class DatabaseRecipeRepositoryTest {
                 IngredientEntity.builder().name("Egg").build()
             ))
             .steps(emptyList())
-            .url("URL")
+            .originUrl("URL")
             .build()
         )
     );
@@ -224,8 +231,9 @@ public class DatabaseRecipeRepositoryTest {
   private Recipe toDomain(RecipeEntity recipeEntity) {
     return Recipe.builder()
         .id(recipeEntity.getId())
+        .url("/recipes/" + recipeEntity.getId())
         .name(recipeEntity.getName().toLowerCase())
-        .url(recipeEntity.getUrl())
+        .originUrl(recipeEntity.getOriginUrl())
         .imgUrl(recipeEntity.getImgUrl())
         .ingredients(recipeEntity.getIngredients().stream()
             .map(ingredientEntity -> Ingredient.builder()
@@ -260,62 +268,76 @@ public class DatabaseRecipeRepositoryTest {
   }
 
   @Test
-  public void rateRecipe() {
-    Double rating = 4.5;
+  public void setFavorite() {
     RecipeEntity recipe = entityManager.persistAndFlush(RecipeEntity.builder().name("Lasagna").build());
     entityManager.clear();
 
-    assertThat(subject.findById(recipe.getId()).getRating()).isNull();
+    assertThat(subject.findById(recipe.getId()).getFavorite()).isFalse();
 
-    subject.rateRecipe(recipe.getId(), rating);
+    subject.setFavorite(recipe.getId(), true);
     entityManager.clear();
 
-    assertThat(subject.findById(recipe.getId()).getRating()).isEqualTo(rating);
+    assertThat(subject.findById(recipe.getId()).getFavorite()).isTrue();
   }
 
   @Test
-  public void findTopFiveRecipes() {
+  public void findAllFavorite() {
     List<Recipe> recipes = Stream.of(
-        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).rating(5.0).build()),
-        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).rating(5.0).build()),
-        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).rating(0.0).build()),
-        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).rating(4.0).build()),
-        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).rating(null).build()),
-        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).rating(0.5).build()),
-        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).rating(1.0).build()),
-        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).rating(null).build())
+        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).favorite(true).build()),
+        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).favorite(true).build()),
+        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).favorite(false).build()),
+        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).favorite(true).build()),
+        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).favorite(true).build()),
+        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).favorite(false).build()),
+        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).favorite(true).build()),
+        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).favorite(false).build())
     )
-        .filter(recipeEntity -> recipeEntity.getRating() != null && recipeEntity.getRating() > 0)
+        .filter(RecipeEntity::getFavorite)
         .map(EntityToDomain::recipeMapper)
-        .sorted(Comparator.comparing(Recipe::getRating).reversed())
         .collect(toList());
 
     entityManager.flush();
     entityManager.clear();
 
-    assertThat(subject.findTopFiveRecipes()).isEqualTo(recipes);
+    assertThat(subject.findAllFavorite()).isEqualTo(recipes);
   }
 
   @Test
   public void findLastAddedRecipes() {
     List<Recipe> recipes = Stream.of(
-        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).rating(5.0).build()),
-        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).rating(5.0).build()),
-        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).rating(0.0).build()),
-        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).rating(4.0).build()),
-        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).rating(null).build()),
-        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).rating(0.5).build()),
-        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).rating(1.0).build()),
-        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).rating(null).build())
+        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).build()),
+        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).build()),
+        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).build()),
+        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).build()),
+        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).build()),
+        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).build()),
+        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).build()),
+        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).build()),
+        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).build()),
+        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).build())
     )
         .map(EntityToDomain::recipeMapper)
         .sorted(Comparator.comparing(Recipe::getId).reversed())
-        .limit(5)
+        .limit(8)
         .collect(toList());
 
     entityManager.flush();
     entityManager.clear();
 
     assertThat(subject.findLastAddedRecipes()).isEqualTo(recipes);
+  }
+
+  @Test
+  public void exists_returnsTrueWhenRecipeExists() {
+    RecipeEntity recipeEntity = entityManager.persistAndFlush(
+        RecipeEntity.builder().build()
+    );
+
+    assertThat(subject.existsById(recipeEntity.getId())).isTrue();
+  }
+
+  @Test
+  public void exists_returnsFalseWhenRecipeDoesNotExist() {
+    assertThat(subject.existsById(32)).isFalse();
   }
 }

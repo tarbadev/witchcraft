@@ -1,8 +1,6 @@
 buildscript {
   repositories {
-    maven {
-        url "https://plugins.gradle.org/m2/"
-    }
+    mavenCentral()
   }
 }
 
@@ -24,16 +22,36 @@ jar {
   includeEmptyDirs = false
 }
 
-task webpack(type: NodeTask, dependsOn: 'npmInstall') {
+node {
+  download = true
+  version = '10.9.0'
+  npmVersion = '6.4.1'
+}
+
+task buildProject(type: Exec) {
+  commandLine "npm", "start"
+}
+
+task webpack(type: NodeTask, dependsOn: 'eslint', group: 'build', description: 'Builds the frontend component') {
   script = project.file('node_modules/.bin/webpack')
 }
 
-task webpackWatch(type: NodeTask, dependsOn: 'npmInstall') {
+task webpackWatch(type: NodeTask, dependsOn: 'eslintWatch', group: 'build', description: 'Builds the frontend component and watches for changes') {
   script = project.file('node_modules/.bin/webpack')
   args = ['--watch', '--display-error-details']
 }
 
-task testReact(type: NpmTask, dependsOn: 'npmInstall') {
+task eslint(type: NodeTask, dependsOn: 'npmInstall', group: 'build', description: 'Executes eslint') {
+  script = project.file('node_modules/.bin/esw')
+  args = ['src']
+}
+
+task eslintWatch(type: NodeTask, dependsOn: 'npmInstall', group: 'build', description: 'Executes eslint and watches for changes') {
+  script = project.file('node_modules/.bin/esw')
+  args = ['src', '--watch']
+}
+
+task testReact(type: NpmTask, dependsOn: 'npmInstall', group: 'Verification', description: 'Runs the tests for React') {
   args = ['run', 'test']
 }
 

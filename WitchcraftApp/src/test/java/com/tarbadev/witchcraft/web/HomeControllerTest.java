@@ -1,6 +1,10 @@
 package com.tarbadev.witchcraft.web;
 
-import com.tarbadev.witchcraft.domain.*;
+import com.tarbadev.witchcraft.domain.entity.Recipe;
+import com.tarbadev.witchcraft.domain.entity.Week;
+import com.tarbadev.witchcraft.domain.usecase.GetFavoriteRecipesUseCase;
+import com.tarbadev.witchcraft.domain.usecase.LastAddedRecipesUseCase;
+import com.tarbadev.witchcraft.domain.usecase.WeekFromYearAndWeekNumberUseCase;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,14 +32,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class HomeControllerTest {
   @Autowired private MockMvc mvc;
   @Autowired private WeekFromYearAndWeekNumberUseCase weekFromYearAndWeekNumberUseCase;
-  @Autowired private BestRatedRecipesUseCase bestRatedRecipesUseCase;
+  @Autowired private GetFavoriteRecipesUseCase getFavoriteRecipesUseCase;
   @Autowired private LastAddedRecipesUseCase lastAddedRecipesUseCase;
 
   @Before
   public void setUp() {
     Mockito.reset(
         weekFromYearAndWeekNumberUseCase,
-        bestRatedRecipesUseCase,
+        getFavoriteRecipesUseCase,
         lastAddedRecipesUseCase
     );
   }
@@ -64,7 +68,7 @@ public class HomeControllerTest {
         Recipe.builder().build()
     );
 
-    given(bestRatedRecipesUseCase.execute()).willReturn(recipes);
+    given(getFavoriteRecipesUseCase.execute()).willReturn(recipes);
     given(weekFromYearAndWeekNumberUseCase.execute(any(), any())).willReturn(Week.builder().build());
 
     mvc.perform(get("/"))

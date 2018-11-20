@@ -3,32 +3,86 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^1.5.1",
+    "@material-ui/icons": "^3.0.1",
+    "connected-react-router": "4.5.0",
+    "current-week-number": "^1.0.7",
+    "history": "^4.7.2",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
-    "react-scripts": "1.1.4",
-    "webpack": "^4.12.0"
+    "react-redux": "5.0.7",
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "^2.1.1",
+    "redux": "4.0.0",
+    "redux-thunk": "2.3.0",
+    "updeep": "1.0.0",
+    "weeknumber": "^1.1.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "karma start --no-auto-watch --single-run",
-    "testWatch": "karma start",
-    "eject": "react-scripts eject"
+    "start": "npm-run-all --parallel build:watch lint:watch",
+    "build": "./node_modules/.bin/webpack",
+    "build:watch": "npm run build -- --watch --display-error-details",
+    "test": "jest",
+    "testWatch": "npm run test -- --watchAll",
+    "eject": "react-scripts eject",
+    "lint": "esw src",
+    "lint:watch": "npm run lint -- --watch"
   },
   "devDependencies": {
-    "babel": "^6.23.0",
-    "babel-cli": "^6.26.0",
-    "babel-loader": "^7.1.4",
-    "babel-preset-es2015": "^6.24.1",
+    "@babel/core": "^7.1.6",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
+    "@babel/plugin-proposal-optional-chaining": "^7.0.0",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/preset-react": "^7.0.0",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-eslint": "^10.0.1",
+    "babel-loader": "^8.0.4",
+    "core-js": "^2.5.7",
     "css-loader": "^0.28.11",
-    "jasmine-core": "^3.1.0",
-    "karma": "^2.0.2",
-    "karma-chrome-launcher": "^2.2.0",
-    "karma-jasmine": "^1.1.2",
-    "karma-webpack": "^3.0.0",
-    "react-addons-test-utils": "^15.6.2",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
+    "eslint": "^5.8.0",
+    "eslint-import-resolver-webpack": "^0.10.1",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-watch": "^4.0.2",
+    "fetch-mock": "^7.2.2",
+    "jest": "^23.6.0",
+    "jest-enzyme": "^7.0.1",
+    "jest-junit": "^5.2.0",
+    "jest-transform-stub": "^1.0.0",
+    "jest-webpack": "^0.5.1",
+    "npm-run-all": "^4.1.3",
+    "react-test-renderer": "^16.4.1",
+    "redux-devtools-extension": "^2.13.5",
     "style-loader": "^0.21.0",
     "webpack": "^4.12.0",
     "webpack-cli": "^3.0.3"
+  },
+  "jest": {
+    "resetMocks": true,
+    "setupTestFrameworkScriptFile": "<rootDir>src/test/js/tests.js",
+    "reporters": [
+      "default",
+      "jest-junit"
+    ],
+    "moduleNameMapper": {
+      "^app-actions(.*)$": "<rootDir>/src/main/js/actions$1",
+      "^app-components(.*)$": "<rootDir>/src/main/js/components$1",
+      "^app-root(.*)$": "<rootDir>/src/main/js$1",
+      "^test-resources(.*)$": "<rootDir>/src/test/resources$1"
+    },
+    "transform": {
+      "^.+\\.js$": "babel-jest",
+      ".+\\.(css|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$": "jest-transform-stub"
+    }
+  },
+  "jest-junit": {
+    "suiteName": "React Tests",
+    "outputDirectory": "build/test-results",
+    "outputName": "react.xml",
+    "classNameTemplate": "{classname}-{title}",
+    "titleTemplate": "{classname}-{title}",
+    "ancestorSeparator": " › ",
+    "usePathForSuiteName": "true"
   }
 }

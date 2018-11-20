@@ -1,8 +1,8 @@
 package com.tarbadev.witchcraft;
 
-import com.tarbadev.witchcraft.domain.Ingredient;
-import com.tarbadev.witchcraft.domain.Recipe;
-import com.tarbadev.witchcraft.domain.Step;
+import com.tarbadev.witchcraft.domain.entity.Ingredient;
+import com.tarbadev.witchcraft.domain.entity.Recipe;
+import com.tarbadev.witchcraft.domain.entity.Step;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -15,7 +15,7 @@ import java.util.Arrays;
 public class TestResources {
   private Recipe recipe = Recipe.builder()
       .name("Mini Goat Cheese Stuffed Potato Appetizers – Greek-Inspired")
-      .url("https://www.cookincanuck.com/mini-goat-cheese-stuffed-potato-appetizers/")
+      .originUrl("https://www.cookincanuck.com/mini-goat-cheese-stuffed-potato-appetizers/")
       .imgUrl("https://www.cookincanuck.com/wp-content/uploads/2017/11/Mini-Goat-Cheese-Stuffed-Potato-Appetizers-Greek-Inspired-Cookin-Canuck-4.jpg")
       .ingredients(Arrays.asList(
           Ingredient.builder()

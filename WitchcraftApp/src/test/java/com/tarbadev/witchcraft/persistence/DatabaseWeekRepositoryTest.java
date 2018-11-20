@@ -1,9 +1,13 @@
 package com.tarbadev.witchcraft.persistence;
 
-import com.tarbadev.witchcraft.domain.Day;
-import com.tarbadev.witchcraft.domain.DayName;
-import com.tarbadev.witchcraft.domain.Recipe;
-import com.tarbadev.witchcraft.domain.Week;
+import com.tarbadev.witchcraft.domain.entity.Day;
+import com.tarbadev.witchcraft.domain.entity.DayName;
+import com.tarbadev.witchcraft.domain.entity.Recipe;
+import com.tarbadev.witchcraft.domain.entity.Week;
+import com.tarbadev.witchcraft.persistence.entity.RecipeEntity;
+import com.tarbadev.witchcraft.persistence.entity.WeekEntity;
+import com.tarbadev.witchcraft.persistence.repository.DatabaseWeekRepository;
+import com.tarbadev.witchcraft.persistence.repository.WeekEntityRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -62,14 +66,56 @@ public class DatabaseWeekRepositoryTest {
 
   @Test
   public void save_updatesWeek() {
-    RecipeEntity lasagnaEntity = entityManager.persist(RecipeEntity.builder().name("lasagna").build());
-    RecipeEntity tartifletteEntity = entityManager.persist(RecipeEntity.builder().name("tartiflette").build());
-    RecipeEntity racletteEntity = entityManager.persistAndFlush(RecipeEntity.builder().name("raclette").build());
+    RecipeEntity lasagnaEntity = entityManager.persist(
+        RecipeEntity.builder()
+            .name("lasagna")
+            .originUrl("http://origin")
+            .imgUrl("http://imgurl")
+            .build()
+    );
+    RecipeEntity tartifletteEntity = entityManager.persist(
+        RecipeEntity.builder()
+            .name("tartiflette")
+            .originUrl("http://origin")
+            .imgUrl("http://imgurl")
+            .build()
+    );
+    RecipeEntity racletteEntity = entityManager.persistAndFlush(
+        RecipeEntity.builder()
+            .name("raclette")
+            .originUrl("http://origin")
+            .imgUrl("http://imgurl")
+            .build()
+    );
     entityManager.clear();
 
-    Recipe lasagna = Recipe.builder().id(lasagnaEntity.getId()).name("lasagna").ingredients(Collections.emptyList()).steps(Collections.emptyList()).build();
-    Recipe tartiflette = Recipe.builder().id(tartifletteEntity.getId()).name("tartiflette").ingredients(Collections.emptyList()).steps(Collections.emptyList()).build();
-    Recipe raclette = Recipe.builder().id(racletteEntity.getId()).name("raclette").ingredients(Collections.emptyList()).steps(Collections.emptyList()).build();
+    Recipe lasagna = Recipe.builder()
+        .id(lasagnaEntity.getId())
+        .url("/recipes/" + lasagnaEntity.getId())
+        .originUrl("http://origin")
+        .imgUrl("http://imgurl")
+        .name("lasagna")
+        .ingredients(Collections.emptyList())
+        .steps(Collections.emptyList())
+        .build();
+    Recipe tartiflette = Recipe.builder()
+        .id(tartifletteEntity.getId())
+        .url("/recipes/" + tartifletteEntity.getId())
+        .originUrl("http://origin")
+        .imgUrl("http://imgurl")
+        .name("tartiflette")
+        .ingredients(Collections.emptyList())
+        .steps(Collections.emptyList())
+        .build();
+    Recipe raclette = Recipe.builder()
+        .id(racletteEntity.getId())
+        .url("/recipes/" + racletteEntity.getId())
+        .originUrl("http://origin")
+        .imgUrl("http://imgurl")
+        .name("raclette")
+        .ingredients(Collections.emptyList())
+        .steps(Collections.emptyList())
+        .build();
 
     Week week = Week.builder()
         .year(2018)
@@ -87,6 +133,8 @@ public class DatabaseWeekRepositoryTest {
         .build();
 
     subject.save(week);
+    entityManager.clear();
+
     Week returnedWeek = subject.findByYearAndWeekNumber(week.getYear(), week.getWeekNumber());
     Week weekDomain = Week.builder()
         .id(returnedWeek.getId())
@@ -125,6 +173,7 @@ public class DatabaseWeekRepositoryTest {
         .build();
 
     subject.save(updatedWeek);
+    entityManager.clear();
 
     Week returnedUpdatedWeek = subject.findByYearAndWeekNumber(updatedWeek.getYear(), updatedWeek.getWeekNumber());
     Week updatedWeekDomain = Week.builder()

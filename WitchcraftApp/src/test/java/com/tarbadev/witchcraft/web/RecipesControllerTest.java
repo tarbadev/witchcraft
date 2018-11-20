@@ -1,7 +1,10 @@
 package com.tarbadev.witchcraft.web;
 
-import com.tarbadev.witchcraft.*;
-import com.tarbadev.witchcraft.domain.*;
+import com.tarbadev.witchcraft.TestResources;
+import com.tarbadev.witchcraft.domain.entity.Ingredient;
+import com.tarbadev.witchcraft.domain.entity.Recipe;
+import com.tarbadev.witchcraft.domain.entity.Step;
+import com.tarbadev.witchcraft.domain.usecase.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,6 +21,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.util.Arrays.asList;
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.text.IsEmptyString.isEmptyOrNullString;
 import static org.mockito.BDDMockito.given;
@@ -38,7 +42,7 @@ public class RecipesControllerTest {
   @Autowired private GetRecipeUseCase getRecipeUseCase;
   @Autowired private GetRecipeDetailsFromFormUseCase getRecipeDetailsFromFormUseCase;
   @Autowired private DeleteRecipeUseCase deleteRecipeUseCase;
-  @Autowired private RateRecipeUseCase rateRecipeUseCase;
+  @Autowired private SetFavoriteRecipeUseCase setFavoriteRecipeUseCase;
 
   @Before
   public void setUp() {
@@ -48,7 +52,7 @@ public class RecipesControllerTest {
         getRecipeDetailsFromUrlUseCase,
         getRecipeDetailsFromFormUseCase,
         deleteRecipeUseCase,
-        rateRecipeUseCase
+        setFavoriteRecipeUseCase
     );
   }
 
@@ -57,16 +61,16 @@ public class RecipesControllerTest {
     mvc.perform(get("/recipes/new"))
         .andExpect(status().isOk())
         .andExpect(view().name("recipes/newRecipe"))
-        .andExpect(model().attribute("recipeUrlForm", hasProperty("url", isEmptyOrNullString())))
+        .andExpect(model().attribute("recipeUrlForm", hasProperty("originUrl", isEmptyOrNullString())))
         .andExpect(model().attribute("recipeManualForm", hasProperty("name", isEmptyOrNullString())))
-        .andExpect(model().attribute("recipeManualForm", hasProperty("url", isEmptyOrNullString())))
+        .andExpect(model().attribute("recipeManualForm", hasProperty("originUrl", isEmptyOrNullString())))
         .andExpect(model().attribute("recipeManualForm", hasProperty("ingredients", isEmptyOrNullString())))
         .andExpect(model().attribute("recipeManualForm", hasProperty("steps", isEmptyOrNullString())));
   }
 
   @Test
   public void index() throws Exception {
-    List<Recipe> recipes = Arrays.asList(
+    List<Recipe> recipes = asList(
         Recipe.builder().build(),
         Recipe.builder().build()
     );
@@ -83,22 +87,22 @@ public class RecipesControllerTest {
   public void importFromUrl() throws Exception {
     Recipe recipe = testResources.getRecipe();
 
-    given(getRecipeDetailsFromUrlUseCase.execute(recipe.getUrl())).willReturn(recipe);
+    given(getRecipeDetailsFromUrlUseCase.execute(recipe.getOriginUrl())).willReturn(recipe);
 
     mvc.perform(post("/recipes/importFromUrl")
-        .param("url", recipe.getUrl())
+        .param("originUrl", recipe.getOriginUrl())
         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
     )
         .andExpect(redirectedUrl("/recipes"));
 
-    verify(getRecipeDetailsFromUrlUseCase).execute(recipe.getUrl());
+    verify(getRecipeDetailsFromUrlUseCase).execute(recipe.getOriginUrl());
     verify(saveRecipeUseCase).execute(recipe);
   }
 
   @Test
   public void importFromForm() throws Exception {
     String recipeName = "Some recipe name";
-    String recipeUrl = "http://some/url/of/recipe";
+    String recipeOriginUrl = "http://some/url/of/recipe";
     String recipeImgUrl = "http://some/url/of/recipe.png";
     String recipeIngredients = String.join("\n"
         , "10 tbsp sugar"
@@ -112,24 +116,24 @@ public class RecipesControllerTest {
 
     RecipeManualForm recipeManualForm = new RecipeManualForm();
     recipeManualForm.setName(recipeName);
-    recipeManualForm.setUrl(recipeUrl);
+    recipeManualForm.setOriginUrl(recipeOriginUrl);
     recipeManualForm.setImgUrl(recipeImgUrl);
     recipeManualForm.setIngredients(recipeIngredients);
     recipeManualForm.setSteps(recipeSteps);
 
     Recipe recipe = Recipe.builder()
         .name(recipeName)
-        .url(recipeUrl)
+        .originUrl(recipeOriginUrl)
         .imgUrl(recipeImgUrl)
         .ingredients(Arrays.stream(recipeIngredients.split("\n")).map(ingredient -> Ingredient.builder().name(ingredient).build()).collect(Collectors.toList()))
         .steps(Arrays.stream(recipeSteps.split("\n")).map(step -> Step.builder().name(step).build()).collect(Collectors.toList()))
         .build();
 
-    given(getRecipeDetailsFromFormUseCase.execute(recipeName, recipeUrl, recipeIngredients, recipeSteps, recipeImgUrl)).willReturn(recipe);
+    given(getRecipeDetailsFromFormUseCase.execute(recipeName, recipeOriginUrl, recipeIngredients, recipeSteps, recipeImgUrl)).willReturn(recipe);
 
     mvc.perform(post("/recipes/importFromForm")
         .param("name", recipeManualForm.getName())
-        .param("url", recipeManualForm.getUrl())
+        .param("originUrl", recipeManualForm.getOriginUrl())
         .param("imgUrl", recipeManualForm.getImgUrl())
         .param("ingredients", recipeManualForm.getIngredients())
         .param("steps", recipeManualForm.getSteps())
@@ -137,7 +141,7 @@ public class RecipesControllerTest {
     )
         .andExpect(redirectedUrl("/recipes"));
 
-    verify(getRecipeDetailsFromFormUseCase).execute(recipeName, recipeUrl, recipeIngredients, recipeSteps, recipeImgUrl);
+    verify(getRecipeDetailsFromFormUseCase).execute(recipeName, recipeOriginUrl, recipeIngredients, recipeSteps, recipeImgUrl);
     verify(saveRecipeUseCase).execute(recipe);
   }
 
@@ -175,7 +179,7 @@ public class RecipesControllerTest {
     mvc.perform(patch("/recipes/123/rate/4.5"))
         .andExpect(redirectedUrl("/recipes/123"));
 
-    verify(rateRecipeUseCase).execute(123, 4.5);
+    verify(setFavoriteRecipeUseCase).execute(123, true);
   }
 
   @Test
@@ -183,7 +187,7 @@ public class RecipesControllerTest {
     mvc.perform(post("/recipes/123/rate/4.5").param("_method", "patch"))
         .andExpect(redirectedUrl("/recipes/123"));
 
-    verify(rateRecipeUseCase).execute(123, 4.5);
+    verify(setFavoriteRecipeUseCase).execute(123, true);
   }
 
   @Test
@@ -203,14 +207,14 @@ public class RecipesControllerTest {
     RecipeModifyForm recipeModifyForm = RecipeModifyForm.builder()
         .id(123)
         .name("Recipe name")
-        .url("http url")
-        .imgUrl("http img url")
-        .ingredients(Arrays.asList(
+        .url("http originUrl")
+        .imgUrl("http img originUrl")
+        .ingredients(asList(
             IngredientModifyForm.builder().quantity(2.0).name("Ingredient").build(),
             IngredientModifyForm.builder().quantity(1.5).unit("oz").name("Ingredient 3").build(),
             IngredientModifyForm.builder().quantity(1.0).unit("tbsp").name("Ingredient 2").build()
         ))
-        .steps(Arrays.asList(
+        .steps(asList(
             StepModifyForm.builder().name("Step one").build(),
             StepModifyForm.builder().name("Step two").build()
         ))
@@ -219,14 +223,14 @@ public class RecipesControllerTest {
     Recipe recipe = Recipe.builder()
         .id(123)
         .name("Recipe name")
-        .url("http url")
-        .imgUrl("http img url")
-        .ingredients(Arrays.asList(
+        .originUrl("http originUrl")
+        .imgUrl("http img originUrl")
+        .ingredients(asList(
             Ingredient.builder().quantity(2.0).name("Ingredient").build(),
             Ingredient.builder().quantity(1.5).unit("oz").name("Ingredient 3").build(),
             Ingredient.builder().quantity(1.0).unit("tbsp").name("Ingredient 2").build()
         ))
-        .steps(Arrays.asList(
+        .steps(asList(
             Step.builder().name("Step one").build(),
             Step.builder().name("Step two").build()
         ))

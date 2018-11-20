@@ -36,6 +36,14 @@ public class UnitConverterTest {
   }
 
   @Test
+  public void convert_tspToTbsp() {
+    Double tsp = 3.0;
+    Double tbsp = 1.0;
+
+    assertThat(subject.convert(tsp, UnitConverter.UnitName.TSP.getName(), UnitConverter.UnitName.TBSP.getName())).isEqualTo(tbsp);
+  }
+
+  @Test
   public void convertToHighestUnit_MlToOz() {
     Double ml = 1.0;
     Double oz = 0.033814;
@@ -76,6 +84,17 @@ public class UnitConverterTest {
 
     Map.Entry<String, Double> expectedResult = new AbstractMap.SimpleEntry<>(UnitConverter.UnitName.CUP.getName(), cup);
     Map.Entry<String, Double> returnedValue = subject.convertToHighestUnit(tbsp, UnitConverter.UnitName.TBSP.getName(), UnitConverter.UnitName.CUP.getName());
+
+    assertThat(returnedValue).isEqualTo(expectedResult);
+  }
+
+  @Test
+  public void convertToHighestUnit_TspToTbsp() {
+    Double tsp = 3.0;
+    Double tbsp = 1.0;
+
+    Map.Entry<String, Double> expectedResult = new AbstractMap.SimpleEntry<>(UnitConverter.UnitName.TBSP.getName(), tbsp);
+    Map.Entry<String, Double> returnedValue = subject.convertToHighestUnit(tsp, UnitConverter.UnitName.TSP.getName(), UnitConverter.UnitName.TBSP.getName());
 
     assertThat(returnedValue).isEqualTo(expectedResult);
   }
