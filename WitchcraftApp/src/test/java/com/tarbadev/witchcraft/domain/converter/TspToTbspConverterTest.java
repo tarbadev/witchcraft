@@ -15,13 +15,13 @@ public class TspToTbspConverterTest {
 
   @Test
   public void convert() {
-    Double tsp = 48.0;
-    Double tbsp = 1.0;
+    Double tsp = 12.0;
+    Double tbsp = 4.0;
 
     assertThat(subject.convert(tsp)).isEqualTo(tbsp);
 
     tsp = 3.0;
-    tbsp = 0.0625;
+    tbsp = 1.0;
 
     assertThat(subject.convert(tsp)).isEqualTo(tbsp);
   }

@@ -312,11 +312,13 @@ public class DatabaseRecipeRepositoryTest {
         entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).build()),
         entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).build()),
         entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).build()),
+        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).build()),
+        entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).build()),
         entityManager.persist(RecipeEntity.builder().name("").ingredients(emptyList()).steps(emptyList()).build())
     )
         .map(EntityToDomain::recipeMapper)
         .sorted(Comparator.comparing(Recipe::getId).reversed())
-        .limit(5)
+        .limit(8)
         .collect(toList());
 
     entityManager.flush();
