@@ -60,16 +60,14 @@
   },
   "jest": {
     "resetMocks": true,
-    "setupTestFrameworkScriptFile": "<rootDir>src/test/js/tests.js",
+    "setupTestFrameworkScriptFile": "<rootDir>src/tests.js",
     "reporters": [
       "default",
       "jest-junit"
     ],
     "moduleNameMapper": {
-      "^app-actions(.*)$": "<rootDir>/src/main/js/actions$1",
-      "^app-components(.*)$": "<rootDir>/src/main/js/components$1",
-      "^app-root(.*)$": "<rootDir>/src/main/js$1",
-      "^test-resources(.*)$": "<rootDir>/src/test/resources$1"
+      "^src(.*)$": "<rootDir>/src$1",
+      "^test-resources(.*)$": "<rootDir>/test_resources$1"
     },
     "transform": {
       "^.+\\.js$": "babel-jest",

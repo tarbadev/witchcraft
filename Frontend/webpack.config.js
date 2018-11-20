@@ -1,7 +1,7 @@
 var path = require('path');
 var webpack = require('webpack')
-var ROOT = path.resolve(__dirname, 'src');
-var SRC = path.resolve(ROOT, 'main/js');
+var SRC = path.resolve(__dirname, 'src');
+var TEST_RESOURCES = path.resolve(__dirname, 'test_resources');
 var DEST = path.resolve(__dirname, 'build/dist');
 
 module.exports = {
@@ -13,11 +13,8 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.jsx'],
     alias: {
-      'app-root': path.resolve(__dirname, 'src/main/js/'),
-      'app-components': path.resolve(__dirname, 'src/main/js/components/'),
-      'app-services': path.resolve(__dirname, 'src/main/js/services/'),
-      'app-actions': path.resolve(__dirname, 'src/main/js/actions/'),
-      'test-resources': path.resolve(__dirname, 'src/test/resources/')
+      'src': SRC,
+      'test-resources': TEST_RESOURCES
     }
   },
   output: {
@@ -38,7 +35,7 @@ module.exports = {
           ]
         },
         exclude: '/node_modules/',
-        include: ROOT
+        include: SRC
       },
       {
         test: /\.css$/,
