@@ -1,7 +1,7 @@
 spring:
   jpa.hibernate.ddl-auto: update
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://${DATABASE_HOST:localhost}:3306/${DATABASE_NAME:witchcraft_test}?autoReconnect=true&useSSL=false
     username: ${DATABASE_USERNAME:spring}
     password:

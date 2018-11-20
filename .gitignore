@@ -23,5 +23,3 @@ out/
 
 node_modules
 *.log
-
-!WitchcraftUi/tasks/build
