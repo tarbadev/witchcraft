@@ -21,8 +21,8 @@ export const Content = () => {
         <Route exact path="/recipes/:id" component={RecipeContainer} />
         <Route exact path="/recipes/:id/edit" component={EditRecipeContainer} />
         <Route exact path="/carts" component={CartsPageContainer} />
-        <Route exact path="/carts/:id" component={CartPageContainer} />
         <Route exact path="/carts/new" component={NewCartPageContainer} />
+        <Route exact path="/carts/:id" component={CartPageContainer} />
         <Route exact path="/weeks/:year/:week" component={WeekPageContainer} />
       </Switch>
     </div>

@@ -30,7 +30,8 @@ public class UnitConverter {
     OZ(1),
     ML(0),
     CUP(1),
-    TSP(0);
+    TSP(0),
+    TBSP(0);
 
     private final int value;
 
@@ -43,6 +44,7 @@ public class UnitConverter {
       put(UnitName.ML.getName(), Unit.ML);
       put(UnitName.TSP.getName(), Unit.TSP);
       put(UnitName.CUP.getName(), Unit.CUP);
+      put(UnitName.TBSP.getName(), Unit.TBSP);
     }
   };
 
@@ -62,6 +64,8 @@ public class UnitConverter {
       converter = new TspToCupConverter();
     } else if (unitIn.equals(UnitName.TBSP.getName()) && unitOut.equals(UnitName.CUP.getName())) {
       converter = new TbspToCupConverter();
+    } else if (unitIn.equals(UnitName.TSP.getName()) && unitOut.equals(UnitName.TBSP.getName())) {
+      converter = new TspToTbspConverter();
     }
 
     return converter;
