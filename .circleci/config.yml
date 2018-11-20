@@ -22,7 +22,7 @@ jobs:
           DATABASE_NAME=circle_test \
           DATABASE_USERNAME=root \
           DATABASE_HOST=127.0.0.1 \
-          ./gradlew build --info
+          ./gradlew build
 
     - save_cache:
         paths:
