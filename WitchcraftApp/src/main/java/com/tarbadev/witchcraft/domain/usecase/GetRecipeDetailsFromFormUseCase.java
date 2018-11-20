@@ -11,8 +11,8 @@ import java.util.stream.Collectors;
 
 @Component
 public class GetRecipeDetailsFromFormUseCase {
-  private IngredientFromStringUseCase ingredientFromStringUseCase;
-  private ConvertAndAddSameIngredientUseCase convertAndAddSameIngredientUseCase;
+  private final IngredientFromStringUseCase ingredientFromStringUseCase;
+  private final ConvertAndAddSameIngredientUseCase convertAndAddSameIngredientUseCase;
 
   public GetRecipeDetailsFromFormUseCase(IngredientFromStringUseCase ingredientFromStringUseCase, ConvertAndAddSameIngredientUseCase convertAndAddSameIngredientUseCase) {
     this.ingredientFromStringUseCase = ingredientFromStringUseCase;

@@ -7,5 +7,5 @@ public enum DayName {
   THURSDAY,
   FRIDAY,
   SATURDAY,
-  SUNDAY;
+  SUNDAY
 }

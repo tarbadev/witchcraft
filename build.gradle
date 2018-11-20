@@ -4,7 +4,6 @@ subprojects {
 
 project(':witchcraft-app') {
 	dependencies {
-		compile project(':witchcraft-ui')
 		compile project(':frontend')
 	}
 }

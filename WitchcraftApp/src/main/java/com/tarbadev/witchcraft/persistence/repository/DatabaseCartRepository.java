@@ -15,7 +15,7 @@ import static com.tarbadev.witchcraft.persistence.helpers.EntityToDomain.cartMap
 
 @Repository
 public class DatabaseCartRepository implements CartRepository {
-  private CartEntityRepository cartEntityRepository;
+  private final CartEntityRepository cartEntityRepository;
 
   public DatabaseCartRepository(CartEntityRepository cartEntityRepository) {
     this.cartEntityRepository = cartEntityRepository;

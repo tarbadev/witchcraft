@@ -30,7 +30,6 @@ dependencies {
   compile('org.springframework.boot:spring-boot-starter-web')
   compile("org.springframework.boot:spring-boot-starter-thymeleaf")
   compile('org.springframework.boot:spring-boot-starter-data-jpa')
-  compile("org.springframework.boot:spring-boot-starter-data-rest")
   compile('org.springframework.boot:spring-boot-devtools')
   compile("nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect")
   compile(files("libs/lombok-edge.jar"))

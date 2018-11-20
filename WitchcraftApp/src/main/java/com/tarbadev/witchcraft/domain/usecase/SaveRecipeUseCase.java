@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class SaveRecipeUseCase {
-  private RecipeRepository recipeRepository;
+  private final RecipeRepository recipeRepository;
 
   public SaveRecipeUseCase(RecipeRepository recipeRepository) {
     this.recipeRepository = recipeRepository;

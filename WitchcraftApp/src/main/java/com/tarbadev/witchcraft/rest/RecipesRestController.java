@@ -4,8 +4,7 @@ import com.tarbadev.witchcraft.domain.entity.Ingredient;
 import com.tarbadev.witchcraft.domain.entity.Recipe;
 import com.tarbadev.witchcraft.domain.entity.Step;
 import com.tarbadev.witchcraft.domain.usecase.*;
-import com.tarbadev.witchcraft.web.RecipeFormRequest;
-import com.tarbadev.witchcraft.web.RecipeModifyForm;
+import com.tarbadev.witchcraft.web.RecipeModifyRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,16 +18,16 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/recipes")
 public class RecipesRestController {
-  private RecipeCatalogUseCase recipeCatalogUseCase;
-  private GetRecipeUseCase getRecipeUseCase;
-  private DeleteRecipeUseCase deleteRecipeUseCase;
-  private DoesRecipeExistUseCase doesRecipeExistUseCase;
-  private SetFavoriteRecipeUseCase setFavoriteRecipeUseCase;
-  private GetRecipeDetailsFromUrlUseCase getRecipeDetailsFromUrlUseCase;
-  private SaveRecipeUseCase saveRecipeUseCase;
-  private GetRecipeDetailsFromFormUseCase getRecipeDetailsFromFormUseCase;
-  private GetFavoriteRecipesUseCase getFavoriteRecipesUseCase;
-  private LastAddedRecipesUseCase lastAddedRecipesUseCase;
+  private final RecipeCatalogUseCase recipeCatalogUseCase;
+  private final GetRecipeUseCase getRecipeUseCase;
+  private final DeleteRecipeUseCase deleteRecipeUseCase;
+  private final DoesRecipeExistUseCase doesRecipeExistUseCase;
+  private final SetFavoriteRecipeUseCase setFavoriteRecipeUseCase;
+  private final GetRecipeDetailsFromUrlUseCase getRecipeDetailsFromUrlUseCase;
+  private final SaveRecipeUseCase saveRecipeUseCase;
+  private final GetRecipeDetailsFromFormUseCase getRecipeDetailsFromFormUseCase;
+  private final GetFavoriteRecipesUseCase getFavoriteRecipesUseCase;
+  private final LastAddedRecipesUseCase lastAddedRecipesUseCase;
 
   @Autowired
   public RecipesRestController(
@@ -111,14 +110,14 @@ public class RecipesRestController {
   }
 
   @PutMapping("/{id}/update")
-  public Recipe update(@RequestBody RecipeModifyForm recipeModifyForm) {
+  public Recipe update(@RequestBody RecipeModifyRequest recipeModifyRequest) {
     Recipe recipe = Recipe.builder()
-        .id(recipeModifyForm.getId())
-        .name(recipeModifyForm.getName())
-        .originUrl(recipeModifyForm.getUrl())
-        .imgUrl(recipeModifyForm.getImgUrl())
-        .favorite(recipeModifyForm.getFavorite())
-        .ingredients(recipeModifyForm.getIngredients().stream()
+        .id(recipeModifyRequest.getId())
+        .name(recipeModifyRequest.getName())
+        .originUrl(recipeModifyRequest.getUrl())
+        .imgUrl(recipeModifyRequest.getImgUrl())
+        .favorite(recipeModifyRequest.getFavorite())
+        .ingredients(recipeModifyRequest.getIngredients().stream()
             .map(ingredientModifyForm -> Ingredient.builder()
                 .id(ingredientModifyForm.getId())
                 .name(ingredientModifyForm.getName())
@@ -127,7 +126,7 @@ public class RecipesRestController {
                 .build()
             ).collect(Collectors.toList())
         )
-        .steps(recipeModifyForm.getSteps().stream()
+        .steps(recipeModifyRequest.getSteps().stream()
             .map(stepModifyForm -> Step.builder()
                 .id(stepModifyForm.getId())
                 .name(stepModifyForm.getName())

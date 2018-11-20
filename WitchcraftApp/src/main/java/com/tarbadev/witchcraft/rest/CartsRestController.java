@@ -14,10 +14,10 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/carts")
 public class CartsRestController {
-  private RecipeCatalogUseCase recipeCatalogUseCase;
-  private CreateCartUseCase createCartUseCase;
-  private CartCatalogUseCase cartCatalogUseCase;
-  private GetCartUseCase getCartUseCase;
+  private final RecipeCatalogUseCase recipeCatalogUseCase;
+  private final CreateCartUseCase createCartUseCase;
+  private final CartCatalogUseCase cartCatalogUseCase;
+  private final GetCartUseCase getCartUseCase;
 
   public CartsRestController(
       RecipeCatalogUseCase recipeCatalogUseCase,

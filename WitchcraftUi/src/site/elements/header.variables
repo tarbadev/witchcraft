@@ -1,6 +1,0 @@
-/*******************************
-    User Variable Overrides
-*******************************/
-
-@iconSize: 1rem;
-@iconOffset: 0.785714em;

@@ -44,7 +44,7 @@ public class DomainToEntity {
         .build();
   }
 
-  public static ItemEntity itemEntityMapper(Item item) {
+  private static ItemEntity itemEntityMapper(Item item) {
     return ItemEntity.builder()
         .id(item.getId())
         .name(item.getName())

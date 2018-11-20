@@ -38,7 +38,7 @@ public class UnitConverter {
     private boolean isSuperiorTo(Unit unit) { return value > unit.getValue(); }
   }
 
-  private Map<String, Unit> units = new HashMap<String, Unit>() {
+  private final Map<String, Unit> units = new HashMap<String, Unit>() {
     {
       put(UnitName.OZ.getName(), Unit.OZ);
       put(UnitName.ML.getName(), Unit.ML);

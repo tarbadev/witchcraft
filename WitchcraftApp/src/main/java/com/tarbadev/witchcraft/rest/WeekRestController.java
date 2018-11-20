@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/weeks")
 public class WeekRestController {
-  private WeekFromYearAndWeekNumberUseCase weekFromYearAndWeekNumberUseCase;
-  private SaveWeekUseCase saveWeekUseCase;
+  private final WeekFromYearAndWeekNumberUseCase weekFromYearAndWeekNumberUseCase;
+  private final SaveWeekUseCase saveWeekUseCase;
 
   public WeekRestController(WeekFromYearAndWeekNumberUseCase weekFromYearAndWeekNumberUseCase, SaveWeekUseCase saveWeekUseCase) {
     this.weekFromYearAndWeekNumberUseCase = weekFromYearAndWeekNumberUseCase;

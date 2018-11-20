@@ -8,7 +8,7 @@ import java.util.List;
 
 @Component
 public class CartCatalogUseCase {
-    private CartRepository cartRepository;
+    private final CartRepository cartRepository;
 
     public CartCatalogUseCase(CartRepository cartRepository) {
         this.cartRepository = cartRepository;

@@ -6,10 +6,9 @@ import com.tarbadev.witchcraft.domain.entity.Ingredient;
 import com.tarbadev.witchcraft.domain.entity.Recipe;
 import com.tarbadev.witchcraft.domain.entity.Step;
 import com.tarbadev.witchcraft.domain.usecase.*;
-import com.tarbadev.witchcraft.web.IngredientModifyForm;
-import com.tarbadev.witchcraft.web.RecipeFormRequest;
-import com.tarbadev.witchcraft.web.RecipeModifyForm;
-import com.tarbadev.witchcraft.web.StepModifyForm;
+import com.tarbadev.witchcraft.web.IngredientModifyRequest;
+import com.tarbadev.witchcraft.web.RecipeModifyRequest;
+import com.tarbadev.witchcraft.web.StepModifyRequest;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -117,11 +116,11 @@ public class RecipesRestControllerTest {
   @Test
   public void setFavorite() throws Exception {
     int id = 32;
-    Boolean favorite = true;
+    boolean favorite = true;
 
     mvc.perform(patch(String.format("/api/recipes/%s", id))
         .contentType(MediaType.APPLICATION_JSON)
-        .content(String.format("{ \"favorite\": %s }", favorite.toString()))
+        .content(String.format("{ \"favorite\": %s }", Boolean.toString(favorite)))
     )
         .andExpect(status().is(HttpStatus.NO_CONTENT.value()));
 
@@ -212,37 +211,37 @@ public class RecipesRestControllerTest {
 
   @Test
   public void update() throws Exception {
-    RecipeModifyForm recipeModifyForm = RecipeModifyForm.builder()
+    RecipeModifyRequest recipeModifyRequest = RecipeModifyRequest.builder()
         .id(12)
         .name("Recipe Name")
         .url("http://fake/url")
         .imgUrl("http://fake/url.png")
         .favorite(true)
         .ingredients(Collections.singletonList(
-            IngredientModifyForm.builder().name("Ingredient").build()
+            IngredientModifyRequest.builder().name("Ingredient").build()
         ))
-        .steps(Collections.singletonList(StepModifyForm.builder().name("First Step").build()))
+        .steps(Collections.singletonList(StepModifyRequest.builder().name("First Step").build()))
         .build();
 
     Recipe recipe = Recipe.builder()
-        .id(recipeModifyForm.getId())
-        .name(recipeModifyForm.getName())
-        .originUrl(recipeModifyForm.getUrl())
-        .imgUrl(recipeModifyForm.getImgUrl())
-        .favorite(recipeModifyForm.getFavorite())
-        .ingredients(recipeModifyForm.getIngredients().stream()
-            .map(ingredientModifyForm -> Ingredient.builder()
-                .id(ingredientModifyForm.getId())
-                .name(ingredientModifyForm.getName())
-                .unit(ingredientModifyForm.getUnit())
-                .quantity(ingredientModifyForm.getQuantity())
+        .id(recipeModifyRequest.getId())
+        .name(recipeModifyRequest.getName())
+        .originUrl(recipeModifyRequest.getUrl())
+        .imgUrl(recipeModifyRequest.getImgUrl())
+        .favorite(recipeModifyRequest.getFavorite())
+        .ingredients(recipeModifyRequest.getIngredients().stream()
+            .map(ingredientModifyRequest -> Ingredient.builder()
+                .id(ingredientModifyRequest.getId())
+                .name(ingredientModifyRequest.getName())
+                .unit(ingredientModifyRequest.getUnit())
+                .quantity(ingredientModifyRequest.getQuantity())
                 .build()
             ).collect(Collectors.toList())
         )
-        .steps(recipeModifyForm.getSteps().stream()
-            .map(stepModifyForm -> Step.builder()
-                .id(stepModifyForm.getId())
-                .name(stepModifyForm.getName())
+        .steps(recipeModifyRequest.getSteps().stream()
+            .map(stepModifyRequest -> Step.builder()
+                .id(stepModifyRequest.getId())
+                .name(stepModifyRequest.getName())
                 .build()
             )
             .collect(Collectors.toList())
@@ -251,9 +250,9 @@ public class RecipesRestControllerTest {
 
     given(saveRecipeUseCase.execute(recipe)).willReturn(recipe);
 
-    mvc.perform(put("/api/recipes/" + recipeModifyForm.getId() + "/update")
+    mvc.perform(put("/api/recipes/" + recipeModifyRequest.getId() + "/update")
         .contentType(MediaType.APPLICATION_JSON)
-        .content(new ObjectMapper().writeValueAsString(recipeModifyForm))
+        .content(new ObjectMapper().writeValueAsString(recipeModifyRequest))
     )
         .andExpect(status().isOk())
         .andExpect(content().json(new ObjectMapper().writeValueAsString(recipe)));

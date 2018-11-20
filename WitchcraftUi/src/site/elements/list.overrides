@@ -1,8 +1,0 @@
-/*******************************
-    User Variable Overrides
-*******************************/
-ul.ui.list li:before,
-.ui.bulleted.list .list > .item:before,
-.ui.bulleted.list > .item:before {
-  top: 33%;
-}

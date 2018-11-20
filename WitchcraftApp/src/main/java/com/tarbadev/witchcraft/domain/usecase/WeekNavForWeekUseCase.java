@@ -7,9 +7,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class WeekNavForWeekUseCase {
   public WeekNav execute(Week week) {
-    Integer prevWeekNumber = week.getWeekNumber() - 1;
+    int prevWeekNumber = week.getWeekNumber() - 1;
     Integer prevYear = week.getYear();
-    Integer nextWeekNumber = week.getWeekNumber() + 1;
+    int nextWeekNumber = week.getWeekNumber() + 1;
     Integer nextYear = week.getYear();
 
     if (nextWeekNumber > 52) {

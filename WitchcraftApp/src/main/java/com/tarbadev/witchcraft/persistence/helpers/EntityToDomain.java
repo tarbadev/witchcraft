@@ -20,7 +20,7 @@ public class EntityToDomain {
         .build();
   }
 
-  public static Ingredient ingredientMapper(IngredientEntity ingredientEntity) {
+  private static Ingredient ingredientMapper(IngredientEntity ingredientEntity) {
     return Ingredient.builder()
         .id(ingredientEntity.getId())
         .name(ingredientEntity.getName())
@@ -29,7 +29,7 @@ public class EntityToDomain {
         .build();
   }
 
-  public static Step stepMapper(StepEntity stepEntity) {
+  private static Step stepMapper(StepEntity stepEntity) {
     return Step.builder()
         .id(stepEntity.getId())
         .name(stepEntity.getName())
@@ -45,7 +45,7 @@ public class EntityToDomain {
         .build();
   }
 
-  public static Item itemMapper(ItemEntity itemEntity) {
+  private static Item itemMapper(ItemEntity itemEntity) {
     return Item.builder()
         .id(itemEntity.getId())
         .name(itemEntity.getName())
@@ -63,7 +63,7 @@ public class EntityToDomain {
         .build();
   }
 
-  public static Day dayMapper(DayEntity dayEntity) {
+  private static Day dayMapper(DayEntity dayEntity) {
     return Day.builder()
         .id(dayEntity.getId())
         .name(DayName.valueOf(dayEntity.getName()))

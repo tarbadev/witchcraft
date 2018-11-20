@@ -1,5 +1,5 @@
 package com.tarbadev.witchcraft.domain.converter;
 
-public interface IConverter {
+interface IConverter {
   Double convert(Double number);
 }

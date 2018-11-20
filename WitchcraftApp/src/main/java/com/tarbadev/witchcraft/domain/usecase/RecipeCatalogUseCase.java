@@ -8,7 +8,7 @@ import java.util.List;
 
 @Component
 public class RecipeCatalogUseCase {
-    private RecipeRepository recipeRepository;
+    private final RecipeRepository recipeRepository;
 
     public RecipeCatalogUseCase(RecipeRepository recipeRepository) {
         this.recipeRepository = recipeRepository;

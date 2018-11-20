@@ -1,6 +1,0 @@
-/*******************************
-         Site Overrides
-*******************************/
-.ui.main.container {
-  padding-top: 20px;
-}

@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 import static java.lang.Double.parseDouble;
 
 @Component
-public class IngredientFromStringUseCase {
+class IngredientFromStringUseCase {
   private static final List<String> SUPPORTED_UNITS = Arrays.asList(
       "lb",
       "oz",
@@ -46,7 +46,7 @@ public class IngredientFromStringUseCase {
           Double tempQuantity = null;
           try {
             tempQuantity = parseDouble(number);
-          } catch (NumberFormatException e) {
+          } catch (NumberFormatException ignored) {
           }
 
           if (tempQuantity != null)

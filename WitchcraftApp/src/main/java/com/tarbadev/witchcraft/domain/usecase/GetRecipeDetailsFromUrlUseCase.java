@@ -17,8 +17,8 @@ import java.util.regex.Pattern;
 
 @Component
 public class GetRecipeDetailsFromUrlUseCase {
-  private IngredientFromStringUseCase ingredientFromStringUseCase;
-  private ConvertAndAddSameIngredientUseCase convertAndAddSameIngredientUseCase;
+  private final IngredientFromStringUseCase ingredientFromStringUseCase;
+  private final ConvertAndAddSameIngredientUseCase convertAndAddSameIngredientUseCase;
 
   public GetRecipeDetailsFromUrlUseCase(IngredientFromStringUseCase ingredientFromStringUseCase, ConvertAndAddSameIngredientUseCase convertAndAddSameIngredientUseCase) {
     this.ingredientFromStringUseCase = ingredientFromStringUseCase;

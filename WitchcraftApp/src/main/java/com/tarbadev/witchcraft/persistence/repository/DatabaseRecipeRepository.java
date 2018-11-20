@@ -16,7 +16,7 @@ import static com.tarbadev.witchcraft.persistence.helpers.EntityToDomain.recipeM
 
 @Component
 public class DatabaseRecipeRepository implements RecipeRepository {
-  private RecipeEntityRepository recipeEntityRepository;
+  private final RecipeEntityRepository recipeEntityRepository;
 
   public DatabaseRecipeRepository(RecipeEntityRepository recipeEntityRepository) {
     this.recipeEntityRepository = recipeEntityRepository;
