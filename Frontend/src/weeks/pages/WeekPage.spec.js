@@ -1,5 +1,5 @@
 import React from 'react'
-import {shallow} from 'enzyme'
+import { shallow } from 'enzyme'
 
 import { WeekPage, WEEKS_IN_A_YEAR } from './WeekPage'
 

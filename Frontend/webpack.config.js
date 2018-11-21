@@ -1,8 +1,16 @@
-var path = require('path');
-var webpack = require('webpack')
-var SRC = path.resolve(__dirname, 'src');
-var TEST_RESOURCES = path.resolve(__dirname, 'test_resources');
-var DEST = path.resolve(__dirname, 'build/dist');
+const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const CleanWebpackPlugin = require('clean-webpack-plugin')
+
+const SRC = path.resolve(__dirname, 'src')
+const TEST_RESOURCES = path.resolve(__dirname, 'test_resources')
+const DEST = path.resolve(__dirname, 'build/dist')
+
+
+const htmlWebpackPlugin = new HtmlWebpackPlugin({
+  template: './src/index.html',
+  filename: './index.html'
+})
 
 module.exports = {
   mode: 'development',
@@ -20,7 +28,7 @@ module.exports = {
   output: {
     path: DEST,
     filename: 'bundle.js',
-    publicPath: '/dist/'
+    publicPath: '/'
   },
   module: {
     rules: [
@@ -42,5 +50,24 @@ module.exports = {
         loader: [ 'style-loader', 'css-loader' ]
       }
     ]
-  }
-};
+  },
+  devServer: {
+    compress: false,
+    port: 5000,
+    host: 'localhost',
+    historyApiFallback: true,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8080',
+        secure: false,
+      },
+    }
+  },
+  plugins: [
+    new CleanWebpackPlugin(['build/dist']),
+    new HtmlWebpackPlugin({
+      title: 'Witchcraft',
+      templateContent: '<div id="react"></div>',
+    })
+  ]
+}

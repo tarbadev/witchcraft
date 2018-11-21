@@ -3,17 +3,12 @@ import { createHistoryObserver } from './HistoryObserver'
 describe('createHistoryObserver', () => {
   it('it calls callbacks whose regex matches the history event path with captures', () => {
     const interestingPaths = [
-      { regex: /^#\/foos\/(\d+)\/bars\/(\d+)$/, callback: jest.fn() },
-      { regex: /^#\/foos\/(\d+)$/, callback: jest.fn() },
+      { regex: /^\/foos\/(\d+)\/bars\/(\d+)$/, callback: jest.fn() },
+      { regex: /^\/foos\/(\d+)$/, callback: jest.fn() },
     ]
 
     const historyObserver = createHistoryObserver(interestingPaths)
-    const historyEvent = {
-      pathname: '/',
-      search: '',
-      hash: '#/foos/24/bars/13',
-      key: 'a8mxyx',
-    }
+    const historyEvent = { pathname: '/foos/24/bars/13' }
 
     historyObserver(historyEvent)
 

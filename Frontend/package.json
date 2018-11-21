@@ -18,9 +18,11 @@
     "updeep": "1.0.0",
     "weeknumber": "^1.1.1"
   },
+  "main": "src/index.js",
   "scripts": {
-    "start": "npm-run-all --parallel build:watch lint:watch",
-    "build": "./node_modules/.bin/webpack",
+    "start": "npm-run-all --parallel server lint:watch",
+    "server": "webpack-dev-server --mode development --hot -w --open --color",
+    "build": "./node_modules/.bin/webpack --mode development",
     "build:watch": "npm run build -- --watch --display-error-details",
     "test": "jest",
     "testWatch": "npm run test -- --watchAll",
@@ -37,6 +39,7 @@
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.0.1",
     "babel-loader": "^8.0.4",
+    "clean-webpack-plugin": "^1.0.0",
     "core-js": "^2.5.7",
     "css-loader": "^0.28.11",
     "enzyme": "^3.3.0",

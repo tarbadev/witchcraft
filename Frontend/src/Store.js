@@ -3,7 +3,6 @@ import { applyMiddleware, createStore } from 'redux'
 import { connectRouter, routerMiddleware } from 'connected-react-router'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import thunk from 'redux-thunk'
-import { weekNumber } from 'weeknumber'
 
 import { reducer } from './RootReducer'
 import { createHistoryObserver } from './HistoryObserver'
@@ -13,52 +12,38 @@ import { getAllRecipes, getFavoriteRecipes, getLatestRecipes } from 'src/recipes
 import { getRecipe } from 'src/recipes/actions/RecipeActions'
 import { getAllCarts } from 'src/carts/actions/CartsActions'
 import { getCart } from 'src/carts/actions/CartActions'
-import { getWeek } from 'src/weeks/actions/WeekActions'
+import { getWeek, getCurrentWeek } from 'src/weeks/actions/WeekActions'
 
 export const history = createBrowserHistory()
 export const store = createStore(connectRouter(history)(reducer), composeWithDevTools(applyMiddleware(routerMiddleware(history), thunk, WitchcraftMiddleware)))
 
-const getCurrentWeekUrl = () => {
-  const { year, week } = getCurrentWeek()
-  return `#/weeks/${year}/${week}`
-}
-
-const getCurrentWeek = () => {
-  const week = weekNumber()
-  const year = new Date().getYear() + 1900
-  return { year, week }
-}
-
 const pathRegexes = [
   {
-    regex: /^#\/recipes\/(\d+)$/,
+    regex: /^\/recipes\/(\d+)$/,
     callback: (id) => store.dispatch(getRecipe(id))
   }, {
-    regex: /^#\/recipes\/(\d+)\/edit$/,
+    regex: /^\/recipes\/(\d+)\/edit$/,
     callback: (id) => store.dispatch(getRecipe(id))
   }, {
-    regex: /^#\/recipes$/,
+    regex: /^\/recipes$/,
     callback: () => store.dispatch(getAllRecipes())
   }, {
-    regex: /^#\/carts$/,
+    regex: /^\/carts$/,
     callback: () => store.dispatch(getAllCarts())
   }, {
-    regex: /^#\/carts\/(\d+)$/,
+    regex: /^\/carts\/(\d+)$/,
     callback: (id) => store.dispatch(getCart(id))
   }, {
-    regex: /^#\/carts\/new$/,
+    regex: /^\/carts\/new$/,
     callback: () => store.dispatch(getAllRecipes())
   }, {
-    regex: /^#\/weeks$/,
-    callback: () => history.push(getCurrentWeekUrl())
-  }, {
-    regex: /^#\/weeks\/(\d+)\/(\d+)$/,
+    regex: /^\/weeks\/(\d+)\/(\d+)$/,
     callback: ([year, week]) => {
       store.dispatch(getAllRecipes())
       store.dispatch(getWeek(year, week))
     }
   }, {
-    regex: /^#\/$/,
+    regex: /^\/$/,
     callback: () => {
       const { year, week } = getCurrentWeek()
       store.dispatch(getWeek(year, week))

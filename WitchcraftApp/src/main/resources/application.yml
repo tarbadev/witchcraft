@@ -5,9 +5,6 @@ spring:
     url: jdbc:mysql://${DATABASE_HOST:localhost}:3306/${DATABASE_NAME:witchcraft_test}?autoReconnect=true&useSSL=false
     username: ${DATABASE_USERNAME:spring}
     password:
-  data.rest:
-    basePath: /api
-    detection-strategy: annotated
 
 logging.level.org.springframework.web: DEBUG
 

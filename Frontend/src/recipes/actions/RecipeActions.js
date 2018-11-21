@@ -17,7 +17,7 @@ export const getRecipeSuccess = data => dispatch => {
 }
 
 export const getRecipeError = () => dispatch => {
-  dispatch(push('#/recipes'))
+  dispatch(push('/recipes'))
 }
 
 export const getRecipe = id => dispatch => {
@@ -46,7 +46,7 @@ export const setFavorite = (id, isFavorite) => dispatch => {
 
 export const deleteRecipeCallback = () => dispatch => {
   dispatch(setState('recipePage.isDeleting', false))
-  dispatch(push('#/recipes'))
+  dispatch(push('/recipes'))
 }
 
 export const deleteRecipe = id => dispatch => {
@@ -59,7 +59,7 @@ export const deleteRecipe = id => dispatch => {
 }
 
 export const updateRecipeSuccess = data => dispatch => {
-  dispatch(push(`#/recipes/${data.id}`))
+  dispatch(push(`/recipes/${data.id}`))
 }
 
 export const updateRecipe = (form) => dispatch => {

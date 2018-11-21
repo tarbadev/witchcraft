@@ -1,0 +1,16 @@
+.recipe-card {
+  cursor: pointer;
+}
+
+.recipe-card-title {
+  text-transform: capitalize;
+}
+
+.recipe-card:hover .recipe-card-title {
+  height: auto;
+}
+
+.recipe-card:hover .recipe-card-title div {
+  overflow: auto !important;
+  white-space: normal;
+}

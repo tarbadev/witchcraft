@@ -62,7 +62,7 @@ describe('RecipeActions', () => {
       getRecipeError()(dispatchSpy)
       expect(dispatchSpy).toHaveBeenCalledWith({
         type: '@@router/CALL_HISTORY_METHOD',
-        payload: { method: 'push', args: [ '#/recipes' ] },
+        payload: { method: 'push', args: [ '/recipes' ] },
       })
     })
   })
@@ -136,7 +136,7 @@ describe('RecipeActions', () => {
       updateRecipeSuccess(promisedRecipeList.recipes[0])(dispatchSpy)
       expect(dispatchSpy).toHaveBeenCalledWith({
         type: '@@router/CALL_HISTORY_METHOD',
-        payload: { method: 'push', args: [ `#/recipes/${promisedRecipeList.recipes[0].id}` ] },
+        payload: { method: 'push', args: [ `/recipes/${promisedRecipeList.recipes[0].id}` ] },
       })
     })
   })
@@ -167,7 +167,7 @@ describe('RecipeActions', () => {
       })
       expect(dispatchSpy).toHaveBeenCalledWith({
         type: '@@router/CALL_HISTORY_METHOD',
-        payload: { method: 'push', args: [ '#/recipes' ] },
+        payload: { method: 'push', args: [ '/recipes' ] },
       })
     })
   })

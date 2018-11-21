@@ -10,6 +10,7 @@ import { CartsPageContainer } from 'src/carts/pages/CartsPage'
 import { CartPageContainer } from 'src/carts/pages/CartPage'
 import { NewCartPageContainer } from 'src/carts/pages/NewCartPage'
 import { WeekPageContainer } from 'src/weeks/pages/WeekPage'
+import { WeeksPage } from 'src/weeks/pages/WeeksPage'
 
 export const Content = () => {
   return (
@@ -23,6 +24,7 @@ export const Content = () => {
         <Route exact path="/carts" component={CartsPageContainer} />
         <Route exact path="/carts/new" component={NewCartPageContainer} />
         <Route exact path="/carts/:id" component={CartPageContainer} />
+        <Route exact path="/weeks" component={WeeksPage} />
         <Route exact path="/weeks/:year/:week" component={WeekPageContainer} />
       </Switch>
     </div>

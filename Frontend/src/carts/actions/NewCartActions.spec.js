@@ -27,7 +27,7 @@ describe('NewCartActions', () => {
 
     expect(dispatchSpy).toHaveBeenCalledWith({
       type: '@@router/CALL_HISTORY_METHOD',
-      payload: { method: 'push', args: [ `#/carts/${cart.id}` ] },
+      payload: { method: 'push', args: [ `/carts/${cart.id}` ] },
     })
   })
 })
