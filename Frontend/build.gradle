@@ -11,54 +11,27 @@ plugins {
 version '0.0.1-SNAPSHOT'
 
 node {
-    download = true
-}
-
-jar {
-  from('build/dist') {
-    into 'static'
-  }
-
-  includeEmptyDirs = false
-}
-
-node {
   download = true
   version = '10.9.0'
   npmVersion = '6.4.1'
 }
 
-task buildProject(type: Exec) {
-  commandLine "npm", "start"
+task build(type: NpmTask, group: 'build', description: 'Starts the frontend server and watches for changes', dependsOn: 'test') {
+  args = ['run', 'build']
 }
 
-task webpack(type: NodeTask, dependsOn: 'eslint', group: 'build', description: 'Builds the frontend component') {
-  script = project.file('node_modules/.bin/webpack')
+task buildWatch(type: NpmTask, group: 'build', description: 'Starts the frontend server and watches for changes') {
+  args = ['run', 'build:watch']
 }
 
-task webpackWatch(type: NodeTask, dependsOn: 'eslintWatch', group: 'build', description: 'Builds the frontend component and watches for changes') {
-  script = project.file('node_modules/.bin/webpack')
-  args = ['--watch', '--display-error-details']
+task start(type: NpmTask) {
+  args = ['start']
 }
 
-task eslint(type: NodeTask, dependsOn: 'npmInstall', group: 'build', description: 'Executes eslint') {
-  script = project.file('node_modules/.bin/esw')
-  args = ['src']
-}
-
-task eslintWatch(type: NodeTask, dependsOn: 'npmInstall', group: 'build', description: 'Executes eslint and watches for changes') {
-  script = project.file('node_modules/.bin/esw')
-  args = ['src', '--watch']
-}
-
-task testReact(type: NpmTask, dependsOn: 'npmInstall', group: 'Verification', description: 'Runs the tests for React') {
+task test(type: NpmTask, dependsOn: 'npmInstall', group: 'Verification', description: 'Runs the tests for React') {
   args = ['run', 'test']
 }
 
-task testReactWatch(type: NpmTask) {
-  args = ['run', 'testWatch']
+task testWatch(type: NpmTask, dependsOn: 'npmInstall', group: 'Verification', description: 'Runs the tests for React and watches for changes') {
+  args = ['run', 'test:watch']
 }
-
-processResources.dependsOn 'webpack'
-clean.delete << file('build')
-test.dependsOn 'testReact'

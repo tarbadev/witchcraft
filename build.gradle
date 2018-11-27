@@ -1,9 +1,0 @@
-subprojects {
-	apply plugin: 'java'
-}
-
-project(':witchcraft-app') {
-	dependencies {
-		compile project(':frontend')
-	}
-}

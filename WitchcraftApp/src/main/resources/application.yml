@@ -5,8 +5,3 @@ spring:
     url: jdbc:mysql://${DATABASE_HOST:localhost}:3306/${DATABASE_NAME:witchcraft_test}?autoReconnect=true&useSSL=false
     username: ${DATABASE_USERNAME:spring}
     password:
-
-logging.level.org.springframework.web: DEBUG
-
-test-resources:
-  recipe-url: SOME_RECIPE_HTTP_URL

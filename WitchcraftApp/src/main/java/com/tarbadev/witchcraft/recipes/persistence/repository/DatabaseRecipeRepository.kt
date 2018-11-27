@@ -1,0 +1,64 @@
+package com.tarbadev.witchcraft.recipes.persistence.repository
+
+import com.tarbadev.witchcraft.recipes.domain.entity.Recipe
+import com.tarbadev.witchcraft.recipes.domain.repository.RecipeRepository
+import com.tarbadev.witchcraft.recipes.persistence.entity.IngredientEntity
+import com.tarbadev.witchcraft.recipes.persistence.entity.RecipeEntity
+import com.tarbadev.witchcraft.recipes.persistence.entity.StepEntity
+import org.springframework.stereotype.Component
+
+@Component
+class DatabaseRecipeRepository(private val recipeEntityRepository: RecipeEntityRepository) : RecipeRepository {
+
+    override fun saveRecipe(recipe: Recipe): Recipe {
+        return recipeEntityRepository.saveAndFlush(RecipeEntity(recipe)).recipe()
+    }
+
+    override fun updateRecipe(recipe: Recipe): Recipe {
+        val entity = recipeEntityRepository.findById(recipe.id).orElse(null).copy(
+            name = recipe.name,
+            originUrl = recipe.originUrl,
+            imgUrl = recipe.imgUrl,
+            ingredients = recipe.ingredients.map { IngredientEntity(it) },
+            steps = recipe.steps.map { StepEntity(it) }.toSet()
+        )
+        return recipeEntityRepository.saveAndFlush(entity).recipe()
+    }
+
+    override fun findAll(): List<Recipe> {
+        return recipeEntityRepository.findAllByOrderByName().map { it.recipe() }
+    }
+
+    override fun findById(id: Int): Recipe? {
+        return recipeEntityRepository.findById(id)
+            .map { it.recipe() }
+            .orElse(null)
+    }
+
+    override fun delete(id: Int) {
+        recipeEntityRepository.deleteById(id)
+        recipeEntityRepository.flush()
+    }
+
+    override fun setFavorite(id: Int, isFavorite: Boolean): Recipe {
+        val recipe = recipeEntityRepository.findById(id)
+            .get()
+            .copy(favorite = isFavorite)
+            .recipe()
+        recipeEntityRepository.flush()
+
+        return recipe
+    }
+
+    override fun findAllFavorite(): List<Recipe> {
+        return recipeEntityRepository.findAllByFavorite(true).map { it.recipe() }
+    }
+
+    override fun findLastAddedRecipes(): List<Recipe> {
+        return recipeEntityRepository.findTop8ByOrderByIdDesc().map { it.recipe() }
+    }
+
+    override fun existsById(id: Int): Boolean {
+        return recipeEntityRepository.existsById(id)
+    }
+}
