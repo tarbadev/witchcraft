@@ -33,6 +33,7 @@ jobs:
     docker:
       - image: circleci/openjdk:8-jdk
     steps:
+      - checkout
       - attach_workspace:
           at: WitchcraftApp/build/libs
       - run:
@@ -62,7 +63,7 @@ jobs:
             - witchcraft-node-modules-
       - run:
           name: Build
-          command: ./gradlew frontend:build
+          command: ./gradlew frontend:build -PbackendUrl=${BACKEND_DEV_URL}
       - save_cache:
           paths:
             - node_modules
@@ -79,6 +80,7 @@ jobs:
     docker:
       - image: circleci/openjdk:8-jdk
     steps:
+      - checkout
       - attach_workspace:
           at: Frontend/build/dist
       - run:

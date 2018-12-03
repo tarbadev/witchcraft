@@ -22,7 +22,7 @@
   "scripts": {
     "start": "npm-run-all --parallel server lint:watch",
     "server": "webpack-dev-server --env.API_URL=http://localhost:8080 --hot -w --open --color",
-    "build": "./node_modules/.bin/webpack --env",
+    "build": "./node_modules/.bin/webpack",
     "build:watch": "npm run build -- --watch --display-error-details",
     "test": "jest",
     "test:watch": "npm run test -- --watchAll",

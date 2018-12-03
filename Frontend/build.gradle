@@ -17,7 +17,8 @@ node {
 }
 
 task build(type: NpmTask, group: 'build', description: 'Builds the frontend', dependsOn: 'test') {
-  args = ['run', 'build']
+  def backendUrl = project.findProperty('backendUrl') ?: 'http://localhost:8080'
+  args = ['run', 'build', '--', "--env.API_URL=${backendUrl}"]
 }
 
 task buildWatch(type: NpmTask, dependsOn: 'npmInstall', group: 'build', description: 'Builds the frontend and watches for changes') {
