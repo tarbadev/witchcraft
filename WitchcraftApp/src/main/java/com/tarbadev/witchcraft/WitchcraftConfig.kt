@@ -15,6 +15,6 @@ class WitchcraftConfig(
 
     override fun addCorsMappings(registry: CorsRegistry) {
         val corsRegistration = registry.addMapping("/**")
-        corsRegistration.allowedOrigins(allowedOrigin)
+        corsRegistration.allowedOrigins(allowedOrigin).allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE")
     }
 }

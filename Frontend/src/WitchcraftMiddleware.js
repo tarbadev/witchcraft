@@ -16,7 +16,7 @@ export const fetchAction = ({
 export const WitchcraftMiddleware = store => next => (action) => {
   if (action.type === FETCH) {
     const requestOptions = {
-      url: `${process.env.API_URL}/${action.url}`,
+      url: `${process.env.API_URL}${action.url}`,
       method: action.method,
     }
 

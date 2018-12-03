@@ -7,18 +7,20 @@ import javax.persistence.*
 data class RecipeEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Int = 0,
-    val originUrl: String = "",
-    val name: String = "",
-    val imgUrl: String = "",
+    var id: Int = 0,
+    var originUrl: String = "",
+    var name: String = "",
+    var imgUrl: String = "",
     var favorite: Boolean = false,
     @OneToMany(cascade = [CascadeType.ALL])
     @JoinColumn(name = "recipe_id")
     @OrderBy("name ASC")
-    val ingredients: List<IngredientEntity> = emptyList(),
+    var ingredients: List<IngredientEntity> = emptyList(),
     @OneToMany(cascade = [CascadeType.ALL])
     @JoinColumn(name = "recipe_id")
-    val steps: Set<StepEntity> = emptySet()
+    var steps: Set<StepEntity> = emptySet(),
+    @Column(name = "archived", nullable = false)
+    var isArchived: Boolean = false
 ) {
     constructor(recipe: Recipe) : this(
         id = recipe.id,
@@ -27,7 +29,8 @@ data class RecipeEntity(
         imgUrl = recipe.imgUrl,
         favorite = recipe.favorite,
         ingredients = recipe.ingredients.map { IngredientEntity(it) },
-        steps = recipe.steps.map { StepEntity(it) }.toSet()
+        steps = recipe.steps.map { StepEntity(it) }.toSet(),
+        isArchived = recipe.isArchived
     )
 
     fun recipe(): Recipe {
@@ -39,7 +42,8 @@ data class RecipeEntity(
             imgUrl = imgUrl,
             favorite = favorite,
             ingredients = ingredients.map { it.ingredient() },
-            steps = steps.map { it.step() }
+            steps = steps.map { it.step() },
+            isArchived = isArchived
         )
     }
 }

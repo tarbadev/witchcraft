@@ -36,7 +36,7 @@ class DatabaseRecipeRepository(private val recipeEntityRepository: RecipeEntityR
     }
 
     override fun delete(id: Int) {
-        recipeEntityRepository.deleteById(id)
+        recipeEntityRepository.findById(id).get().isArchived = true
         recipeEntityRepository.flush()
     }
 

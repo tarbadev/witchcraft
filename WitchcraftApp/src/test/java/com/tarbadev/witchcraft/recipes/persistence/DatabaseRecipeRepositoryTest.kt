@@ -248,13 +248,13 @@ class DatabaseRecipeRepositoryTest(
 
         entityManager.clear()
 
-        assertNotNull(databaseRecipeRepository.findById(recipeEntity.id))
+        assertFalse(databaseRecipeRepository.findById(recipeEntity.id)!!.isArchived)
 
         databaseRecipeRepository.delete(recipeEntity.id)
 
         entityManager.clear()
 
-        assertNull(databaseRecipeRepository.findById(recipeEntity.id))
+        assertTrue(databaseRecipeRepository.findById(recipeEntity.id)!!.isArchived)
     }
 
     @Test

@@ -8,5 +8,6 @@ data class Recipe (
     val imgUrl: String = "",
     val favorite: Boolean = false,
     val ingredients: List<Ingredient> = emptyList(),
-    val steps: List<Step> = emptyList()
+    val steps: List<Step> = emptyList(),
+    val isArchived: Boolean = false
 )
