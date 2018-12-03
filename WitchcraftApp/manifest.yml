@@ -1,0 +1,9 @@
+applications:
+- name: witchcraft-backend-dev
+  buildpacks:
+  - java_buildpack
+  instances: 1
+  routes:
+  - route: witchcraft-backend-dev.cfapps.io
+  services:
+    - witchcraft-mysql-dev
