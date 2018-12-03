@@ -26,11 +26,14 @@ class DatabaseRecipeRepository(private val recipeEntityRepository: RecipeEntityR
     }
 
     override fun findAll(): List<Recipe> {
-        return recipeEntityRepository.findAllByOrderByName().map { it.recipe() }
+        return recipeEntityRepository.findAllByOrderByName()
+            .filter { !it.isArchived }
+            .map { it.recipe() }
     }
 
     override fun findById(id: Int): Recipe? {
         return recipeEntityRepository.findById(id)
+            .filter { !it.isArchived }
             .map { it.recipe() }
             .orElse(null)
     }
@@ -50,11 +53,15 @@ class DatabaseRecipeRepository(private val recipeEntityRepository: RecipeEntityR
     }
 
     override fun findAllFavorite(): List<Recipe> {
-        return recipeEntityRepository.findAllByFavorite(true).map { it.recipe() }
+        return recipeEntityRepository.findAllByFavorite(true)
+            .filter { !it.isArchived }
+            .map { it.recipe() }
     }
 
     override fun findLastAddedRecipes(): List<Recipe> {
-        return recipeEntityRepository.findTop8ByOrderByIdDesc().map { it.recipe() }
+        return recipeEntityRepository.findTop8ByOrderByIdDesc()
+            .filter { !it.isArchived }
+            .map { it.recipe() }
     }
 
     override fun existsById(id: Int): Boolean {

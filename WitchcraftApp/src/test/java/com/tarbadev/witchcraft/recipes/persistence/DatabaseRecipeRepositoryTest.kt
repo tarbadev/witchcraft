@@ -177,6 +177,35 @@ class DatabaseRecipeRepositoryTest(
     }
 
     @Test
+    fun findAll_returnsOnlyNonArchivedRecipes() {
+        toDomain(
+            entityManager.persist(RecipeEntity(
+                name = "Tartiflette",
+                isArchived = true
+            ))
+        )
+        val pizza = toDomain(
+            entityManager.persist(RecipeEntity(
+                name = "Pizza",
+                isArchived = false
+            ))
+        )
+        toDomain(
+            entityManager.persistAndFlush(RecipeEntity(
+                name = "Burger",
+                isArchived = true
+            ))
+        )
+
+        entityManager.clear()
+
+        val expectedRecipes = Arrays.asList(pizza)
+
+        val recipes = databaseRecipeRepository.findAll()
+        assertEquals(expectedRecipes, recipes)
+    }
+
+    @Test
     fun findById() {
         val recipe = toDomain(
             entityManager.persistAndFlush(RecipeEntity(
@@ -214,6 +243,20 @@ class DatabaseRecipeRepositoryTest(
             recipe.copy(ingredients = recipe.ingredients.sortedBy { it.name }),
             databaseRecipeRepository.findById(recipe.id)
         )
+    }
+
+    @Test
+    fun findById_returnsNullWhenRecipeIsArchived() {
+        val recipe = entityManager.persistAndFlush(
+            RecipeEntity(
+                name = "Recipe 1",
+                isArchived = true
+            )
+        ).recipe()
+
+        entityManager.clear()
+
+        assertNull(databaseRecipeRepository.findById(recipe.id))
     }
 
     private fun toDomain(recipeEntity: RecipeEntity): Recipe {
@@ -292,6 +335,27 @@ class DatabaseRecipeRepositoryTest(
     }
 
     @Test
+    fun findAllFavorite_returnsNonArchivedRecipes() {
+        val recipes = listOf(
+            entityManager.persist(RecipeEntity(favorite = true, isArchived = false)),
+            entityManager.persist(RecipeEntity(favorite = true, isArchived = false)),
+            entityManager.persist(RecipeEntity(favorite = false, isArchived = false)),
+            entityManager.persist(RecipeEntity(favorite = true, isArchived = true)),
+            entityManager.persist(RecipeEntity(favorite = true, isArchived = true)),
+            entityManager.persist(RecipeEntity(favorite = false, isArchived = false)),
+            entityManager.persist(RecipeEntity(favorite = true, isArchived = false)),
+            entityManager.persist(RecipeEntity(favorite = false, isArchived = false))
+        )
+            .filter { it.favorite && !it.isArchived }
+            .map { it.recipe() }
+
+        entityManager.flush()
+        entityManager.clear()
+
+        assertEquals(recipes, databaseRecipeRepository.findAllFavorite())
+    }
+
+    @Test
     fun findLastAddedRecipes() {
         val recipes = listOf(
             entityManager.persist(RecipeEntity(name = "", ingredients = emptyList(), steps = emptySet())),
@@ -314,6 +378,21 @@ class DatabaseRecipeRepositoryTest(
         entityManager.clear()
 
         assertEquals(recipes, databaseRecipeRepository.findLastAddedRecipes())
+    }
+
+    @Test
+    fun findLastAddedRecipes_returnsNonArchivedRecipes() {
+        val recipes = listOf(
+            entityManager.persist(RecipeEntity(isArchived = true)),
+            entityManager.persist(RecipeEntity(isArchived = false)),
+            entityManager.persist(RecipeEntity(isArchived = false)),
+            entityManager.persist(RecipeEntity(isArchived = false))
+        )
+
+        entityManager.flush()
+        entityManager.clear()
+
+        assertEquals(recipes.size - 1, databaseRecipeRepository.findLastAddedRecipes().size)
     }
 
     @Test
