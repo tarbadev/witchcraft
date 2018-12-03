@@ -20,11 +20,11 @@ task build(type: NpmTask, group: 'build', description: 'Builds the frontend', de
   args = ['run', 'build']
 }
 
-task buildWatch(type: NpmTask, group: 'build', description: 'Builds the frontend and watches for changes') {
+task buildWatch(type: NpmTask, dependsOn: 'npmInstall', group: 'build', description: 'Builds the frontend and watches for changes') {
   args = ['run', 'build:watch']
 }
 
-task start(type: NpmTask, group: 'Application', description: 'Starts the frontend server and watches for changes') {
+task start(type: NpmTask, dependsOn: 'npmInstall', group: 'Application', description: 'Starts the frontend server and watches for changes') {
   args = ['start']
 }
 

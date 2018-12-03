@@ -267,7 +267,7 @@ class DatabaseRecipeRepositoryTest(
         databaseRecipeRepository.setFavorite(recipe.id, true)
         entityManager.clear()
 
-        assertFalse(databaseRecipeRepository.findById(recipe.id)!!.favorite)
+        assertTrue(databaseRecipeRepository.findById(recipe.id)!!.favorite)
     }
 
     @Test

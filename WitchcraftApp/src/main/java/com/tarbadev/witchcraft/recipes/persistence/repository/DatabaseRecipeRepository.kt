@@ -41,13 +41,12 @@ class DatabaseRecipeRepository(private val recipeEntityRepository: RecipeEntityR
     }
 
     override fun setFavorite(id: Int, isFavorite: Boolean): Recipe {
-        val recipe = recipeEntityRepository.findById(id)
-            .get()
-            .copy(favorite = isFavorite)
-            .recipe()
+        val recipeEntity = recipeEntityRepository.findById(id).get()
+        recipeEntity.favorite = isFavorite
+
         recipeEntityRepository.flush()
 
-        return recipe
+        return recipeEntity.recipe()
     }
 
     override fun findAllFavorite(): List<Recipe> {
