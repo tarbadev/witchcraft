@@ -24,11 +24,17 @@ jobs:
         key: witchcraft-app-{{ checksum "WitchcraftApp/build.gradle" }}
     - store_test_results:
         path: WitchcraftApp/build/test-results
+    - persist_to_workspace:
+        root: build/libs
+        paths:
+          - witchcraft-app-0.0.1-SNAPSHOT.jar
   deploy_backend_dev:
     working_directory: ~/witchcraft
       docker:
           - image: circleci/openjdk:8-jdk
     steps:
+      - attach_workspace:
+          at: build/libs
       - run:
           name: Setup CF cli
           command: |
@@ -63,14 +69,59 @@ jobs:
         key: witchcraft-node-modules-{{ checksum "package-lock.json" }}
     - store_test_results:
         path: Frontend/build/test-results
+    - persist_to_workspace:
+        root: build/dist
+        paths:
+          - bundle.js
+          - index.html
+  deploy_frontend_dev:
+    working_directory: ~/witchcraft
+      docker:
+          - image: circleci/openjdk:8-jdk
+    steps:
+      - attach_workspace:
+          at: build/dist
+      - run:
+          name: Setup CF cli
+          command: |
+            curl -v -L -o cf-cli_amd64.deb 'https://cli.run.pivotal.io/stable?release=debian64&source=github'
+            sudo dpkg -i cf-cli_amd64.deb
+            cf -v
+            cf api https://api.run.pivotal.io
+            cf auth "$CF_USER" "$CF_PASSWORD"
+            cf target -o "$CF_ORG" -s "$CF_SPACE"
+      - run:
+          name: Deploy to dev
+          command: |
+            cd Frontend
+            cf push
 
 
 workflows:
   version: 2
   build:
     jobs:
-      - build_backend
+      - build_backend:
+          filters:
+            branches:
+              only:
+                - master
       - deploy_backend_dev:
+          filters:
+            branches:
+              only:
+                - master
           requires:
             - build_backend
-      - build_frontend
+      - build_frontend:
+          filters:
+            branches:
+              only:
+                - master
+      - deploy_frontend_dev:
+          filters:
+            branches:
+              only:
+                - master
+          requires:
+            - build_frontend

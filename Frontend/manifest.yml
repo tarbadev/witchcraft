@@ -1,0 +1,9 @@
+applications:
+- name: witchcraft-frontend-dev
+  path: build/dist
+  buildpack: staticfile_buildpack
+  instances: 1
+  routes:
+  - route: witchcraft-frontend-dev.cfapps.io
+  env:
+    API_URL: witchcraft-backend-dev.cfapps.io

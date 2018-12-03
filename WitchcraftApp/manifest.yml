@@ -1,5 +1,6 @@
 applications:
 - name: witchcraft-backend-dev
+  path: build/libs/witchcraft-app-0.0.1-SNAPSHOT.jar
   buildpacks:
   - java_buildpack
   instances: 1
@@ -7,3 +8,5 @@ applications:
   - route: witchcraft-backend-dev.cfapps.io
   services:
     - witchcraft-mysql-dev
+  env:
+    FRONTEND_URL: witchcraft-frontend-dev.cfapps.io
