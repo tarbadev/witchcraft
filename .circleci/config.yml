@@ -3,35 +3,35 @@ jobs:
   build_backend:
     working_directory: ~/witchcraft
     docker:
-    - image: circleci/openjdk:8-jdk
-    - image: circleci/mysql
+      - image: circleci/openjdk:8-jdk
+      - image: circleci/mysql
     steps:
-    - checkout
-    - restore_cache:
-       keys:
-       - witchcraft-app-{{ checksum "WitchcraftApp/build.gradle" }}
-       - witchcraft-app-
-    - run:
-        name: Build
-        command: |
-          DATABASE_NAME=circle_test \
-          DATABASE_USERNAME=root \
-          DATABASE_HOST=127.0.0.1 \
-          ./gradlew witchcraft-app:build
-    - save_cache:
-        paths:
-        - .gradle
-        key: witchcraft-app-{{ checksum "WitchcraftApp/build.gradle" }}
-    - store_test_results:
-        path: WitchcraftApp/build/test-results
-    - persist_to_workspace:
-        root: build/libs
-        paths:
-          - witchcraft-app-0.0.1-SNAPSHOT.jar
+      - checkout
+      - restore_cache:
+          keys:
+            - witchcraft-app-{{ checksum "WitchcraftApp/build.gradle" }}
+            - witchcraft-app-
+      - run:
+          name: Build
+          command: |
+            DATABASE_NAME=circle_test \
+            DATABASE_USERNAME=root \
+            DATABASE_HOST=127.0.0.1 \
+            ./gradlew witchcraft-app:build
+      - save_cache:
+          paths:
+            - .gradle
+          key: witchcraft-app-{{ checksum "WitchcraftApp/build.gradle" }}
+      - store_test_results:
+          path: WitchcraftApp/build/test-results
+      - persist_to_workspace:
+          root: build/libs
+          paths:
+            - witchcraft-app-0.0.1-SNAPSHOT.jar
   deploy_backend_dev:
     working_directory: ~/witchcraft
     docker:
-        - image: circleci/openjdk:8-jdk
+      - image: circleci/openjdk:8-jdk
     steps:
       - attach_workspace:
           at: build/libs
@@ -44,40 +44,40 @@ jobs:
             cf api https://api.run.pivotal.io
             cf auth "$CF_USER" "$CF_PASSWORD"
             cf target -o "$CF_ORG" -s "$CF_SPACE"
-     - run:
-         name: Deploy to dev
-         command: |
-           cd WitchcraftApp
-           cf push
+      - run:
+          name: Deploy to dev
+          command: |
+            cd WitchcraftApp
+            cf push
 
   build_frontend:
     working_directory: ~/witchcraft
     docker:
-    - image: circleci/openjdk:8-jdk
+      - image: circleci/openjdk:8-jdk
     steps:
-    - checkout
-    - restore_cache:
-       keys:
-       - witchcraft-node-modules-{{ checksum "package-lock.json" }}
-       - witchcraft-node-modules-
-    - run:
-        name: Build
-        command: ./gradlew frontend:build
-    - save_cache:
-        paths:
-        - node_modules
-        key: witchcraft-node-modules-{{ checksum "package-lock.json" }}
-    - store_test_results:
-        path: Frontend/build/test-results
-    - persist_to_workspace:
-        root: build/dist
-        paths:
-          - bundle.js
-          - index.html
+      - checkout
+      - restore_cache:
+          keys:
+            - witchcraft-node-modules-{{ checksum "package-lock.json" }}
+            - witchcraft-node-modules-
+      - run:
+          name: Build
+          command: ./gradlew frontend:build
+      - save_cache:
+          paths:
+            - node_modules
+          key: witchcraft-node-modules-{{ checksum "package-lock.json" }}
+      - store_test_results:
+          path: Frontend/build/test-results
+      - persist_to_workspace:
+          root: build/dist
+          paths:
+            - bundle.js
+            - index.html
   deploy_frontend_dev:
     working_directory: ~/witchcraft
     docker:
-        - image: circleci/openjdk:8-jdk
+      - image: circleci/openjdk:8-jdk
     steps:
       - attach_workspace:
           at: build/dist
