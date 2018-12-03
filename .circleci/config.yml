@@ -30,8 +30,8 @@ jobs:
           - witchcraft-app-0.0.1-SNAPSHOT.jar
   deploy_backend_dev:
     working_directory: ~/witchcraft
-      docker:
-          - image: circleci/openjdk:8-jdk
+    docker:
+        - image: circleci/openjdk:8-jdk
     steps:
       - attach_workspace:
           at: build/libs
@@ -76,8 +76,8 @@ jobs:
           - index.html
   deploy_frontend_dev:
     working_directory: ~/witchcraft
-      docker:
-          - image: circleci/openjdk:8-jdk
+    docker:
+        - image: circleci/openjdk:8-jdk
     steps:
       - attach_workspace:
           at: build/dist
