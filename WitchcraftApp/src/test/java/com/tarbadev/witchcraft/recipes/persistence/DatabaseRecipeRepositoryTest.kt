@@ -291,13 +291,13 @@ class DatabaseRecipeRepositoryTest(
 
         entityManager.clear()
 
-        assertFalse(databaseRecipeRepository.findById(recipeEntity.id)!!.isArchived)
+        assertFalse(entityManager.find(RecipeEntity::class.java, recipeEntity.id)!!.isArchived)
 
         databaseRecipeRepository.delete(recipeEntity.id)
 
         entityManager.clear()
 
-        assertTrue(databaseRecipeRepository.findById(recipeEntity.id)!!.isArchived)
+        assertTrue(entityManager.find(RecipeEntity::class.java, recipeEntity.id)!!.isArchived)
     }
 
     @Test
@@ -316,22 +316,23 @@ class DatabaseRecipeRepositoryTest(
     @Test
     fun findAllFavorite() {
         val recipes = listOf(
-            entityManager.persist(RecipeEntity(name = "", ingredients = emptyList(), steps = emptySet(), favorite = true)),
-            entityManager.persist(RecipeEntity(name = "", ingredients = emptyList(), steps = emptySet(), favorite = true)),
-            entityManager.persist(RecipeEntity(name = "", ingredients = emptyList(), steps = emptySet(), favorite = false)),
-            entityManager.persist(RecipeEntity(name = "", ingredients = emptyList(), steps = emptySet(), favorite = true)),
-            entityManager.persist(RecipeEntity(name = "", ingredients = emptyList(), steps = emptySet(), favorite = true)),
-            entityManager.persist(RecipeEntity(name = "", ingredients = emptyList(), steps = emptySet(), favorite = false)),
-            entityManager.persist(RecipeEntity(name = "", ingredients = emptyList(), steps = emptySet(), favorite = true)),
-            entityManager.persist(RecipeEntity(name = "", ingredients = emptyList(), steps = emptySet(), favorite = false))
+            entityManager.persist(RecipeEntity(favorite = true)),
+            entityManager.persist(RecipeEntity(favorite = true)),
+            entityManager.persist(RecipeEntity(favorite = false)),
+            entityManager.persist(RecipeEntity(favorite = true)),
+            entityManager.persist(RecipeEntity(favorite = true)),
+            entityManager.persist(RecipeEntity(favorite = false)),
+            entityManager.persist(RecipeEntity(favorite = true)),
+            entityManager.persist(RecipeEntity(favorite = false))
         )
             .filter { it.favorite }
             .map { it.recipe() }
+            .sortedBy { it.id }
 
         entityManager.flush()
         entityManager.clear()
 
-        assertEquals(recipes, databaseRecipeRepository.findAllFavorite())
+        assertEquals(recipes, databaseRecipeRepository.findAllFavorite().sortedBy { it.id })
     }
 
     @Test
@@ -348,11 +349,12 @@ class DatabaseRecipeRepositoryTest(
         )
             .filter { it.favorite && !it.isArchived }
             .map { it.recipe() }
+            .sortedBy { it.id }
 
         entityManager.flush()
         entityManager.clear()
 
-        assertEquals(recipes, databaseRecipeRepository.findAllFavorite())
+        assertEquals(recipes, databaseRecipeRepository.findAllFavorite().sortedBy { it.id })
     }
 
     @Test
