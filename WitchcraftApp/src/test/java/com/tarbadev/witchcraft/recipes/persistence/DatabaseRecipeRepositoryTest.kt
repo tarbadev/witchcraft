@@ -31,6 +31,8 @@ class DatabaseRecipeRepositoryTest(
 
     @BeforeEach
     fun setUp() {
+        recipeEntityRepository.deleteAll()
+
         databaseRecipeRepository = DatabaseRecipeRepository(recipeEntityRepository)
     }
 

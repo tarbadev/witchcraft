@@ -3,10 +3,10 @@ package com.tarbadev.witchcraft.recipes.persistence.entity
 import com.tarbadev.witchcraft.recipes.domain.entity.Recipe
 import javax.persistence.*
 
-@Entity(name = "recipes")
+@Entity(name = "recipe")
 data class RecipeEntity(
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Int = 0,
     val originUrl: String = "",
     val name: String = "",

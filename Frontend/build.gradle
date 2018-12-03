@@ -16,15 +16,15 @@ node {
   npmVersion = '6.4.1'
 }
 
-task build(type: NpmTask, group: 'build', description: 'Starts the frontend server and watches for changes', dependsOn: 'test') {
+task build(type: NpmTask, group: 'build', description: 'Builds the frontend', dependsOn: 'test') {
   args = ['run', 'build']
 }
 
-task buildWatch(type: NpmTask, group: 'build', description: 'Starts the frontend server and watches for changes') {
+task buildWatch(type: NpmTask, group: 'build', description: 'Builds the frontend and watches for changes') {
   args = ['run', 'build:watch']
 }
 
-task start(type: NpmTask) {
+task start(type: NpmTask, group: 'Application', description: 'Starts the frontend server and watches for changes') {
   args = ['start']
 }
 

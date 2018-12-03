@@ -6,16 +6,21 @@ import org.hibernate.annotations.CreationTimestamp
 import java.time.LocalDateTime
 import javax.persistence.*
 
-@Entity(name = "carts")
+@Entity(name = "cart")
 data class CartEntity(
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Int = 0,
 
     @CreationTimestamp
     var createdAt: LocalDateTime = LocalDateTime.now(),
 
     @ManyToMany(cascade = [CascadeType.MERGE])
+    @JoinTable(
+        name = "cart_recipe",
+        joinColumns = [JoinColumn(name = "cart_id")],
+        inverseJoinColumns = [JoinColumn(name = "recipe_id")]
+    )
     val recipes: Set<RecipeEntity> = emptySet(),
 
     @OneToMany(cascade = [CascadeType.ALL])

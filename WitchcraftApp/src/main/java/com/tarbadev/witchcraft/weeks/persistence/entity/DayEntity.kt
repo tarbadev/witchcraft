@@ -5,10 +5,10 @@ import com.tarbadev.witchcraft.weeks.domain.entity.Day
 import com.tarbadev.witchcraft.weeks.domain.entity.DayName
 import javax.persistence.*
 
-@Entity(name = "days")
+@Entity(name = "day")
 data class DayEntity(
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private val id: Int = 0,
     private val name: String = "",
     @ManyToOne

@@ -26,11 +26,13 @@ class DatabaseWeekRepositoryTest(
     @Autowired private val weekEntityRepository: WeekEntityRepository,
     @Autowired private val entityManager: TestEntityManager
 ) {
-    private lateinit var subject: DatabaseWeekRepository
+    private lateinit var databaseWeekRepository: DatabaseWeekRepository
 
     @BeforeEach
     fun setUp() {
-        subject = DatabaseWeekRepository(weekEntityRepository)
+        weekEntityRepository.deleteAll()
+
+        databaseWeekRepository = DatabaseWeekRepository(weekEntityRepository)
     }
 
     @Test
@@ -45,14 +47,14 @@ class DatabaseWeekRepositoryTest(
 
         entityManager.clear()
 
-        assertEquals(week, subject.findByYearAndWeekNumber(2018, 24))
+        assertEquals(week, databaseWeekRepository.findByYearAndWeekNumber(2018, 24))
     }
 
     @Test
     fun save() {
         assertEquals(0, weekEntityRepository.count())
 
-        subject.save(Week(days = emptyList()))
+        databaseWeekRepository.save(Week(days = emptyList()))
 
         assertEquals(1, weekEntityRepository.count())
     }
@@ -124,10 +126,10 @@ class DatabaseWeekRepositoryTest(
                 )
             ))
 
-        subject.save(week)
+        databaseWeekRepository.save(week)
         entityManager.clear()
 
-        val returnedWeek = subject.findByYearAndWeekNumber(week.year, week.weekNumber)
+        val returnedWeek = databaseWeekRepository.findByYearAndWeekNumber(week.year, week.weekNumber)
         val weekDomain = Week(
             id = returnedWeek!!.id,
             year = 2018,
@@ -165,10 +167,10 @@ class DatabaseWeekRepositoryTest(
             )
         )
 
-        subject.save(updatedWeek)
+        databaseWeekRepository.save(updatedWeek)
         entityManager.clear()
 
-        val returnedUpdatedWeek = subject.findByYearAndWeekNumber(updatedWeek.year, updatedWeek.weekNumber)
+        val returnedUpdatedWeek = databaseWeekRepository.findByYearAndWeekNumber(updatedWeek.year, updatedWeek.weekNumber)
         val updatedWeekDomain = Week(
             id = returnedWeek.id,
             year = 2018,

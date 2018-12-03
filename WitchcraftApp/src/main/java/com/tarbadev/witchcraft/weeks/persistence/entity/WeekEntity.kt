@@ -3,10 +3,10 @@ package com.tarbadev.witchcraft.weeks.persistence.entity
 import com.tarbadev.witchcraft.weeks.domain.entity.Week
 import javax.persistence.*
 
-@Entity(name = "weeks")
+@Entity(name = "week")
 data class WeekEntity(
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private val id: Int = 0,
     private val year: Int = 0,
     private val weekNumber: Int = 0,
@@ -26,7 +26,7 @@ data class WeekEntity(
             id = id,
             weekNumber = weekNumber,
             year = year,
-            days = days.map { it.day() }
+            days = days.map { it.day() }.sortedBy { it.name }
         )
     }
 }

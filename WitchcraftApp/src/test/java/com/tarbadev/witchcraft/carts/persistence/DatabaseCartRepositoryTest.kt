@@ -9,26 +9,33 @@ import com.tarbadev.witchcraft.carts.persistence.repository.DatabaseCartReposito
 import com.tarbadev.witchcraft.recipes.persistence.entity.IngredientEntity
 import com.tarbadev.witchcraft.recipes.persistence.entity.RecipeEntity
 import org.hibernate.validator.internal.util.CollectionHelper.asSet
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager
+import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import java.util.*
 import java.util.Arrays.asList
 
 @ExtendWith(SpringExtension::class)
 @DataJpaTest
-//@AutoConfigureTestDatabase
-//@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-//@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class DatabaseCartRepositoryTest(
     @Autowired private val entityManager: TestEntityManager,
     @Autowired private val cartEntityRepository: CartEntityRepository
 ) {
     private var databaseCartRepository: DatabaseCartRepository = DatabaseCartRepository(cartEntityRepository)
+
+    @BeforeEach
+    fun setup() {
+        cartEntityRepository.deleteAll()
+    }
 
     @Test
     fun findAll() {

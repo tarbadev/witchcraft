@@ -18,7 +18,6 @@ class WeekRestController(private val weekFromYearAndWeekNumberUseCase: WeekFromY
 
     @PostMapping("/{year}/{weekNumber}")
     fun saveWeek(@PathVariable year: Int?, @PathVariable weekNumber: Int?, @RequestBody week: Week): ResponseEntity<Any> {
-        println("week = ${week}")
         return if (week.weekNumber == weekNumber && week.year == year) {
             ResponseEntity.ok(saveWeekUseCase.execute(week))
         } else ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null)
