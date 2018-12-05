@@ -2,6 +2,20 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
+  "main": "src/index.js",
+  "scripts": {
+    "start": "npm-run-all --parallel server lint:watch",
+    "server": "webpack-dev-server --env.API_URL=http://localhost:8080 --hot -w --open --color",
+    "build": "npm-run-all --parallel lint compile",
+    "build:watch": "npm-run-all --parallel lint:watch compile:watch",
+    "compile": "./node_modules/.bin/webpack",
+    "compile:watch": "npm run compile -- --watch",
+    "test": "jest",
+    "test:watch": "npm run test -- --watchAll",
+    "eject": "react-scripts eject",
+    "lint": "esw src",
+    "lint:watch": "npm run lint -- --watch"
+  },
   "dependencies": {
     "@material-ui/core": "^3.0.0",
     "@material-ui/icons": "^3.0.1",
@@ -17,18 +31,6 @@
     "redux-thunk": "2.3.0",
     "updeep": "1.0.0",
     "weeknumber": "^1.1.1"
-  },
-  "main": "src/index.js",
-  "scripts": {
-    "start": "npm-run-all --parallel server lint:watch",
-    "server": "webpack-dev-server --env.API_URL=http://localhost:8080 --hot -w --open --color",
-    "build": "./node_modules/.bin/webpack",
-    "build:watch": "npm run build -- --watch --display-error-details",
-    "test": "jest",
-    "test:watch": "npm run test -- --watchAll",
-    "eject": "react-scripts eject",
-    "lint": "esw src",
-    "lint:watch": "npm run lint -- --watch"
   },
   "devDependencies": {
     "@babel/core": "^7.1.6",

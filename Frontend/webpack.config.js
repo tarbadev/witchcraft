@@ -14,10 +14,12 @@ const htmlWebpackPlugin = new HtmlWebpackPlugin({
 })
 
 module.exports = env => {
-    const envKeys = Object.keys(env).reduce((prev, next) => {
-        prev[`process.env.${next}`] = JSON.stringify(env[next]);
-        return prev;
-      }, {});
+    const envKeys = env
+        ? Object.keys(env).reduce((prev, next) => {
+            prev[`process.env.${next}`] = JSON.stringify(env[next]);
+            return prev;
+          }, {})
+        : {};
 
     return {
       mode: 'development',
@@ -55,6 +57,10 @@ module.exports = env => {
           {
             test: /\.css$/,
             loader: [ 'style-loader', 'css-loader' ]
+          },
+          {
+            test: /\.(jpg|png|gif|svg|ico)$/,
+            loader: [ 'url-loader' ]
           }
         ]
       },
@@ -68,6 +74,7 @@ module.exports = env => {
         new CleanWebpackPlugin(['build/dist']),
         new HtmlWebpackPlugin({
           title: 'Witchcraft',
+          favicon: SRC + '/images/favicon.ico',
           templateContent: '<div id="react"></div>',
         }),
         new webpack.DefinePlugin(envKeys)
