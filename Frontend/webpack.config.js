@@ -7,12 +7,6 @@ const SRC = path.resolve(__dirname, 'src')
 const TEST_RESOURCES = path.resolve(__dirname, 'test_resources')
 const DEST = path.resolve(__dirname, 'build/dist')
 
-
-const htmlWebpackPlugin = new HtmlWebpackPlugin({
-  template: './src/index.html',
-  filename: './index.html'
-})
-
 module.exports = env => {
     const envKeys = env
         ? Object.keys(env).reduce((prev, next) => {
@@ -37,7 +31,7 @@ module.exports = env => {
       output: {
         path: DEST,
         filename: 'bundle.js',
-        publicPath: '/'
+        publicPath: ''
       },
       module: {
         rules: [
@@ -57,10 +51,6 @@ module.exports = env => {
           {
             test: /\.css$/,
             loader: [ 'style-loader', 'css-loader' ]
-          },
-          {
-            test: /\.(jpg|png|gif|svg|ico)$/,
-            loader: [ 'url-loader' ]
           }
         ]
       },
