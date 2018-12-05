@@ -75,6 +75,7 @@ jobs:
           paths:
             - bundle.js
             - index.html
+            - favicon.ico
   deploy_frontend_dev:
     working_directory: ~/witchcraft
     docker:
