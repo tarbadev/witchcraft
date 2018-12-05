@@ -66,7 +66,7 @@ class GetRecipeDetailsFromUrlUseCase(
 
     private fun getImgUrl(html: Document): String {
         val imgUrl = html.select("div.recipe-thumbnail img")
-        return imgUrl.attr("src")
+        return imgUrl.attr("data-lazy-src")
     }
 
     private fun getStepsFromHtml(html: Document): List<Step> {
