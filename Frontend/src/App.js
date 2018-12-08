@@ -11,10 +11,10 @@ export const App = () => {
     <Grid container spacing={24} justify='center'>
       <CssBaseline />
       <Grid item xs={10} className={styles.header}>
-        <Header/>
+        <Header />
       </Grid>
       <Grid item xs={10}>
-        <Content/>
+        <Content />
       </Grid>
     </Grid>
   )

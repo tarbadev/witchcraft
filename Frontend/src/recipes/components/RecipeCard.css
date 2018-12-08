@@ -1,27 +1,27 @@
 @import url('https://fonts.googleapis.com/css?family=Lato');
 
 :local(.cardMedia) {
-   height: 200px;
+    height: 200px;
 }
 
 :local(.cardHeaderRoot) {
-  padding: 1em;
+    padding: 1em;
 }
 
 :local(.cardHeaderTitle) {
-  font-size: 1.28em !important;
-  line-height: 1.28em !important;
-  text-transform: capitalize;
-  font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif !important;
-  color: rgba(0,0,0,.85) !important;
-  font-weight: 700 !important;
+    font-size: 1.28em !important;
+    line-height: 1.28em !important;
+    text-transform: capitalize;
+    font-family: Lato, 'Helvetica Neue', Arial, Helvetica, sans-serif !important;
+    color: rgba(0, 0, 0, .85) !important;
+    font-weight: 700 !important;
 }
 
 :local(.recipeCard) {
-  cursor: pointer;
-  transition: transform .1s ease;
+    cursor: pointer;
+    transition: transform .1s ease;
 }
 
 :local(.recipeCard:hover) {
-  transform: translateY(-3px);
+    transform: translateY(-3px);
 }

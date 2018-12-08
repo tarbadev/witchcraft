@@ -22,6 +22,6 @@ export const saveWeek = week => dispatch => {
       method: 'POST',
       body: week,
       onSuccess: saveWeekSuccess,
-    }
+    },
   ))
 }

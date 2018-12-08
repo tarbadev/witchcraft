@@ -6,7 +6,7 @@ import Grid from '@material-ui/core/Grid'
 
 import styles from 'src/recipes/components/Step.css'
 
-export const Step = ({number, step}) => {
+export const Step = ({ number, step }) => {
   return (
     <Paper elevation={1} className={styles.paper}>
       <Grid container>

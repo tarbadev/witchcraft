@@ -36,7 +36,7 @@ export const RecipeListModal = ({
       ? <CheckCircleIcon className={className} />
       : undefined
     return (
-      <GridListTile key={recipe.imgUrl} className={styles.recipeCard} onClick={onClick} >
+      <GridListTile key={recipe.imgUrl} className={styles.recipeCard} onClick={onClick}>
         <img src={recipe.imgUrl} alt={recipe.name} />
         <GridListTileBar title={recipe.name} className={styles.recipeCardTitle} />
         {currentRecipeIcon && currentRecipeIcon}
@@ -50,12 +50,12 @@ export const RecipeListModal = ({
       aria-describedby="simple-modal-description"
       open={isModalOpen}
       onClose={closeModal}
-      disableAutoFocus={true} >
+      disableAutoFocus={true}>
       <Grid container justify='center' alignItems='center' direction='row' className={styles.modal}>
         <Grid item xs={10}>
           <Paper>
             <GridList cellHeight={180} cols={4}>
-              <GridListTile key="Subheader" cols={4} className={styles.recipeCardsTitle} >
+              <GridListTile key="Subheader" cols={4} className={styles.recipeCardsTitle}>
                 <ListSubheader component="div">
                   Choose a recipe for <span className={styles.day}>{day}</span>{'\''}s {meal}
                 </ListSubheader>

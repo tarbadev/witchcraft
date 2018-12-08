@@ -21,9 +21,9 @@ export const WeekRecipeCell = ({ recipe, onCellClick }) => {
     <TableCell className={classes} onClick={onCellClick}>
       {onCellClick && <div className='hover-mask' />}
       {(recipe && recipe.name) &&
-        <RecipePaper>
-          <Typography variant='subheading'>{recipe.name}</Typography>
-        </RecipePaper>
+      <RecipePaper>
+        <Typography variant='subheading'>{recipe.name}</Typography>
+      </RecipePaper>
       }
     </TableCell>
   )

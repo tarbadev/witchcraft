@@ -16,7 +16,7 @@ export const CartsPage = ({
 
   const cartList = carts.map(cart => (
     <Grid item xs={12} key={cart.id}>
-      <Link to={`/carts/${cart.id}`} >{cart.createdAt}</Link>
+      <Link to={`/carts/${cart.id}`}>{cart.createdAt}</Link>
     </Grid>
   ))
 
@@ -39,13 +39,12 @@ CartsPage.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    carts: state.carts
+    carts: state.carts,
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({
-  }, dispatch)
+  return bindActionCreators({}, dispatch)
 }
 
 export const CartsPageContainer = connect(mapStateToProps, mapDispatchToProps)(CartsPage)

@@ -6,7 +6,7 @@ import { CartsPage } from './CartsPage'
 describe('CartsPage', () => {
   it('redirects to new Cart Page when new Cart Button is clicked', () => {
     const pushSpy = jest.fn()
-    const cartsPage = shallow(<CartsPage history={{push: pushSpy}} carts={[]} />)
+    const cartsPage = shallow(<CartsPage history={{ push: pushSpy }} carts={[]} />)
 
     cartsPage.find('.cart-page__new-cart-button').simulate('click')
 

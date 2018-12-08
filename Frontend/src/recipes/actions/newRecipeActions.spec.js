@@ -1,23 +1,23 @@
-import {formInputChange, submitForm, submitFormSuccess} from 'src/recipes/actions/NewRecipeActions'
+import { formInputChange, submitForm, submitFormSuccess } from 'src/recipes/actions/NewRecipeActions'
 
 describe('newRecipeActions', () => {
-  describe('formInputChange', function() {
+  describe('formInputChange', function () {
     it('updates the state when called', () => {
       const dispatchSpy = jest.fn()
       const url = 'fakeUrl'
 
       formInputChange('url', url)(dispatchSpy)
 
-      expect(dispatchSpy).toHaveBeenCalledWith({type: 'SET_STATE', key: 'newRecipe.forms.url', payload: url})
+      expect(dispatchSpy).toHaveBeenCalledWith({ type: 'SET_STATE', key: 'newRecipe.forms.url', payload: url })
     })
   })
 
-  describe('submitForm', function() {
+  describe('submitForm', function () {
     it('submits the form when called', () => {
       const dispatchSpy = jest.fn()
       const url = '/api/recipes/importFromUrl'
       const form = {
-        url: 'fakeUrl'
+        url: 'fakeUrl',
       }
 
       submitForm(url, form)(dispatchSpy)
@@ -33,13 +33,13 @@ describe('newRecipeActions', () => {
     })
   })
 
-  describe('submitFormSuccess', function() {
+  describe('submitFormSuccess', function () {
     it('saves the recipeAdded state', () => {
       const dispatchSpy = jest.fn()
 
       submitFormSuccess()(dispatchSpy)
 
-      expect(dispatchSpy).toHaveBeenCalledWith({type: 'SET_STATE', key: 'newRecipe.forms.recipeAdded', payload: true})
+      expect(dispatchSpy).toHaveBeenCalledWith({ type: 'SET_STATE', key: 'newRecipe.forms.recipeAdded', payload: true })
     })
   })
 })

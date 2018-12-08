@@ -1,12 +1,13 @@
 import React from 'react'
-import {shallow} from 'enzyme'
+import { shallow } from 'enzyme'
 
 import { RecipePage } from './RecipePage'
 
 import promisedRecipeList from 'test-resources/recipeList.json'
+
 const promisedRecipe = promisedRecipeList.recipes[0]
 
-describe('RecipePage', function() {
+describe('RecipePage', function () {
   const toggleFavoriteSpy = jest.fn()
   describe('setFavorite', () => {
     it('calls setFavorite on FavoriteIcon click', () => {
@@ -20,7 +21,9 @@ describe('RecipePage', function() {
   describe('onModifyButtonClick', () => {
     it('calls history.push when Modify button clicked', () => {
       const pushSpy = jest.fn()
-      const recipePage = shallow(<RecipePage toggleFavorite={toggleFavoriteSpy} history={{push: pushSpy}} recipe={promisedRecipe} />)
+      const recipePage = shallow(
+        <RecipePage toggleFavorite={toggleFavoriteSpy} history={{ push: pushSpy }} recipe={promisedRecipe} />,
+      )
 
       recipePage.find('.modifyButton').simulate('click')
 
@@ -31,7 +34,9 @@ describe('RecipePage', function() {
   describe('deleteRecipe', () => {
     it('calls deleteRecipe when Delete button clicked', () => {
       const deleteRecipeSpy = jest.fn()
-      const recipePage = shallow(<RecipePage toggleFavorite={toggleFavoriteSpy} deleteRecipe={deleteRecipeSpy} recipe={promisedRecipe} />)
+      const recipePage = shallow(
+        <RecipePage toggleFavorite={toggleFavoriteSpy} deleteRecipe={deleteRecipeSpy} recipe={promisedRecipe} />,
+      )
 
       recipePage.find('.deleteButton').simulate('click')
 

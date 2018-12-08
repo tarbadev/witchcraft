@@ -76,7 +76,7 @@ export const WeekPage = ({
             className='week-page__save-button'
             variant='contained'
             color='primary'
-            onClick={() => onSaveClick(week)} >
+            onClick={() => onSaveClick(week)}>
             Save
           </Button>
         </Grid>
@@ -85,7 +85,7 @@ export const WeekPage = ({
             className='week-page__create-cart-button'
             variant='contained'
             color='primary'
-            onClick={onCreateCartClick} >
+            onClick={onCreateCartClick}>
             Create Cart
           </Button>
         </Grid>

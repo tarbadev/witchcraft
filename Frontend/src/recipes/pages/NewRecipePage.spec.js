@@ -13,12 +13,12 @@ describe('NewRecipePage', function () {
     const ingredients = 'ingredients'
     const steps = 'steps'
 
-    newRecipe.find('.auto__url').simulate('change', {target: {value: url }})
-    newRecipe.find('.manual__name').simulate('change', {target: {value: name }})
-    newRecipe.find('.manual__url').simulate('change', {target: {value: url }})
-    newRecipe.find('.manual__imageUrl').simulate('change', {target: {value: imageUrl }})
-    newRecipe.find('.manual__ingredients').simulate('change', {target: {value: ingredients }})
-    newRecipe.find('.manual__steps').simulate('change', {target: {value: steps }})
+    newRecipe.find('.auto__url').simulate('change', { target: { value: url } })
+    newRecipe.find('.manual__name').simulate('change', { target: { value: name } })
+    newRecipe.find('.manual__url').simulate('change', { target: { value: url } })
+    newRecipe.find('.manual__imageUrl').simulate('change', { target: { value: imageUrl } })
+    newRecipe.find('.manual__ingredients').simulate('change', { target: { value: ingredients } })
+    newRecipe.find('.manual__steps').simulate('change', { target: { value: steps } })
 
     expect(changeFormInputSpy).toHaveBeenCalledWith('autoUrl.url', url)
     expect(changeFormInputSpy).toHaveBeenCalledWith('manualUrl.name', name)
@@ -35,7 +35,7 @@ describe('NewRecipePage', function () {
 
     newRecipe.find('.auto__submit-button').simulate('click', {})
 
-    expect(submitFormSpy).toHaveBeenCalledWith('/api/recipes/importFromUrl', {url: url})
+    expect(submitFormSpy).toHaveBeenCalledWith('/api/recipes/importFromUrl', { url: url })
   })
 
   it('calls the callback when submit button is clicked on manual url', () => {
@@ -45,7 +45,7 @@ describe('NewRecipePage', function () {
       url: 'http://example.com/recipe/32434',
       imageUrl: 'http://example.com/recipe/32434.png',
       ingredients: '2 oz. soft goat cheese (chevre), room temperature\n3 tbsp diced roasted red pepper\n4 pitted Kalamata olives, diced\n1 tbsp minced flat-leaf parsley',
-      steps: 'Test\nTest'
+      steps: 'Test\nTest',
     }
     const newRecipe = shallow(<NewRecipePage submitForm={submitFormSpy} classes={{}} manualUrl={manualUrl} />)
 

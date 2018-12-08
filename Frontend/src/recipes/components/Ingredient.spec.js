@@ -5,7 +5,7 @@ import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 
 import styles from 'src/recipes/components/Ingredient.css'
-import {Ingredient} from 'src/recipes/components/Ingredient'
+import { Ingredient } from 'src/recipes/components/Ingredient'
 
 describe('Ingredient', function () {
   it('renders without crashing', () => {
@@ -13,7 +13,7 @@ describe('Ingredient', function () {
     expect(ingredient).toBeDefined()
   })
 
-  describe('Content', function() {
+  describe('Content', function () {
     let quantity = 12
     let unit = 'tbsp'
     let ingredient = 'This a sample ingredient'

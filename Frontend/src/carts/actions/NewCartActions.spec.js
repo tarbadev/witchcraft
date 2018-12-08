@@ -21,13 +21,13 @@ describe('NewCartActions', () => {
 
   it('createCartSuccess redirects to generated cart', () => {
     const dispatchSpy = jest.fn()
-    const cart = {id: 1}
+    const cart = { id: 1 }
 
     createCartSuccess(cart)(dispatchSpy)
 
     expect(dispatchSpy).toHaveBeenCalledWith({
       type: '@@router/CALL_HISTORY_METHOD',
-      payload: { method: 'push', args: [ `/carts/${cart.id}` ] },
+      payload: { method: 'push', args: [`/carts/${cart.id}`] },
     })
   })
 })

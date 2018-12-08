@@ -5,7 +5,7 @@ import {
   getFavoriteRecipesSuccess,
   getLatestRecipes,
   getLatestRecipesSuccess,
-  filterRecipes
+  filterRecipes,
 } from 'src/recipes/actions/RecipesActions'
 
 import { fetchAction } from 'src/WitchcraftMiddleware'
@@ -66,7 +66,7 @@ describe('RecipesActions', () => {
       const dispatchSpy = jest.fn()
       const recipes = [
         { id: 1 },
-        { id: 2 }
+        { id: 2 },
       ]
 
       getFavoriteRecipesSuccess(recipes)(dispatchSpy)
@@ -98,7 +98,7 @@ describe('RecipesActions', () => {
       const dispatchSpy = jest.fn()
       const recipes = [
         { id: 1 },
-        { id: 2 }
+        { id: 2 },
       ]
 
       getLatestRecipesSuccess(recipes)(dispatchSpy)
@@ -119,7 +119,7 @@ describe('RecipesActions', () => {
           { name: 'Recipe test' },
           { name: 'Recipe Two' },
           { name: 'Recipe Three' },
-        ]
+        ],
       }
 
       filterRecipes('test')(dispatchSpy, () => state)

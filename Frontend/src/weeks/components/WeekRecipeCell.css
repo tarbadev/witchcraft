@@ -1,24 +1,24 @@
 .table-cell {
-  width: calc(100% / 7);
-  padding: 4px 18px !important;
-  text-transform: capitalize;
-  position: relative;
+    width: calc(100% / 7);
+    padding: 4px 18px !important;
+    text-transform: capitalize;
+    position: relative;
 }
 
 .table-cell-clickable {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .table-cell-clickable:hover .hover-mask {
-  background-color: rgba(33, 150, 243, .6);
+    background-color: rgba(33, 150, 243, .6);
 }
 
 .hover-mask {
-  background-color: rgba(33, 150, 243, 0);
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  transition: background-color .2s;
+    background-color: rgba(33, 150, 243, 0);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transition: background-color .2s;
 }

@@ -62,7 +62,7 @@ describe('RecipeActions', () => {
       getRecipeError()(dispatchSpy)
       expect(dispatchSpy).toHaveBeenCalledWith({
         type: '@@router/CALL_HISTORY_METHOD',
-        payload: { method: 'push', args: [ '/recipes' ] },
+        payload: { method: 'push', args: ['/recipes'] },
       })
     })
   })
@@ -106,16 +106,16 @@ describe('RecipeActions', () => {
           name: 'Ingredient 1',
           unit: 'tbsp',
           quantity: 12,
-        },{
+        }, {
           name: 'Ingredient 2',
           unit: 'cup',
           quantity: 4,
         }],
         steps: [{
           unit: 'Add sugar',
-        },{
+        }, {
           name: 'Mix with flour',
-        }]
+        }],
       }
 
       updateRecipe(form)(dispatchSpy)
@@ -136,7 +136,7 @@ describe('RecipeActions', () => {
       updateRecipeSuccess(promisedRecipeList.recipes[0])(dispatchSpy)
       expect(dispatchSpy).toHaveBeenCalledWith({
         type: '@@router/CALL_HISTORY_METHOD',
-        payload: { method: 'push', args: [ `/recipes/${promisedRecipeList.recipes[0].id}` ] },
+        payload: { method: 'push', args: [`/recipes/${promisedRecipeList.recipes[0].id}`] },
       })
     })
   })
@@ -167,7 +167,7 @@ describe('RecipeActions', () => {
       })
       expect(dispatchSpy).toHaveBeenCalledWith({
         type: '@@router/CALL_HISTORY_METHOD',
-        payload: { method: 'push', args: [ '/recipes' ] },
+        payload: { method: 'push', args: ['/recipes'] },
       })
     })
   })

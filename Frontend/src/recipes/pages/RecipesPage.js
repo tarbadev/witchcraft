@@ -14,11 +14,11 @@ import { filterRecipes } from 'src/recipes/actions/RecipesActions'
 
 const styles = () => ({
   paper: {
-    padding: '.6em'
-  }
+    padding: '.6em',
+  },
 })
 
-export const RecipesPage = ({recipes, searchRecipe, classes = {}, history}) => {
+export const RecipesPage = ({ recipes, searchRecipe, classes = {}, history }) => {
   const onNewRecipeClick = () => {
     history.push('/recipes/new')
   }
@@ -41,7 +41,7 @@ export const RecipesPage = ({recipes, searchRecipe, classes = {}, history}) => {
         </Button>
       </Grid>
       <Grid item>
-        <RecipeList recipes={recipes}/>
+        <RecipeList recipes={recipes} />
       </Grid>
     </Grid>
   )
@@ -56,13 +56,13 @@ RecipesPage.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    recipes: state.recipes
+    recipes: state.recipes,
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
-    searchRecipe: filterRecipes
+    searchRecipe: filterRecipes,
   }, dispatch)
 }
 

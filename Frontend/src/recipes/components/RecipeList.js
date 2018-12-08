@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import styles from 'src/recipes/components/RecipeList.css'
 import { RecipeCard } from './RecipeCard'
 
-export const RecipeList = ({recipes = []}) => {
+export const RecipeList = ({ recipes = [] }) => {
   const recipeCards = recipes.map(recipe =>
     <Grid item lg={3} md={4} sm={6} key={recipe.id}>
       <Link to={recipe.url} className={styles.link}>
@@ -14,7 +14,7 @@ export const RecipeList = ({recipes = []}) => {
           imgUrl={recipe.imgUrl}
           title={recipe.name} />
       </Link>
-    </Grid>
+    </Grid>,
   )
 
   return (

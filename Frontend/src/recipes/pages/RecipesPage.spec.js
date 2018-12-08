@@ -1,5 +1,5 @@
 import React from 'react'
-import {shallow} from 'enzyme'
+import { shallow } from 'enzyme'
 
 import { RecipesPage } from './RecipesPage'
 
@@ -11,8 +11,8 @@ describe('RecipesPage', () => {
 
     recipes.find('.recipes__search-input').simulate('change', {
       target: {
-        value: search
-      }
+        value: search,
+      },
     })
 
     expect(searchSpy).toHaveBeenCalledWith(search)

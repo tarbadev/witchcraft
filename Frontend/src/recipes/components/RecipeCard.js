@@ -6,10 +6,10 @@ import CardMedia from '@material-ui/core/CardMedia'
 
 import styles from 'src/recipes/components/RecipeCard.css'
 
-export const RecipeCard = ({title, imgUrl}) => {
+export const RecipeCard = ({ title, imgUrl }) => {
   let cardHeaderClasses = {
     root: styles.cardHeaderRoot,
-    title: styles.cardHeaderTitle
+    title: styles.cardHeaderTitle,
   }
 
   return (
@@ -19,7 +19,6 @@ export const RecipeCard = ({title, imgUrl}) => {
     </Card>
   )
 }
-
 
 RecipeCard.propTypes = {
   title: PropTypes.string,

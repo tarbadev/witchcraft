@@ -11,7 +11,7 @@ export const RecipeTile = ({
   children,
 }) => {
   return (
-    <GridListTile className='recipe-card' onClick={() => onTileClick(recipe)} >
+    <GridListTile className='recipe-card' onClick={() => onTileClick(recipe)}>
       <img src={recipe.imgUrl} alt={recipe.name} />
       <GridListTileBar title={recipe.name} className='recipe-card-title' />
       {children && children}

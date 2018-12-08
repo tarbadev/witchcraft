@@ -6,7 +6,7 @@ import Grid from '@material-ui/core/Grid'
 
 import styles from 'src/recipes/components/Ingredient.css'
 
-export const Ingredient = ({quantity, unit, ingredient}) => {
+export const Ingredient = ({ quantity, unit, ingredient }) => {
   const quantityAndUnit = quantity + ' ' + unit
 
   return (

@@ -1,39 +1,39 @@
 :local(.recipeCardTitle) {
-  text-transform: capitalize;
+    text-transform: capitalize;
 }
 
 :local(.recipeCard) {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 :local(.recipeCard:hover .recipeCardTitle) {
-  height: auto;
+    height: auto;
 }
 
 :local(.recipeCard:hover .recipeCardTitle div) {
-  overflow: auto !important;
-  white-space: normal;
+    overflow: auto !important;
+    white-space: normal;
 }
 
 :local(.recipeCardsTitle) {
-  height: auto !important;
+    height: auto !important;
 }
 
 :local(.modal) {
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
 }
 
 :local(.day) {
-  text-transform: capitalize;
+    text-transform: capitalize;
 }
 
 :local(.currentRecipe) {
-  position: absolute;
-  bottom: .5rem;
-  right: .5rem;
-  color: #4caf50;
-  font-size: 2rem !important;
+    position: absolute;
+    bottom: .5rem;
+    right: .5rem;
+    color: #4caf50;
+    font-size: 2rem !important;
 }

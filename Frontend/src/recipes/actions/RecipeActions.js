@@ -1,5 +1,5 @@
-import {setState} from 'src/RootReducer'
-import {fetchAction} from 'src/WitchcraftMiddleware'
+import { setState } from 'src/RootReducer'
+import { fetchAction } from 'src/WitchcraftMiddleware'
 import { push } from 'connected-react-router'
 
 export const getRecipeSuccess = data => dispatch => {
@@ -25,7 +25,7 @@ export const getRecipe = id => dispatch => {
     url: `/api/recipes/${id}`,
     method: 'GET',
     onSuccess: getRecipeSuccess,
-    onError: getRecipeError
+    onError: getRecipeError,
   }))
 }
 
@@ -38,9 +38,9 @@ export const setFavorite = (id, isFavorite) => dispatch => {
     url: `/api/recipes/${id}`,
     method: 'PATCH',
     body: {
-      favorite: isFavorite
+      favorite: isFavorite,
     },
-    onSuccess: setFavoriteSuccess
+    onSuccess: setFavoriteSuccess,
   }))
 }
 
@@ -54,7 +54,7 @@ export const deleteRecipe = id => dispatch => {
     url: `/api/recipes/${id}`,
     method: 'DELETE',
     onSuccess: deleteRecipeCallback,
-    onError: deleteRecipeCallback
+    onError: deleteRecipeCallback,
   }))
 }
 

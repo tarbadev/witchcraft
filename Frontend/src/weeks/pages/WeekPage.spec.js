@@ -8,7 +8,7 @@ describe('WeekPage', () => {
     it('calls history.push', () => {
       const pushSpy = jest.fn()
       const week = { year: 2018, weekNumber: 45, days: [] }
-      const weekPage = shallow(<WeekPage history={{push: pushSpy}} week={week} />)
+      const weekPage = shallow(<WeekPage history={{ push: pushSpy }} week={week} />)
 
       weekPage.find('.week-page__previous-week').simulate('click')
 
@@ -18,7 +18,7 @@ describe('WeekPage', () => {
     it('calculates the previous year if weekNumber = 1', () => {
       const pushSpy = jest.fn()
       const week = { year: 2018, weekNumber: 1, days: [] }
-      const weekPage = shallow(<WeekPage history={{push: pushSpy}} week={week} />)
+      const weekPage = shallow(<WeekPage history={{ push: pushSpy }} week={week} />)
 
       weekPage.find('.week-page__previous-week').simulate('click')
 
@@ -30,7 +30,7 @@ describe('WeekPage', () => {
     it('calls history.push', () => {
       const pushSpy = jest.fn()
       const week = { year: 2018, weekNumber: 45, days: [] }
-      const weekPage = shallow(<WeekPage history={{push: pushSpy}} week={week} />)
+      const weekPage = shallow(<WeekPage history={{ push: pushSpy }} week={week} />)
 
       weekPage.find('.week-page__next-week').simulate('click')
 
@@ -40,7 +40,7 @@ describe('WeekPage', () => {
     it('calculates the next year if weekNumber = MAX_WEEK', () => {
       const pushSpy = jest.fn()
       const week = { year: 2018, weekNumber: WEEKS_IN_A_YEAR, days: [] }
-      const weekPage = shallow(<WeekPage history={{push: pushSpy}} week={week} />)
+      const weekPage = shallow(<WeekPage history={{ push: pushSpy }} week={week} />)
 
       weekPage.find('.week-page__next-week').simulate('click')
 

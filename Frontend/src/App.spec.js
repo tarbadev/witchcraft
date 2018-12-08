@@ -13,7 +13,7 @@ describe('App', function () {
     expect(app).toBeDefined()
   })
 
-  describe('Content', function() {
+  describe('Content', function () {
     beforeEach(() => {
       this.instance = shallow(<App />)
     })

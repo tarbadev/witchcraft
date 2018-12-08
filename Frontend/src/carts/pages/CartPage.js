@@ -14,7 +14,7 @@ export const CartPage = ({
   const ingredients = cart.items
     ? cart.items.map(ingredient => (
       <Grid item key={ingredient.id} sm={12}>
-        <Ingredient ingredient={ingredient.name} unit={ingredient.unit} quantity={ingredient.quantity}/>
+        <Ingredient ingredient={ingredient.name} unit={ingredient.unit} quantity={ingredient.quantity} />
       </Grid>
     ))
     : []
@@ -52,13 +52,12 @@ CartPage.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    cart: state.cart
+    cart: state.cart,
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({
-  }, dispatch)
+  return bindActionCreators({}, dispatch)
 }
 
 export const CartPageContainer = connect(mapStateToProps, mapDispatchToProps)(CartPage)

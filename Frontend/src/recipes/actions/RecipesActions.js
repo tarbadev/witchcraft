@@ -9,7 +9,7 @@ export const getFavoriteRecipes = () => (dispatch) => {
   dispatch(fetchAction({
     url: '/api/recipes/favorites',
     method: 'GET',
-    onSuccess: getFavoriteRecipesSuccess
+    onSuccess: getFavoriteRecipesSuccess,
   }))
 }
 
@@ -21,26 +21,30 @@ export const getLatestRecipes = () => (dispatch) => {
   dispatch(fetchAction({
     url: '/api/recipes/latest',
     method: 'GET',
-    onSuccess: getLatestRecipesSuccess
+    onSuccess: getLatestRecipesSuccess,
   }))
 }
 
 export const getAllRecipesSuccess = data => dispatch => {
   dispatch(setState('allRecipes', data.recipes))
   dispatch(setState('recipes', data.recipes))
-  dispatch(setState('newCartPage.form', data.recipes.map(recipe => ({ id: recipe.id, name: recipe.name, selected: false }))))
+  dispatch(setState('newCartPage.form', data.recipes.map(recipe => ({
+    id: recipe.id,
+    name: recipe.name,
+    selected: false,
+  }))))
 }
 
 export const getAllRecipes = () => (dispatch) => {
   dispatch(fetchAction({
     url: '/api/recipes',
     method: 'GET',
-    onSuccess: getAllRecipesSuccess
+    onSuccess: getAllRecipesSuccess,
   }))
 }
 
 export const filterRecipes = (search) => {
-  return(dispatch, getState) => {
+  return (dispatch, getState) => {
     const filteredRecipes = getState().allRecipes.filter((recipe) => {
       return recipe.name.toLowerCase().includes(search.toLowerCase())
     })

@@ -13,7 +13,7 @@ describe('Header', function () {
     expect(header).toBeDefined()
   })
 
-  describe('Content', function() {
+  describe('Content', function () {
     beforeEach(() => {
       this.instance = shallow(<Header />)
     })

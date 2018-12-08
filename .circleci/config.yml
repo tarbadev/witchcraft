@@ -70,12 +70,16 @@ jobs:
             - node_modules
       - store_test_results:
           path: Frontend/build/test-results
+      - persist_to_workspace:
+          root: Frontend/build/dist
   deploy_frontend_dev:
     working_directory: ~/witchcraft
     docker:
       - image: circleci/openjdk:8-jdk
     steps:
       - checkout
+      - attach_workspace:
+          at: Frontend/build/dist
       - run:
           name: Setup CF cli
           command: |

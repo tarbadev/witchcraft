@@ -5,7 +5,7 @@ import CardHeader from '@material-ui/core/CardHeader'
 import CardMedia from '@material-ui/core/CardMedia'
 
 import styles from 'src/recipes/components/RecipeCard.css'
-import {RecipeCard} from 'src/recipes/components/RecipeCard'
+import { RecipeCard } from 'src/recipes/components/RecipeCard'
 
 describe('RecipeCard', function () {
   it('renders without crashing', () => {
@@ -13,7 +13,7 @@ describe('RecipeCard', function () {
     expect(recipeCard).toBeDefined()
   })
 
-  describe('Content', function() {
+  describe('Content', function () {
     let expectedTitle = 'Recipe title'
     let expectedUrl = '/recipes/url'
     let expectedImgUrl = 'http://example.com/image.png'

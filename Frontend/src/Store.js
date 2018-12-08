@@ -20,28 +20,28 @@ export const store = createStore(connectRouter(history)(reducer), composeWithDev
 const pathRegexes = [
   {
     regex: /^\/recipes\/(\d+)$/,
-    callback: (id) => store.dispatch(getRecipe(id))
+    callback: (id) => store.dispatch(getRecipe(id)),
   }, {
     regex: /^\/recipes\/(\d+)\/edit$/,
-    callback: (id) => store.dispatch(getRecipe(id))
+    callback: (id) => store.dispatch(getRecipe(id)),
   }, {
     regex: /^\/recipes$/,
-    callback: () => store.dispatch(getAllRecipes())
+    callback: () => store.dispatch(getAllRecipes()),
   }, {
     regex: /^\/carts$/,
-    callback: () => store.dispatch(getAllCarts())
+    callback: () => store.dispatch(getAllCarts()),
   }, {
     regex: /^\/carts\/(\d+)$/,
-    callback: (id) => store.dispatch(getCart(id))
+    callback: (id) => store.dispatch(getCart(id)),
   }, {
     regex: /^\/carts\/new$/,
-    callback: () => store.dispatch(getAllRecipes())
+    callback: () => store.dispatch(getAllRecipes()),
   }, {
     regex: /^\/weeks\/(\d+)\/(\d+)$/,
     callback: ([year, week]) => {
       store.dispatch(getAllRecipes())
       store.dispatch(getWeek(year, week))
-    }
+    },
   }, {
     regex: /^\/$/,
     callback: () => {
@@ -49,8 +49,8 @@ const pathRegexes = [
       store.dispatch(getWeek(year, week))
       store.dispatch(getFavoriteRecipes())
       store.dispatch(getLatestRecipes())
-    }
-  }
+    },
+  },
 ]
 
 const historyObserver = createHistoryObserver(pathRegexes)

@@ -20,10 +20,10 @@ describe('CartsActions', () => {
     const dispatchSpy = jest.fn()
     const carts = [{
       id: 12,
-      recipes: []
-    },{
+      recipes: [],
+    }, {
       id: 34,
-      recipes: []
+      recipes: [],
     }]
 
     getAllCartsSuccess(carts)(dispatchSpy)

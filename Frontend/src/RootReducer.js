@@ -3,23 +3,23 @@ import { updateIn, constant } from 'updeep'
 export const SET_STATE = 'SET_STATE'
 
 export function setState(key, payload) {
-  return {type: SET_STATE, key, payload}
+  return { type: SET_STATE, key, payload }
 }
 
 const initialState = {
   newRecipe: {
     forms: {
       autoUrl: {
-        url: ''
+        url: '',
       },
       manualUrl: {
         name: '',
         url: '',
         imageUrl: '',
         ingredients: '',
-        steps: ''
-      }
-    }
+        steps: '',
+      },
+    },
   },
   recipe: {
     id: 0,
@@ -29,12 +29,12 @@ const initialState = {
     imgUrl: '',
     ingredients: [],
     steps: [],
-    favorite: false
+    favorite: false,
   },
   recipes: [],
   allRecipes: [],
   recipePage: {
-    isDeleting: false
+    isDeleting: false,
   },
   editRecipe: {
     form: {
@@ -47,17 +47,17 @@ const initialState = {
           id: 0,
           name: '',
           quantity: 0,
-          unit: ''
-        }
+          unit: '',
+        },
       ],
       steps: [
         {
           id: 0,
-          name: ''
-        }
+          name: '',
+        },
       ],
-      favorite: false
-    }
+      favorite: false,
+    },
   },
   newCartPage: {
     form: [],
@@ -67,7 +67,7 @@ const initialState = {
       isModalOpen: false,
       day: '',
       meal: '',
-    }
+    },
   },
   carts: [],
   cart: {},
@@ -76,7 +76,7 @@ const initialState = {
       {
         lunch: {},
         diner: {},
-      }
+      },
     ],
   },
   homePage: {
@@ -87,9 +87,9 @@ const initialState = {
 
 export const reducer = (state = initialState, action) => {
   switch (action.type) {
-  case SET_STATE:
-    return updateIn(action.key, constant(action.payload), state)
-  default:
-    return state
+    case SET_STATE:
+      return updateIn(action.key, constant(action.payload), state)
+    default:
+      return state
   }
 }

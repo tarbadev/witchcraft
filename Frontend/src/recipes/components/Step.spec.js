@@ -5,7 +5,7 @@ import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 
 import styles from 'src/recipes/components/Step.css'
-import {Step} from 'src/recipes/components/Step'
+import { Step } from 'src/recipes/components/Step'
 
 describe('Step', function () {
   it('renders without crashing', () => {
@@ -13,7 +13,7 @@ describe('Step', function () {
     expect(step).toBeDefined()
   })
 
-  describe('Content', function() {
+  describe('Content', function () {
     let number = 12
     let step = 'This a sample step'
 

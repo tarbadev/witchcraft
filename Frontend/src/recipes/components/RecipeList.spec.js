@@ -3,8 +3,8 @@ import { shallow } from 'enzyme'
 import { Link } from 'react-router-dom'
 
 import styles from 'src/recipes/components/RecipeList.css'
-import {RecipeList} from 'src/recipes/components/RecipeList'
-import {RecipeCard} from 'src/recipes/components/RecipeCard'
+import { RecipeList } from 'src/recipes/components/RecipeList'
+import { RecipeCard } from 'src/recipes/components/RecipeCard'
 
 import promisedRecipeList from 'test-resources/recipeList.json'
 
@@ -14,7 +14,7 @@ describe('RecipeList', function () {
     expect(recipeList).toBeDefined()
   })
 
-  describe('Content', function() {
+  describe('Content', function () {
     beforeEach(() => {
       this.instance = shallow(<RecipeList recipes={promisedRecipeList.recipes} />)
     })
