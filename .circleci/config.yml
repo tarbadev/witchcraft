@@ -72,6 +72,11 @@ jobs:
           path: Frontend/build/test-results
       - persist_to_workspace:
           root: Frontend/build/dist
+          paths:
+            - *.js
+            - *.png
+            - package.json
+            - index.html
   deploy_frontend_dev:
     working_directory: ~/witchcraft
     docker:
