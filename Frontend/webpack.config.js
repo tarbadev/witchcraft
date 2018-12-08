@@ -1,9 +1,11 @@
 const webpack = require('webpack')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 
 const SRC = path.resolve(__dirname, 'src')
+const PUBLIC = path.resolve(__dirname, 'public')
 const TEST_RESOURCES = path.resolve(__dirname, 'test_resources')
 const DEST = path.resolve(__dirname, 'build/dist')
 
@@ -16,7 +18,6 @@ module.exports = env => {
         : {};
 
     return {
-      mode: 'development',
       devtool: 'source-map',
       entry: {
         app: SRC + '/index.js',
@@ -61,13 +62,17 @@ module.exports = env => {
         historyApiFallback: true
       },
       plugins: [
-        new CleanWebpackPlugin(['build/dist']),
+        new CleanWebpackPlugin([DEST]),
         new HtmlWebpackPlugin({
           title: 'Witchcraft',
-          favicon: SRC + '/images/favicon.ico',
+          favicon: PUBLIC + '/logo.png',
           templateContent: '<div id="react"></div>',
         }),
-        new webpack.DefinePlugin(envKeys)
+        new webpack.DefinePlugin(envKeys),
+        new CopyWebpackPlugin([
+            { from: 'package.json', to: DEST },
+            { from: PUBLIC + '/index.js', to: DEST }
+          ])
       ]
     }
 }

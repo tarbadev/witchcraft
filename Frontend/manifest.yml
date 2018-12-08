@@ -1,10 +1,12 @@
 applications:
 - name: witchcraft-frontend-dev
   path: build/dist
-  buildpack: staticfile_buildpack
+  buildpacks:
+  - nodejs_buildpack
   instances: 1
   memory: 64M
   routes:
   - route: witchcraft-frontend-dev.cfapps.io
   env:
-    API_URL: witchcraft-backend-dev.cfapps.io
+    API_URL: https://witchcraft-backend-dev.cfapps.io
+    FORCE_HTTPS: true

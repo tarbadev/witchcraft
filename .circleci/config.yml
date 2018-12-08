@@ -19,9 +19,9 @@ jobs:
             DATABASE_HOST=127.0.0.1 \
             ./gradlew witchcraft-app:build
       - save_cache:
+          key: witchcraft-app-{{ checksum "WitchcraftApp/build.gradle" }}
           paths:
             - .gradle
-          key: witchcraft-app-{{ checksum "WitchcraftApp/build.gradle" }}
       - store_test_results:
           path: WitchcraftApp/build/test-results
       - persist_to_workspace:
@@ -65,25 +65,17 @@ jobs:
           name: Build
           command: ./gradlew frontend:build -PbackendUrl=${BACKEND_DEV_URL}
       - save_cache:
+          key: witchcraft-node-modules-{{ checksum "Frontend/package-lock.json" }}
           paths:
             - node_modules
-          key: witchcraft-node-modules-{{ checksum "Frontend/package-lock.json" }}
       - store_test_results:
           path: Frontend/build/test-results
-      - persist_to_workspace:
-          root: Frontend/build/dist
-          paths:
-            - bundle.js
-            - index.html
-            - favicon.ico
   deploy_frontend_dev:
     working_directory: ~/witchcraft
     docker:
       - image: circleci/openjdk:8-jdk
     steps:
       - checkout
-      - attach_workspace:
-          at: Frontend/build/dist
       - run:
           name: Setup CF cli
           command: |
