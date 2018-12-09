@@ -63,7 +63,7 @@ jobs:
             - witchcraft-node-modules-
       - run:
           name: Build
-          command: ./gradlew frontend:build -PbackendUrl=${BACKEND_DEV_URL}
+          command: ./gradlew frontend:build
       - save_cache:
           key: witchcraft-node-modules-{{ checksum "Frontend/package-lock.json" }}
           paths:
