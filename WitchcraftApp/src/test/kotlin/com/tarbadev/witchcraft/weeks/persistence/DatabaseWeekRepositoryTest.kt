@@ -86,7 +86,6 @@ class DatabaseWeekRepositoryTest(
 
         val lasagna = Recipe(
             id = lasagnaEntity.id,
-            url = "/recipes/" + lasagnaEntity.id,
             originUrl = "http://origin",
             imgUrl = "http://imgurl",
             name = "lasagna",
@@ -95,7 +94,6 @@ class DatabaseWeekRepositoryTest(
         )
         val tartiflette = Recipe(
             id = tartifletteEntity.id,
-            url = "/recipes/" + tartifletteEntity.id,
             originUrl = "http://origin",
             imgUrl = "http://imgurl",
             name = "tartiflette",
@@ -104,7 +102,6 @@ class DatabaseWeekRepositoryTest(
         )
         val raclette = Recipe(
             id = racletteEntity.id,
-            url = "/recipes/" + racletteEntity.id,
             originUrl = "http://origin",
             imgUrl = "http://imgurl",
             name = "raclette",

@@ -208,7 +208,7 @@ class GetRecipeDetailsFromUrlUseCaseTest {
     fun execute_getsRecipesSteps() {
         val recipe = testResources.recipe
 
-        val (_, _, _, _, _, _, _, steps) = subject.execute(recipe.originUrl)
+        val steps = subject.execute(recipe.originUrl).steps
 
         assertEquals(6, steps.size)
         assertEquals(recipe.steps, steps)

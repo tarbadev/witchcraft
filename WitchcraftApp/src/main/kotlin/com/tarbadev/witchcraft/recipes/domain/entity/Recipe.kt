@@ -2,7 +2,6 @@ package com.tarbadev.witchcraft.recipes.domain.entity
 
 data class Recipe (
     val id: Int = 0,
-    val url: String = "",
     val originUrl: String = "",
     val name: String = "",
     val imgUrl: String = "",

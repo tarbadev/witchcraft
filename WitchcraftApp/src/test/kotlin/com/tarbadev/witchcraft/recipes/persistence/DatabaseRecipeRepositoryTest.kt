@@ -50,7 +50,6 @@ class DatabaseRecipeRepositoryTest(
         )
         val expectedRecipe = Recipe(
             id = recipe.id,
-            url = "/recipes/" + recipe.id,
             name = "lasagna",
             originUrl = recipeUrl,
             ingredients = emptyList(),
@@ -75,7 +74,6 @@ class DatabaseRecipeRepositoryTest(
 
         val expectedRecipe = Recipe(
             id = returnedRecipe.id,
-            url = "/recipes/${returnedRecipe.id}",
             name = "lasagna",
             ingredients = asList(
                 Ingredient(id = returnedRecipe.ingredients[0].id),
@@ -262,7 +260,6 @@ class DatabaseRecipeRepositoryTest(
     private fun toDomain(recipeEntity: RecipeEntity): Recipe {
         return Recipe(
             id = recipeEntity.id,
-            url = "/recipes/" + recipeEntity.id,
             name = recipeEntity.name.toLowerCase(),
             originUrl = recipeEntity.originUrl,
             imgUrl = recipeEntity.imgUrl,

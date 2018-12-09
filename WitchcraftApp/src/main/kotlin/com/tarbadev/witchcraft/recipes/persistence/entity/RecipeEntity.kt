@@ -37,7 +37,6 @@ data class RecipeEntity(
         return Recipe(
             id = id,
             name = name.toLowerCase(),
-            url = "/recipes/$id",
             originUrl = originUrl,
             imgUrl = imgUrl,
             favorite = favorite,

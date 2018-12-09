@@ -9,7 +9,7 @@ import { RecipeCard } from './RecipeCard'
 export const RecipeList = ({ recipes = [] }) => {
   const recipeCards = recipes.map(recipe =>
     <Grid item lg={3} md={4} sm={6} key={recipe.id}>
-      <Link to={recipe.url} className={styles.link}>
+      <Link to={`/recipes/${recipe.id}`} className={styles.link}>
         <RecipeCard
           imgUrl={recipe.imgUrl}
           title={recipe.name} />

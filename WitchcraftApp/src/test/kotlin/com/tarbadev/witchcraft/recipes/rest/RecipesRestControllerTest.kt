@@ -57,7 +57,6 @@ class RecipesRestControllerTest(
         val recipe1 = Recipe(
             id = recipe1Id,
             name = recipe1Name,
-            url = recipe1Url,
             imgUrl = recipe1ImageUrl
         )
 
@@ -79,8 +78,7 @@ class RecipesRestControllerTest(
     fun show() {
         val recipe = Recipe(
             id = 33,
-            name = "Test",
-            url = "url"
+            name = "Test"
         )
 
         whenever(getRecipeUseCase.execute(recipe.id)).thenReturn(recipe)

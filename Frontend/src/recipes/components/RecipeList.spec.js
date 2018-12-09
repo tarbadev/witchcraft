@@ -31,7 +31,7 @@ describe('RecipeList', function () {
         expect(grid.find(Link).length).toBe(1)
 
         let link = grid.find(Link).at(0)
-        expect(link.props().to).toBe(promisedRecipeList.recipes[index].url)
+        expect(link.props().to).toBe(`/recipes/${promisedRecipeList.recipes[index].id}`)
         expect(link.props().className).toBe(styles.link)
         expect(link.find(RecipeCard).length).toBe(1)
 
