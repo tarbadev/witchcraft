@@ -10,11 +10,11 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc
 @Configuration
 @EnableWebMvc
 class WitchcraftConfig(
-    @Value("\${witchcraft.frontend.url}") private val allowedOrigin: String
+    @Value("\${witchcraft.frontend.url}") private val allowedOrigin: Array<String>
 ) : WebMvcConfigurer {
 
     override fun addCorsMappings(registry: CorsRegistry) {
         val corsRegistration = registry.addMapping("/**")
-        corsRegistration.allowedOrigins(allowedOrigin).allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE")
+        corsRegistration.allowedOrigins(*allowedOrigin).allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE")
     }
 }
