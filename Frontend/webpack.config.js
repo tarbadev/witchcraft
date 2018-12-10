@@ -1,4 +1,3 @@
-const webpack = require('webpack')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
@@ -24,7 +23,7 @@ module.exports = {
   output: {
     path: DEST,
     filename: 'bundle.js',
-    publicPath: '',
+    publicPath: '/',
   },
   module: {
     rules: [

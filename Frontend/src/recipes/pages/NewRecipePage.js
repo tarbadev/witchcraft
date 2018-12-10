@@ -90,6 +90,7 @@ export const NewRecipePage = ({
                 <TextField
                   label='Ingredients'
                   className='manual__ingredients'
+                  name='ingredients'
                   multiline
                   fullWidth
                   onChange={(e) => {
@@ -101,6 +102,7 @@ export const NewRecipePage = ({
                 <TextField
                   label='Steps'
                   className='manual__steps'
+                  name='steps'
                   multiline
                   fullWidth
                   onChange={(e) => {

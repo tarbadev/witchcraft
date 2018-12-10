@@ -1,4 +1,4 @@
-:local(.link) {
+.recipe-list__link {
     display: flex;
     height: 20rem;
 }

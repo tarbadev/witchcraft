@@ -51,7 +51,6 @@ class RecipesRestControllerTest(
         val recipe1Name = "Test"
         val recipe1ImageUrl = "exampleImageUrl"
         val recipe1Id = 10
-        val recipe1Url = "/recipes/$recipe1Id"
         val recipe2Name = "New Lasagna"
 
         val recipe1 = Recipe(
