@@ -11,7 +11,7 @@ const backendUrl = process.env.BACKEND_URL ? process.env.BACKEND_URL : 'http://l
 export const ActuatorUrl = `${backendUrl}:8888/actuator`
 export const AppUrl = process.env.APP_URL ? process.env.APP_URL : 'http://localhost:5000'
 
-beforeAll(async () => {
+beforeAll(async (done) => {
   browser = await puppeteer.launch({
     headless: true,
     args: [`--window-size=${width},${height}`],
@@ -19,10 +19,13 @@ beforeAll(async () => {
 
   page = await browser.newPage()
   await page.setViewport({ width, height })
+
+  done()
 })
 
 afterAll(() => {
-  browser.close()
+  if (browser)
+    browser.close()
 })
 
 beforeEach(async () => {

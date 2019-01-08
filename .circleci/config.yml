@@ -124,7 +124,7 @@ jobs:
             - witchcraft-app-
       - run:
           name: Run Integration Tests
-          command: APP_URL=witchcraft-frontend-dev.cfapps.io ./gradlew e2e:test
+          command: APP_URL=witchcraft-frontend-dev.cfapps.io BACKEND_URL=witchcraft-backend-dev.cfapps.io ./gradlew e2e:test
       - save_cache:
           key: witchcraft-node-modules-{{ checksum "e2e/package-lock.json" }}
           paths:
