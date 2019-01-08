@@ -9,4 +9,5 @@ applications:
   services:
     - witchcraft-mysql-dev
   env:
-    FRONTEND_URL: https://witchcraft-frontend-dev.cfapps.io,https://witchcraft.cfapps.io
+    FRONTEND_URL: https://witchcraft-frontend-dev.cfapps.io
+    ACTUATOR_WEB_EXPOSURE: env

@@ -1,6 +1,8 @@
 {
   "env": {
-    "jest": true
+    "jest": true,
+    "node": true,
+    "commonjs": true
   },
   "globals": {
     "page": true,
@@ -63,6 +65,10 @@
       {
         "beforeSelfClosing": "always"
       }
+    ],
+    "no-console": [
+      "error",
+      { "allow": ["error"] }
     ]
   }
 }

@@ -13,7 +13,7 @@ describe('New Recipe', () => {
         'thai chicken salad',
       ]
       expect(recipes).toEqual(expectedRecipes)
-    }, 15000)
+    })
   })
 
   describe('add recipe from form inputs', () => {
@@ -35,6 +35,6 @@ describe('New Recipe', () => {
         'thai chicken salad',
       ]
       expect(recipes).toEqual(expectedRecipes)
-    }, 35000)
+    })
   })
 })

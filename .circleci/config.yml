@@ -44,12 +44,12 @@ jobs:
             cf -v
             cf api https://api.run.pivotal.io
             cf auth "$CF_USER" "$CF_PASSWORD"
-            cf target -o "$CF_ORG" -s "$CF_SPACE"
+            cf target -o "$CF_ORG" -s "$CF_SPACE_DEVELOPMENT"
       - run:
           name: Deploy to dev
           command: |
             cd WitchcraftApp
-            cf push
+            cf push -f manifest-development.yml
 
   build_frontend:
     working_directory: ~/witchcraft
@@ -61,6 +61,10 @@ jobs:
           keys:
             - witchcraft-node-modules-{{ checksum "Frontend/package-lock.json" }}
             - witchcraft-node-modules-
+      - restore_cache:
+          keys:
+            - witchcraft-app-{{ checksum "Frontend/build.gradle" }}
+            - witchcraft-app-
       - run:
           name: Build
           command: ./gradlew frontend:build
@@ -68,6 +72,10 @@ jobs:
           key: witchcraft-node-modules-{{ checksum "Frontend/package-lock.json" }}
           paths:
             - node_modules
+      - save_cache:
+          key: witchcraft-app-{{ checksum "Frontend/build.gradle" }}
+          paths:
+            - .gradle
       - store_test_results:
           path: Frontend/build/test-results
       - persist_to_workspace:
@@ -93,13 +101,83 @@ jobs:
             cf -v
             cf api https://api.run.pivotal.io
             cf auth "$CF_USER" "$CF_PASSWORD"
-            cf target -o "$CF_ORG" -s "$CF_SPACE"
+            cf target -o "$CF_ORG" -s "$CF_SPACE_DEVELOPMENT"
       - run:
           name: Deploy to dev
           command: |
             cd Frontend
-            cf push
+            cf push -f manifest-development.yml
 
+  run_integration_tests:
+    working_directory: ~/witchcraft
+    docker:
+      - image: circleci/openjdk:8-jdk
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - witchcraft-node-modules-{{ checksum "e2e/package-lock.json" }}
+            - witchcraft-node-modules-
+      - restore_cache:
+          keys:
+            - witchcraft-app-{{ checksum "e2e/build.gradle" }}
+            - witchcraft-app-
+      - run:
+          name: Run Integration Tests
+          command: APP_URL=witchcraft-frontend-dev.cfapps.io ./gradlew e2e:test
+      - save_cache:
+          key: witchcraft-node-modules-{{ checksum "e2e/package-lock.json" }}
+          paths:
+            - node_modules
+      - save_cache:
+          key: witchcraft-app-{{ checksum "e2e/build.gradle" }}
+          paths:
+            - .gradle
+
+  deploy_backend_staging:
+    working_directory: ~/witchcraft
+    docker:
+      - image: circleci/openjdk:8-jdk
+    steps:
+      - checkout
+      - attach_workspace:
+          at: WitchcraftApp/build/libs
+      - run:
+          name: Setup CF cli
+          command: |
+            curl -v -L -o cf-cli_amd64.deb 'https://cli.run.pivotal.io/stable?release=debian64&source=github'
+            sudo dpkg -i cf-cli_amd64.deb
+            cf -v
+            cf api https://api.run.pivotal.io
+            cf auth "$CF_USER" "$CF_PASSWORD"
+            cf target -o "$CF_ORG" -s "$CF_SPACE_STAGING"
+      - run:
+          name: Deploy to staging
+          command: |
+            cd WitchcraftApp
+            cf push -f manifest-staging.yml
+  deploy_frontend_staging:
+    working_directory: ~/witchcraft
+    docker:
+      - image: circleci/openjdk:8-jdk
+    steps:
+      - checkout
+      - attach_workspace:
+          at: Frontend/build/dist
+      - run:
+          name: Setup CF cli
+          command: |
+            curl -v -L -o cf-cli_amd64.deb 'https://cli.run.pivotal.io/stable?release=debian64&source=github'
+            sudo dpkg -i cf-cli_amd64.deb
+            cf -v
+            cf api https://api.run.pivotal.io
+            cf auth "$CF_USER" "$CF_PASSWORD"
+            cf target -o "$CF_ORG" -s "$CF_SPACE_STAGING"
+      - run:
+          name: Deploy to staging
+          command: |
+            cd Frontend
+            cf push -f manifest-staging.yml
 
 workflows:
   version: 2
@@ -129,3 +207,25 @@ workflows:
                 - master
           requires:
             - build_frontend
+      - run_integration_tests:
+          filters:
+            branches:
+              only:
+                - master
+          requires:
+            - deploy_backend_dev
+            - deploy_frontend_dev
+      - deploy_backend_staging:
+          filters:
+            branches:
+              only:
+                - master
+          requires:
+            - run_integration_tests
+      - deploy_frontend_staging:
+          filters:
+            branches:
+              only:
+                - master
+          requires:
+            - run_integration_tests

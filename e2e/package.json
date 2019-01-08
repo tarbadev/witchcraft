@@ -4,7 +4,7 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest --runInBand"
   },
   "repository": {
     "type": "git",
@@ -13,12 +13,13 @@
   "author": "Tarbadev",
   "homepage": "https://github.com/tarbadev/witchcraft#readme",
   "devDependencies": {
-    "@mysql/xdevapi": "^8.0.13",
     "babel-core": "^6.26.3",
     "babel-jest": "^23.6.0",
     "babel-preset-env": "^1.7.0",
     "jest": "^23.6.0",
     "jest-puppeteer": "^3.6.0",
-    "puppeteer": "^1.11.0"
+    "puppeteer": "^1.11.0",
+    "axios": "^0.18.0",
+    "mysql": "^2.16.0"
   }
 }

@@ -6,4 +6,18 @@ spring:
     username: ${DATABASE_USERNAME:spring}
     password:
 
+
+management:
+  endpoints:
+    web:
+      exposure.include: ${ACTUATOR_WEB_EXPOSURE:}
+      cors.allowed-origins: ${FRONTEND_URL:http://localhost}
+      cors.allowed-methods: GET
+    jmx.exposure.exclude: "*"
+  server.port: 8888
+  endpoint.env.keys-to-sanitize: []
+
+
+
+
 witchcraft.frontend.url: ${FRONTEND_URL:http://localhost:5000}
