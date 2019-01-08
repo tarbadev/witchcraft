@@ -2,7 +2,6 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import { Link } from 'react-router-dom'
 
-import styles from 'src/recipes/components/RecipeList.css'
 import { RecipeList } from 'src/recipes/components/RecipeList'
 import { RecipeCard } from 'src/recipes/components/RecipeCard'
 
