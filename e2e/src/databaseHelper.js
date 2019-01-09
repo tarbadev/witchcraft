@@ -3,16 +3,22 @@ import fs from 'fs'
 import axios from 'axios'
 import { ActuatorUrl } from './setupE2eTests'
 
-export const resetDatabase = async () => {
+let connection
+
+export const connect = async () => {
   const dbCredentials = await retrieveDbCredentials()
-  const connection = mysql.createConnection(dbCredentials)
+  connection = mysql.createConnection(dbCredentials)
 
   connection.connect()
+}
 
+export const endConnection = () => {
+  connection.end()
+}
+
+export const resetDatabase = async () => {
   executeSqlFile(connection, './src/sql-scripts/truncate_all.sql')
   executeSqlFile(connection, './src/sql-scripts/dummy_data.sql')
-
-  connection.end()
 }
 
 const retrieveDbCredentials = async () => {
@@ -27,6 +33,7 @@ const retrieveDbCredentials = async () => {
     password: password || '',
     port: jdbcDetails.port || 33060,
     database: jdbcDetails.database || 'witchcraft',
+    debug: true
   }
 }
 

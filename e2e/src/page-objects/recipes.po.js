@@ -6,7 +6,7 @@ export const goTo = async () => {
 }
 
 export const waitForPageLoaded = async () => {
-  await page.waitForSelector('.recipes__search-input')
+  await page.waitForSelector('.recipe-list__link')
 }
 
 export const search = async keywords => {

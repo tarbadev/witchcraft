@@ -25,5 +25,14 @@
   "engines": {
     "node": "10.15.0",
     "npm": "6.4.1"
+  },
+  "jest-junit": {
+    "suiteName": "End To End Tests",
+    "outputDirectory": "build/test-results",
+    "outputName": "e2e.xml",
+    "classNameTemplate": "{classname}-{title}",
+    "titleTemplate": "{classname}-{title}",
+    "ancestorSeparator": " › ",
+    "usePathForSuiteName": "true"
   }
 }

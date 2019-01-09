@@ -3,7 +3,7 @@ const express = require('express')
 
 const app = express()
 
-app.get('/api/*', (req, res) => {
+app.all('/api/*', (req, res) => {
   res.redirect(`${process.env.API_URL}${req.originalUrl}`)
 })
 
