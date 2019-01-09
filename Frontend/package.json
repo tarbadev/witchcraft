@@ -20,11 +20,13 @@
   "dependencies": {
     "@material-ui/core": "^3.0.0",
     "@material-ui/icons": "^3.0.1",
+    "connect-history-api-fallback": "^1.6.0",
     "connected-react-router": "4.5.0",
     "current-week-number": "^1.0.7",
     "express": "^4.16.4",
     "history": "^4.7.2",
     "npm-run-all": "^4.1.5",
+    "prop-types": "latest",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
     "react-redux": "5.0.7",
@@ -32,8 +34,7 @@
     "redux": "4.0.0",
     "redux-thunk": "2.3.0",
     "updeep": "1.0.0",
-    "weeknumber": "^1.1.1",
-    "prop-types": "latest"
+    "weeknumber": "^1.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.1.6",
