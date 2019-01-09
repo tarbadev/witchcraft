@@ -4,7 +4,7 @@ const express = require('express')
 const app = express()
 
 app.all('/api/*', (req, res) => {
-  res.redirect(`${process.env.API_URL}${req.originalUrl}`)
+  res.redirect(307, `${process.env.API_URL}${req.originalUrl}`)
 })
 
 app.use(history({ verbose: false }))

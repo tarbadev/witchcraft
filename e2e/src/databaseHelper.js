@@ -32,8 +32,7 @@ const retrieveDbCredentials = async () => {
     user: user || 'spring',
     password: password || '',
     port: jdbcDetails.port || 33060,
-    database: jdbcDetails.database || 'witchcraft',
-    debug: true
+    database: jdbcDetails.database || 'witchcraft'
   }
 }
 
