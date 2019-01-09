@@ -123,21 +123,8 @@ jobs:
             - witchcraft-app-{{ checksum "e2e/build.gradle" }}
             - witchcraft-app-
       - run:
-          name: Install missing dependencies
-          command: |
-            sudo apt-get update
-            sudo apt-get install -yq gconf-service libasound2 libatk1.0-0 libc6 libcairo2 libcups2 libdbus-1-3 \
-              libexpat1 libfontconfig1 libgcc1 libgconf-2-4 libgdk-pixbuf2.0-0 libglib2.0-0 libgtk-3-0 libnspr4 \
-              libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 \
-              libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 \
-              ca-certificates fonts-liberation libappindicator1 libnss3 lsb-release xdg-utils wget
-      - run:
           name: Run Integration Tests
-          command: |
-            cd e2e
-            npm i
-            ls -l node_modules/puppeteer/.local-chromium
-            APP_URL=https://witchcraft-frontend-dev.cfapps.io BACKEND_URL=https://witchcraft-backend-dev.cfapps.io npm run test
+          command: APP_URL=https://witchcraft-frontend-dev.cfapps.io BACKEND_URL=https://witchcraft-backend-dev.cfapps.io ./gradlew e2e:test
       - save_cache:
           key: witchcraft-node-modules-{{ checksum "e2e/package-lock.json" }}
           paths:
@@ -146,6 +133,8 @@ jobs:
           key: witchcraft-app-{{ checksum "e2e/build.gradle" }}
           paths:
             - .gradle
+      - store_test_results:
+          path: e2e/build/test-results
 
   deploy_backend_staging:
     working_directory: ~/witchcraft
