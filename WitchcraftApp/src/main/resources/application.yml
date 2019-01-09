@@ -11,7 +11,7 @@ management:
   endpoints:
     web:
       exposure.include: ${ACTUATOR_WEB_EXPOSURE:}
-      cors.allowed-origins: ${FRONTEND_URL:http://localhost}
+      cors.allowed-origins: "*"
       cors.allowed-methods: GET
     jmx.exposure.exclude: "*"
   endpoint.env.keys-to-sanitize: []

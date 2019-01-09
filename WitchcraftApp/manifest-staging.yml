@@ -6,7 +6,5 @@ applications:
   instances: 1
   routes:
   - route: witchcraft-backend-staging.cfapps.io
-  services:
-    - witchcraft-mysql-staging
   env:
     FRONTEND_URL: https://witchcraft-frontend-staging.cfapps.io,https://witchcraft.cfapps.io
