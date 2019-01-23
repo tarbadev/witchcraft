@@ -1,4 +1,4 @@
-import mysql from 'mysql'
+import mysql from 'mysql2/promise'
 import fs from 'fs'
 import axios from 'axios'
 import { ActuatorUrl } from './setupE2eTests'
@@ -7,9 +7,7 @@ let connection
 
 export const connect = async () => {
   const dbCredentials = await retrieveDbCredentials()
-  connection = mysql.createConnection(dbCredentials)
-
-  connection.connect()
+  connection = await mysql.createConnection(dbCredentials)
 }
 
 export const endConnection = () => {
@@ -17,8 +15,8 @@ export const endConnection = () => {
 }
 
 export const resetDatabase = async () => {
-  executeSqlFile(connection, './src/sql-scripts/truncate_all.sql')
-  executeSqlFile(connection, './src/sql-scripts/dummy_data.sql')
+  await executeSqlFile(connection, './src/sql-scripts/truncate_all.sql')
+  await executeSqlFile(connection, './src/sql-scripts/dummy_data.sql')
 }
 
 const retrieveDbCredentials = async () => {
@@ -32,7 +30,7 @@ const retrieveDbCredentials = async () => {
     user: user || 'spring',
     password: password || '',
     port: jdbcDetails.port || 33060,
-    database: jdbcDetails.database || 'witchcraft'
+    database: jdbcDetails.database || 'witchcraft',
   }
 }
 
@@ -62,9 +60,10 @@ const getJdbcDetails = jdbcUrl => {
   return jdbcDetails
 }
 
-const executeSqlFile = (connection, filePath) => {
+const executeSqlFile = async (connection, filePath) => {
   const content = fs.readFileSync(filePath).toString()
-  const queries = content
-    .split(';\n')
-  queries.forEach(query => connection.query(query))
+  const queries = content.split(';\n')
+  for (let i = 0; i < queries.length; i++) {
+    const [rows, fields] = await connection.execute(queries[i])
+  }
 }
