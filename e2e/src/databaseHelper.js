@@ -11,7 +11,8 @@ export const connect = async () => {
 }
 
 export const endConnection = () => {
-  connection.end()
+  if (connection)
+    connection.end()
 }
 
 export const resetDatabase = async () => {
