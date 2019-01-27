@@ -4,7 +4,6 @@ import Card from '@material-ui/core/Card'
 import CardHeader from '@material-ui/core/CardHeader'
 import CardMedia from '@material-ui/core/CardMedia'
 
-import styles from 'src/recipes/components/RecipeCard.css'
 import { RecipeCard } from 'src/recipes/components/RecipeCard'
 
 describe('RecipeCard', function () {
@@ -32,8 +31,8 @@ describe('RecipeCard', function () {
       let cardHeader = this.instance.find(CardHeader).at(0)
       expect(cardHeader.props().title).toBe(expectedTitle)
 
-      expect(cardHeader.props().classes.root).toBe(styles.cardHeaderRoot)
-      expect(cardHeader.props().classes.title).toBe(styles.cardHeaderTitle)
+      expect(cardHeader.props().classes.root).toBe('card-header-root')
+      expect(cardHeader.props().classes.title).toBe('card-header-title')
     })
 
     it('contains a CardMedia with a image url and title from props and a className', () => {
@@ -43,7 +42,7 @@ describe('RecipeCard', function () {
       expect(cardMedia.props().image).toBe(expectedImgUrl)
       expect(cardMedia.props().title).toBe(expectedTitle)
 
-      expect(cardMedia.props().className).toBe(styles.cardMedia)
+      expect(cardMedia.props().className).toBe('card-media')
     })
   })
 })

@@ -4,17 +4,17 @@ import Card from '@material-ui/core/Card'
 import CardHeader from '@material-ui/core/CardHeader'
 import CardMedia from '@material-ui/core/CardMedia'
 
-import styles from 'src/recipes/components/RecipeCard.css'
+import 'src/recipes/components/RecipeCard.css'
 
 export const RecipeCard = ({ title, imgUrl }) => {
   let cardHeaderClasses = {
-    root: styles.cardHeaderRoot,
-    title: styles.cardHeaderTitle,
+    root: 'card-header-root',
+    title: 'card-header-title',
   }
 
   return (
-    <Card className={styles.recipeCard}>
-      <CardMedia className={styles.cardMedia} title={title} image={imgUrl} />
+    <Card className={'recipe-card'}>
+      <CardMedia className={'card-media'} title={title} image={imgUrl} />
       <CardHeader classes={cardHeaderClasses} title={title} />
     </Card>
   )

@@ -1,14 +1,14 @@
 @import url('https://fonts.googleapis.com/css?family=Lato');
 
-:local(.cardMedia) {
+.card-media {
     height: 200px;
 }
 
-:local(.cardHeaderRoot) {
+.card-header-root {
     padding: 1em;
 }
 
-:local(.cardHeaderTitle) {
+.card-header-title {
     font-size: 1.28em !important;
     line-height: 1.28em !important;
     text-transform: capitalize;
@@ -17,11 +17,11 @@
     font-weight: 700 !important;
 }
 
-:local(.recipeCard) {
+.recipe-card {
     cursor: pointer;
     transition: transform .1s ease;
 }
 
-:local(.recipeCard:hover) {
+.recipe-card:hover {
     transform: translateY(-3px);
 }
