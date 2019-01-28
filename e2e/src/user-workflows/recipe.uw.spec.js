@@ -1,6 +1,7 @@
 import { AppUrl, page } from '../setupE2eTests'
 import * as RecipePage from '../page-objects/recipe.po'
 import * as RecipesPage from '../page-objects/recipes.po'
+import * as EditRecipePage from '../page-objects/editRecipe.po'
 
 describe('Recipe', () => {
   it('displays the ingredients', async () => {
@@ -65,6 +66,17 @@ describe('Recipe', () => {
         'thai chicken salad',
       ]
       expect(recipes).toEqual(expectedRecipes)
+    })
+  })
+
+  describe('on modify button click', () => {
+    it('redirects to edit recipe page', async () => {
+      await RecipePage.goTo(3)
+
+      await RecipePage.clickOnModifyButton()
+      await EditRecipePage.waitForPageLoaded()
+
+      expect(page.url()).toBe(`${AppUrl}/recipes/3/edit`)
     })
   })
 })
