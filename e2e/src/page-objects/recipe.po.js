@@ -1,5 +1,10 @@
 import { AppUrl, page } from '../setupE2eTests'
 
+export const goTo = async (id) => {
+  await page.goto(`${AppUrl}/recipes/${id}`)
+  await waitForPageLoaded()
+}
+
 export const isFavorite = async () => {
   const favoriteButton = await page.$('.favorite')
   return favoriteButton !== null
@@ -9,9 +14,8 @@ export const clickOnFavoriteButton = async () => {
   await page.click('.favoriteButton')
 }
 
-export const goTo = async (id) => {
-  await page.goto(`${AppUrl}/recipes/${id}`)
-  await waitForPageLoaded()
+export const clickOnDeleteButton = async () => {
+  await page.click('.deleteButton')
 }
 
 export const waitForPageLoaded = async () => {

@@ -14,7 +14,7 @@ export const AppUrl = process.env.APP_URL ? process.env.APP_URL : 'http://localh
 beforeAll(async () => {
   await connect()
   browser = await puppeteer.launch({
-    headless: false,
+    headless: true,
     args: [`--window-size=${width},${height}`, '--no-sandbox', '--disable-setuid-sandbox'],
   })
 
