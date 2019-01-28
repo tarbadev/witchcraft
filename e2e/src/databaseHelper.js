@@ -8,6 +8,8 @@ let connection
 export const connect = async () => {
   const dbCredentials = await retrieveDbCredentials()
   connection = await mysql.createConnection(dbCredentials)
+
+  expect(connection).toBeDefined()
 }
 
 export const endConnection = () => {
