@@ -25,3 +25,17 @@ export const waitForPageLoaded = async () => {
 export const waitForFavoriteState = async () => {
   await page.waitForSelector('.favorite')
 }
+
+export const getIngredients = async () => {
+  return await page.$$eval(
+    'div.paper p.ingredient',
+    elements => elements.map(el => el.textContent),
+  )
+}
+
+export const getSteps = async () => {
+  return await page.$$eval(
+    'div.paper p[data-step]',
+    elements => elements.map(el => el.textContent),
+  )
+}

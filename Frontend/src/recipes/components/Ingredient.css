@@ -1,11 +1,11 @@
-:local(.paper) {
+.paper {
     padding: .5em 1em;
 }
 
-:local(.unit) {
+.unit {
     opacity: .7;
 }
 
-:local(.ingredient) {
+.ingredient {
     text-transform: capitalize;
 }

@@ -4,7 +4,6 @@ import { shallow } from 'enzyme'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 
-import styles from 'src/recipes/components/Step.css'
 import { Step } from 'src/recipes/components/Step'
 
 describe('Step', function () {
@@ -24,7 +23,7 @@ describe('Step', function () {
     it('is a Paper', () => {
       expect(this.instance.is(Paper)).toBeTruthy()
       expect(this.instance.props().elevation).toBe(1)
-      expect(this.instance.props().className).toBe(styles.paper)
+      expect(this.instance.props().className).toBe('paper')
     })
 
     it('contains a Grid container', () => {
@@ -41,7 +40,7 @@ describe('Step', function () {
       let typography = grid.find(Typography).at(0)
       expect(typography.props().variant).toBe('body2')
       expect(typography.props().align).toBe('center')
-      expect(typography.props().className).toBe(styles.numberedList)
+      expect(typography.props().className).toBe('numberedList')
       expect(typography.children().text()).toBe(number.toString())
     })
 

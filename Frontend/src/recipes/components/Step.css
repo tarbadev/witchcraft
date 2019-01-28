@@ -1,7 +1,7 @@
-:local(.paper) {
+.paper {
     padding: .5em;
 }
 
-:local(.numberedList) {
+.numberedList {
     opacity: .7;
 }
