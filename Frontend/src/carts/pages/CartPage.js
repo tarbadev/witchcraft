@@ -22,7 +22,7 @@ export const CartPage = ({
   const recipes = cart.recipes
     ? cart.recipes.map(recipe => (
       <Grid item key={recipe.id} sm={12}>
-        <Link to={`/recipes/${recipe.id}`}>{recipe.name}</Link>
+        <Link to={`/recipes/${recipe.id}`} data-recipe>{recipe.name}</Link>
       </Grid>
     ))
     : []

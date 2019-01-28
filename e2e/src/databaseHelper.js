@@ -6,8 +6,10 @@ import { ActuatorUrl } from './setupE2eTests'
 let connection
 
 export const connect = async () => {
-  const dbCredentials = await retrieveDbCredentials()
-  connection = await mysql.createConnection(dbCredentials)
+  if (!connection) {
+    const dbCredentials = await retrieveDbCredentials()
+    connection = await mysql.createConnection(dbCredentials)
+  }
 
   expect(connection).toBeDefined()
 }
