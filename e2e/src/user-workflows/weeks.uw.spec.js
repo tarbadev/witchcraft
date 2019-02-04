@@ -41,10 +41,10 @@ describe('Weeks page', () => {
       expect(page.url()).toBe(`${AppUrl}/carts/1`)
 
       const recipes = await CartPage.getRecipes()
-      expect(recipes).toEqual([
+      expect(recipes.sort()).toEqual([
         'thai chicken salad',
         'lasagna alla bolognese',
-      ])
+      ].sort())
     })
   })
 })
