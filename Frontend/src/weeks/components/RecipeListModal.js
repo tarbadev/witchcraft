@@ -13,7 +13,7 @@ import CheckCircleIcon from '@material-ui/icons/CheckCircle'
 
 import { toggleModal } from 'src/weeks/actions/WeekPageActions'
 import { setRecipe } from 'src/weeks/actions/RecipeListModalActions'
-import styles from './RecipeListModal.css'
+import './RecipeListModal.css'
 
 export const RecipeListModal = ({
   recipes,
@@ -30,15 +30,15 @@ export const RecipeListModal = ({
       else return onRecipeClick(recipe, day, meal)
     }
     const className = recipe?.id == currentRecipeId
-      ? styles.currentRecipe
+      ? 'current-recipe'
       : {}
     const currentRecipeIcon = recipe?.id == currentRecipeId
       ? <CheckCircleIcon className={className} />
       : undefined
     return (
-      <GridListTile key={recipe.imgUrl} className={styles.recipeCard} onClick={onClick}>
+      <GridListTile key={recipe.imgUrl} className={'recipe-card'} onClick={onClick}>
         <img src={recipe.imgUrl} alt={recipe.name} />
-        <GridListTileBar title={recipe.name} className={styles.recipeCardTitle} />
+        <GridListTileBar title={recipe.name} className={'recipe-card-title'} />
         {currentRecipeIcon && currentRecipeIcon}
       </GridListTile>
     )
@@ -51,13 +51,13 @@ export const RecipeListModal = ({
       open={isModalOpen}
       onClose={closeModal}
       disableAutoFocus={true}>
-      <Grid container justify='center' alignItems='center' direction='row' className={styles.modal}>
+      <Grid container justify='center' alignItems='center' direction='row' className={'modal'}>
         <Grid item xs={10}>
           <Paper>
             <GridList cellHeight={180} cols={4}>
-              <GridListTile key="Subheader" cols={4} className={styles.recipeCardsTitle}>
+              <GridListTile key="Subheader" cols={4} className={'recipe-cards-title'}>
                 <ListSubheader component="div">
-                  Choose a recipe for <span className={styles.day}>{day}</span>{'\''}s {meal}
+                  Choose a recipe for <span className={'day'}>{day}</span>{'\''}s {meal}
                 </ListSubheader>
               </GridListTile>
               {recipeCards}

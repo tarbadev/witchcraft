@@ -13,12 +13,16 @@ const RecipePaper = withStyles({
   },
 })(Paper)
 
-export const WeekRecipeCell = ({ recipe, onCellClick }) => {
+export const WeekRecipeCell = ({ recipe, onCellClick, dataTag }) => {
   const classes = onCellClick
     ? 'table-cell table-cell-clickable'
     : 'table-cell'
   return (
-    <TableCell className={classes} onClick={onCellClick}>
+    <TableCell
+      className={classes}
+      onClick={onCellClick}
+      data-meal={dataTag}
+    >
       {onCellClick && <div className='hover-mask' />}
       {(recipe && recipe.name) &&
       <RecipePaper>
@@ -31,5 +35,6 @@ export const WeekRecipeCell = ({ recipe, onCellClick }) => {
 
 WeekRecipeCell.propTypes = {
   recipe: PropTypes.object,
+  dataTag: PropTypes.object,
   onCellClick: PropTypes.func,
 }

@@ -52,7 +52,9 @@ export const WeekPane = ({
       <WeekRecipeCell
         key={`lunch-${index}`}
         recipe={day.lunch}
-        onCellClick={onCellClick} />
+        onCellClick={onCellClick}
+        dataTag={`lunch-${day.name}`}
+      />
     )
   })
 
@@ -66,7 +68,9 @@ export const WeekPane = ({
       <WeekRecipeCell
         key={`diner-${index}`}
         recipe={day.diner}
-        onCellClick={onCellClick} />
+        onCellClick={onCellClick}
+        dataTag={`diner-${day.name}`}
+      />
     )
   })
 
@@ -80,13 +84,13 @@ export const WeekPane = ({
           </TableRow>
         </TableHead>
         <TableBody>
-          <BodyRow>
+          <BodyRow data-lunch>
             <FirstColumnCell>
               <Typography variant='button'>Lunch</Typography>
             </FirstColumnCell>
             {lunches}
           </BodyRow>
-          <BodyRow>
+          <BodyRow data-diner>
             <FirstColumnCell>
               <Typography variant='button'>Diner</Typography>
             </FirstColumnCell>

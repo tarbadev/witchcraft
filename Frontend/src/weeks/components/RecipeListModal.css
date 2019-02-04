@@ -1,36 +1,36 @@
-:local(.recipeCardTitle) {
+.recipe-card-title {
     text-transform: capitalize;
 }
 
-:local(.recipeCard) {
+.recipe-card {
     cursor: pointer;
 }
 
-:local(.recipeCard:hover .recipeCardTitle) {
+.recipe-card:hover .recipe-card-title {
     height: auto;
 }
 
-:local(.recipeCard:hover .recipeCardTitle div) {
+.recipe-card:hover .recipe-card-title div {
     overflow: auto !important;
     white-space: normal;
 }
 
-:local(.recipeCardsTitle) {
+.recipe-cards-title {
     height: auto !important;
 }
 
-:local(.modal) {
+.modal {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     position: absolute;
 }
 
-:local(.day) {
+.day {
     text-transform: capitalize;
 }
 
-:local(.currentRecipe) {
+.current-recipe {
     position: absolute;
     bottom: .5rem;
     right: .5rem;
