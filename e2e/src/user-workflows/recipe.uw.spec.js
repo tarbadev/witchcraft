@@ -3,6 +3,10 @@ import * as RecipePage from '../page-objects/recipe.po'
 import * as RecipesPage from '../page-objects/recipes.po'
 import * as EditRecipePage from '../page-objects/editRecipe.po'
 
+/**
+ * @jest-environment CustomEnvironment
+ */
+
 describe('Recipe', () => {
   it('displays the ingredients', async () => {
     await RecipePage.goTo(3)

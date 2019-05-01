@@ -2,6 +2,10 @@ import * as WeeksPage from '../page-objects/weeks.po'
 import { AppUrl, page } from '../setupE2eTests'
 import * as CartPage from '../page-objects/cart.po'
 
+/**
+ * @jest-environment CustomEnvironment
+ */
+
 describe('Weeks page', () => {
   describe('on lunch or diner click', () => {
     it('displays a list of clickable recipes', async () => {

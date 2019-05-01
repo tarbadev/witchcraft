@@ -26,6 +26,11 @@
     "node": "10.15.0",
     "npm": "6.4.1"
   },
+  "jest": {
+    "setupFiles": [
+      "./src/setupE2eTests.js"
+    ]
+  },
   "jest-junit": {
     "suiteName": "End To End Tests",
     "outputDirectory": "build/test-results",
