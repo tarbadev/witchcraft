@@ -22,7 +22,8 @@ class RecipesRestController(
     private val getRecipeDetailsFromFormUseCase: GetRecipeDetailsFromFormUseCase,
     private val getFavoriteRecipesUseCase: GetFavoriteRecipesUseCase,
     private val lastAddedRecipesUseCase: LastAddedRecipesUseCase,
-    private val getRecipeNotesUseCase: GetRecipeNotesUseCase
+    private val getRecipeNotesUseCase: GetRecipeNotesUseCase,
+    private val editRecipeNotesUseCase: EditRecipeNotesUseCase
 ) {
     @GetMapping
     fun list(): RecipeListResponse {
@@ -120,5 +121,10 @@ class RecipesRestController(
         val notes = getRecipeNotesUseCase.execute(recipeId) ?: return null
 
         return NotesResponse.fromNotes(notes)
+    }
+
+    @PostMapping("/{recipeId}/notes")
+    fun editNotes(@RequestBody editNotesRequest: EditNotesRequest): NotesResponse? {
+        return NotesResponse.fromNotes(editRecipeNotesUseCase.execute(editNotesRequest.toNotes()))
     }
 }

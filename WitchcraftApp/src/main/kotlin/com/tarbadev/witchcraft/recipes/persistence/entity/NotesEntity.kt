@@ -15,6 +15,16 @@ data class NotesEntity(
     var comment: String = ""
 ) {
   fun toNotes(): Notes {
-    return Notes(recipeId = recipeId, comment = comment)
+    return Notes(id = id, recipeId = recipeId, comment = comment)
+  }
+
+  companion object {
+    fun fromNotes(notes: Notes): NotesEntity {
+      return NotesEntity(
+          id = notes.id,
+          recipeId = notes.recipeId,
+          comment = notes.comment
+      )
+    }
   }
 }

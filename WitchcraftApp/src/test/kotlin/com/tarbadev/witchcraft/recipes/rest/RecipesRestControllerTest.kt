@@ -54,6 +54,8 @@ class RecipesRestControllerTest(
   private lateinit var lastAddedRecipesUseCase: LastAddedRecipesUseCase
   @MockBean
   private lateinit var getRecipeNotesUseCase: GetRecipeNotesUseCase
+  @MockBean
+  private lateinit var editRecipeNotesUseCase: EditRecipeNotesUseCase
 
   @BeforeEach
   fun setup() {
@@ -297,6 +299,21 @@ class RecipesRestControllerTest(
     whenever(getRecipeNotesUseCase.execute(15)).thenReturn(notes)
 
     val responseEntity = testRestTemplate.getForEntity("/api/recipes/15/notes", NotesResponse::class.java)
+
+    assertThat(responseEntity.statusCode).isEqualTo(HttpStatus.OK)
+    assertThat(responseEntity.headers.contentType).isEqualTo(MediaType.APPLICATION_JSON_UTF8)
+    assertThat(responseEntity.body).isEqualTo(notesResponse)
+  }
+
+  @Test
+  fun editNotes() {
+    val notesRequest = EditNotesRequest(recipeId = 15, notes = "Some notes")
+    val notes = notesRequest.toNotes()
+    val notesResponse = NotesResponse.fromNotes(notes)
+
+    whenever(editRecipeNotesUseCase.execute(notes)).thenReturn(notes)
+
+    val responseEntity = testRestTemplate.postForEntity("/api/recipes/15/notes", notesRequest, NotesResponse::class.java)
 
     assertThat(responseEntity.statusCode).isEqualTo(HttpStatus.OK)
     assertThat(responseEntity.headers.contentType).isEqualTo(MediaType.APPLICATION_JSON_UTF8)

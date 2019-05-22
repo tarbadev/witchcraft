@@ -4,4 +4,5 @@ import com.tarbadev.witchcraft.recipes.domain.entity.Notes
 
 interface NotesRepository {
   fun findByRecipeId(recipeId: Int): Notes?
+  fun save(notes: Notes): Notes
 }

@@ -2,7 +2,7 @@ package com.tarbadev.witchcraft.recipes.persistence.repository
 
 import com.tarbadev.witchcraft.recipes.domain.entity.Notes
 import com.tarbadev.witchcraft.recipes.persistence.entity.NotesEntity
-import org.junit.jupiter.api.Assertions
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -39,11 +39,41 @@ class DatabaseNotesRepositoryTest(
 
     entityManager.clear()
 
-    Assertions.assertEquals(notes, databaseNotesRepository.findByRecipeId(notes.recipeId))
+    assertThat(databaseNotesRepository.findByRecipeId(notes.recipeId)).isEqualTo(notes)
+  }
+
+  @Test
+  fun save() {
+    val notes = Notes(
+        recipeId = 1,
+        comment = "Some comment"
+    )
+
+    val returnedNotes = databaseNotesRepository.save(notes)
+    entityManager.clear()
+
+    assertThat(toDomain(entityManager.find(NotesEntity::class.java, returnedNotes.id))).isEqualTo(returnedNotes)
+  }
+
+  @Test
+  fun `save erases existing notes if exists`() {
+    val notes = Notes(
+        recipeId = 1,
+        comment = "Some comment"
+    )
+
+    val originalNotes = entityManager.persistAndFlush(NotesEntity(recipeId = 1, comment = "An old comment"))
+    entityManager.clear()
+
+    val returnedNotes = databaseNotesRepository.save(notes)
+    entityManager.clear()
+
+    assertThat(toDomain(entityManager.find(NotesEntity::class.java, originalNotes.id))).isEqualTo(returnedNotes)
   }
 
   private fun toDomain(notesEntity: NotesEntity): Notes {
     return Notes(
+        id = notesEntity.id,
         recipeId = notesEntity.recipeId,
         comment = notesEntity.comment
     )
