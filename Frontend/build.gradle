@@ -24,8 +24,12 @@ task buildWatch(type: NpmTask, dependsOn: 'npmInstall', group: 'build', descript
   args = ['run', 'build:watch']
 }
 
-task start(type: NpmTask, dependsOn: 'npmInstall', group: 'Application', description: 'Starts the frontend server and watches for changes') {
+task start(type: NpmTask, dependsOn: 'npmInstall', group: 'Application', description: 'Starts the frontend production server') {
   args = ['start']
+}
+
+task localServer(type: NpmTask, dependsOn: 'npmInstall', group: 'Application', description: 'Starts the frontend debug server and watches for changes') {
+  args = ['run', 'localServer']
 }
 
 task test(type: NpmTask, dependsOn: 'npmInstall', group: 'Verification', description: 'Runs the tests for React') {
