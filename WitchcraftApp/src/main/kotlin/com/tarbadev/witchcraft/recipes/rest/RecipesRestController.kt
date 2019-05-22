@@ -7,6 +7,7 @@ import com.tarbadev.witchcraft.recipes.domain.usecase.*
 import com.tarbadev.witchcraft.recipes.rest.entity.RecipeFormRequest
 import com.tarbadev.witchcraft.recipes.rest.entity.RecipeListResponse
 import com.tarbadev.witchcraft.recipes.rest.entity.RecipeModifyRequest
+import com.tarbadev.witchcraft.recipes.rest.entity.RecipeResponse
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -29,21 +30,23 @@ class RecipesRestController(
     fun list(): RecipeListResponse {
         val recipes = recipeCatalogUseCase.execute()
 
-        return RecipeListResponse(recipes)
+        return RecipeListResponse.fromRecipeList(recipes)
     }
 
     @GetMapping("/{id}")
-    fun show(@PathVariable("id") id: Int): Recipe? {
-        return getRecipeUseCase.execute(id)
+    fun show(@PathVariable("id") id: Int): RecipeResponse? {
+        val recipe = getRecipeUseCase.execute(id) ?: return null
+
+        return RecipeResponse.fromRecipe(recipe)
     }
 
     @PatchMapping("/{id}")
     fun setFavorite(
         @PathVariable("id") id: Int,
         @RequestBody requestParams: Map<String, String>
-    ): Recipe {
+    ): RecipeResponse {
         val favorite = java.lang.Boolean.parseBoolean(requestParams["favorite"])
-        return setFavoriteRecipeUseCase.execute(id, favorite)
+        return RecipeResponse.fromRecipe(setFavoriteRecipeUseCase.execute(id, favorite))
     }
 
     @DeleteMapping("/{id}")
@@ -58,14 +61,14 @@ class RecipesRestController(
     }
 
     @PostMapping("/importFromUrl")
-    fun importFromUrl(@RequestBody recipeFormRequest: RecipeFormRequest): Recipe {
+    fun importFromUrl(@RequestBody recipeFormRequest: RecipeFormRequest): RecipeResponse {
         val recipe = getRecipeDetailsFromUrlUseCase.execute(recipeFormRequest.url)
 
-        return saveRecipeUseCase.execute(recipe)
+        return RecipeResponse.fromRecipe(saveRecipeUseCase.execute(recipe))
     }
 
     @PostMapping("/importFromForm")
-    fun importFromForm(@RequestBody recipeFormRequest: RecipeFormRequest): Recipe {
+    fun importFromForm(@RequestBody recipeFormRequest: RecipeFormRequest): RecipeResponse {
         val recipe = getRecipeDetailsFromFormUseCase.execute(
             recipeFormRequest.name,
             recipeFormRequest.url,
@@ -74,11 +77,11 @@ class RecipesRestController(
             recipeFormRequest.imageUrl
         )
 
-        return saveRecipeUseCase.execute(recipe)
+        return RecipeResponse.fromRecipe(saveRecipeUseCase.execute(recipe))
     }
 
     @PutMapping("/{id}/update")
-    fun update(@RequestBody recipeModifyRequest: RecipeModifyRequest): Recipe {
+    fun update(@RequestBody recipeModifyRequest: RecipeModifyRequest): RecipeResponse {
         val recipe = Recipe(
             id = recipeModifyRequest.id,
             name = recipeModifyRequest.name,
@@ -101,7 +104,7 @@ class RecipesRestController(
             }
         )
 
-        return saveRecipeUseCase.execute(recipe)
+        return RecipeResponse.fromRecipe(saveRecipeUseCase.execute(recipe))
     }
 
     @GetMapping("/favorites")
