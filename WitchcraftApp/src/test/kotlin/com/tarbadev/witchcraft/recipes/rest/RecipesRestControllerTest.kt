@@ -10,7 +10,6 @@ import com.tarbadev.witchcraft.recipes.domain.entity.Step
 import com.tarbadev.witchcraft.recipes.domain.usecase.*
 import com.tarbadev.witchcraft.recipes.rest.entity.*
 import org.apache.http.impl.client.HttpClientBuilder
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -101,7 +100,7 @@ class RecipesRestControllerTest(
 
         val returnedRecipe = testRestTemplate.patchForObject(
             "/api/recipes/$id",
-            SetFavoriteRequest(favorite),
+            "{\"favorite\":$favorite}",
             Recipe::class.java
         )
 
