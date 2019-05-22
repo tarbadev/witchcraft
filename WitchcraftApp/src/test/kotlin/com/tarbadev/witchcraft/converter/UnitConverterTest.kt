@@ -14,7 +14,7 @@ class UnitConverterTest {
         val oz = 16.0
         val expectedLb = 1.0
 
-        assertEquals(expectedLb, unitConverter.convert(oz, UnitConverter.UnitName.OZ.name, UnitConverter.UnitName.LB.name))
+        assertEquals(expectedLb, unitConverter.convert(oz, UnitConverter.UnitName.OZ.value, UnitConverter.UnitName.LB.value))
     }
 
     @Test
@@ -22,7 +22,7 @@ class UnitConverterTest {
         val tsp = 48.0
         val cup = 1.0
 
-        assertEquals(cup, unitConverter.convert(tsp, UnitConverter.UnitName.TSP.name, UnitConverter.UnitName.CUP.name))
+        assertEquals(cup, unitConverter.convert(tsp, UnitConverter.UnitName.TSP.value, UnitConverter.UnitName.CUP.value))
     }
 
     @Test
@@ -30,7 +30,7 @@ class UnitConverterTest {
         val tsp = 3.0
         val tbsp = 1.0
 
-        assertEquals(tbsp, unitConverter.convert(tsp, UnitConverter.UnitName.TSP.name, UnitConverter.UnitName.TBSP.name))
+        assertEquals(tbsp, unitConverter.convert(tsp, UnitConverter.UnitName.TSP.value, UnitConverter.UnitName.TBSP.value))
     }
 
     @Test
@@ -38,8 +38,8 @@ class UnitConverterTest {
         val ml = 1.0
         val oz = 0.033814
 
-        val expectedResult = AbstractMap.SimpleEntry<String, Double>(UnitConverter.UnitName.OZ.name, oz)
-        val returnedValue = unitConverter.convertToHighestUnit(ml, UnitConverter.UnitName.ML.name, UnitConverter.UnitName.OZ.name)
+        val expectedResult = AbstractMap.SimpleEntry<String, Double>(UnitConverter.UnitName.OZ.value, oz)
+        val returnedValue = unitConverter.convertToHighestUnit(ml, UnitConverter.UnitName.ML.value, UnitConverter.UnitName.OZ.value)
         returnedValue.setValue(BigDecimal(returnedValue.value).setScale(6, RoundingMode.HALF_UP).toDouble())
 
         assertEquals(expectedResult, returnedValue)
@@ -49,8 +49,8 @@ class UnitConverterTest {
     fun convertToHighestUnit_OzToMlReturnsOz() {
         val oz = 0.033814
 
-        val expectedResult = AbstractMap.SimpleEntry<String, Double>(UnitConverter.UnitName.OZ.name, oz)
-        val returnedValue = unitConverter.convertToHighestUnit(oz, UnitConverter.UnitName.OZ.name, UnitConverter.UnitName.ML.name)
+        val expectedResult = AbstractMap.SimpleEntry<String, Double>(UnitConverter.UnitName.OZ.value, oz)
+        val returnedValue = unitConverter.convertToHighestUnit(oz, UnitConverter.UnitName.OZ.value, UnitConverter.UnitName.ML.value)
         returnedValue.setValue(BigDecimal(returnedValue.value).setScale(6, RoundingMode.HALF_UP).toDouble())
 
         assertEquals(expectedResult, returnedValue)
@@ -61,8 +61,8 @@ class UnitConverterTest {
         val tsp = 3.0
         val cup = 0.0625
 
-        val expectedResult = AbstractMap.SimpleEntry<String, Double>(UnitConverter.UnitName.CUP.name, cup)
-        val returnedValue = unitConverter.convertToHighestUnit(tsp, UnitConverter.UnitName.TSP.name, UnitConverter.UnitName.CUP.name)
+        val expectedResult = AbstractMap.SimpleEntry<String, Double>(UnitConverter.UnitName.CUP.value, cup)
+        val returnedValue = unitConverter.convertToHighestUnit(tsp, UnitConverter.UnitName.TSP.value, UnitConverter.UnitName.CUP.value)
 
         assertEquals(expectedResult, returnedValue)
     }
@@ -72,8 +72,8 @@ class UnitConverterTest {
         val tbsp = 10.0
         val cup = 0.625
 
-        val expectedResult = AbstractMap.SimpleEntry<String, Double>(UnitConverter.UnitName.CUP.name, cup)
-        val returnedValue = unitConverter.convertToHighestUnit(tbsp, UnitConverter.UnitName.TBSP.name, UnitConverter.UnitName.CUP.name)
+        val expectedResult = AbstractMap.SimpleEntry<String, Double>(UnitConverter.UnitName.CUP.value, cup)
+        val returnedValue = unitConverter.convertToHighestUnit(tbsp, UnitConverter.UnitName.TBSP.value, UnitConverter.UnitName.CUP.value)
 
         assertEquals(expectedResult, returnedValue)
     }
@@ -83,8 +83,8 @@ class UnitConverterTest {
         val tsp = 3.0
         val tbsp = 1.0
 
-        val expectedResult = AbstractMap.SimpleEntry<String, Double>(UnitConverter.UnitName.TBSP.name, tbsp)
-        val returnedValue = unitConverter.convertToHighestUnit(tsp, UnitConverter.UnitName.TSP.name, UnitConverter.UnitName.TBSP.name)
+        val expectedResult = AbstractMap.SimpleEntry<String, Double>(UnitConverter.UnitName.TBSP.value, tbsp)
+        val returnedValue = unitConverter.convertToHighestUnit(tsp, UnitConverter.UnitName.TSP.value, UnitConverter.UnitName.TBSP.value)
 
         assertEquals(expectedResult, returnedValue)
     }
