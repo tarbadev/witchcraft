@@ -5,13 +5,13 @@ import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import com.tarbadev.witchcraft.TestResources
 import com.tarbadev.witchcraft.recipes.domain.entity.Ingredient
+import com.tarbadev.witchcraft.recipes.domain.entity.Notes
 import com.tarbadev.witchcraft.recipes.domain.entity.Recipe
 import com.tarbadev.witchcraft.recipes.domain.entity.Step
 import com.tarbadev.witchcraft.recipes.domain.usecase.*
 import com.tarbadev.witchcraft.recipes.rest.entity.*
 import org.apache.http.impl.client.HttpClientBuilder
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -52,6 +52,8 @@ class RecipesRestControllerTest(
   private lateinit var getFavoriteRecipesUseCase: GetFavoriteRecipesUseCase
   @MockBean
   private lateinit var lastAddedRecipesUseCase: LastAddedRecipesUseCase
+  @MockBean
+  private lateinit var getRecipeNotesUseCase: GetRecipeNotesUseCase
 
   @BeforeEach
   fun setup() {
@@ -80,8 +82,8 @@ class RecipesRestControllerTest(
 
     val responseEntity = testRestTemplate.getForEntity("/api/recipes", TestRecipeListResponse::class.java)
 
-    assertEquals(HttpStatus.OK, responseEntity.statusCode)
-    assertEquals(MediaType.APPLICATION_JSON_UTF8, responseEntity.headers.contentType)
+    assertThat(responseEntity.statusCode).isEqualTo(HttpStatus.OK)
+    assertThat(responseEntity.headers.contentType).isEqualTo(MediaType.APPLICATION_JSON_UTF8)
     assertThat(responseEntity.body).isEqualToComparingFieldByFieldRecursively(RecipeListResponse.fromRecipeList(recipes))
   }
 
@@ -96,9 +98,9 @@ class RecipesRestControllerTest(
 
     val responseEntity = testRestTemplate.getForEntity("/api/recipes/${recipe.id}", RecipeResponse::class.java)
 
-    assertEquals(HttpStatus.OK, responseEntity.statusCode)
-    assertEquals(MediaType.APPLICATION_JSON_UTF8, responseEntity.headers.contentType)
-    assertEquals(RecipeResponse.fromRecipe(recipe), responseEntity.body)
+    assertThat(responseEntity.statusCode).isEqualTo(HttpStatus.OK)
+    assertThat(responseEntity.headers.contentType).isEqualTo(MediaType.APPLICATION_JSON_UTF8)
+    assertThat(responseEntity.body).isEqualTo(RecipeResponse.fromRecipe(recipe))
   }
 
   @Test
@@ -115,7 +117,7 @@ class RecipesRestControllerTest(
         RecipeResponse::class.java
     )
 
-    assertEquals(RecipeResponse.fromRecipe(recipe), returnedRecipe)
+    assertThat(returnedRecipe).isEqualTo(RecipeResponse.fromRecipe(recipe))
   }
 
   @Test
@@ -150,9 +152,9 @@ class RecipesRestControllerTest(
 
     val responseEntity = testRestTemplate.postForEntity("/api/recipes/importFromUrl", recipeFormRequest, RecipeResponse::class.java)
 
-    assertEquals(HttpStatus.OK, responseEntity.statusCode)
-    assertEquals(MediaType.APPLICATION_JSON_UTF8, responseEntity.headers.contentType)
-    assertEquals(RecipeResponse.fromRecipe(recipe), responseEntity.body)
+    assertThat(responseEntity.statusCode).isEqualTo(HttpStatus.OK)
+    assertThat(responseEntity.headers.contentType).isEqualTo(MediaType.APPLICATION_JSON_UTF8)
+    assertThat(responseEntity.body).isEqualTo(RecipeResponse.fromRecipe(recipe))
 
     verify(getRecipeDetailsFromUrlUseCase).execute(recipe.originUrl)
     verify(saveRecipeUseCase).execute(recipe)
@@ -192,9 +194,9 @@ class RecipesRestControllerTest(
 
     val responseEntity = testRestTemplate.postForEntity("/api/recipes/importFromForm", recipeFormRequest, RecipeResponse::class.java)
 
-    assertEquals(HttpStatus.OK, responseEntity.statusCode)
-    assertEquals(MediaType.APPLICATION_JSON_UTF8, responseEntity.headers.contentType)
-    assertEquals(RecipeResponse.fromRecipe(recipe), responseEntity.body)
+    assertThat(responseEntity.statusCode).isEqualTo(HttpStatus.OK)
+    assertThat(responseEntity.headers.contentType).isEqualTo(MediaType.APPLICATION_JSON_UTF8)
+    assertThat(responseEntity.body).isEqualTo(RecipeResponse.fromRecipe(recipe))
   }
 
   @Test
@@ -259,9 +261,9 @@ class RecipesRestControllerTest(
 
     val responseEntity = testRestTemplate.getForEntity("/api/recipes/favorites", Array<RecipeResponse>::class.java)
 
-    assertEquals(HttpStatus.OK, responseEntity.statusCode)
-    assertEquals(MediaType.APPLICATION_JSON_UTF8, responseEntity.headers.contentType)
-    assertEquals(recipesResponse, responseEntity.body!!.toList())
+    assertThat(responseEntity.statusCode).isEqualTo(HttpStatus.OK)
+    assertThat(responseEntity.headers.contentType).isEqualTo(MediaType.APPLICATION_JSON_UTF8)
+    assertThat(responseEntity.body!!.toList()).isEqualTo(recipesResponse)
   }
 
   @Test
@@ -282,9 +284,23 @@ class RecipesRestControllerTest(
 
     val responseEntity = testRestTemplate.getForEntity("/api/recipes/latest", Array<RecipeResponse>::class.java)
 
-    assertEquals(HttpStatus.OK, responseEntity.statusCode)
-    assertEquals(MediaType.APPLICATION_JSON_UTF8, responseEntity.headers.contentType)
-    assertEquals(recipesResponse, responseEntity.body!!.toList())
+    assertThat(responseEntity.statusCode).isEqualTo(HttpStatus.OK)
+    assertThat(responseEntity.headers.contentType).isEqualTo(MediaType.APPLICATION_JSON_UTF8)
+    assertThat(responseEntity.body!!.toList()).isEqualTo(recipesResponse)
+  }
+
+  @Test
+  fun getNotes() {
+    val notes = Notes(recipeId = 15, comment = "Some notes")
+    val notesResponse = NotesResponse.fromNotes(notes)
+
+    whenever(getRecipeNotesUseCase.execute(15)).thenReturn(notes)
+
+    val responseEntity = testRestTemplate.getForEntity("/api/recipes/15/notes", NotesResponse::class.java)
+
+    assertThat(responseEntity.statusCode).isEqualTo(HttpStatus.OK)
+    assertThat(responseEntity.headers.contentType).isEqualTo(MediaType.APPLICATION_JSON_UTF8)
+    assertThat(responseEntity.body).isEqualTo(notesResponse)
   }
 
   data class TestRecipeListResponse(

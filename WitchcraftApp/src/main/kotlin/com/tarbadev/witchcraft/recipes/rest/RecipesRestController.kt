@@ -4,10 +4,7 @@ import com.tarbadev.witchcraft.recipes.domain.entity.Ingredient
 import com.tarbadev.witchcraft.recipes.domain.entity.Recipe
 import com.tarbadev.witchcraft.recipes.domain.entity.Step
 import com.tarbadev.witchcraft.recipes.domain.usecase.*
-import com.tarbadev.witchcraft.recipes.rest.entity.RecipeFormRequest
-import com.tarbadev.witchcraft.recipes.rest.entity.RecipeListResponse
-import com.tarbadev.witchcraft.recipes.rest.entity.RecipeModifyRequest
-import com.tarbadev.witchcraft.recipes.rest.entity.RecipeResponse
+import com.tarbadev.witchcraft.recipes.rest.entity.*
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -24,7 +21,8 @@ class RecipesRestController(
     private val saveRecipeUseCase: SaveRecipeUseCase,
     private val getRecipeDetailsFromFormUseCase: GetRecipeDetailsFromFormUseCase,
     private val getFavoriteRecipesUseCase: GetFavoriteRecipesUseCase,
-    private val lastAddedRecipesUseCase: LastAddedRecipesUseCase
+    private val lastAddedRecipesUseCase: LastAddedRecipesUseCase,
+    private val getRecipeNotesUseCase: GetRecipeNotesUseCase
 ) {
     @GetMapping
     fun list(): RecipeListResponse {
@@ -115,5 +113,12 @@ class RecipesRestController(
     @GetMapping("/latest")
     fun latest(): List<Recipe> {
         return lastAddedRecipesUseCase.execute()
+    }
+
+    @GetMapping("/{recipeId}/notes")
+    fun getNotes(@PathVariable recipeId: Int): NotesResponse? {
+        val notes = getRecipeNotesUseCase.execute(recipeId) ?: return null
+
+        return NotesResponse.fromNotes(notes)
     }
 }
