@@ -8,8 +8,10 @@ import com.tarbadev.witchcraft.recipes.domain.entity.Ingredient
 import com.tarbadev.witchcraft.recipes.domain.entity.Recipe
 import com.tarbadev.witchcraft.recipes.domain.entity.Step
 import com.tarbadev.witchcraft.recipes.domain.usecase.*
+import com.tarbadev.witchcraft.recipes.rest.entity.*
 import org.apache.http.impl.client.HttpClientBuilder
 import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -66,11 +68,11 @@ class RecipesRestControllerTest(
 
         whenever(recipeCatalogUseCase.execute()).thenReturn(recipes)
 
-        val responseEntity = testRestTemplate.getForEntity("/api/recipes", RecipeList::class.java)
+        val responseEntity = testRestTemplate.getForEntity("/api/recipes", RecipeListResponse::class.java)
 
-        Assertions.assertEquals(HttpStatus.OK, responseEntity.statusCode)
-        Assertions.assertEquals(MediaType.APPLICATION_JSON_UTF8, responseEntity.headers.contentType)
-        Assertions.assertEquals(RecipeList(recipes), responseEntity.body)
+        assertEquals(HttpStatus.OK, responseEntity.statusCode)
+        assertEquals(MediaType.APPLICATION_JSON_UTF8, responseEntity.headers.contentType)
+        assertEquals(RecipeListResponse(recipes), responseEntity.body)
     }
 
     @Test
@@ -84,9 +86,9 @@ class RecipesRestControllerTest(
 
         val responseEntity = testRestTemplate.getForEntity("/api/recipes/${recipe.id}", Recipe::class.java)
 
-        Assertions.assertEquals(HttpStatus.OK, responseEntity.statusCode)
-        Assertions.assertEquals(MediaType.APPLICATION_JSON_UTF8, responseEntity.headers.contentType)
-        Assertions.assertEquals(recipe, responseEntity.body)
+        assertEquals(HttpStatus.OK, responseEntity.statusCode)
+        assertEquals(MediaType.APPLICATION_JSON_UTF8, responseEntity.headers.contentType)
+        assertEquals(recipe, responseEntity.body)
     }
 
     @Test
@@ -103,7 +105,7 @@ class RecipesRestControllerTest(
             Recipe::class.java
         )
 
-        Assertions.assertEquals(recipe, returnedRecipe)
+        assertEquals(recipe, returnedRecipe)
     }
 
     @Test
@@ -138,9 +140,9 @@ class RecipesRestControllerTest(
 
         val responseEntity = testRestTemplate.postForEntity("/api/recipes/importFromUrl", recipeFormRequest, Recipe::class.java)
 
-        Assertions.assertEquals(HttpStatus.OK, responseEntity.statusCode)
-        Assertions.assertEquals(MediaType.APPLICATION_JSON_UTF8, responseEntity.headers.contentType)
-        Assertions.assertEquals(recipe, responseEntity.body)
+        assertEquals(HttpStatus.OK, responseEntity.statusCode)
+        assertEquals(MediaType.APPLICATION_JSON_UTF8, responseEntity.headers.contentType)
+        assertEquals(recipe, responseEntity.body)
 
         verify(getRecipeDetailsFromUrlUseCase).execute(recipe.originUrl)
         verify(saveRecipeUseCase).execute(recipe)
@@ -180,9 +182,9 @@ class RecipesRestControllerTest(
 
         val responseEntity = testRestTemplate.postForEntity("/api/recipes/importFromForm", recipeFormRequest, Recipe::class.java)
 
-        Assertions.assertEquals(HttpStatus.OK, responseEntity.statusCode)
-        Assertions.assertEquals(MediaType.APPLICATION_JSON_UTF8, responseEntity.headers.contentType)
-        Assertions.assertEquals(recipe, responseEntity.body)
+        assertEquals(HttpStatus.OK, responseEntity.statusCode)
+        assertEquals(MediaType.APPLICATION_JSON_UTF8, responseEntity.headers.contentType)
+        assertEquals(recipe, responseEntity.body)
     }
 
     @Test
@@ -240,9 +242,9 @@ class RecipesRestControllerTest(
 
         val responseEntity = testRestTemplate.getForEntity("/api/recipes/favorites", Array<Recipe>::class.java)
 
-        Assertions.assertEquals(HttpStatus.OK, responseEntity.statusCode)
-        Assertions.assertEquals(MediaType.APPLICATION_JSON_UTF8, responseEntity.headers.contentType)
-        Assertions.assertEquals(recipes, responseEntity.body!!.toList())
+        assertEquals(HttpStatus.OK, responseEntity.statusCode)
+        assertEquals(MediaType.APPLICATION_JSON_UTF8, responseEntity.headers.contentType)
+        assertEquals(recipes, responseEntity.body!!.toList())
     }
 
     @Test
@@ -257,8 +259,8 @@ class RecipesRestControllerTest(
 
         val responseEntity = testRestTemplate.getForEntity("/api/recipes/latest", Array<Recipe>::class.java)
 
-        Assertions.assertEquals(HttpStatus.OK, responseEntity.statusCode)
-        Assertions.assertEquals(MediaType.APPLICATION_JSON_UTF8, responseEntity.headers.contentType)
-        Assertions.assertEquals(recipes, responseEntity.body!!.toList())
+        assertEquals(HttpStatus.OK, responseEntity.statusCode)
+        assertEquals(MediaType.APPLICATION_JSON_UTF8, responseEntity.headers.contentType)
+        assertEquals(recipes, responseEntity.body!!.toList())
     }
 }

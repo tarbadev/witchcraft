@@ -1,7 +1,7 @@
-package com.tarbadev.witchcraft.recipes.rest
+package com.tarbadev.witchcraft.recipes.rest.entity
 
 import com.tarbadev.witchcraft.recipes.domain.entity.Recipe
 
-data class RecipeList(
+data class RecipeListResponse(
     val recipes: List<Recipe> = emptyList()
 )

@@ -1,4 +1,4 @@
-package com.tarbadev.witchcraft.recipes.rest
+package com.tarbadev.witchcraft.recipes.rest.entity
 
 data class RecipeFormRequest(
     var name: String = "",

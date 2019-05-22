@@ -4,10 +4,12 @@ import com.tarbadev.witchcraft.recipes.domain.entity.Ingredient
 import com.tarbadev.witchcraft.recipes.domain.entity.Recipe
 import com.tarbadev.witchcraft.recipes.domain.entity.Step
 import com.tarbadev.witchcraft.recipes.domain.usecase.*
+import com.tarbadev.witchcraft.recipes.rest.entity.RecipeFormRequest
+import com.tarbadev.witchcraft.recipes.rest.entity.RecipeListResponse
+import com.tarbadev.witchcraft.recipes.rest.entity.RecipeModifyRequest
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import java.util.*
 
 @RestController
 @RequestMapping("/api/recipes")
@@ -24,10 +26,10 @@ class RecipesRestController(
     private val lastAddedRecipesUseCase: LastAddedRecipesUseCase
 ) {
     @GetMapping
-    fun list(): RecipeList {
+    fun list(): RecipeListResponse {
         val recipes = recipeCatalogUseCase.execute()
 
-        return RecipeList(recipes)
+        return RecipeListResponse(recipes)
     }
 
     @GetMapping("/{id}")
