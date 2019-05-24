@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import IconButton from '@material-ui/core/IconButton'
 import CircularProgress from '@material-ui/core/CircularProgress'
+import TextField from '@material-ui/core/TextField'
 import FavoriteIcon from '@material-ui/icons/Favorite'
 import DeleteIcon from '@material-ui/icons/Delete'
 import EditIcon from '@material-ui/icons/Edit'
@@ -16,9 +17,20 @@ import './RecipePage.css'
 import { Step } from 'src/recipes/components/Step'
 import { Ingredient } from 'src/recipes/components/Ingredient'
 
-import { setFavorite, deleteRecipe } from 'src/recipes/actions/RecipeActions'
+import { setFavorite, deleteRecipe, updateNotes } from 'src/recipes/actions/RecipeActions'
+import { setState } from 'src/RootReducer'
 
-export const RecipePage = ({ recipe, history, toggleFavorite, isDeleting, deleteRecipe }) => {
+export const RecipePage = ({
+  recipe,
+  history,
+  toggleFavorite,
+  isDeleting,
+  deleteRecipe,
+  editNotes,
+  updateNotes,
+  editableNotes,
+  toggleEditableNotes,
+}) => {
   const onModifyButtonClick = () => {
     history.push(`/recipes/${recipe.id}/edit`)
   }
@@ -26,6 +38,22 @@ export const RecipePage = ({ recipe, history, toggleFavorite, isDeleting, delete
   let steps
   let ingredients
   let favoriteClassName = 'favoriteButton'
+  let notes
+
+  if (editableNotes) {
+    notes =
+      <TextField
+        multiline={true}
+        className='editableNotes'
+        value={recipe.notes}
+        onChange={(event) => editNotes('recipe.notes', event.target.value)} />
+  } else {
+    notes =
+      <Typography className='notes'
+                  onClick={() => toggleEditableNotes('recipePage.editableNotes', true)}>
+        {recipe.notes}
+      </Typography>
+  }
 
   if (recipe.steps) {
     steps = recipe.steps.map((step, index) => (<Grid item key={step.id} sm={12}>
@@ -81,6 +109,17 @@ export const RecipePage = ({ recipe, history, toggleFavorite, isDeleting, delete
       </Grid>
       <Grid item sm={3} name='image'>
         <img src={recipe.imgUrl} className="image" />
+        <Typography variant='headline'>
+          Notes
+        </Typography>
+        {notes}
+        <br />
+        <Button
+          className="updateNotesButton"
+          variant='contained'
+          onClick={() => updateNotes(recipe.id, recipe.notes)}>
+          Update Notes
+        </Button>
       </Grid>
       <Grid item sm={5} name='steps'>
         <Typography variant='title' gutterBottom>Steps</Typography>
@@ -104,11 +143,16 @@ RecipePage.propTypes = {
   toggleFavorite: PropTypes.func,
   isDeleting: PropTypes.bool,
   deleteRecipe: PropTypes.func,
+  editNotes: PropTypes.func,
+  updateNotes: PropTypes.func,
+  editableNotes: PropTypes.bool,
+  toggleEditableNotes: PropTypes.func,
 }
 
 const mapStateToProps = state => {
   return {
     recipe: state.recipe,
+    editableNotes: state.recipePage.editableNotes,
   }
 }
 
@@ -117,6 +161,9 @@ const mapDispatchToProps = (dispatch) => {
     {
       toggleFavorite: setFavorite,
       deleteRecipe: deleteRecipe,
+      editNotes: setState,
+      updateNotes: updateNotes,
+      toggleEditableNotes: setState,
     },
     dispatch,
   )

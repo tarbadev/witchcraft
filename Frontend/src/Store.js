@@ -13,6 +13,7 @@ import { getRecipe } from 'src/recipes/actions/RecipeActions'
 import { getAllCarts } from 'src/carts/actions/CartsActions'
 import { getCart } from 'src/carts/actions/CartActions'
 import { getWeek, getCurrentWeek } from 'src/weeks/actions/WeekActions'
+import { getRecipeNotes } from './recipes/actions/RecipeActions'
 
 export const history = createBrowserHistory()
 export const store = createStore(connectRouter(history)(reducer), composeWithDevTools(applyMiddleware(routerMiddleware(history), thunk, WitchcraftMiddleware)))
@@ -20,7 +21,10 @@ export const store = createStore(connectRouter(history)(reducer), composeWithDev
 const pathRegexes = [
   {
     regex: /^\/recipes\/(\d+)$/,
-    callback: (id) => store.dispatch(getRecipe(id)),
+    callback: (id) => {
+      store.dispatch(getRecipe(id))
+      store.dispatch(getRecipeNotes(id))
+    },
   }, {
     regex: /^\/recipes\/(\d+)\/edit$/,
     callback: (id) => store.dispatch(getRecipe(id)),

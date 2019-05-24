@@ -11,6 +11,9 @@ import {
 } from 'src/recipes/actions/RecipeActions'
 
 import promisedRecipeList from 'test-resources/recipeList.json'
+import { getRecipeNotes, getRecipesNotesSuccess, updateNotes, updateNotesSuccess } from './RecipeActions'
+import { setState } from '../../RootReducer'
+import { fetchAction } from '../../WitchcraftMiddleware'
 
 describe('RecipeActions', () => {
   describe('getRecipe', () => {
@@ -169,6 +172,59 @@ describe('RecipeActions', () => {
         type: '@@router/CALL_HISTORY_METHOD',
         payload: { method: 'push', args: ['/recipes'] },
       })
+    })
+  })
+
+  describe('updateNotes', () => {
+    it('success callback updates the recipe on the backend', () => {
+      const dispatchSpy = jest.fn()
+      const notes = 'Keep it going'
+      const id = 1
+
+      updateNotes(id, notes)(dispatchSpy)
+      expect(dispatchSpy).toHaveBeenCalledWith(fetchAction({
+        url: `/api/recipes/${id}/notes`,
+        method: 'POST',
+        body: { recipeId: id, notes },
+        onSuccess: updateNotesSuccess,
+      }))
+    })
+  })
+
+  describe('updateNotesSuccess', () => {
+    it('sets the page in non editable mode', () => {
+      const dispatchSpy = jest.fn()
+
+      updateNotesSuccess()(dispatchSpy)
+      expect(dispatchSpy).toHaveBeenCalledWith(setState(
+        'recipePage.editableNotes',
+        false,
+      ))
+    })
+  })
+
+  describe('getRecipeNotes', () => {
+    it('gets the notes for a given recipe id', () => {
+      const dispatchSpy = jest.fn()
+      const id = 1
+
+      getRecipeNotes(id)(dispatchSpy)
+      expect(dispatchSpy).toHaveBeenCalledWith(fetchAction({
+        url: `/api/recipes/${id}/notes`,
+        method: 'GET',
+        onSuccess: getRecipesNotesSuccess,
+      }))
+    })
+  })
+
+  describe('getRecipesNotesSuccess', () => {
+    it('sets the notes in the state', () => {
+      const dispatchSpy = jest.fn()
+      const notes = 'Some notes'
+
+      getRecipesNotesSuccess({ notes })(dispatchSpy)
+
+      expect(dispatchSpy).toHaveBeenCalledWith(setState('recipe.notes', notes))
     })
   })
 })

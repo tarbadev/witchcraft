@@ -70,3 +70,28 @@ export const updateRecipe = (form) => dispatch => {
     onSuccess: updateRecipeSuccess,
   }))
 }
+
+export const updateNotes = (id, notes) => dispatch => {
+  dispatch(fetchAction({
+    url: `/api/recipes/${id}/notes`,
+    method: 'POST',
+    body: { recipeId: id, notes },
+    onSuccess: updateNotesSuccess,
+  }))
+}
+
+export const updateNotesSuccess = () => dispatch => {
+  dispatch(setState('recipePage.editableNotes', false))
+}
+
+export const getRecipeNotes = id => dispatch => {
+  dispatch(fetchAction({
+    url: `/api/recipes/${id}/notes`,
+    method: 'GET',
+    onSuccess: getRecipesNotesSuccess,
+  }))
+}
+
+export const getRecipesNotesSuccess = data => dispatch => {
+  dispatch(setState('recipe.notes', data.notes))
+}
