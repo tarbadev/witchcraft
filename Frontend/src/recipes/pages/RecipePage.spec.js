@@ -4,8 +4,6 @@ import { shallow } from 'enzyme'
 import { RecipePage } from './RecipePage'
 
 import promisedRecipeList from 'test-resources/recipeList.json'
-import TextField from '@material-ui/core/TextField'
-import Typography from '@material-ui/core/TextField'
 
 const promisedRecipe = promisedRecipeList.recipes[0]
 
@@ -46,7 +44,7 @@ describe('RecipePage', function () {
     })
   })
 
-  describe('NoteRecipesPage', () => {
+  describe('Notes', () => {
     it('when editableNotes is true, notes is a TextField', () => {
       const recipePage = shallow(<RecipePage recipe={promisedRecipe} editableNotes={true} />)
 
@@ -54,7 +52,7 @@ describe('RecipePage', function () {
     })
 
     it('when editableNotes is false, notes is a Typography', () => {
-      const recipePage = shallow(<RecipePage recipe={promisedRecipe} editableNotes={false} />)
+      const recipePage = shallow(<RecipePage recipe={promisedRecipe} notes={'Some Notes'} editableNotes={false} />)
 
       expect(recipePage.find('.notes').length).toBe(1)
     })
@@ -65,6 +63,7 @@ describe('RecipePage', function () {
         recipe={promisedRecipe}
         toggleEditableNotes={toggleEditableNotesSpy}
         editableNotes={false}
+        notes={'Some notes'}
       />)
 
       recipePage.find('.notes').simulate('click')
@@ -88,6 +87,17 @@ describe('RecipePage', function () {
       recipePage.find('.updateNotesButton').simulate('click')
 
       expect(updateNotesSpy).toHaveBeenCalledWith(promisedRecipe.id, promisedRecipe.notes)
+    })
+
+    it('Displays the notes div only when there are notes', () => {
+      const updateNotesSpy = jest.fn()
+      let recipePage = shallow(<RecipePage recipe={promisedRecipe} updateNotes={updateNotesSpy} />)
+
+      expect(recipePage.find('.notes')).toHaveLength(0)
+
+      recipePage = shallow(<RecipePage recipe={promisedRecipe} notes={'Some notes'} updateNotes={updateNotesSpy} />)
+
+      expect(recipePage.find('.notes')).toHaveLength(1)
     })
   })
 })

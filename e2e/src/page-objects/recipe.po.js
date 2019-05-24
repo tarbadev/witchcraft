@@ -1,5 +1,5 @@
 import { AppUrl, page } from '../setupE2eTests'
-
+import { fillInput } from './helpers.po'
 
 export const goTo = async (id) => {
   await page.goto(`${AppUrl}/recipes/${id}`)
@@ -43,4 +43,16 @@ export const getSteps = async () => {
     'div.paper p[data-step]',
     elements => elements.map(el => el.textContent),
   )
+}
+
+export const editNotes = async (notes) => {
+  await page.click('.notes')
+  await fillInput('.editableNotes', notes)
+  await page.click('.updateNotesButton')
+  await page.waitForSelector('.notes')
+}
+
+export const getNotes = async () => {
+  await page.waitForSelector('.notes')
+  return await page.$eval('.notes', element => element.textContent)
 }

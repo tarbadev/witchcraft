@@ -57,18 +57,19 @@ class DatabaseNotesRepositoryTest(
 
   @Test
   fun `save erases existing notes if exists`() {
-    val notes = Notes(
-        recipeId = 1,
-        comment = "Some comment"
-    )
-
     val originalNotes = entityManager.persistAndFlush(NotesEntity(recipeId = 1, comment = "An old comment"))
     entityManager.clear()
 
-    val returnedNotes = databaseNotesRepository.save(notes)
+    val notes = Notes(
+        recipeId = 1,
+        comment = "Some comment",
+        id = originalNotes.id
+    )
+
+    databaseNotesRepository.save(notes)
     entityManager.clear()
 
-    assertThat(toDomain(entityManager.find(NotesEntity::class.java, originalNotes.id))).isEqualTo(returnedNotes)
+    assertThat(toDomain(entityManager.find(NotesEntity::class.java, originalNotes.id))).isEqualTo(notes)
   }
 
   private fun toDomain(notesEntity: NotesEntity): Notes {

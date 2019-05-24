@@ -120,6 +120,7 @@ class RecipesRestController(
     fun getNotes(@PathVariable recipeId: Int): NotesResponse? {
         val notes = getRecipeNotesUseCase.execute(recipeId) ?: return null
 
+        println("notes = ${notes}")
         return NotesResponse.fromNotes(notes)
     }
 

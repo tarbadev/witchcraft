@@ -6,9 +6,17 @@ import com.tarbadev.witchcraft.recipes.persistence.entity.NotesEntity
 import org.springframework.stereotype.Component
 
 @Component
-class DatabaseNotesRepository(private val notesEntityRepository: NotesEntityRepository): NotesRepository {
+class DatabaseNotesRepository(private val notesEntityRepository: NotesEntityRepository) : NotesRepository {
   override fun save(notes: Notes): Notes {
-    val notesEntity = NotesEntity.fromNotes(findByRecipeId(notes.recipeId) ?: notes)
+    val existingNotes = findByRecipeId(notes.recipeId)
+    val notesEntity = if (existingNotes != null) {
+      val newNotes = NotesEntity.fromNotes(existingNotes)
+      newNotes.comment = notes.comment
+      newNotes
+    } else {
+      NotesEntity.fromNotes(notes)
+    }
+
     return notesEntityRepository.saveAndFlush(notesEntity).toNotes()
   }
 

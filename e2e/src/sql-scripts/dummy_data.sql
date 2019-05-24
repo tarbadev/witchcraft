@@ -22,3 +22,6 @@ INSERT INTO ingredient (id, name, quantity, unit, recipe_id) VALUES
 INSERT INTO step (id, name, recipe_id) VALUES
   (1, 'In a large bowl, combine the Napa cabbage, red cabbage, carrot, green onion, cilantro and chicken breast. Toss with the dressing. Garnish with the toasted almonds. Serve.', 3),
   (2, 'In a small glass bowl, combine the lime juice, peanut butter, soy sauce, agave nectar, fish sauce, rice vinegar and chili garlic sauce. Whisk until smooth.', 3);
+
+INSERT INTO notes(id, comment, recipe_id) VALUES
+  (1, 'Please add more cheese if needed', 2)

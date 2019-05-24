@@ -195,10 +195,15 @@ describe('RecipeActions', () => {
     it('sets the page in non editable mode', () => {
       const dispatchSpy = jest.fn()
 
-      updateNotesSuccess()(dispatchSpy)
+      updateNotesSuccess({ recipeId: 14, notes: 'New Notes' })(dispatchSpy)
+
       expect(dispatchSpy).toHaveBeenCalledWith(setState(
         'recipePage.editableNotes',
         false,
+      ))
+      expect(dispatchSpy).toHaveBeenCalledWith(setState(
+        'recipePage.notes',
+        'New Notes',
       ))
     })
   })
@@ -224,7 +229,7 @@ describe('RecipeActions', () => {
 
       getRecipesNotesSuccess({ notes })(dispatchSpy)
 
-      expect(dispatchSpy).toHaveBeenCalledWith(setState('recipe.notes', notes))
+      expect(dispatchSpy).toHaveBeenCalledWith(setState('recipePage.notes', notes))
     })
   })
 })

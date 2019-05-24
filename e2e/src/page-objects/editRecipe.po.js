@@ -1,4 +1,5 @@
 import { AppUrl, page } from '../setupE2eTests'
+import { fillInput } from './helpers.po'
 
 export const goTo = async (id) => {
   await page.goto(`${AppUrl}/recipes/${id}/edit`)
@@ -29,10 +30,4 @@ export const fillInForm = async editedRecipe => {
     const step = editedRecipe.steps[i]
     step.name && await fillInput(`.modify-form__step-name-${i} input`, step.name)
   }
-}
-
-const fillInput = async (selector, value) => {
-  await page.click(selector, { clickCount: 3 })
-  await page.keyboard.press('Backspace')
-  await page.type(selector, `${value}`)
 }

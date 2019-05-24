@@ -30,13 +30,13 @@ const initialState = {
     ingredients: [],
     steps: [],
     favorite: false,
-    notes: '',
   },
   recipes: [],
   allRecipes: [],
   recipePage: {
     isDeleting: false,
     editableNotes: false,
+    notes: '',
   },
   editRecipe: {
     form: {

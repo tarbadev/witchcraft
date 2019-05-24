@@ -26,6 +26,7 @@ export const RecipePage = ({
   toggleFavorite,
   isDeleting,
   deleteRecipe,
+  notes,
   editNotes,
   updateNotes,
   editableNotes,
@@ -38,21 +39,23 @@ export const RecipePage = ({
   let steps
   let ingredients
   let favoriteClassName = 'favoriteButton'
-  let notes
+  let notesComponent
 
   if (editableNotes) {
-    notes =
+    notesComponent =
       <TextField
         multiline={true}
         className='editableNotes'
         value={recipe.notes}
         onChange={(event) => editNotes('recipe.notes', event.target.value)} />
   } else {
-    notes =
-      <Typography className='notes'
-                  onClick={() => toggleEditableNotes('recipePage.editableNotes', true)}>
-        {recipe.notes}
+    notesComponent = notes
+      ? <Typography
+        className='notes'
+        onClick={() => toggleEditableNotes('recipePage.editableNotes', true)}>
+        {notes}
       </Typography>
+      : null
   }
 
   if (recipe.steps) {
@@ -112,7 +115,7 @@ export const RecipePage = ({
         <Typography variant='headline'>
           Notes
         </Typography>
-        {notes}
+        {notesComponent}
         <br />
         <Button
           className="updateNotesButton"
@@ -143,6 +146,7 @@ RecipePage.propTypes = {
   toggleFavorite: PropTypes.func,
   isDeleting: PropTypes.bool,
   deleteRecipe: PropTypes.func,
+  notes: PropTypes.string,
   editNotes: PropTypes.func,
   updateNotes: PropTypes.func,
   editableNotes: PropTypes.bool,
@@ -152,6 +156,7 @@ RecipePage.propTypes = {
 const mapStateToProps = state => {
   return {
     recipe: state.recipe,
+    notes: state.recipePage.notes,
     editableNotes: state.recipePage.editableNotes,
   }
 }

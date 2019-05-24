@@ -80,8 +80,9 @@ export const updateNotes = (id, notes) => dispatch => {
   }))
 }
 
-export const updateNotesSuccess = () => dispatch => {
+export const updateNotesSuccess = data => dispatch => {
   dispatch(setState('recipePage.editableNotes', false))
+  dispatch(setState('recipePage.notes', data.notes))
 }
 
 export const getRecipeNotes = id => dispatch => {
@@ -93,5 +94,5 @@ export const getRecipeNotes = id => dispatch => {
 }
 
 export const getRecipesNotesSuccess = data => dispatch => {
-  dispatch(setState('recipe.notes', data.notes))
+  dispatch(setState('recipePage.notes', data.notes))
 }

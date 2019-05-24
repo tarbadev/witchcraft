@@ -79,4 +79,16 @@ describe('Recipe', () => {
       expect(page.url()).toBe(`${AppUrl}/recipes/3/edit`)
     })
   })
+
+  describe('Notes', () => {
+    it('can see the recipe\'s notes', async () => {
+      await RecipePage.goTo(2)
+
+      expect(await RecipePage.getNotes()).toBe('Please add more cheese if needed')
+
+      await RecipePage.editNotes('Cover the plate with the cheese')
+
+      expect(await RecipePage.getNotes()).toBe('Cover the plate with the cheese')
+    })
+  })
 })
