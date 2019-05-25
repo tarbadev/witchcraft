@@ -42,7 +42,10 @@ dependencies {
     compile("org.jetbrains.kotlin:kotlin-reflect:${extra["kotlinVersion"]}")
     compile("org.jsoup:jsoup:1.11.2")
     compile("org.flywaydb:flyway-core:5.2.3")
-    testCompile("org.springframework.boot:spring-boot-starter-test:${extra["springBootVersion"]}")
+    testCompile("org.springframework.boot:spring-boot-starter-test:${extra["springBootVersion"]}") {
+        exclude("junit")
+        exclude("org.hamcrest")
+    }
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.3.1")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.3.1")
     testCompile("com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0")
