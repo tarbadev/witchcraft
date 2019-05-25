@@ -1,5 +1,6 @@
 package com.tarbadev.witchcraft.weeks.rest
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.nhaarman.mockitokotlin2.never
 import com.nhaarman.mockitokotlin2.reset
 import com.nhaarman.mockitokotlin2.verify
@@ -14,17 +15,23 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.boot.test.web.client.TestRestTemplate
+import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.test.context.junit.jupiter.SpringExtension
+import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 
 @ExtendWith(SpringExtension::class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@WebMvcTest(WeekRestController::class)
 class WeekRestControllerTest(
-    @Autowired private val testRestTemplate: TestRestTemplate
+    @Autowired private val mockMvc: MockMvc
 ) {
     @MockBean private lateinit var weekFromYearAndWeekNumberUseCase: WeekFromYearAndWeekNumberUseCase
     @MockBean private lateinit var saveWeekUseCase: SaveWeekUseCase
@@ -43,11 +50,10 @@ class WeekRestControllerTest(
 
         whenever(weekFromYearAndWeekNumberUseCase.execute(2018, 33)).thenReturn(week)
 
-        val responseEntity = testRestTemplate.getForEntity("/api/weeks/2018/33", Week::class.java)
-
-        Assertions.assertEquals(HttpStatus.OK, responseEntity.statusCode)
-        Assertions.assertEquals(MediaType.APPLICATION_JSON_UTF8, responseEntity.headers.contentType)
-        Assertions.assertEquals(week, responseEntity.body)
+        mockMvc.perform(get("/api/weeks/2018/33"))
+            .andExpect(status().isOk)
+            .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().json(ObjectMapper().writeValueAsString(week)))
     }
 
     @Test
@@ -60,11 +66,13 @@ class WeekRestControllerTest(
 
         whenever(saveWeekUseCase.execute(week)).thenReturn(week)
 
-        val responseEntity = testRestTemplate.postForEntity("/api/weeks/2018/33", week, Week::class.java)
-
-        Assertions.assertEquals(HttpStatus.OK, responseEntity.statusCode)
-        Assertions.assertEquals(MediaType.APPLICATION_JSON_UTF8, responseEntity.headers.contentType)
-        Assertions.assertEquals(week, responseEntity.body)
+        mockMvc.perform(post("/api/weeks/2018/33")
+            .contentType(MediaType.APPLICATION_JSON_UTF8)
+            .content(ObjectMapper().writeValueAsString(week))
+        )
+            .andExpect(status().isOk)
+            .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().json(ObjectMapper().writeValueAsString(week)))
     }
 
     @Test
@@ -74,9 +82,11 @@ class WeekRestControllerTest(
             weekNumber = 30
         )
 
-        val responseEntity = testRestTemplate.postForEntity("/api/weeks/2018/33", week, Week::class.java)
-
-        Assertions.assertEquals(HttpStatus.BAD_REQUEST, responseEntity.statusCode)
+        mockMvc.perform(post("/api/weeks/2018/33")
+            .contentType(MediaType.APPLICATION_JSON_UTF8)
+            .content(ObjectMapper().writeValueAsString(week))
+        )
+            .andExpect(status().isBadRequest)
 
         verify(saveWeekUseCase, never()).execute(week)
     }
