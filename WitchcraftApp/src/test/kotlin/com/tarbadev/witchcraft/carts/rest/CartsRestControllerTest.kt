@@ -5,6 +5,8 @@ import com.tarbadev.witchcraft.carts.domain.entity.Cart
 import com.tarbadev.witchcraft.carts.domain.usecase.CartCatalogUseCase
 import com.tarbadev.witchcraft.carts.domain.usecase.CreateCartUseCase
 import com.tarbadev.witchcraft.carts.domain.usecase.GetCartUseCase
+import com.tarbadev.witchcraft.carts.rest.entity.CartResponse
+import com.tarbadev.witchcraft.carts.rest.entity.CreateCartRequest
 import com.tarbadev.witchcraft.recipes.domain.entity.Recipe
 import com.tarbadev.witchcraft.recipes.domain.usecase.RecipeCatalogUseCase
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -35,11 +37,11 @@ class CartsRestControllerTest(
 
         whenever(getCartUseCase.execute(cart.id)).thenReturn(cart)
 
-        val responseEntity = testRestTemplate.getForEntity("/api/carts/${cart.id}", Cart::class.java)
+        val responseEntity = testRestTemplate.getForEntity("/api/carts/${cart.id}", CartResponse::class.java)
 
         assertEquals(HttpStatus.OK, responseEntity.statusCode)
         assertEquals(APPLICATION_JSON_UTF8, responseEntity.headers.contentType)
-        assertEquals(cart, responseEntity.body)
+        assertEquals(CartResponse.fromCart(cart), responseEntity.body)
     }
 
     @Test
@@ -52,11 +54,11 @@ class CartsRestControllerTest(
 
         whenever(cartCatalogUseCase.execute()).thenReturn(carts)
 
-        val responseEntity = testRestTemplate.getForEntity("/api/carts", Array<Cart>::class.java)
+        val responseEntity = testRestTemplate.getForEntity("/api/carts", Array<CartResponse>::class.java)
 
         assertEquals(HttpStatus.OK, responseEntity.statusCode)
         assertEquals(APPLICATION_JSON_UTF8, responseEntity.headers.contentType)
-        assertEquals(carts, responseEntity.body!!.toList())
+        assertEquals(carts.map { CartResponse.fromCart(it) }, responseEntity.body!!.toList())
     }
 
     @Test
@@ -83,10 +85,10 @@ class CartsRestControllerTest(
         whenever(recipeCatalogUseCase.execute()).thenReturn(recipes)
         whenever(createCartUseCase.execute(cartRecipes)).thenReturn(cart)
 
-        val responseEntity = testRestTemplate.postForEntity("/api/carts", createCartRequests, Cart::class.java)
+        val responseEntity = testRestTemplate.postForEntity("/api/carts", createCartRequests, CartResponse::class.java)
 
         assertEquals(HttpStatus.CREATED, responseEntity.statusCode)
         assertEquals(APPLICATION_JSON_UTF8, responseEntity.headers.contentType)
-        assertEquals(cart, responseEntity.body)
+        assertEquals(CartResponse.fromCart(cart), responseEntity.body)
     }
 }
