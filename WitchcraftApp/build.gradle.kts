@@ -42,6 +42,7 @@ dependencies {
     compile("org.jetbrains.kotlin:kotlin-reflect:${extra["kotlinVersion"]}")
     compile("org.jsoup:jsoup:1.11.2")
     compile("org.flywaydb:flyway-core:5.2.3")
+    compile("com.fasterxml.jackson.module:jackson-module-kotlin:2.9.7")
     testCompile("org.springframework.boot:spring-boot-starter-test:${extra["springBootVersion"]}") {
         exclude("junit")
         exclude("org.hamcrest")

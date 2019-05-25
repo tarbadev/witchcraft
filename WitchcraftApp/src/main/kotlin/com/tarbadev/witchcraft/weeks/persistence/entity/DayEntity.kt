@@ -20,7 +20,7 @@ data class DayEntity(
 ) {
     constructor(day: Day) : this(
         id = day.id,
-        name = day.name!!.name,
+        name = day.name.name,
         lunch = if (day.lunch != null) RecipeEntity(day.lunch!!) else null,
         diner = if (day.diner != null) RecipeEntity(day.diner!!) else null
     )
