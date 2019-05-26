@@ -9,8 +9,7 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - witchcraft-app-{{ checksum "WitchcraftApp/build.gradle" }}
-            - witchcraft-app-
+            - witchcraft-app-{{ checksum "WitchcraftApp/build.gradle.kts" }}
       - run:
           name: Build
           command: |
@@ -19,7 +18,7 @@ jobs:
             DATABASE_HOST=127.0.0.1 \
             ./gradlew witchcraft-app:build
       - save_cache:
-          key: witchcraft-app-{{ checksum "WitchcraftApp/build.gradle" }}
+          key: witchcraft-app-{{ checksum "WitchcraftApp/build.gradle.kts" }}
           paths:
             - .gradle
       - store_test_results:
@@ -60,11 +59,9 @@ jobs:
       - restore_cache:
           keys:
             - witchcraft-node-modules-{{ checksum "Frontend/package-lock.json" }}
-            - witchcraft-node-modules-
       - restore_cache:
           keys:
-            - witchcraft-app-{{ checksum "Frontend/build.gradle" }}
-            - witchcraft-app-
+            - witchcraft-app-{{ checksum "Frontend/build.gradle.kts" }}
       - run:
           name: Build
           command: ./gradlew frontend:build
@@ -73,7 +70,7 @@ jobs:
           paths:
             - node_modules
       - save_cache:
-          key: witchcraft-app-{{ checksum "Frontend/build.gradle" }}
+          key: witchcraft-app-{{ checksum "Frontend/build.gradle.kts" }}
           paths:
             - .gradle
       - store_test_results:
@@ -117,11 +114,9 @@ jobs:
       - restore_cache:
           keys:
             - witchcraft-node-modules-{{ checksum "e2e/package-lock.json" }}
-            - witchcraft-node-modules-
       - restore_cache:
           keys:
-            - witchcraft-app-{{ checksum "e2e/build.gradle" }}
-            - witchcraft-app-
+            - witchcraft-app-{{ checksum "e2e/build.gradle.kts" }}
       - run:
           name: Run Integration Tests
           command: APP_URL=https://witchcraft-frontend-dev.cfapps.io BACKEND_URL=https://witchcraft-backend-dev.cfapps.io ./gradlew e2e:test
@@ -130,7 +125,7 @@ jobs:
           paths:
             - node_modules
       - save_cache:
-          key: witchcraft-app-{{ checksum "e2e/build.gradle" }}
+          key: witchcraft-app-{{ checksum "e2e/build.gradle.kts" }}
           paths:
             - .gradle
       - store_test_results:
