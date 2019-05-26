@@ -1,5 +1,6 @@
 package com.tarbadev.witchcraft.recipes.rest
 
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.nhaarman.mockitokotlin2.never
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
@@ -10,26 +11,33 @@ import com.tarbadev.witchcraft.recipes.domain.entity.Recipe
 import com.tarbadev.witchcraft.recipes.domain.entity.Step
 import com.tarbadev.witchcraft.recipes.domain.usecase.*
 import com.tarbadev.witchcraft.recipes.rest.entity.*
+import com.tarbadev.witchcraft.weeks.rest.WeekRestController
 import org.apache.http.impl.client.HttpClientBuilder
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.boot.test.web.client.TestRestTemplate
+import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory
 import org.springframework.test.context.junit.jupiter.SpringExtension
+import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import java.util.Arrays.asList
 
 
 @ExtendWith(SpringExtension::class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@WebMvcTest(RecipesRestController::class)
 class RecipesRestControllerTest(
-    @Autowired private var testRestTemplate: TestRestTemplate
+    @Autowired private val mockMvc: MockMvc
 ) {
   private val testResources: TestResources = TestResources()
   @MockBean
@@ -57,10 +65,10 @@ class RecipesRestControllerTest(
   @MockBean
   private lateinit var editRecipeNotesUseCase: EditRecipeNotesUseCase
 
-  @BeforeEach
-  fun setup() {
-    testRestTemplate.restTemplate.requestFactory = HttpComponentsClientHttpRequestFactory(HttpClientBuilder.create().build())
-  }
+//  @BeforeEach
+//  fun setup() {
+//    testRestTemplate.restTemplate.requestFactory = HttpComponentsClientHttpRequestFactory(HttpClientBuilder.create().build())
+//  }
 
   @Test
   fun list() {
@@ -82,11 +90,10 @@ class RecipesRestControllerTest(
 
     whenever(recipeCatalogUseCase.execute()).thenReturn(recipes)
 
-    val responseEntity = testRestTemplate.getForEntity("/api/recipes", TestRecipeListResponse::class.java)
-
-    assertThat(responseEntity.statusCode).isEqualTo(HttpStatus.OK)
-    assertThat(responseEntity.headers.contentType).isEqualTo(MediaType.APPLICATION_JSON_UTF8)
-    assertThat(responseEntity.body).isEqualToComparingFieldByFieldRecursively(RecipeListResponse.fromRecipeList(recipes))
+    mockMvc.perform(get("/api/recipes"))
+        .andExpect(status().isOk)
+        .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE))
+        .andExpect(content().json(jacksonObjectMapper().writeValueAsString(RecipeListResponse.fromRecipeList(recipes))))
   }
 
   @Test
@@ -98,11 +105,10 @@ class RecipesRestControllerTest(
 
     whenever(getRecipeUseCase.execute(recipe.id)).thenReturn(recipe)
 
-    val responseEntity = testRestTemplate.getForEntity("/api/recipes/${recipe.id}", RecipeResponse::class.java)
-
-    assertThat(responseEntity.statusCode).isEqualTo(HttpStatus.OK)
-    assertThat(responseEntity.headers.contentType).isEqualTo(MediaType.APPLICATION_JSON_UTF8)
-    assertThat(responseEntity.body).isEqualTo(RecipeResponse.fromRecipe(recipe))
+    mockMvc.perform(get("/api/recipes/${recipe.id}"))
+        .andExpect(status().isOk)
+        .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE))
+        .andExpect(content().json(jacksonObjectMapper().writeValueAsString(RecipeResponse.fromRecipe(recipe))))
   }
 
   @Test
@@ -113,13 +119,13 @@ class RecipesRestControllerTest(
 
     whenever(setFavoriteRecipeUseCase.execute(id, favorite)).thenReturn(recipe)
 
-    val returnedRecipe = testRestTemplate.patchForObject(
-        "/api/recipes/$id",
-        SetFavoriteRequest(favorite),
-        RecipeResponse::class.java
+    mockMvc.perform(patch("/api/recipes/${recipe.id}")
+        .contentType(MediaType.APPLICATION_JSON_UTF8)
+        .content(jacksonObjectMapper().writeValueAsString(SetFavoriteRequest(favorite)))
     )
-
-    assertThat(returnedRecipe).isEqualTo(RecipeResponse.fromRecipe(recipe))
+        .andExpect(status().isOk)
+        .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE))
+        .andExpect(content().json(jacksonObjectMapper().writeValueAsString(RecipeResponse.fromRecipe(recipe))))
   }
 
   @Test
@@ -128,7 +134,8 @@ class RecipesRestControllerTest(
 
     whenever(doesRecipeExistUseCase.execute(id)).thenReturn(true)
 
-    testRestTemplate.delete("/api/recipes/$id")
+    mockMvc.perform(delete("/api/recipes/$id"))
+        .andExpect(status().isNoContent)
 
     verify(deleteRecipeUseCase).execute(id)
   }
@@ -139,7 +146,8 @@ class RecipesRestControllerTest(
 
     whenever(doesRecipeExistUseCase.execute(id)).thenReturn(false)
 
-    testRestTemplate.delete("/api/recipes/$id")
+    mockMvc.perform(delete("/api/recipes/$id"))
+        .andExpect(status().isNotFound)
 
     verify(deleteRecipeUseCase, never()).execute(id)
   }
@@ -152,11 +160,13 @@ class RecipesRestControllerTest(
     whenever(getRecipeDetailsFromUrlUseCase.execute(recipe.originUrl)).thenReturn(recipe)
     whenever(saveRecipeUseCase.execute(recipe)).thenReturn(recipe)
 
-    val responseEntity = testRestTemplate.postForEntity("/api/recipes/importFromUrl", recipeFormRequest, RecipeResponse::class.java)
-
-    assertThat(responseEntity.statusCode).isEqualTo(HttpStatus.OK)
-    assertThat(responseEntity.headers.contentType).isEqualTo(MediaType.APPLICATION_JSON_UTF8)
-    assertThat(responseEntity.body).isEqualTo(RecipeResponse.fromRecipe(recipe))
+    mockMvc.perform(post("/api/recipes/importFromUrl")
+        .contentType(MediaType.APPLICATION_JSON_UTF8)
+        .content(jacksonObjectMapper().writeValueAsString(recipeFormRequest))
+    )
+        .andExpect(status().isOk)
+        .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE))
+        .andExpect(content().json(jacksonObjectMapper().writeValueAsString(RecipeResponse.fromRecipe(recipe))))
 
     verify(getRecipeDetailsFromUrlUseCase).execute(recipe.originUrl)
     verify(saveRecipeUseCase).execute(recipe)
@@ -194,11 +204,13 @@ class RecipesRestControllerTest(
     )).thenReturn(recipe)
     whenever(saveRecipeUseCase.execute(recipe)).thenReturn(recipe)
 
-    val responseEntity = testRestTemplate.postForEntity("/api/recipes/importFromForm", recipeFormRequest, RecipeResponse::class.java)
-
-    assertThat(responseEntity.statusCode).isEqualTo(HttpStatus.OK)
-    assertThat(responseEntity.headers.contentType).isEqualTo(MediaType.APPLICATION_JSON_UTF8)
-    assertThat(responseEntity.body).isEqualTo(RecipeResponse.fromRecipe(recipe))
+    mockMvc.perform(post("/api/recipes/importFromForm")
+        .contentType(MediaType.APPLICATION_JSON_UTF8)
+        .content(jacksonObjectMapper().writeValueAsString(recipeFormRequest))
+    )
+        .andExpect(status().isOk)
+        .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE))
+        .andExpect(content().json(jacksonObjectMapper().writeValueAsString(RecipeResponse.fromRecipe(recipe))))
   }
 
   @Test
@@ -240,7 +252,11 @@ class RecipesRestControllerTest(
 
     whenever(saveRecipeUseCase.execute(recipe)).thenReturn(recipe)
 
-    testRestTemplate.put("/api/recipes/${recipeModifyRequest.id}/update", recipeModifyRequest)
+    mockMvc.perform(put("/api/recipes/${recipeModifyRequest.id}/update")
+        .contentType(MediaType.APPLICATION_JSON_UTF8)
+        .content(jacksonObjectMapper().writeValueAsString(recipeModifyRequest))
+    )
+        .andExpect(status().isOk)
 
     verify(saveRecipeUseCase).execute(recipe)
   }
@@ -261,11 +277,10 @@ class RecipesRestControllerTest(
 
     whenever(getFavoriteRecipesUseCase.execute()).thenReturn(recipes)
 
-    val responseEntity = testRestTemplate.getForEntity("/api/recipes/favorites", Array<RecipeResponse>::class.java)
-
-    assertThat(responseEntity.statusCode).isEqualTo(HttpStatus.OK)
-    assertThat(responseEntity.headers.contentType).isEqualTo(MediaType.APPLICATION_JSON_UTF8)
-    assertThat(responseEntity.body!!.toList()).isEqualTo(recipesResponse)
+    mockMvc.perform(get("/api/recipes/favorites"))
+        .andExpect(status().isOk)
+        .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE))
+        .andExpect(content().json(jacksonObjectMapper().writeValueAsString(recipesResponse)))
   }
 
   @Test
@@ -284,11 +299,10 @@ class RecipesRestControllerTest(
 
     whenever(lastAddedRecipesUseCase.execute()).thenReturn(recipes)
 
-    val responseEntity = testRestTemplate.getForEntity("/api/recipes/latest", Array<RecipeResponse>::class.java)
-
-    assertThat(responseEntity.statusCode).isEqualTo(HttpStatus.OK)
-    assertThat(responseEntity.headers.contentType).isEqualTo(MediaType.APPLICATION_JSON_UTF8)
-    assertThat(responseEntity.body!!.toList()).isEqualTo(recipesResponse)
+    mockMvc.perform(get("/api/recipes/latest"))
+        .andExpect(status().isOk)
+        .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE))
+        .andExpect(content().json(jacksonObjectMapper().writeValueAsString(recipesResponse)))
   }
 
   @Test
@@ -298,11 +312,10 @@ class RecipesRestControllerTest(
 
     whenever(getRecipeNotesUseCase.execute(15)).thenReturn(notes)
 
-    val responseEntity = testRestTemplate.getForEntity("/api/recipes/15/notes", NotesResponse::class.java)
-
-    assertThat(responseEntity.statusCode).isEqualTo(HttpStatus.OK)
-    assertThat(responseEntity.headers.contentType).isEqualTo(MediaType.APPLICATION_JSON_UTF8)
-    assertThat(responseEntity.body).isEqualTo(notesResponse)
+    mockMvc.perform(get("/api/recipes/15/notes"))
+        .andExpect(status().isOk)
+        .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE))
+        .andExpect(content().json(jacksonObjectMapper().writeValueAsString(notesResponse)))
   }
 
   @Test
@@ -313,14 +326,12 @@ class RecipesRestControllerTest(
 
     whenever(editRecipeNotesUseCase.execute(notes)).thenReturn(notes)
 
-    val responseEntity = testRestTemplate.postForEntity("/api/recipes/15/notes", notesRequest, NotesResponse::class.java)
-
-    assertThat(responseEntity.statusCode).isEqualTo(HttpStatus.OK)
-    assertThat(responseEntity.headers.contentType).isEqualTo(MediaType.APPLICATION_JSON_UTF8)
-    assertThat(responseEntity.body).isEqualTo(notesResponse)
+    mockMvc.perform(post("/api/recipes/15/notes")
+        .contentType(MediaType.APPLICATION_JSON_UTF8)
+        .content(jacksonObjectMapper().writeValueAsString(notesRequest))
+    )
+        .andExpect(status().isOk)
+        .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE))
+        .andExpect(content().json(jacksonObjectMapper().writeValueAsString(notesResponse)))
   }
-
-  data class TestRecipeListResponse(
-      var recipes: List<RecipeResponse> = emptyList()
-  )
 }
