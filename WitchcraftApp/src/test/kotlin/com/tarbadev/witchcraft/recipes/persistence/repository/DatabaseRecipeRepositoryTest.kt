@@ -1,12 +1,10 @@
-package com.tarbadev.witchcraft.recipes.persistence
+package com.tarbadev.witchcraft.recipes.persistence.repository
 
 import com.tarbadev.witchcraft.recipes.domain.entity.Ingredient
 import com.tarbadev.witchcraft.recipes.domain.entity.Recipe
 import com.tarbadev.witchcraft.recipes.domain.entity.Step
 import com.tarbadev.witchcraft.recipes.persistence.entity.IngredientEntity
 import com.tarbadev.witchcraft.recipes.persistence.entity.RecipeEntity
-import com.tarbadev.witchcraft.recipes.persistence.repository.DatabaseRecipeRepository
-import com.tarbadev.witchcraft.recipes.persistence.repository.RecipeEntityRepository
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
