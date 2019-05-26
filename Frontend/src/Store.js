@@ -9,11 +9,10 @@ import { createHistoryObserver } from './HistoryObserver'
 import { WitchcraftMiddleware } from './WitchcraftMiddleware'
 
 import { getAllRecipes, getFavoriteRecipes, getLatestRecipes } from 'src/recipes/actions/RecipesActions'
-import { getRecipe } from 'src/recipes/actions/RecipeActions'
+import { getRecipe, getRecipeNotes } from 'src/recipes/actions/RecipeActions'
 import { getAllCarts } from 'src/carts/actions/CartsActions'
 import { getCart } from 'src/carts/actions/CartActions'
 import { getWeek, getCurrentWeek } from 'src/weeks/actions/WeekActions'
-import { getRecipeNotes } from './recipes/actions/RecipeActions'
 
 export const history = createBrowserHistory()
 export const store = createStore(connectRouter(history)(reducer), composeWithDevTools(applyMiddleware(routerMiddleware(history), thunk, WitchcraftMiddleware)))

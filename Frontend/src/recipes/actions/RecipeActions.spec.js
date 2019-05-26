@@ -8,10 +8,13 @@ import {
   updateRecipeSuccess,
   deleteRecipe,
   deleteRecipeCallback,
-} from 'src/recipes/actions/RecipeActions'
+  updateNotesSuccess,
+  getRecipesNotesSuccess,
+  getRecipeNotes,
+  updateNotes,
+} from './RecipeActions'
 
 import promisedRecipeList from 'test-resources/recipeList.json'
-import { getRecipeNotes, getRecipesNotesSuccess, updateNotes, updateNotesSuccess } from './RecipeActions'
 import { setState } from '../../RootReducer'
 import { fetchAction } from '../../WitchcraftMiddleware'
 
