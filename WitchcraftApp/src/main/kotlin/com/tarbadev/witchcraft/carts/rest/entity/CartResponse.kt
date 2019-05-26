@@ -8,7 +8,7 @@ data class CartResponse(
     val id: Int,
     val recipes: List<RecipeResponse>,
     val items: List<ItemResponse>,
-    var createdAt: Instant
+    var createdAt: String
 ) {
   companion object {
     fun fromCart(cart: Cart): CartResponse {
@@ -16,7 +16,7 @@ data class CartResponse(
           cart.id,
           cart.recipes.map { RecipeResponse.fromRecipe(it) },
           cart.items.map { ItemResponse.fromItem(it) },
-          cart.createdAt
+          cart.createdAt.toString()
       )
     }
   }

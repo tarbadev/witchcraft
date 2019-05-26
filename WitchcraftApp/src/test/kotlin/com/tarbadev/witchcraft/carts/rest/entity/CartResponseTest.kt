@@ -37,7 +37,7 @@ class CartResponseTest {
         id = cart.id,
         recipes = listOf(RecipeResponse.fromRecipe(recipe)),
         items = listOf(ItemResponse.fromItem(item)),
-        createdAt = cart.createdAt
+        createdAt = cart.createdAt.toString()
     )
     assertThat(CartResponse.fromCart(cart)).isEqualTo(cartResponse)
   }
