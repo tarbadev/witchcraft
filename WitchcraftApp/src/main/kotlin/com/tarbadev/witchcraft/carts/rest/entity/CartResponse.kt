@@ -2,13 +2,13 @@ package com.tarbadev.witchcraft.carts.rest.entity
 
 import com.tarbadev.witchcraft.carts.domain.entity.Cart
 import com.tarbadev.witchcraft.recipes.rest.entity.RecipeResponse
-import java.time.LocalDateTime
+import java.time.Instant
 
 data class CartResponse(
     val id: Int,
     val recipes: List<RecipeResponse>,
     val items: List<ItemResponse>,
-    var createdAt: LocalDateTime
+    var createdAt: Instant
 ) {
   companion object {
     fun fromCart(cart: Cart): CartResponse {

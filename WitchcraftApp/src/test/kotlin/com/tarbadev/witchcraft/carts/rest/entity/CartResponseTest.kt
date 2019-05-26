@@ -6,7 +6,7 @@ import com.tarbadev.witchcraft.recipes.domain.entity.Recipe
 import com.tarbadev.witchcraft.recipes.rest.entity.RecipeResponse
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import java.time.LocalDateTime
+import java.time.Instant
 
 class CartResponseTest {
   @Test
@@ -31,7 +31,7 @@ class CartResponseTest {
         12,
         listOf(recipe),
         listOf(item),
-        LocalDateTime.now()
+        Instant.now()
     )
     val cartResponse = CartResponse(
         id = cart.id,

@@ -3,7 +3,7 @@ package com.tarbadev.witchcraft.carts.persistence.entity
 import com.tarbadev.witchcraft.carts.domain.entity.Cart
 import com.tarbadev.witchcraft.recipes.persistence.entity.RecipeEntity
 import org.hibernate.annotations.CreationTimestamp
-import java.time.LocalDateTime
+import java.time.Instant
 import javax.persistence.*
 
 @Entity(name = "cart")
@@ -13,7 +13,7 @@ data class CartEntity(
     val id: Int = 0,
 
     @CreationTimestamp
-    var createdAt: LocalDateTime = LocalDateTime.now(),
+    var createdAt: Instant = Instant.now(),
 
     @ManyToMany(cascade = [CascadeType.MERGE])
     @JoinTable(
