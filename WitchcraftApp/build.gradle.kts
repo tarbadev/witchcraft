@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 buildscript {
     extra.apply {
-        set("springBootVersion", "2.1.1.RELEASE")
+        set("springBootVersion", "2.1.5.RELEASE")
         set("kotlinVersion", "1.3.20")
     }
     repositories {
@@ -13,7 +13,7 @@ buildscript {
 plugins {
     kotlin("jvm") version "1.3.20"
     id("org.jetbrains.kotlin.plugin.spring") version "1.3.20"
-    id("org.springframework.boot") version "2.1.1.RELEASE"
+    id("org.springframework.boot") version "2.1.5.RELEASE"
     id("io.spring.dependency-management") version "1.0.6.RELEASE"
 }
 
@@ -42,7 +42,7 @@ dependencies {
     compile("org.jetbrains.kotlin:kotlin-reflect:${extra["kotlinVersion"]}")
     compile("org.jsoup:jsoup:1.11.2")
     compile("org.flywaydb:flyway-core:5.2.3")
-    compile("com.fasterxml.jackson.module:jackson-module-kotlin:2.9.7")
+    compile("com.fasterxml.jackson.module:jackson-module-kotlin:2.9.8")
     testCompile("org.springframework.boot:spring-boot-starter-test:${extra["springBootVersion"]}") {
         exclude("junit")
         exclude("org.hamcrest")
