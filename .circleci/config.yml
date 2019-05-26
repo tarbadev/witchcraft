@@ -7,9 +7,6 @@ jobs:
       - image: circleci/mysql
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - witchcraft-app-{{ checksum "WitchcraftApp/build.gradle.kts" }}
       - run:
           name: Build
           command: |
@@ -17,10 +14,6 @@ jobs:
             DATABASE_USERNAME=root \
             DATABASE_HOST=127.0.0.1 \
             ./gradlew witchcraft-app:build
-      - save_cache:
-          key: witchcraft-app-{{ checksum "WitchcraftApp/build.gradle.kts" }}
-          paths:
-            - .gradle
       - store_test_results:
           path: WitchcraftApp/build/test-results
       - persist_to_workspace:
@@ -53,28 +46,17 @@ jobs:
   build_frontend:
     working_directory: ~/witchcraft
     docker:
-      - image: circleci/openjdk:8-jdk
+      - image: circleci/node:10.9.0
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - witchcraft-node-modules-{{ checksum "Frontend/package-lock.json" }}
-      - restore_cache:
-          keys:
-            - witchcraft-app-{{ checksum "Frontend/build.gradle.kts" }}
       - run:
           name: Build
-          command: ./gradlew frontend:build
-      - save_cache:
-          key: witchcraft-node-modules-{{ checksum "Frontend/package-lock.json" }}
-          paths:
-            - node_modules
-      - save_cache:
-          key: witchcraft-app-{{ checksum "Frontend/build.gradle.kts" }}
-          paths:
-            - .gradle
+          command: |
+            cd Frontend
+            npm install
+            npm run build
       - store_test_results:
-          path: Frontend/build/test-results
+          path: build/test-results
       - persist_to_workspace:
           root: Frontend/build/dist
           paths:
@@ -111,23 +93,9 @@ jobs:
       - image: circleci/node:latest-browsers
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - witchcraft-node-modules-{{ checksum "e2e/package-lock.json" }}
-      - restore_cache:
-          keys:
-            - witchcraft-app-{{ checksum "e2e/build.gradle.kts" }}
       - run:
           name: Run Integration Tests
           command: APP_URL=https://witchcraft-frontend-dev.cfapps.io BACKEND_URL=https://witchcraft-backend-dev.cfapps.io ./gradlew e2e:test
-      - save_cache:
-          key: witchcraft-node-modules-{{ checksum "e2e/package-lock.json" }}
-          paths:
-            - node_modules
-      - save_cache:
-          key: witchcraft-app-{{ checksum "e2e/build.gradle.kts" }}
-          paths:
-            - .gradle
       - store_test_results:
           path: e2e/build/test-results
 
