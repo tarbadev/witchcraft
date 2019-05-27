@@ -7,10 +7,25 @@ class DatabaseHelper {
   async connect() {
     if (!this.connection) {
       const dbCredentials = await DatabaseHelper.retrieveDbCredentials()
-      this.connection = await mysql.createConnection(dbCredentials)
+
+      const timeout = 5
+      let start = new Date()
+      console.debug(`Connect to DB. It will timeout after ${timeout} seconds`)
+      while (!this.connection && DatabaseHelper.secondsFromStart(start) < timeout) {
+        try {
+          this.connection = await mysql.createConnection(dbCredentials)
+        } catch ({ message }) {
+          console.error(`Failed connecting to database:${message}`)
+          console.error(`Timeout in: ${timeout - DatabaseHelper.secondsFromStart(start)} seconds`)
+        }
+      }
     }
 
     return this.connection
+  }
+
+  static secondsFromStart(start) {
+    return (new Date() - start) / 1000
   }
 
   endConnection() {
