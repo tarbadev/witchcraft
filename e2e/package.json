@@ -38,6 +38,19 @@
     "setupFilesAfterEnv": [
       "<rootDir>/src/setupE2eTests.js"
     ],
-    "testEnvironment": "<rootDir>/src/customEnvironment.js"
+    "testEnvironment": "<rootDir>/src/customEnvironment.js",
+    "reporters": [
+      "default",
+      "jest-junit"
+    ]
+  },
+  "jest-junit": {
+    "suiteName": "E2E Tests",
+    "outputDirectory": "<rootDir>/build/test-results",
+    "outputName": "junit.xml",
+    "classNameTemplate": "{classname}-{title}",
+    "titleTemplate": "{classname}-{title}",
+    "ancestorSeparator": " › ",
+    "usePathForSuiteName": "true"
   }
 }

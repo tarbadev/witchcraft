@@ -72,7 +72,9 @@
   },
   "jest": {
     "resetMocks": true,
-    "setupTestFrameworkScriptFile": "<rootDir>src/tests.js",
+    "setupFilesAfterEnv": [
+      "<rootDir>/src/setupUnitTests.js"
+    ],
     "reporters": [
       "default",
       "jest-junit"
@@ -87,8 +89,8 @@
     }
   },
   "jest-junit": {
-    "suiteName": "React Tests",
-    "outputDirectory": "build/test-results",
+    "suiteName": "Frontend Tests",
+    "outputDirectory": "<rootDir>/build/test-results",
     "outputName": "react.xml",
     "classNameTemplate": "{classname}-{title}",
     "titleTemplate": "{classname}-{title}",

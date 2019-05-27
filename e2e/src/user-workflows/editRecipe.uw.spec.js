@@ -120,6 +120,6 @@ describe('Edit Recipe', () => {
         'In a small glass bowl, combine the lime juice, peanut butter, soy sauce, agave nectar, fish sauce, rice vinegar and chili garlic sauce. Whisk until smooth.',
       ]
       expect(steps).toEqual(expectedSteps)
-    }, 40000)
+    }, 45000)
   })
 })
