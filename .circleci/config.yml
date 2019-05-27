@@ -56,7 +56,7 @@ jobs:
             npm install
             npm run build
       - store_test_results:
-          path: build/test-results
+          path: Frontend/build/test-results
       - persist_to_workspace:
           root: Frontend/build/dist
           paths:
