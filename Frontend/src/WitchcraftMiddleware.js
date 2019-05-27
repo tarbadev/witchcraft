@@ -28,7 +28,7 @@ export const WitchcraftMiddleware = store => next => (action) => {
 
     return request(requestOptions)
       .then(data => store.dispatch(action.onSuccess(data)))
-      .catch(error => store.dispatch(action.onError(error)))
+      .catch(error => action.onError && store.dispatch(action.onError(error)))
   }
   return next(action)
 }
