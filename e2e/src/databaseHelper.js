@@ -8,7 +8,7 @@ class DatabaseHelper {
     if (!this.connection) {
       const dbCredentials = await DatabaseHelper.retrieveDbCredentials()
 
-      const timeout = 5
+      const timeout = 30
       let start = new Date()
       console.debug(`Connect to DB. It will timeout after ${timeout} seconds`)
       while (!this.connection && DatabaseHelper.secondsFromStart(start) < timeout) {

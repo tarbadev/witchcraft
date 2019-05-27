@@ -37,7 +37,7 @@ describe('Weeks page', () => {
       await WeeksPage.clickOnCreateCart()
       await CartPage.waitForPageLoaded()
 
-      expect(global.page.url()).toBe(`${appUrl}/carts/1`)
+      expect(global.page.url()).toContain(`${appUrl}/carts/`)
 
       const recipes = await CartPage.getRecipes()
       expect(recipes.sort()).toEqual([
