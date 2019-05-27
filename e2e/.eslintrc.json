@@ -8,7 +8,8 @@
     "page": true,
     "browser": true,
     "context": true,
-    "jestPuppeteer": true
+    "jestPuppeteer": true,
+    "appUrl": true
   },
   "extends": [
     "eslint:recommended",

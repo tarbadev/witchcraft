@@ -4,7 +4,7 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "test": "jest --runInBand"
+    "test": "jest --runInBand --detectOpenHandles"
   },
   "repository": {
     "type": "git",
@@ -13,26 +13,31 @@
   "author": "Tarbadev",
   "homepage": "https://github.com/tarbadev/witchcraft#readme",
   "devDependencies": {
+    "@babel/core": "^7.4.5",
+    "@babel/polyfill": "^7.4.4",
+    "@babel/preset-env": "^7.4.5",
     "axios": "^0.18.0",
-    "babel-core": "^6.26.3",
-    "babel-jest": "^23.6.0",
-    "babel-preset-env": "^1.7.0",
-    "jest": "^23.6.0",
-    "jest-puppeteer": "^3.7.0",
-    "mysql2": "^1.6.4",
-    "puppeteer": "^1.11.0"
+    "babel-jest": "^24.8.0",
+    "jest": "^24.8.0",
+    "jest-junit": "^6.4.0",
+    "jest-puppeteer": "^4.1.1",
+    "mysql2": "^1.6.5",
+    "puppeteer": "^1.17.0"
   },
   "engines": {
     "node": "10.15.0",
     "npm": "6.4.1"
   },
-  "jest-junit": {
-    "suiteName": "End To End Tests",
-    "outputDirectory": "build/test-results",
-    "outputName": "e2e.xml",
-    "classNameTemplate": "{classname}-{title}",
-    "titleTemplate": "{classname}-{title}",
-    "ancestorSeparator": " › ",
-    "usePathForSuiteName": "true"
+  "jest": {
+    "verbose": true,
+    "displayName": "E2E Tests",
+    "errorOnDeprecated": true,
+    "preset": "jest-puppeteer",
+    "globalSetup": "<rootDir>/src/globalSetup.js",
+    "globalTeardown": "<rootDir>/src/globalTeardown.js",
+    "setupFilesAfterEnv": [
+      "<rootDir>/src/setupE2eTests.js"
+    ],
+    "testEnvironment": "<rootDir>/src/customEnvironment.js"
   }
 }

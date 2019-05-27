@@ -1,18 +1,16 @@
-import { page } from '../setupE2eTests'
-
 export const waitForPageLoaded = async () => {
-  await page.waitForSelector('div[name="title"]')
+  await global.page.waitForSelector('div[name="title"]')
 }
 
 export const getRecipes = async () => {
-  return await page.$$eval(
+  return await global.page.$$eval(
     'a[data-recipe="true"]',
     elements => elements.map(el => el.textContent),
   )
 }
 
 export const getIngredients = async () => {
-  return await page.$$eval(
+  return await global.page.$$eval(
     'p.ingredient',
     elements => elements.map(el => el.textContent),
   )

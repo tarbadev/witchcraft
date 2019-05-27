@@ -1,23 +1,21 @@
-import { AppUrl, page } from '../setupE2eTests'
-
 export const clickOnCreateCart = async () => {
-  await page.click('.week-page__create-cart-button')
+  await global.page.click('.week-page__create-cart-button')
 }
 
 export const getMeal = async (meal, day) => {
-  return await page.$eval(
+  return await global.page.$eval(
     `td[data-meal="${meal}-${day}"]`,
     element => element.textContent,
   )
 }
 
 export const clickOnMeal = async (meal, day) => {
-  const selectedMeal = await page.$(`td[data-meal="${meal}-${day}"]`)
+  const selectedMeal = await global.page.$(`td[data-meal="${meal}-${day}"]`)
   await selectedMeal.click()
 }
 
 export const clickOnRecipe = async recipeName => {
-  const recipes = await page.$x(`//div[contains(@class, 'recipe-card-title') and contains(.//div, '${recipeName}')]`)
+  const recipes = await global.page.$x(`//div[contains(@class, 'recipe-card-title') and contains(.//div, '${recipeName}')]`)
 
   if (await recipes.length > 0) {
     await recipes[0].click()
@@ -27,16 +25,16 @@ export const clickOnRecipe = async recipeName => {
 }
 
 export const goTo = async () => {
-  await page.goto(`${AppUrl}/weeks`)
+  await global.page.goto(`${appUrl}/weeks`)
   await waitForPageLoaded()
 }
 
 export const waitForPageLoaded = async () => {
-  await page.waitForSelector('.week-page__create-cart-button')
+  await global.page.waitForSelector('.week-page__create-cart-button')
 }
 
 export const getModalRecipeList = async () => {
-  return await page.$$eval(
+  return await global.page.$$eval(
     'div.recipe-card-title',
     elements => elements.map(el => el.textContent),
   )

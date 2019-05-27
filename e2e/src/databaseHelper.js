@@ -1,74 +1,77 @@
-import mysql from 'mysql2/promise'
-import fs from 'fs'
-import axios from 'axios'
-import { ActuatorUrl } from './setupE2eTests'
+const mysql = require('mysql2/promise')
+const fs = require('fs')
+const axios = require('axios')
+require('./setupEnvironmentVariables')
 
-let connection
-
-export const connect = async () => {
-  if (!connection) {
-    const dbCredentials = await retrieveDbCredentials()
-    connection = await mysql.createConnection(dbCredentials)
-  }
-
-  expect(connection).toBeDefined()
-}
-
-export const endConnection = () => {
-  if (connection)
-    connection.end()
-}
-
-export const resetDatabase = async () => {
-  await executeSqlFile(connection, './src/sql-scripts/truncate_all.sql')
-  await executeSqlFile(connection, './src/sql-scripts/dummy_data.sql')
-}
-
-const retrieveDbCredentials = async () => {
-  const jdbcUrl = await getEnvValue(`${ActuatorUrl}/env/spring.datasource.url`)
-  const jdbcDetails = getJdbcDetails(jdbcUrl)
-  const user = await getEnvValue(`${ActuatorUrl}/env/spring.datasource.username`)
-  const password = await getEnvValue(`${ActuatorUrl}/env/spring.datasource.password`)
-
-  return {
-    host: jdbcDetails.host || 'localhost',
-    user: user || 'spring',
-    password: password || '',
-    port: jdbcDetails.port || 33060,
-    database: jdbcDetails.database || 'witchcraft',
-  }
-}
-
-const getEnvValue = async (url) => {
-  try {
-    const promise = await axios.get(url)
-
-    if (promise.data.property.value) {
-      return promise.data.property.value
+class DatabaseHelper {
+  async connect() {
+    if (!this.connection) {
+      const dbCredentials = await DatabaseHelper.retrieveDbCredentials()
+      this.connection = await mysql.createConnection(dbCredentials)
     }
-  } catch (error) {
-    console.error(error)
+
+    return this.connection
+  }
+
+  endConnection() {
+    if (this.connection) {
+      this.connection.end()
+    }
+  }
+
+  async resetDatabase() {
+    await this.executeSqlFile('./src/sql-scripts/truncate_all.sql')
+    await this.executeSqlFile('./src/sql-scripts/dummy_data.sql')
+  }
+
+  static async retrieveDbCredentials() {
+    const jdbcUrl = await DatabaseHelper.getEnvValue(`${global.actuatorUrl}/env/spring.datasource.url`)
+    const jdbcDetails = DatabaseHelper.getJdbcDetails(jdbcUrl)
+    const user = await DatabaseHelper.getEnvValue(`${global.actuatorUrl}/env/spring.datasource.username`)
+    const password = await DatabaseHelper.getEnvValue(`${global.actuatorUrl}/env/spring.datasource.password`)
+
+    return {
+      host: jdbcDetails.host || 'localhost',
+      user: user || 'spring',
+      password: password || '',
+      port: jdbcDetails.port || 33060,
+      database: jdbcDetails.database || 'witchcraft',
+    }
+  }
+
+  async executeSqlFile(filePath) {
+    const content = fs.readFileSync(filePath).toString()
+    const queries = content.split(';\n')
+    for (let i = 0; i < queries.length; i++) {
+      const [rows, fields] = await this.connection.execute(queries[i])
+    }
+  }
+
+  static async getEnvValue(url) {
+    try {
+      const promise = await axios.get(url)
+
+      if (promise.data.property.value) {
+        return promise.data.property.value
+      }
+    } catch (error) {
+      console.error(`Error while getting environment value for ${url}`)
+    }
+  }
+
+  static getJdbcDetails(jdbcUrl) {
+    const jdbcDetails = {}
+
+    if (jdbcUrl) {
+      const regex = /jdbc:mysql:\/\/(.*):(\d+)\/(.*)\?.*/g
+      const matches = regex.exec(jdbcUrl)
+      jdbcDetails.host = matches[1]
+      jdbcDetails.port = matches[2]
+      jdbcDetails.database = matches[3]
+    }
+
+    return jdbcDetails
   }
 }
 
-const getJdbcDetails = jdbcUrl => {
-  const jdbcDetails = {}
-
-  if (jdbcUrl) {
-    const regex = /jdbc:mysql:\/\/(.*):(\d+)\/(.*)\?.*/g
-    const matches = regex.exec(jdbcUrl)
-    jdbcDetails.host = matches[1]
-    jdbcDetails.port = matches[2]
-    jdbcDetails.database = matches[3]
-  }
-
-  return jdbcDetails
-}
-
-const executeSqlFile = async (connection, filePath) => {
-  const content = fs.readFileSync(filePath).toString()
-  const queries = content.split(';\n')
-  for (let i = 0; i < queries.length; i++) {
-    const [rows, fields] = await connection.execute(queries[i])
-  }
-}
+module.exports = DatabaseHelper

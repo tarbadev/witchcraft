@@ -1,17 +1,16 @@
-import { AppUrl, page } from '../setupE2eTests'
 import { fillInput } from './helpers.po'
 
 export const goTo = async (id) => {
-  await page.goto(`${AppUrl}/recipes/${id}/edit`)
+  await global.page.goto(`${appUrl}/recipes/${id}/edit`)
   await waitForPageLoaded()
 }
 
 export const waitForPageLoaded = async () => {
-  await page.waitForSelector('div.modify-form__name')
+  await global.page.waitForSelector('div.modify-form__name')
 }
 
 export const submitEditedRecipe = async () => {
-  await page.click('.modify-form__submit-button')
+  await global.page.click('.modify-form__submit-button')
 }
 
 export const fillInForm = async editedRecipe => {

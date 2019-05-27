@@ -1,4 +1,3 @@
-import { AppUrl, page } from '../setupE2eTests'
 import * as RecipePage from '../page-objects/recipe.po'
 import * as RecipesPage from '../page-objects/recipes.po'
 import * as EditRecipePage from '../page-objects/editRecipe.po'
@@ -58,7 +57,7 @@ describe('Recipe', () => {
       await RecipePage.clickOnDeleteButton()
       await RecipesPage.waitForPageLoaded()
 
-      expect(page.url()).toBe(`${AppUrl}/recipes`)
+      expect(global.page.url()).toBe(`${appUrl}/recipes`)
 
       const recipes = await RecipesPage.getRecipes()
       const expectedRecipes = [
@@ -76,7 +75,7 @@ describe('Recipe', () => {
       await RecipePage.clickOnModifyButton()
       await EditRecipePage.waitForPageLoaded()
 
-      expect(page.url()).toBe(`${AppUrl}/recipes/3/edit`)
+      expect(global.page.url()).toBe(`${appUrl}/recipes/3/edit`)
     })
   })
 

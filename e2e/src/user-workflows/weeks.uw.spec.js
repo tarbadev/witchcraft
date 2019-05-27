@@ -1,5 +1,4 @@
 import * as WeeksPage from '../page-objects/weeks.po'
-import { AppUrl, page } from '../setupE2eTests'
 import * as CartPage from '../page-objects/cart.po'
 
 describe('Weeks page', () => {
@@ -38,7 +37,7 @@ describe('Weeks page', () => {
       await WeeksPage.clickOnCreateCart()
       await CartPage.waitForPageLoaded()
 
-      expect(page.url()).toBe(`${AppUrl}/carts/1`)
+      expect(global.page.url()).toBe(`${appUrl}/carts/1`)
 
       const recipes = await CartPage.getRecipes()
       expect(recipes.sort()).toEqual([

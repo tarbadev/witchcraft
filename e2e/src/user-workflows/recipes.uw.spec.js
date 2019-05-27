@@ -1,4 +1,3 @@
-import { AppUrl, page } from '../setupE2eTests'
 import * as RecipesPage from '../page-objects/recipes.po'
 import * as RecipePage from '../page-objects/recipe.po'
 
@@ -40,7 +39,7 @@ describe('Recipes', () => {
       await RecipesPage.clickOnRecipe('thai chicken salad')
       await RecipePage.waitForPageLoaded()
 
-      expect(page.url()).toBe(`${AppUrl}/recipes/3`)
+      expect(global.page.url()).toBe(`${appUrl}/recipes/3`)
     })
   })
 })
