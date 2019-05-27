@@ -5,7 +5,10 @@ spring:
     url: jdbc:mysql://${DATABASE_HOST:localhost}:3306/${DATABASE_NAME:witchcraft}?autoReconnect=true&useSSL=false&serverTimezone=UTC
     username: ${DATABASE_USERNAME:spring}
     password: ${DATABASE_PASSWORD:}
-    max-active: 2
+    max-active: 1
+    maximum-pool-size: 1
+    max-total: 1
+    tomcat.max-active: 1
 
 management:
   endpoints:

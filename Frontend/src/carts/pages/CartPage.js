@@ -13,7 +13,7 @@ export const CartPage = ({
 }) => {
   const ingredients = cart.items
     ? cart.items.map(ingredient => (
-      <Grid item key={ingredient.id} sm={12}>
+      <Grid item key={ingredient.id} sm={12} data-item>
         <Ingredient ingredient={ingredient.name} unit={ingredient.unit} quantity={ingredient.quantity} />
       </Grid>
     ))

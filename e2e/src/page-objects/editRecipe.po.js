@@ -1,7 +1,7 @@
-import { fillInput } from './helpers.po'
+import { fillInput, goToUrl } from './helpers.po'
 
 export const goTo = async (id) => {
-  await global.page.goto(`${appUrl}/recipes/${id}/edit`)
+  await goToUrl(`/recipes/${id}/edit`)
   await waitForPageLoaded()
 }
 

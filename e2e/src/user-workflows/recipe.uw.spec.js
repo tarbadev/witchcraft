@@ -1,10 +1,12 @@
 import * as RecipePage from '../page-objects/recipe.po'
 import * as RecipesPage from '../page-objects/recipes.po'
 import * as EditRecipePage from '../page-objects/editRecipe.po'
+import { waitForTextByCss } from '../page-objects/helpers.po'
 
 describe('Recipe', () => {
   it('displays the ingredients', async () => {
     await RecipePage.goTo(3)
+    await waitForTextByCss('.title', 'Thai Chicken Salad')
 
     const ingredients = await RecipePage.getIngredients()
     const expectedIngredients = [
@@ -28,6 +30,7 @@ describe('Recipe', () => {
 
   it('displays the steps', async () => {
     await RecipePage.goTo(3)
+    await waitForTextByCss('.title', 'Thai Chicken Salad')
 
     const steps = await RecipePage.getSteps()
     const expectedSteps = [
@@ -40,6 +43,7 @@ describe('Recipe', () => {
   describe('on heart button click', () => {
     it('adds the recipe as favourite', async () => {
       await RecipePage.goTo(3)
+      await waitForTextByCss('.title', 'Thai Chicken Salad')
 
       expect(await RecipePage.isFavorite()).toBeFalsy()
 
@@ -53,6 +57,7 @@ describe('Recipe', () => {
   describe('on delete button click', () => {
     it('delete the recipe and redirect to recipe list', async () => {
       await RecipePage.goTo(2)
+      await waitForTextByCss('.title', 'Tartiflette')
 
       await RecipePage.clickOnDeleteButton()
       await RecipesPage.waitForPageLoaded()
@@ -71,6 +76,7 @@ describe('Recipe', () => {
   describe('on modify button click', () => {
     it('redirects to edit recipe page', async () => {
       await RecipePage.goTo(3)
+      await waitForTextByCss('.title', 'Thai Chicken Salad')
 
       await RecipePage.clickOnModifyButton()
       await EditRecipePage.waitForPageLoaded()
@@ -82,6 +88,7 @@ describe('Recipe', () => {
   describe('Notes', () => {
     it('can see the recipe\'s notes', async () => {
       await RecipePage.goTo(2)
+      await waitForTextByCss('.title', 'Tartiflette')
 
       expect(await RecipePage.getNotes()).toBe('Please add more cheese if needed')
 

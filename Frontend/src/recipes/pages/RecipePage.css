@@ -65,6 +65,10 @@
 }
 
 .notes {
-    min-height: 50px;
+    min-height: 30px;
     min-width: 50px;
+}
+
+.updateNotesButton {
+    margin-top: 20px;
 }

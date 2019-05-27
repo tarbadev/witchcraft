@@ -1,7 +1,8 @@
 import * as RecipePage from './recipes.po'
+import { goToUrl } from './helpers.po'
 
 const goTo = async () => {
-  await global.page.goto(`${appUrl}/recipes/new`)
+  await goToUrl('/recipes/new')
   await global.page.waitForSelector('.auto__submit-button')
 }
 

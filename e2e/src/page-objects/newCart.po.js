@@ -1,5 +1,7 @@
+import { goToUrl } from './helpers.po'
+
 export const goTo = async () => {
-  await global.page.goto(`${appUrl}/carts/new`)
+  await goToUrl('/carts/new')
   await waitForPageLoaded()
 }
 

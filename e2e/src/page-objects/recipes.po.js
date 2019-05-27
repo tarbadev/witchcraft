@@ -1,3 +1,5 @@
+import { goToUrl } from './helpers.po'
+
 export const clickOnRecipe = async recipeName => {
   const splitedQuotes = recipeName.replace(/'/g, '\', "\'", \'')
   const escapedText = `concat('${splitedQuotes}', '')`
@@ -12,7 +14,7 @@ export const clickOnRecipe = async recipeName => {
 }
 
 export const goTo = async () => {
-  await global.page.goto(`${appUrl}/recipes`)
+  await goToUrl('/recipes')
   await waitForPageLoaded()
 }
 

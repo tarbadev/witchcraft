@@ -1,5 +1,8 @@
+import { waitForTextNotEmptyByCss } from './helpers.po'
+
 export const waitForPageLoaded = async () => {
   await global.page.waitForSelector('div[name="title"]')
+  await waitForTextNotEmptyByCss('div[name="title"]')
 }
 
 export const getRecipes = async () => {

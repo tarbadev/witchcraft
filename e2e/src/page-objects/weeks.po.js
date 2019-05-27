@@ -1,10 +1,16 @@
+import { goToUrl } from './helpers.po'
+
 export const clickOnCreateCart = async () => {
   await global.page.click('.week-page__create-cart-button')
 }
 
 export const getMeal = async (meal, day) => {
+  let selector = `td[data-meal="${meal}-${day}"]`
+
+  await global.page.waitForSelector(selector)
+
   return await global.page.$eval(
-    `td[data-meal="${meal}-${day}"]`,
+    selector,
     element => element.textContent,
   )
 }
@@ -25,7 +31,7 @@ export const clickOnRecipe = async recipeName => {
 }
 
 export const goTo = async () => {
-  await global.page.goto(`${appUrl}/weeks`)
+  await goToUrl('/weeks')
   await waitForPageLoaded()
 }
 

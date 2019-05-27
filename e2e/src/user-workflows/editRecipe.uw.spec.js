@@ -1,5 +1,6 @@
 import * as RecipePage from '../page-objects/recipe.po'
 import * as EditRecipePage from '../page-objects/editRecipe.po'
+import { waitForTextByCss } from '../page-objects/helpers.po'
 
 describe('Edit Recipe', () => {
   describe('On submit', () => {
@@ -94,6 +95,7 @@ describe('Edit Recipe', () => {
 
       await EditRecipePage.submitEditedRecipe()
       await RecipePage.waitForPageLoaded()
+      await waitForTextByCss('.title', 'Thai Chicken Salad Recipe')
 
       const ingredients = await RecipePage.getIngredients()
       const expectedIngredients = [
@@ -120,6 +122,6 @@ describe('Edit Recipe', () => {
         'In a small glass bowl, combine the lime juice, peanut butter, soy sauce, agave nectar, fish sauce, rice vinegar and chili garlic sauce. Whisk until smooth.',
       ]
       expect(steps).toEqual(expectedSteps)
-    }, 45000)
+    }, 60000)
   })
 })

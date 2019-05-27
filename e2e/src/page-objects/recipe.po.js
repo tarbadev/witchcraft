@@ -1,7 +1,7 @@
-import { fillInput } from './helpers.po'
+import { fillInput, goToUrl } from './helpers.po'
 
 export const goTo = async (id) => {
-  await global.page.goto(`${global.appUrl}/recipes/${id}`)
+  await goToUrl(`/recipes/${id}`)
   await waitForPageLoaded()
 }
 
@@ -48,7 +48,7 @@ export const editNotes = async (notes) => {
   await global.page.click('.notes')
   await fillInput('.editableNotes', notes)
   await global.page.click('.updateNotesButton')
-  await global.page.waitForSelector('.notes')
+  await global.page.click('.updateNotesButton')
 }
 
 export const getNotes = async () => {
