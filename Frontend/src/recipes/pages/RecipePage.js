@@ -17,7 +17,7 @@ import './RecipePage.css'
 import { Step } from 'src/recipes/components/Step'
 import { Ingredient } from 'src/recipes/components/Ingredient'
 
-import { setFavorite, deleteRecipe, updateNotes } from 'src/recipes/actions/RecipeActions'
+import { setFavorite, deleteRecipe, updateNotes, showEditableNotes, hideEditableNotes } from 'src/recipes/actions/RecipeActions'
 import { setState } from 'src/RootReducer'
 import Paper from '@material-ui/core/Paper'
 
@@ -31,7 +31,9 @@ export const RecipePage = ({
   editNotes,
   updateNotes,
   editableNotes,
-  toggleEditableNotes,
+  showEditableNotes,
+  hideEditableNotes,
+  notesInput,
 }) => {
   const onModifyButtonClick = () => {
     history.push(`/recipes/${recipe.id}/edit`)
@@ -48,15 +50,15 @@ export const RecipePage = ({
         autoFocus
         multiline={true}
         className='notes-container__editable-notes'
-        value={recipe.notes}
-        onChange={(event) => editNotes('recipe.notes', event.target.value)}
-        onBlur={() => toggleEditableNotes(false)} />
+        value={notesInput}
+        onChange={(event) => editNotes('recipePage.notesInput', event.target.value)}
+        onBlur={hideEditableNotes} />
   } else if (notes) {
     notesComponent =
       <Typography
         variant='body2'
         className='notes-container__notes-content'
-        onClick={() => toggleEditableNotes(true)}>
+        onClick={showEditableNotes}>
         {notes}
       </Typography>
   } else {
@@ -64,7 +66,7 @@ export const RecipePage = ({
       <Typography
         variant='body2'
         className='notes-container__empty-notes'
-        onClick={() => toggleEditableNotes(true)}>
+        onClick={showEditableNotes}>
         Add a note
       </Typography>
   }
@@ -144,7 +146,7 @@ export const RecipePage = ({
               className="notes-container__update-notes-button"
               color='primary'
               variant='outlined'
-              onMouseDown={() => updateNotes(recipe.id, recipe.notes)}>
+              onMouseDown={() => updateNotes(recipe.id, notesInput)}>
               Update Notes
             </Button>
             }
@@ -177,7 +179,9 @@ RecipePage.propTypes = {
   editNotes: PropTypes.func,
   updateNotes: PropTypes.func,
   editableNotes: PropTypes.bool,
-  toggleEditableNotes: PropTypes.func,
+  showEditableNotes: PropTypes.func,
+  hideEditableNotes: PropTypes.func,
+  notesInput: PropTypes.string,
 }
 
 const mapStateToProps = state => {
@@ -185,6 +189,7 @@ const mapStateToProps = state => {
     recipe: state.recipe,
     notes: state.recipePage.notes,
     editableNotes: state.recipePage.editableNotes,
+    notesInput: state.recipePage.notesInput,
   }
 }
 
@@ -195,7 +200,8 @@ const mapDispatchToProps = (dispatch) => {
       deleteRecipe: deleteRecipe,
       editNotes: setState,
       updateNotes: updateNotes,
-      toggleEditableNotes: (state) => setState('recipePage.editableNotes', state),
+      showEditableNotes: showEditableNotes,
+      hideEditableNotes: hideEditableNotes,
     },
     dispatch,
   )

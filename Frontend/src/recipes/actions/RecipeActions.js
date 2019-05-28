@@ -82,7 +82,6 @@ export const updateNotes = (id, notes) => dispatch => {
 
 export const updateNotesSuccess = data => dispatch => {
   dispatch(setState('recipePage.notes', data.notes))
-  dispatch(setState('recipePage.editableNotes', false))
 }
 
 export const getRecipeNotes = id => dispatch => {
@@ -96,8 +95,20 @@ export const getRecipeNotes = id => dispatch => {
 
 export const getRecipesNotesSuccess = data => dispatch => {
   dispatch(setState('recipePage.notes', data.notes))
+  dispatch(setState('recipePage.notesInput', ''))
 }
 
 export const getRecipesNotesError = () => dispatch => {
   dispatch(setState('recipePage.notes', ''))
+  dispatch(setState('recipePage.notesInput', ''))
+}
+
+export const showEditableNotes = () => (dispatch, getState) => {
+  dispatch(setState('recipePage.notesInput', getState().recipePage.notes))
+  dispatch(setState('recipePage.editableNotes', true))
+}
+
+export const hideEditableNotes = () => (dispatch) => {
+  dispatch(setState('recipePage.notesInput', ''))
+  dispatch(setState('recipePage.editableNotes', false))
 }

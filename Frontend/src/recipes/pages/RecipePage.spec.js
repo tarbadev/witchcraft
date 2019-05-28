@@ -71,32 +71,32 @@ describe('RecipePage', function () {
       expect(recipePage.find('.notes-container__editable-notes').length).toBe(1)
     })
 
-    it('Toggles editing of notes when we click on notes', () => {
-      const toggleEditableNotesSpy = jest.fn()
+    it('Shows editing of notes when we click on notes', () => {
+      const showEditableNotesSpy = jest.fn()
       const recipePage = shallow(<RecipePage
         recipe={promisedRecipe}
-        toggleEditableNotes={toggleEditableNotesSpy}
+        showEditableNotes={showEditableNotesSpy}
         editableNotes={false}
         notes={'Some notes'}
       />)
 
       recipePage.find('.notes-container__notes-content').simulate('click')
 
-      expect(toggleEditableNotesSpy).toHaveBeenCalledWith(true)
+      expect(showEditableNotesSpy).toHaveBeenCalled()
     })
 
     it('Hides editing of notes when we click outside of it', () => {
-      const toggleEditableNotesSpy = jest.fn()
+      const hideEditableNotesSpy = jest.fn()
       const recipePage = shallow(<RecipePage
         recipe={promisedRecipe}
-        toggleEditableNotes={toggleEditableNotesSpy}
+        hideEditableNotes={hideEditableNotesSpy}
         editableNotes={true}
         notes={'Some notes'}
       />)
 
       recipePage.find('.notes-container__editable-notes').simulate('blur')
 
-      expect(toggleEditableNotesSpy).toHaveBeenCalledWith(false)
+      expect(hideEditableNotesSpy).toHaveBeenCalled()
     })
 
     it('Persists current note in state', () => {
@@ -105,16 +105,17 @@ describe('RecipePage', function () {
 
       recipePage.find('.notes-container__editable-notes').simulate('change', { target: { value: 'The cheese is good' } })
 
-      expect(editNotesSpy).toHaveBeenCalledWith('recipe.notes', 'The cheese is good')
+      expect(editNotesSpy).toHaveBeenCalledWith('recipePage.notesInput', 'The cheese is good')
     })
 
     it('Calls updateNotes when update notes button clicked', () => {
       const updateNotesSpy = jest.fn()
-      const recipePage = shallow(<RecipePage recipe={promisedRecipe} editableNotes={true} updateNotes={updateNotesSpy} />)
+      const notesInput = 'Some new notes'
+      const recipePage = shallow(<RecipePage recipe={promisedRecipe} editableNotes={true} notesInput={notesInput} updateNotes={updateNotesSpy} />)
 
       recipePage.find('.notes-container__update-notes-button').simulate('mousedown')
 
-      expect(updateNotesSpy).toHaveBeenCalledWith(promisedRecipe.id, promisedRecipe.notes)
+      expect(updateNotesSpy).toHaveBeenCalledWith(promisedRecipe.id, notesInput)
     })
   })
 })

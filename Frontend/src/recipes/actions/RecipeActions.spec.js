@@ -1,18 +1,19 @@
 import {
-  getRecipe,
-  getRecipeSuccess,
-  getRecipeError,
-  setFavorite,
-  setFavoriteSuccess,
-  updateRecipe,
-  updateRecipeSuccess,
   deleteRecipe,
   deleteRecipeCallback,
-  updateNotesSuccess,
-  getRecipesNotesSuccess,
-  getRecipesNotesError,
+  getRecipe,
+  getRecipeError,
   getRecipeNotes,
+  getRecipesNotesError,
+  getRecipesNotesSuccess,
+  getRecipeSuccess, hideEditableNotes,
+  setFavorite,
+  setFavoriteSuccess,
+  showEditableNotes,
   updateNotes,
+  updateNotesSuccess,
+  updateRecipe,
+  updateRecipeSuccess,
 } from './RecipeActions'
 
 import promisedRecipeList from 'test-resources/recipeList.json'
@@ -202,10 +203,6 @@ describe('RecipeActions', () => {
       updateNotesSuccess({ recipeId: 14, notes: 'New Notes' })(dispatchSpy)
 
       expect(dispatchSpy).toHaveBeenCalledWith(setState(
-        'recipePage.editableNotes',
-        false,
-      ))
-      expect(dispatchSpy).toHaveBeenCalledWith(setState(
         'recipePage.notes',
         'New Notes',
       ))
@@ -227,13 +224,47 @@ describe('RecipeActions', () => {
     })
   })
 
-  describe('getRecipesNotesError', () => {
+  describe('getRecipesNotesSuccess', () => {
     it('sets the notes in the state', () => {
+      const dispatchSpy = jest.fn()
+      const newNotes = 'New Notes'
+
+      getRecipesNotesSuccess({ notes: newNotes })(dispatchSpy)
+
+      expect(dispatchSpy).toHaveBeenCalledWith(setState('recipePage.notes', newNotes))
+    })
+  })
+
+  describe('getRecipesNotesError', () => {
+    it('sets the empty notes in the state', () => {
       const dispatchSpy = jest.fn()
 
       getRecipesNotesError({ message: 'Notes not found' })(dispatchSpy)
 
       expect(dispatchSpy).toHaveBeenCalledWith(setState('recipePage.notes', ''))
+    })
+  })
+
+  describe('showEditableNotes', () => {
+    it('saves the current value of notes into editableNotes and display form', () => {
+      const dispatchSpy = jest.fn()
+      const getState = jest.fn(() => ({ recipePage: { notes: 'Some notes' } }))
+
+      showEditableNotes()(dispatchSpy, getState)
+
+      expect(dispatchSpy).toHaveBeenCalledWith(setState('recipePage.notesInput', 'Some notes'))
+      expect(dispatchSpy).toHaveBeenCalledWith(setState('recipePage.editableNotes', true))
+    })
+  })
+
+  describe('hideEditableNotes', () => {
+    it('clears the current value of notes into editableNotes and hide form', () => {
+      const dispatchSpy = jest.fn()
+
+      hideEditableNotes()(dispatchSpy)
+
+      expect(dispatchSpy).toHaveBeenCalledWith(setState('recipePage.notesInput', ''))
+      expect(dispatchSpy).toHaveBeenCalledWith(setState('recipePage.editableNotes', false))
     })
   })
 })

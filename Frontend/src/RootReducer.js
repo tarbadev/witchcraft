@@ -37,6 +37,7 @@ const initialState = {
     isDeleting: false,
     editableNotes: false,
     notes: '',
+    notesInput: '',
   },
   editRecipe: {
     form: {
