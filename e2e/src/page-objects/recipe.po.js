@@ -45,10 +45,10 @@ export const getSteps = async () => {
 }
 
 export const editNotes = async (notes) => {
-  await global.page.click('.notes-container__notes')
+  await global.page.click('.notes-container__notes-content')
   await fillInput('.notes-container__editable-notes', notes)
   await global.page.click('.notes-container__update-notes-button')
-  await global.page.click('.notes-container__update-notes-button')
+  // await global.page.click('.notes-container__update-notes-button')
 }
 
 export const getNotes = async () => {

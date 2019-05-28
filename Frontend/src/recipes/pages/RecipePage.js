@@ -45,16 +45,18 @@ export const RecipePage = ({
   if (editableNotes) {
     notesComponent =
       <TextField
+        autoFocus
         multiline={true}
         className='notes-container__editable-notes'
         value={recipe.notes}
-        onChange={(event) => editNotes('recipe.notes', event.target.value)} />
+        onChange={(event) => editNotes('recipe.notes', event.target.value)}
+        onBlur={() => toggleEditableNotes(false)} />
   } else if (notes) {
     notesComponent =
       <Typography
         variant='body2'
         className='notes-container__notes-content'
-        onClick={toggleEditableNotes}>
+        onClick={() => toggleEditableNotes(true)}>
         {notes}
       </Typography>
   } else {
@@ -62,7 +64,7 @@ export const RecipePage = ({
       <Typography
         variant='body2'
         className='notes-container__empty-notes'
-        onClick={toggleEditableNotes}>
+        onClick={() => toggleEditableNotes(true)}>
         Add a note
       </Typography>
   }
@@ -142,7 +144,7 @@ export const RecipePage = ({
               className="notes-container__update-notes-button"
               color='primary'
               variant='outlined'
-              onClick={() => updateNotes(recipe.id, recipe.notes)}>
+              onMouseDown={() => updateNotes(recipe.id, recipe.notes)}>
               Update Notes
             </Button>
             }
@@ -193,7 +195,7 @@ const mapDispatchToProps = (dispatch) => {
       deleteRecipe: deleteRecipe,
       editNotes: setState,
       updateNotes: updateNotes,
-      toggleEditableNotes: () => setState('recipePage.editableNotes', true),
+      toggleEditableNotes: (state) => setState('recipePage.editableNotes', state),
     },
     dispatch,
   )

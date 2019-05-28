@@ -82,7 +82,21 @@ describe('RecipePage', function () {
 
       recipePage.find('.notes-container__notes-content').simulate('click')
 
-      expect(toggleEditableNotesSpy).toHaveBeenCalled()
+      expect(toggleEditableNotesSpy).toHaveBeenCalledWith(true)
+    })
+
+    it('Hides editing of notes when we click outside of it', () => {
+      const toggleEditableNotesSpy = jest.fn()
+      const recipePage = shallow(<RecipePage
+        recipe={promisedRecipe}
+        toggleEditableNotes={toggleEditableNotesSpy}
+        editableNotes={true}
+        notes={'Some notes'}
+      />)
+
+      recipePage.find('.notes-container__editable-notes').simulate('blur')
+
+      expect(toggleEditableNotesSpy).toHaveBeenCalledWith(false)
     })
 
     it('Persists current note in state', () => {
@@ -98,7 +112,7 @@ describe('RecipePage', function () {
       const updateNotesSpy = jest.fn()
       const recipePage = shallow(<RecipePage recipe={promisedRecipe} editableNotes={true} updateNotes={updateNotesSpy} />)
 
-      recipePage.find('.notes-container__update-notes-button').simulate('click')
+      recipePage.find('.notes-container__update-notes-button').simulate('mousedown')
 
       expect(updateNotesSpy).toHaveBeenCalledWith(promisedRecipe.id, promisedRecipe.notes)
     })

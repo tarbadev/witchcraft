@@ -1,0 +1,14 @@
+.gradle
+.DS_Store
+build/
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+node_modules
+*.log
+
+jest-puppeteer.config.js
