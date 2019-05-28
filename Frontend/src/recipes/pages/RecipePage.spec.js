@@ -45,23 +45,30 @@ describe('RecipePage', function () {
   })
 
   describe('Notes', () => {
+    describe('when editableNotes is false', () => {
+      it('notes is a Typography', () => {
+        const recipePage = shallow(<RecipePage recipe={promisedRecipe} notes={'Some Notes'} editableNotes={false} />)
+
+        expect(recipePage.find('.notes-container__notes').length).toBe(1)
+      })
+
+      it('and notes are empty, displays a message', () => {
+        const recipePage = shallow(<RecipePage recipe={promisedRecipe} editableNotes={false} />)
+
+        expect(recipePage.find('.notes-container__notes').length).toBe(1)
+        expect(recipePage.find('.notes-container__notes').render().text()).toBe('Add a note')
+      })
+
+      it('does not display update button', () => {
+        const recipePage = shallow(<RecipePage recipe={promisedRecipe} editableNotes={false} />)
+
+        expect(recipePage.find('.notes-container__update-notes-button').length).toBe(0)
+      })
+    })
     it('when editableNotes is true, notes is a TextField', () => {
       const recipePage = shallow(<RecipePage recipe={promisedRecipe} editableNotes={true} />)
 
       expect(recipePage.find('.notes-container__editable-notes').length).toBe(1)
-    })
-
-    it('when editableNotes is false, notes is a Typography', () => {
-      const recipePage = shallow(<RecipePage recipe={promisedRecipe} notes={'Some Notes'} editableNotes={false} />)
-
-      expect(recipePage.find('.notes-container__notes').length).toBe(1)
-    })
-
-    it('when editableNotes is false and notes are empty, displays a message', () => {
-      const recipePage = shallow(<RecipePage recipe={promisedRecipe} editableNotes={false} />)
-
-      expect(recipePage.find('.notes-container__notes').length).toBe(1)
-      expect(recipePage.find('.notes-container__notes').render().text()).toBe('Add a note')
     })
 
     it('Toggles editing of notes when we click on notes', () => {
@@ -73,9 +80,9 @@ describe('RecipePage', function () {
         notes={'Some notes'}
       />)
 
-      recipePage.find('.notes-container__notes').simulate('click')
+      recipePage.find('.notes-container__notes-content').simulate('click')
 
-      expect(toggleEditableNotesSpy).toHaveBeenCalledWith('recipePage.editableNotes', true)
+      expect(toggleEditableNotesSpy).toHaveBeenCalled()
     })
 
     it('Persists current note in state', () => {
@@ -89,22 +96,11 @@ describe('RecipePage', function () {
 
     it('Calls updateNotes when update notes button clicked', () => {
       const updateNotesSpy = jest.fn()
-      const recipePage = shallow(<RecipePage recipe={promisedRecipe} updateNotes={updateNotesSpy} />)
+      const recipePage = shallow(<RecipePage recipe={promisedRecipe} editableNotes={true} updateNotes={updateNotesSpy} />)
 
       recipePage.find('.notes-container__update-notes-button').simulate('click')
 
       expect(updateNotesSpy).toHaveBeenCalledWith(promisedRecipe.id, promisedRecipe.notes)
-    })
-
-    it('Displays the notes div only when there are notes', () => {
-      const updateNotesSpy = jest.fn()
-      let recipePage = shallow(<RecipePage recipe={promisedRecipe} updateNotes={updateNotesSpy} />)
-
-      expect(recipePage.find('.notes-container__notes')).toHaveLength(0)
-
-      recipePage = shallow(<RecipePage recipe={promisedRecipe} notes={'Some notes'} updateNotes={updateNotesSpy} />)
-
-      expect(recipePage.find('.notes-container__notes')).toHaveLength(1)
     })
   })
 })

@@ -53,7 +53,8 @@ export const RecipePage = ({
     notesComponent =
       <Typography
         variant='body2'
-        onClick={() => toggleEditableNotes('recipePage.editableNotes', true)}>
+        className='notes-container__notes-content'
+        onClick={toggleEditableNotes}>
         {notes}
       </Typography>
   } else {
@@ -61,7 +62,7 @@ export const RecipePage = ({
       <Typography
         variant='body2'
         className='notes-container__empty-notes'
-        onClick={() => toggleEditableNotes('recipePage.editableNotes', true)}>
+        onClick={toggleEditableNotes}>
         Add a note
       </Typography>
   }
@@ -136,6 +137,7 @@ export const RecipePage = ({
             </Grid>
           </Paper>
           <Grid item container direction="column" justify="flex-start" alignContent='center'>
+            {editableNotes &&
             <Button
               className="notes-container__update-notes-button"
               color='primary'
@@ -143,6 +145,7 @@ export const RecipePage = ({
               onClick={() => updateNotes(recipe.id, recipe.notes)}>
               Update Notes
             </Button>
+            }
           </Grid>
         </Grid>
       </Grid>
@@ -190,7 +193,7 @@ const mapDispatchToProps = (dispatch) => {
       deleteRecipe: deleteRecipe,
       editNotes: setState,
       updateNotes: updateNotes,
-      toggleEditableNotes: setState,
+      toggleEditableNotes: () => setState('recipePage.editableNotes', true),
     },
     dispatch,
   )

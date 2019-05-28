@@ -87,3 +87,8 @@
 .notes-container__notes-title {
     font-family: 'Indie Flower', cursive !important;
 }
+
+.notes-container__empty-notes {
+    font-style: italic;
+    color: rgba(0, 0, 0, 0.70) !important;
+}
