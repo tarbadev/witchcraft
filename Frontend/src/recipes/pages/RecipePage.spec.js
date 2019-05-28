@@ -48,13 +48,20 @@ describe('RecipePage', function () {
     it('when editableNotes is true, notes is a TextField', () => {
       const recipePage = shallow(<RecipePage recipe={promisedRecipe} editableNotes={true} />)
 
-      expect(recipePage.find('.editableNotes').length).toBe(1)
+      expect(recipePage.find('.notes-container__editable-notes').length).toBe(1)
     })
 
     it('when editableNotes is false, notes is a Typography', () => {
       const recipePage = shallow(<RecipePage recipe={promisedRecipe} notes={'Some Notes'} editableNotes={false} />)
 
       expect(recipePage.find('.notes-container__notes').length).toBe(1)
+    })
+
+    it('when editableNotes is false and notes are empty, displays a message', () => {
+      const recipePage = shallow(<RecipePage recipe={promisedRecipe} editableNotes={false} />)
+
+      expect(recipePage.find('.notes-container__notes').length).toBe(1)
+      expect(recipePage.find('.notes-container__notes').render().text()).toBe('Add a note')
     })
 
     it('Toggles editing of notes when we click on notes', () => {
@@ -75,7 +82,7 @@ describe('RecipePage', function () {
       const editNotesSpy = jest.fn()
       const recipePage = shallow(<RecipePage recipe={promisedRecipe} editNotes={editNotesSpy} editableNotes={true} />)
 
-      recipePage.find('.editableNotes').simulate('change', { target: { value: 'The cheese is good' } })
+      recipePage.find('.notes-container__editable-notes').simulate('change', { target: { value: 'The cheese is good' } })
 
       expect(editNotesSpy).toHaveBeenCalledWith('recipe.notes', 'The cheese is good')
     })

@@ -45,13 +45,13 @@ export const getSteps = async () => {
 }
 
 export const editNotes = async (notes) => {
-  await global.page.click('.notes')
-  await fillInput('.editableNotes', notes)
+  await global.page.click('.notes-container__notes')
+  await fillInput('.notes-container__editable-notes', notes)
   await global.page.click('.notes-container__update-notes-button')
   await global.page.click('.notes-container__update-notes-button')
 }
 
 export const getNotes = async () => {
-  await global.page.waitForSelector('.notes')
-  return await global.page.$eval('.notes', element => element.textContent)
+  await global.page.waitForSelector('.notes-container__notes')
+  return await global.page.$eval('.notes-container__notes', element => element.textContent)
 }

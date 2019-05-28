@@ -46,16 +46,24 @@ export const RecipePage = ({
     notesComponent =
       <TextField
         multiline={true}
-        className='editableNotes'
+        className='notes-container__editable-notes'
         value={recipe.notes}
         onChange={(event) => editNotes('recipe.notes', event.target.value)} />
-  } else {
-    notesComponent = notes
-      ? <Typography
+  } else if (notes) {
+    notesComponent =
+      <Typography
+        variant='body2'
         onClick={() => toggleEditableNotes('recipePage.editableNotes', true)}>
         {notes}
       </Typography>
-      : null
+  } else {
+    notesComponent =
+      <Typography
+        variant='body2'
+        className='notes-container__empty-notes'
+        onClick={() => toggleEditableNotes('recipePage.editableNotes', true)}>
+        Add a note
+      </Typography>
   }
 
   if (recipe.steps) {
@@ -116,7 +124,7 @@ export const RecipePage = ({
         </Grid>
         <Grid item container direction="column" justify="flex-start" alignItems="stretch">
           <Paper className='notes-container' square elevation={0}>
-            <Grid container>
+            <Grid container direction="column" justify="flex-start" alignItems="stretch">
               <Grid item>
                 <Typography variant='title' className='notes-container__notes-title'>
                   Notes
