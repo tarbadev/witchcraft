@@ -16,7 +16,7 @@ export const EditRecipePage = ({ changeFormInput, form, submitForm }) => {
   }
 
   const ingredients = form.ingredients
-    ? form.ingredients.map((ingredient, index) => (<Grid item xs={12} container="container" key={index}>
+    ? form.ingredients.map((ingredient, index) => (<Grid item xs={12} container key={index}>
       <Grid item xs={12}>
         <Typography variant='body1'>Ingredient {index + 1}</Typography>
       </Grid>
@@ -57,7 +57,7 @@ export const EditRecipePage = ({ changeFormInput, form, submitForm }) => {
     : undefined
 
   const steps = form.steps
-    ? form.steps.map((step, index) => (<Grid item xs={12} container="container" key={index}>
+    ? form.steps.map((step, index) => (<Grid item xs={12} container key={index}>
       <Grid item xs={12}>
         <Typography variant='body1'>Step {index + 1}</Typography>
         <TextField
@@ -73,7 +73,7 @@ export const EditRecipePage = ({ changeFormInput, form, submitForm }) => {
     </Grid>))
     : undefined
 
-  return (<Grid container="container" spacing={24}>
+  return (<Grid container spacing={24}>
     <Grid item xs={12}>
       <TextField
         label='Name'
