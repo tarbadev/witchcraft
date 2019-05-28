@@ -3,12 +3,24 @@ import * as RecipesPage from '../page-objects/recipes.po'
 
 describe('New Recipe', () => {
   describe('add recipe from url', () => {
-    it('retrieves details from html page', async () => {
+    it('retrieves details from www.cookincanuck.com', async () => {
       await NewRecipePage.addFromUrl('https://www.cookincanuck.com/ragu-stuffed-portobello-mushrooms')
       const recipes = await RecipesPage.getRecipes()
       const expectedRecipes = [
         'lasagna alla bolognese',
         'ragu stuffed portobello mushrooms',
+        'tartiflette',
+        'thai chicken salad',
+      ]
+      expect(recipes).toEqual(expectedRecipes)
+    })
+
+    it('retrieves details from www.hellofresh.com', async () => {
+      await NewRecipePage.addFromUrl('https://www.hellofresh.com/recipes/2019-w26-r14-baja-chicken-quesadilla-5cd9dfa0d5c2f800105388bc?locale=en-US')
+      const recipes = await RecipesPage.getRecipes()
+      const expectedRecipes = [
+        'baja chicken quesadilla',
+        'lasagna alla bolognese',
         'tartiflette',
         'thai chicken salad',
       ]

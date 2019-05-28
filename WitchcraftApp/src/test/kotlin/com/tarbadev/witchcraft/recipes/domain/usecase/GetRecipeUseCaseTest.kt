@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test
 class GetRecipeUseCaseTest {
     private lateinit var subject: GetRecipeUseCase
 
-    private val testResources: TestResources = TestResources()
     private val recipeRepository: RecipeRepository = mock()
 
     @BeforeEach
@@ -21,7 +20,7 @@ class GetRecipeUseCaseTest {
 
     @Test
     fun execute() {
-        val recipe = testResources.recipe
+        val recipe = TestResources.Recipes.cookinCanuck
 
         val recipeId = 123
         whenever(recipeRepository.findById(recipeId)).thenReturn(recipe)

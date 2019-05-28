@@ -11,25 +11,16 @@ import com.tarbadev.witchcraft.recipes.domain.entity.Recipe
 import com.tarbadev.witchcraft.recipes.domain.entity.Step
 import com.tarbadev.witchcraft.recipes.domain.usecase.*
 import com.tarbadev.witchcraft.recipes.rest.entity.*
-import com.tarbadev.witchcraft.weeks.rest.WeekRestController
-import org.apache.http.impl.client.HttpClientBuilder
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
-import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
-import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.http.HttpHeaders
-import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import java.util.Arrays.asList
 
@@ -39,7 +30,6 @@ import java.util.Arrays.asList
 class RecipesRestControllerTest(
     @Autowired private val mockMvc: MockMvc
 ) {
-  private val testResources: TestResources = TestResources()
   @MockBean
   private lateinit var recipeCatalogUseCase: RecipeCatalogUseCase
   @MockBean
@@ -64,11 +54,6 @@ class RecipesRestControllerTest(
   private lateinit var getRecipeNotesUseCase: GetRecipeNotesUseCase
   @MockBean
   private lateinit var editRecipeNotesUseCase: EditRecipeNotesUseCase
-
-//  @BeforeEach
-//  fun setup() {
-//    testRestTemplate.restTemplate.requestFactory = HttpComponentsClientHttpRequestFactory(HttpClientBuilder.create().build())
-//  }
 
   @Test
   fun list() {
@@ -154,7 +139,7 @@ class RecipesRestControllerTest(
 
   @Test
   fun importFromUrl() {
-    val recipe = testResources.recipe
+    val recipe = TestResources.Recipes.cookinCanuck
     val recipeFormRequest = RecipeFormRequest(url = recipe.originUrl)
 
     whenever(getRecipeDetailsFromUrlUseCase.execute(recipe.originUrl)).thenReturn(recipe)

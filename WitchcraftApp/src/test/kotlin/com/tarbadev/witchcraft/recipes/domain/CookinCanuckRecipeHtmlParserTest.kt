@@ -1,23 +1,71 @@
 package com.tarbadev.witchcraft.recipes.domain
 
-import com.nhaarman.mockitokotlin2.*
+import com.nhaarman.mockitokotlin2.any
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.reset
+import com.nhaarman.mockitokotlin2.whenever
 import com.tarbadev.witchcraft.TestResources
 import com.tarbadev.witchcraft.recipes.domain.entity.Ingredient
 import com.tarbadev.witchcraft.recipes.domain.entity.Step
 import com.tarbadev.witchcraft.recipes.domain.usecase.ConvertAndAddSameIngredientUseCase
 import com.tarbadev.witchcraft.recipes.domain.usecase.IngredientFromStringUseCase
-import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.Assertions.assertEquals
 import java.util.Arrays.asList
 
 class CookinCanuckRecipeHtmlParserTest {
+    private val recipe = TestResources.Recipes.cookinCanuck
     private lateinit var subject: CookinCanuckRecipeHtmlParser
 
-    private val testResources: TestResources = TestResources()
     private val ingredientFromStringUseCase: IngredientFromStringUseCase = mock()
     private val convertAndAddSameIngredientUseCase: ConvertAndAddSameIngredientUseCase = mock()
+
+    private val ingredient1 = Ingredient(
+        name = "Little Potato Co. Creamer potatoes (I used Dynamic Duo)",
+        quantity = 1.5,
+        unit = "lb"
+    )
+    private val ingredient2 = Ingredient(
+        name = "soft goat cheese (chevre), room temperature",
+        quantity = 2.0,
+        unit = "oz"
+    )
+    private val ingredient3 = Ingredient(
+        name = "diced roasted red pepper",
+        quantity = 3.0,
+        unit = "tbsp"
+    )
+    private val ingredient4 = Ingredient(
+        name = "pitted Kalamata olives, diced",
+        quantity = 4.0,
+        unit = ""
+    )
+    private val ingredient5 = Ingredient(
+        name = "minced flat-leaf parsley",
+        quantity = 1.0,
+        unit = "tbsp"
+    )
+    private val ingredient6 = Ingredient(
+        name = "soft goat cheese (chevre), room temperature",
+        quantity = 2.0,
+        unit = "oz"
+    )
+    private val ingredient7 = Ingredient(
+        name = "pistachios halves, divided",
+        quantity = 3.0,
+        unit = "tbsp"
+    )
+    private val ingredient8 = Ingredient(
+        name = "honey",
+        quantity = 1.0,
+        unit = "tsp"
+    )
+    private val ingredient9 = Ingredient(
+        name = "ground cinnamon",
+        quantity = 0.25,
+        unit = "tsp"
+    )
 
     @BeforeEach
     fun setUp() {
@@ -33,76 +81,7 @@ class CookinCanuckRecipeHtmlParserTest {
 
     @Test
     fun parse() {
-        val recipe = testResources.recipe
-        val ingredient1 = Ingredient(
-            name = "Little Potato Co. Creamer potatoes (I used Dynamic Duo)",
-            quantity = 1.5,
-            unit = "lb"
-        )
-        val ingredient2 = Ingredient(
-            name = "soft goat cheese (chevre), room temperature",
-            quantity = 2.0,
-            unit = "oz"
-        )
-        val ingredient3 = Ingredient(
-            name = "diced roasted red pepper",
-            quantity = 3.0,
-            unit = "tbsp"
-        )
-        val ingredient4 = Ingredient(
-            name = "pitted Kalamata olives, diced",
-            quantity = 4.0,
-            unit = ""
-        )
-        val ingredient5 = Ingredient(
-            name = "minced flat-leaf parsley",
-            quantity = 1.0,
-            unit = "tbsp"
-        )
-        val ingredient6 = Ingredient(
-            name = "soft goat cheese (chevre), room temperature",
-            quantity = 2.0,
-            unit = "oz"
-        )
-        val ingredient7 = Ingredient(
-            name = "pistachios halves, divided",
-            quantity = 3.0,
-            unit = "tbsp"
-        )
-        val ingredient8 = Ingredient(
-            name = "honey",
-            quantity = 1.0,
-            unit = "tsp"
-        )
-        val ingredient9 = Ingredient(
-            name = "ground cinnamon",
-            quantity = 0.25,
-            unit = "tsp"
-        )
-
-        whenever(ingredientFromStringUseCase.execute(any()))
-            .thenReturn(ingredient1)
-            .thenReturn(ingredient2)
-            .thenReturn(ingredient3)
-            .thenReturn(ingredient4)
-            .thenReturn(ingredient5)
-            .thenReturn(ingredient6)
-            .thenReturn(ingredient7)
-            .thenReturn(ingredient8)
-            .thenReturn(ingredient9)
-        whenever(convertAndAddSameIngredientUseCase.execute(
-                asList(
-                    ingredient1,
-                    ingredient2,
-                    ingredient3,
-                    ingredient4,
-                    ingredient5,
-                    ingredient6,
-                    ingredient7,
-                    ingredient8,
-                    ingredient9
-                )
-        )).thenReturn(recipe.ingredients)
+        mockParsingOfIngredients()
 
         val returnedRecipe = subject.parse(recipe.originUrl)
         assertEquals(recipe, returnedRecipe)
@@ -110,8 +89,6 @@ class CookinCanuckRecipeHtmlParserTest {
 
     @Test
     fun parse_getsRecipeName() {
-        val recipe = testResources.recipe
-
         whenever(convertAndAddSameIngredientUseCase.execute(recipe.ingredients))
                 .thenReturn(recipe.ingredients)
 
@@ -120,77 +97,7 @@ class CookinCanuckRecipeHtmlParserTest {
 
     @Test
     fun parse_getsRecipeIngredients() {
-        val recipe = testResources.recipe
-        val ingredient1 = Ingredient(
-            name = "Little Potato Co. Creamer potatoes (I used Dynamic Duo)",
-            quantity = 1.5,
-            unit = "lb"
-        )
-        val ingredient2 = Ingredient(
-            name = "soft goat cheese (chevre), room temperature",
-            quantity = 2.0,
-            unit = "oz"
-        )
-        val ingredient3 = Ingredient(
-            name = "diced roasted red pepper",
-            quantity = 3.0,
-            unit = "tbsp"
-        )
-        val ingredient4 = Ingredient(
-            name = "pitted Kalamata olives, diced",
-            quantity = 4.0,
-            unit = ""
-        )
-        val ingredient5 = Ingredient(
-            name = "minced flat-leaf parsley",
-            quantity = 1.0,
-            unit = "tbsp"
-        )
-        val ingredient6 = Ingredient(
-            name = "soft goat cheese (chevre), room temperature",
-            quantity = 2.0,
-            unit = "oz"
-        )
-        val ingredient7 = Ingredient(
-            name = "pistachios halves, divided",
-            quantity = 3.0,
-            unit = "tbsp"
-        )
-        val ingredient8 = Ingredient(
-            name = "honey",
-            quantity = 1.0,
-            unit = "tsp"
-        )
-        val ingredient9 = Ingredient(
-            name = "ground cinnamon",
-            quantity = 0.25,
-            unit = "tsp"
-        )
-
-        whenever(ingredientFromStringUseCase.execute(any()))
-            .thenReturn(ingredient1)
-            .thenReturn(ingredient2)
-            .thenReturn(ingredient3)
-            .thenReturn(ingredient4)
-            .thenReturn(ingredient5)
-            .thenReturn(ingredient6)
-            .thenReturn(ingredient7)
-            .thenReturn(ingredient8)
-            .thenReturn(ingredient9)
-        whenever(convertAndAddSameIngredientUseCase.execute(
-            asList(
-                ingredient1,
-                ingredient2,
-                ingredient3,
-                ingredient4,
-                ingredient5,
-                ingredient6,
-                ingredient7,
-                ingredient8,
-                ingredient9
-            )
-        ))
-            .thenReturn(recipe.ingredients)
+        mockParsingOfIngredients()
 
         val ingredients = subject.parse(recipe.originUrl).ingredients
         assertEquals(recipe.ingredients, ingredients)
@@ -198,16 +105,12 @@ class CookinCanuckRecipeHtmlParserTest {
 
     @Test
     fun parse_getsRecipeImageUrl() {
-        val recipe = testResources.recipe
-
         val imgUrl = subject.parse(recipe.originUrl).imgUrl
         assertEquals(recipe.imgUrl, imgUrl)
     }
 
     @Test
     fun parse_getsRecipesSteps() {
-        val recipe = testResources.recipe
-
         val steps = subject.parse(recipe.originUrl).steps
 
         assertEquals(6, steps.size)
@@ -250,8 +153,30 @@ class CookinCanuckRecipeHtmlParserTest {
         assertEquals(steps, steps1)
     }
 
-    @Test
-    fun isUrlSupported() {
-        assertThat(subject.isUrlSupported("https://www.cookincanuck.com/some-fake-recipe/")).isTrue()
+    private fun mockParsingOfIngredients() {
+        whenever(ingredientFromStringUseCase.execute(any()))
+            .thenReturn(ingredient1)
+            .thenReturn(ingredient2)
+            .thenReturn(ingredient3)
+            .thenReturn(ingredient4)
+            .thenReturn(ingredient5)
+            .thenReturn(ingredient6)
+            .thenReturn(ingredient7)
+            .thenReturn(ingredient8)
+            .thenReturn(ingredient9)
+        whenever(convertAndAddSameIngredientUseCase.execute(
+            asList(
+                ingredient1,
+                ingredient2,
+                ingredient3,
+                ingredient4,
+                ingredient5,
+                ingredient6,
+                ingredient7,
+                ingredient8,
+                ingredient9
+            )
+        ))
+            .thenReturn(recipe.ingredients)
     }
 }
