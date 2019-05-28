@@ -1,4 +1,4 @@
-import { fillInput, goToUrl } from './helpers.po'
+import { fillInput, goToUrl, waitForTextByCss } from './helpers.po'
 
 export const goTo = async (id) => {
   await goToUrl(`/recipes/${id}`)
@@ -48,10 +48,10 @@ export const editNotes = async (notes) => {
   await global.page.click('.notes-container__notes-content')
   await fillInput('.notes-container__editable-notes', notes)
   await global.page.click('.notes-container__update-notes-button')
-  // await global.page.click('.notes-container__update-notes-button')
+  await waitForTextByCss('.notes-container__notes-content', notes)
 }
 
 export const getNotes = async () => {
-  await global.page.waitForSelector('.notes-container__notes')
-  return await global.page.$eval('.notes-container__notes', element => element.textContent)
+  await global.page.waitForSelector('.notes-container__notes-content')
+  return await global.page.$eval('.notes-container__notes-content', element => element.textContent)
 }
