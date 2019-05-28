@@ -54,7 +54,7 @@ describe('RecipePage', function () {
     it('when editableNotes is false, notes is a Typography', () => {
       const recipePage = shallow(<RecipePage recipe={promisedRecipe} notes={'Some Notes'} editableNotes={false} />)
 
-      expect(recipePage.find('.notes').length).toBe(1)
+      expect(recipePage.find('.notes-container__notes').length).toBe(1)
     })
 
     it('Toggles editing of notes when we click on notes', () => {
@@ -66,7 +66,7 @@ describe('RecipePage', function () {
         notes={'Some notes'}
       />)
 
-      recipePage.find('.notes').simulate('click')
+      recipePage.find('.notes-container__notes').simulate('click')
 
       expect(toggleEditableNotesSpy).toHaveBeenCalledWith('recipePage.editableNotes', true)
     })
@@ -84,7 +84,7 @@ describe('RecipePage', function () {
       const updateNotesSpy = jest.fn()
       const recipePage = shallow(<RecipePage recipe={promisedRecipe} updateNotes={updateNotesSpy} />)
 
-      recipePage.find('.updateNotesButton').simulate('click')
+      recipePage.find('.notes-container__update-notes-button').simulate('click')
 
       expect(updateNotesSpy).toHaveBeenCalledWith(promisedRecipe.id, promisedRecipe.notes)
     })
@@ -93,11 +93,11 @@ describe('RecipePage', function () {
       const updateNotesSpy = jest.fn()
       let recipePage = shallow(<RecipePage recipe={promisedRecipe} updateNotes={updateNotesSpy} />)
 
-      expect(recipePage.find('.notes')).toHaveLength(0)
+      expect(recipePage.find('.notes-container__notes')).toHaveLength(0)
 
       recipePage = shallow(<RecipePage recipe={promisedRecipe} notes={'Some notes'} updateNotes={updateNotesSpy} />)
 
-      expect(recipePage.find('.notes')).toHaveLength(1)
+      expect(recipePage.find('.notes-container__notes')).toHaveLength(1)
     })
   })
 })

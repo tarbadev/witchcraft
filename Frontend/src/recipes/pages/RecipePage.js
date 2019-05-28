@@ -19,6 +19,7 @@ import { Ingredient } from 'src/recipes/components/Ingredient'
 
 import { setFavorite, deleteRecipe, updateNotes } from 'src/recipes/actions/RecipeActions'
 import { setState } from 'src/RootReducer'
+import Paper from '@material-ui/core/Paper'
 
 export const RecipePage = ({
   recipe,
@@ -51,7 +52,6 @@ export const RecipePage = ({
   } else {
     notesComponent = notes
       ? <Typography
-        className='notes'
         onClick={() => toggleEditableNotes('recipePage.editableNotes', true)}>
         {notes}
       </Typography>
@@ -110,19 +110,33 @@ export const RecipePage = ({
           </Button>
         </Grid>
       </Grid>
-      <Grid item sm={3} name='image'>
-        <img src={recipe.imgUrl} className="image" />
-        <Typography variant='headline'>
-          Notes
-        </Typography>
-        {notesComponent}
-        <br />
-        <Button
-          className="updateNotesButton"
-          variant='contained'
-          onClick={() => updateNotes(recipe.id, recipe.notes)}>
-          Update Notes
-        </Button>
+      <Grid item container sm={3} name='image' direction="column" justify="flex-start" alignItems="stretch">
+        <Grid item>
+          <img src={recipe.imgUrl} className="image" />
+        </Grid>
+        <Grid item container direction="column" justify="flex-start" alignItems="stretch">
+          <Paper className='notes-container' square elevation={0}>
+            <Grid container>
+              <Grid item>
+                <Typography variant='title' className='notes-container__notes-title'>
+                  Notes
+                </Typography>
+              </Grid>
+              <Grid item className='notes-container__notes'>
+                {notesComponent}
+              </Grid>
+            </Grid>
+          </Paper>
+          <Grid item container direction="column" justify="flex-start" alignContent='center'>
+            <Button
+              className="notes-container__update-notes-button"
+              color='primary'
+              variant='outlined'
+              onClick={() => updateNotes(recipe.id, recipe.notes)}>
+              Update Notes
+            </Button>
+          </Grid>
+        </Grid>
       </Grid>
       <Grid item sm={5} name='steps'>
         <Typography variant='title' gutterBottom>Steps</Typography>

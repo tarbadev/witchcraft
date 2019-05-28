@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Indie+Flower&display=swap');
+
 .title {
     text-transform: capitalize;
     display: inline !important;
@@ -5,7 +7,6 @@
 
 .image {
     width: 100%;
-    max-height: 200px;
 }
 
 .leftIcon {
@@ -64,11 +65,21 @@
     color: #db2828 !important;
 }
 
-.notes {
-    min-height: 30px;
-    min-width: 50px;
+.notes-container__update-notes-button {
+    margin-top: 10px !important;
 }
 
-.updateNotesButton {
-    margin-top: 20px;
+.notes-container {
+    margin-top: 10px !important;
+    background-color: #ffdb20 !important;
+    padding: 5px 10px;
+}
+
+.notes-container__notes {
+    margin: 5px 0 0 0 !important;
+    font-family: 'Indie Flower', cursive !important;
+}
+
+.notes-container__notes-title {
+    font-family: 'Indie Flower', cursive !important;
 }
