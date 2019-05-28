@@ -90,9 +90,14 @@ export const getRecipeNotes = id => dispatch => {
     url: `/api/recipes/${id}/notes`,
     method: 'GET',
     onSuccess: getRecipesNotesSuccess,
+    onError: getRecipesNotesError,
   }))
 }
 
 export const getRecipesNotesSuccess = data => dispatch => {
   dispatch(setState('recipePage.notes', data.notes))
+}
+
+export const getRecipesNotesError = () => dispatch => {
+  dispatch(setState('recipePage.notes', ''))
 }

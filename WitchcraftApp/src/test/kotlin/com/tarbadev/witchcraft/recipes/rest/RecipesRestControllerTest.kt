@@ -319,6 +319,14 @@ class RecipesRestControllerTest(
   }
 
   @Test
+  fun `getNotes returns 404 when notes are not found`() {
+    whenever(getRecipeNotesUseCase.execute(15)).thenReturn(null)
+
+    mockMvc.perform(get("/api/recipes/15/notes"))
+        .andExpect(status().isNotFound)
+  }
+
+  @Test
   fun editNotes() {
     val notesRequest = EditNotesRequest(recipeId = 15, notes = "Some notes")
     val notes = notesRequest.toNotes()

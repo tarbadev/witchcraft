@@ -118,7 +118,7 @@ class RecipesRestController(
 
     @GetMapping("/{recipeId}/notes")
     fun getNotes(@PathVariable recipeId: Int): NotesResponse? {
-        val notes = getRecipeNotesUseCase.execute(recipeId) ?: return null
+        val notes = getRecipeNotesUseCase.execute(recipeId) ?: throw NotesNotFoundException()
 
         return NotesResponse.fromNotes(notes)
     }
@@ -127,4 +127,7 @@ class RecipesRestController(
     fun editNotes(@RequestBody editNotesRequest: EditNotesRequest): NotesResponse? {
         return NotesResponse.fromNotes(editRecipeNotesUseCase.execute(editNotesRequest.toNotes()))
     }
+
+    @ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "Notes not found")
+    inner class NotesNotFoundException : RuntimeException()
 }

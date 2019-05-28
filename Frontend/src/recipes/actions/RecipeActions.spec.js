@@ -10,6 +10,7 @@ import {
   deleteRecipeCallback,
   updateNotesSuccess,
   getRecipesNotesSuccess,
+  getRecipesNotesError,
   getRecipeNotes,
   updateNotes,
 } from './RecipeActions'
@@ -221,18 +222,18 @@ describe('RecipeActions', () => {
         url: `/api/recipes/${id}/notes`,
         method: 'GET',
         onSuccess: getRecipesNotesSuccess,
+        onError: getRecipesNotesError,
       }))
     })
   })
 
-  describe('getRecipesNotesSuccess', () => {
+  describe('getRecipesNotesError', () => {
     it('sets the notes in the state', () => {
       const dispatchSpy = jest.fn()
-      const notes = 'Some notes'
 
-      getRecipesNotesSuccess({ notes })(dispatchSpy)
+      getRecipesNotesError({ message: 'Notes not found' })(dispatchSpy)
 
-      expect(dispatchSpy).toHaveBeenCalledWith(setState('recipePage.notes', notes))
+      expect(dispatchSpy).toHaveBeenCalledWith(setState('recipePage.notes', ''))
     })
   })
 })
