@@ -175,4 +175,60 @@ class IngredientFromStringUseCaseTest {
         )
         assertEquals(expectedIngredient, subject.execute("1⁄2 lb Something"))
     }
+
+    @Test
+    fun execute_supportsGrams() {
+        val expectedIngredient = Ingredient(
+            name = "farine",
+            quantity = 300.0,
+            unit = "g"
+        )
+        assertEquals(expectedIngredient, subject.execute("300 g de farine"))
+    }
+
+    @Test
+    fun execute_supportsCentiliters() {
+        val expectedIngredient = Ingredient(
+            name = "lait",
+            quantity = 250.0,
+            unit = "cl"
+        )
+        assertEquals(expectedIngredient, subject.execute("250 cl de lait"))
+    }
+
+    @Test
+    fun execute_supportsLiters() {
+        val expectedIngredient = Ingredient(
+            name = "lait",
+            quantity = 1.0,
+            unit = "l"
+        )
+        assertEquals(expectedIngredient, subject.execute("1 l de lait"))
+    }
+
+    @Test
+    fun execute_supportsCuillereASoupe() {
+        var expectedIngredient = Ingredient(
+            name = "sucre",
+            quantity = 3.0,
+            unit = "tbsp"
+        )
+        assertEquals(expectedIngredient, subject.execute("3 cuillères à soupe de sucre"))
+
+        expectedIngredient = Ingredient(
+            name = "sucre",
+            quantity = 1.0,
+            unit = "tbsp"
+        )
+        assertEquals(expectedIngredient, subject.execute("1 cuillère à soupe de sucre"))
+    }
+
+    @Test
+    fun execute_supportsAccents() {
+        val expectedIngredient = Ingredient(
+            name = "verre de bière",
+            quantity = 0.5
+        )
+        assertEquals(expectedIngredient, subject.execute("1/2 verre de bière"))
+    }
 }

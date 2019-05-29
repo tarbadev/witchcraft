@@ -21,10 +21,12 @@ class IngredientFromStringUseCase {
             .replace("ounce", "oz")
             .replace("teaspoon", "tsp")
             .replace("tablespoon", "tbsp")
+            .replace("cuillère à soupe", "tbsp")
+            .replace("cuillères à soupe", "tbsp")
         var quantity = 0.0
         var unit = ""
         var name = ""
-        val pattern = Pattern.compile("([\\d ]*\\d+[[\\⁄\\/]\\d]*|\\d+|)([\\s]|)(([A-Za-z]+?|[A-Za-z]+?)(s\\b|\\b)|)([ .,]*)([()\\w ,-\\.\\/&\\'!\\+]+)")
+        val pattern = Pattern.compile("([\\d ]*\\d+[[\\⁄\\/]\\d]*|\\d+|)([\\s]|)(([A-Za-z]+?|[A-Za-z]+?)(s\\b|\\b)|)([ .,de]*)([()\\w[À-ÿ] ,-\\.\\/&\\'!\\+]+)")
         val matcher = pattern.matcher(newText)
         if (matcher.find()) {
             val quantityStr = matcher.group(1)
@@ -59,7 +61,7 @@ class IngredientFromStringUseCase {
                     .replace("\\.".toRegex(), "")
                 if (SUPPORTED_UNITS.contains(tempUnit)) {
                     unit = tempUnit
-                } else if (!tempUnit.isEmpty()) {
+                } else if (tempUnit.isNotEmpty()) {
                     name = tempUnit + matcher.group(5) + matcher.group(6)
                 }
             }
@@ -84,7 +86,10 @@ class IngredientFromStringUseCase {
             "oz",
             "tsp",
             "tbsp",
-            "cup"
+            "cup",
+            "g",
+            "cl",
+            "l"
         )
     }
 }

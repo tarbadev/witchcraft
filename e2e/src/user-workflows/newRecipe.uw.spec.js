@@ -32,7 +32,7 @@ describe('New Recipe', () => {
       const recipes = await RecipesPage.getRecipes()
       const expectedRecipes = [
         'lasagna alla bolognese',
-        'Pâte à crêpes',
+        'pâte à crêpes',
         'tartiflette',
         'thai chicken salad',
       ]

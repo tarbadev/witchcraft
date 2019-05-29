@@ -63,7 +63,6 @@ class TestResources {
               Step(name = "Arrange on a serving plate. Serve.")
           )
       )
-
       val helloFresh = Recipe(
           name = "Baja Chicken Quesadilla",
           originUrl = "https://www.hellofresh.com/recipes/2019-w26-r14-baja-chicken-quesadilla-5cd9dfa0d5c2f800105388bc?locale=en-US",
@@ -141,6 +140,55 @@ class TestResources {
               Step(name = "In a small bowl, combine sour cream, lime zest (to taste), and juice from 1 lime wedge (2 lime wedges for 4 servings). Add water, 1 tsp at a time, until mixture reaches drizzling consistency. Season with salt and pepper."),
               Step(name = "Place tortillas on a work surface. Evenly sprinkle mozzarella and Mexican cheese onto 1 side of each tortilla. Top cheese with filling, then fold tortillas in half to create quesadillas. Heat a drizzle of oil and 1 TBSP butter (2 TBSP for 4 servings) in pan used for chicken over medium-high heat. Working in batches, add quesadillas and cook until golden brown on the first side, 1-2 minutes. Flip and cook 1 minute more. Transfer to a paper-towel-lined plate."),
               Step(name = "Transfer quesadillas to a cutting board; slice into thirds and divide between plates. Serve with salsa, lime crema, and hot sauce (to taste). Serve with any remaining lime wedges on the side for squeezing over.")
+          )
+      )
+
+      val marmiton = Recipe(
+          name = "Pâte à crêpes",
+          originUrl = "https://www.marmiton.org/recettes/recette_pate-a-crepes_12372.aspx",
+          imgUrl = "https://assets.afcdn.com/recipe/20130914/42772_w420h344c1cx175cy182.jpg",
+          ingredients = Arrays.asList(
+              Ingredient(
+                  name = "Farine",
+                  quantity = 300.0,
+                  unit = "g"
+              ),
+              Ingredient(
+                  name = "Oeufs entiers",
+                  quantity = 3.0
+              ),
+              Ingredient(
+                  name = "Sucre",
+                  quantity = 3.0,
+                  unit = "tbsp"
+              ),
+              Ingredient(
+                  name = "Huile",
+                  quantity = 2.0,
+                  unit = "tbsp"
+              ),
+              Ingredient(
+                  name = "Beurre fondu",
+                  quantity = 50.0,
+                  unit = "g"
+              ),
+              Ingredient(
+                  name = "Lait",
+                  quantity = 60.0,
+                  unit = "cl"
+              ),
+              Ingredient(
+                  name = "Rhum",
+                  quantity = 5.0,
+                  unit = "cl"
+              )
+          ),
+          steps = Arrays.asList(
+              Step(name = "Mettre la farine dans une terrine et former un puits."),
+              Step(name = "Y déposer les oeufs entiers, le sucre, l'huile et le beurre."),
+              Step(name = "Mélanger délicatement avec un fouet en ajoutant au fur et à mesure le lait. La pâte ainsi obtenue doit avoir une consistance d'un liquide légèrement épais."),
+              Step(name = "Parfumer de rhum."),
+              Step(name = "Faire chauffer une poêle antiadhésive et la huiler très légèrement. Y verser une louche de pâte, la répartir dans la poêle puis attendre qu'elle soit cuite d'un côté avant de la retourner. Cuire ainsi toutes les crêpes à feu doux.")
           )
       )
     }
