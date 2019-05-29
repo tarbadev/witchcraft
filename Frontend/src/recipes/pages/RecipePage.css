@@ -92,3 +92,8 @@
     font-style: italic;
     color: rgba(0, 0, 0, 0.70) !important;
 }
+
+.notes-container__editable-notes {
+    width: 100%;
+    margin: 0 !important;
+}
