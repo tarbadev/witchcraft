@@ -1,6 +1,6 @@
 package com.tarbadev.witchcraft.recipes.domain.usecase
 
-import com.tarbadev.witchcraft.recipes.domain.RecipeHtmlParser
+import com.tarbadev.witchcraft.recipes.domain.parser.RecipeHtmlParser
 import com.tarbadev.witchcraft.recipes.domain.entity.Recipe
 import org.springframework.stereotype.Component
 

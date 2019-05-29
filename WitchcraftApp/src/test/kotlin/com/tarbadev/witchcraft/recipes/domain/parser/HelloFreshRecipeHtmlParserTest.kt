@@ -1,4 +1,4 @@
-package com.tarbadev.witchcraft.recipes.domain
+package com.tarbadev.witchcraft.recipes.domain.parser
 
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.mock

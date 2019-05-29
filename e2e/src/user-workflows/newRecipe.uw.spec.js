@@ -26,6 +26,18 @@ describe('New Recipe', () => {
       ]
       expect(recipes).toEqual(expectedRecipes)
     })
+
+    it('retrieves details from www.marmiton.org', async () => {
+      await NewRecipePage.addFromUrl('https://www.marmiton.org/recettes/recette_pate-a-crepes_12372.aspx')
+      const recipes = await RecipesPage.getRecipes()
+      const expectedRecipes = [
+        'lasagna alla bolognese',
+        'Pâte à crêpes',
+        'tartiflette',
+        'thai chicken salad',
+      ]
+      expect(recipes).toEqual(expectedRecipes)
+    })
   })
 
   describe('add recipe from form inputs', () => {

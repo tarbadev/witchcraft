@@ -1,4 +1,4 @@
-package com.tarbadev.witchcraft.recipes.domain
+package com.tarbadev.witchcraft.recipes.domain.parser
 
 import com.tarbadev.witchcraft.recipes.domain.entity.Step
 import com.tarbadev.witchcraft.recipes.domain.usecase.ConvertAndAddSameIngredientUseCase

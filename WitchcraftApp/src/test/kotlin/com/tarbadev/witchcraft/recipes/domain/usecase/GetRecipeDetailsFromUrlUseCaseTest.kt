@@ -4,7 +4,7 @@ import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.reset
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
-import com.tarbadev.witchcraft.recipes.domain.CookinCanuckRecipeHtmlParser
+import com.tarbadev.witchcraft.recipes.domain.parser.CookinCanuckRecipeHtmlParser
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
