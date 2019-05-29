@@ -20,6 +20,7 @@
 .recipe-card {
     cursor: pointer;
     transition: transform .1s ease;
+    width: inherit;
 }
 
 .recipe-card:hover {

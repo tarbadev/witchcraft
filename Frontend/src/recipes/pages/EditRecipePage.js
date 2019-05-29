@@ -73,7 +73,7 @@ export const EditRecipePage = ({ changeFormInput, form, submitForm }) => {
     </Grid>))
     : undefined
 
-  return (<Grid container spacing={24}>
+  return (<Grid container spacing={3}>
     <Grid item xs={12}>
       <TextField
         label='Name'

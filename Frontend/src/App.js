@@ -8,7 +8,7 @@ import { Content } from './Content'
 
 export const App = () => {
   return (
-    <Grid container spacing={24} justify='center'>
+    <Grid container spacing={3} justify='center'>
       <CssBaseline />
       <Grid item xs={10} className={styles.header}>
         <Header />

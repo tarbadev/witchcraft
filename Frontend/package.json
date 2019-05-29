@@ -20,6 +20,7 @@
   "dependencies": {
     "@material-ui/core": "^4.0.1",
     "@material-ui/icons": "^4.0.1",
+    "@material-ui/system": "^4.0.1",
     "connect-history-api-fallback": "^1.6.0",
     "connected-react-router": "4.5.0",
     "current-week-number": "^1.0.7",

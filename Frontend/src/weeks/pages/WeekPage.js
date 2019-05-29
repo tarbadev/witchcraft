@@ -58,19 +58,19 @@ export const WeekPage = ({
   }
 
   return (
-    <Grid container spacing={24} justify='center'>
+    <Grid container spacing={3} justify='center'>
       <Grid item xs={3}>
       </Grid>
       <Grid item container xs={6} justify='center' alignItems='center'>
         <IconButtonStyled fontSize='large' className='week-page__previous-week' onClick={onPreviousWeekClick}>
           <ChevronLeftIcon />
         </IconButtonStyled>
-        <Title variant='title'>Year {week.year}, week {week.weekNumber}</Title>
+        <Title variant='h6'>Year {week.year}, week {week.weekNumber}</Title>
         <IconButtonStyled fontSize='large' className='week-page__next-week' onClick={onNextWeekClick}>
           <ChevronRightIcon />
         </IconButtonStyled>
       </Grid>
-      <Grid item container xs={3} spacing={24} justify='flex-end' alignItems='center'>
+      <Grid item container xs={3} spacing={3} justify='flex-end' alignItems='center'>
         <Grid item>
           <Button
             className='week-page__save-button'

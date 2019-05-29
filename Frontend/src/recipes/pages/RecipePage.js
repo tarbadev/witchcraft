@@ -72,7 +72,7 @@ export const RecipePage = ({
   }
 
   if (recipe.steps) {
-    steps = recipe.steps.map((step, index) => (<Grid item key={step.id} sm={12}>
+    steps = recipe.steps.map((step, index) => (<Grid item key={step.id} xs={12}>
       <Step number={index + 1} step={step.name} />
     </Grid>))
   }
@@ -90,11 +90,11 @@ export const RecipePage = ({
   }
 
   return (
-    <Grid container spacing={24}>
+    <Grid container spacing={3}>
       <Grid item sm={12} name='title'>
         <Grid container justify='space-between'>
           <Grid item sm={8}>
-            <Typography variant='headline' className="title">
+            <Typography variant='h5' className="title">
               {recipe.name}
             </Typography>
             <IconButton onClick={() => toggleFavorite(recipe.id, !recipe.favorite)} className={favoriteClassName}>
@@ -131,7 +131,7 @@ export const RecipePage = ({
           <Paper className='notes-container' square elevation={0}>
             <Grid container direction="column" justify="flex-start" alignItems="stretch">
               <Grid item>
-                <Typography variant='title' className='notes-container__notes-title'>
+                <Typography variant='h6' className='notes-container__notes-title'>
                   Notes
                 </Typography>
               </Grid>
@@ -153,15 +153,15 @@ export const RecipePage = ({
           </Grid>
         </Grid>
       </Grid>
-      <Grid item sm={5} name='steps'>
-        <Typography variant='title' gutterBottom>Steps</Typography>
-        <Grid container alignItems='baseline' spacing={8}>
+      <Grid item xs={5} name='steps'>
+        <Typography variant='h6' gutterBottom>Steps</Typography>
+        <Grid container alignItems="baseline" spacing={1}>
           {steps}
         </Grid>
       </Grid>
-      <Grid item sm={4} name='ingredients'>
-        <Typography variant='title' gutterBottom>Ingredients</Typography>
-        <Grid container alignItems='baseline' spacing={8}>
+      <Grid item xs={4} name='ingredients'>
+        <Typography variant='h6' gutterBottom>Ingredients</Typography>
+        <Grid container alignItems='baseline' spacing={1}>
           {ingredients}
         </Grid>
       </Grid>

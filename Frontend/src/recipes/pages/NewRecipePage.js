@@ -7,12 +7,12 @@ import Paper from '@material-ui/core/Paper'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
-import { withStyles } from '@material-ui/core/styles'
 import { setState } from 'src/RootReducer'
 
 import { formInputChange, submitForm } from 'src/recipes/actions/NewRecipeActions'
+import { makeStyles } from '@material-ui/core'
 
-const styles = () => ({
+const useStyles = makeStyles({
   root: {
     flexGrow: 1,
   },
@@ -22,7 +22,6 @@ const styles = () => ({
 })
 
 export const NewRecipePage = ({
-  classes,
   changeFormInput,
   submitForm,
   autoUrl = {},
@@ -31,6 +30,7 @@ export const NewRecipePage = ({
   history,
   setState,
 }) => {
+  const classes = useStyles()
   const onUrlFormSubmit = () => {
     submitForm('/api/recipes/importFromUrl', autoUrl)
   }
@@ -45,16 +45,16 @@ export const NewRecipePage = ({
   }
 
   return (
-    <Grid container spacing={24}>
+    <Grid container spacing={3}>
       <Grid item xs={12}>
-        <Typography variant='display1'>New Recipe</Typography>
+        <Typography variant='h4'>New Recipe</Typography>
       </Grid>
       <Grid item xs={6}>
         <Paper className={classes.paper}>
           <form>
-            <Grid container spacing={24}>
+            <Grid container spacing={3}>
               <Grid item xs={12}>
-                <Typography variant='title'>Add manually</Typography>
+                <Typography variant='h6'>Add manually</Typography>
               </Grid>
               <Grid item xs={12}>
                 <TextField
@@ -123,9 +123,9 @@ export const NewRecipePage = ({
       </Grid>
       <Grid item xs={6}>
         <Paper className={classes.paper}>
-          <Grid container spacing={24}>
+          <Grid container spacing={3}>
             <Grid item xs={12}>
-              <Typography variant='title'>Add from URL</Typography>
+              <Typography variant='h6'>Add from URL</Typography>
             </Grid>
             <Grid item xs={12}>
               <TextField
@@ -180,9 +180,7 @@ const mapDispatchToProps = (dispatch) => {
   )
 }
 
-const NewRecipePageWithStyles = withStyles(styles)(NewRecipePage)
-
 export const NewRecipePageContainer = connect(
   mapStateToProps,
   mapDispatchToProps,
-)(NewRecipePageWithStyles)
+)(NewRecipePage)

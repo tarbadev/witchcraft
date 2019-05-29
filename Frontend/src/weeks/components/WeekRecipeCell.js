@@ -35,6 +35,6 @@ export const WeekRecipeCell = ({ recipe, onCellClick, dataTag }) => {
 
 WeekRecipeCell.propTypes = {
   recipe: PropTypes.object,
-  dataTag: PropTypes.object,
+  dataTag: PropTypes.string,
   onCellClick: PropTypes.func,
 }

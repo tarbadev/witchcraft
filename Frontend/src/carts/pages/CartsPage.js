@@ -21,7 +21,7 @@ export const CartsPage = ({
   ))
 
   return (
-    <Grid container spacing={24}>
+    <Grid container spacing={3}>
       <Grid item xs={12}>
         <Button variant='contained' className='cart-page__new-cart-button' color='primary' onClick={onNewCartClick}>
           New Cart
