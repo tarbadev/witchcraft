@@ -40,7 +40,7 @@ export const RecipesPage = ({ recipes, searchRecipe, classes = {}, history }) =>
           New Recipe
         </Button>
       </Grid>
-      <Grid item>
+      <Grid item xs={12}>
         <RecipeList recipes={recipes} />
       </Grid>
     </Grid>
