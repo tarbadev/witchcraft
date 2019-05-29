@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css?family=Quicksand&display=swap');
+
 a {
     text-decoration: none;
+}
+
+.witchcraft-title {
+    font-family: 'Quicksand', sans-serif !important;
 }

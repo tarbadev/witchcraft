@@ -94,7 +94,7 @@ export const RecipePage = ({
       <Grid item sm={12} name='title'>
         <Grid container justify='space-between'>
           <Grid item sm={8}>
-            <Typography variant='h5' className="title">
+            <Typography variant='h5' className="title witchcraft-title">
               {recipe.name}
             </Typography>
             <IconButton onClick={() => toggleFavorite(recipe.id, !recipe.favorite)} className={favoriteClassName}>
@@ -154,13 +154,13 @@ export const RecipePage = ({
         </Grid>
       </Grid>
       <Grid item xs={5} name='steps'>
-        <Typography variant='h6' gutterBottom>Steps</Typography>
+        <Typography variant='h6' gutterBottom className='witchcraft-title'>Steps</Typography>
         <Grid container alignItems="baseline" spacing={1}>
           {steps}
         </Grid>
       </Grid>
       <Grid item xs={4} name='ingredients'>
-        <Typography variant='h6' gutterBottom>Ingredients</Typography>
+        <Typography variant='h6' gutterBottom className='witchcraft-title'>Ingredients</Typography>
         <Grid container alignItems='baseline' spacing={1}>
           {ingredients}
         </Grid>

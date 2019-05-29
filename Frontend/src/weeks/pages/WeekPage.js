@@ -65,7 +65,7 @@ export const WeekPage = ({
         <IconButtonStyled fontSize='large' className='week-page__previous-week' onClick={onPreviousWeekClick}>
           <ChevronLeftIcon />
         </IconButtonStyled>
-        <Title variant='h6'>Year {week.year}, week {week.weekNumber}</Title>
+        <Title variant='h6' className='witchcraft-title'>Year {week.year}, week {week.weekNumber}</Title>
         <IconButtonStyled fontSize='large' className='week-page__next-week' onClick={onNextWeekClick}>
           <ChevronRightIcon />
         </IconButtonStyled>

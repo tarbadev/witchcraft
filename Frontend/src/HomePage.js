@@ -16,15 +16,15 @@ export const HomePage = ({
   return (
     <Grid container spacing={3}>
       <Grid item xs={12}>
-        <Typography variant='h6' gutterBottom>Current Week</Typography>
+        <Typography variant='h6' gutterBottom className='witchcraft-title'>Current Week</Typography>
         <WeekPane week={week} />
       </Grid>
       <Grid item xs={12}>
-        <Typography variant='h6' gutterBottom>Favorite Recipes</Typography>
+        <Typography variant='h6' gutterBottom className='witchcraft-title'>Favorite Recipes</Typography>
         <RecipeList recipes={favoriteRecipes} />
       </Grid>
       <Grid item xs={12}>
-        <Typography variant='h6' gutterBottom>Last Added Recipes</Typography>
+        <Typography variant='h6' gutterBottom className='witchcraft-title'>Last Added Recipes</Typography>
         <RecipeList recipes={latestRecipes} />
       </Grid>
     </Grid>

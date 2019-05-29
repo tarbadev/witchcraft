@@ -30,16 +30,16 @@ export const CartPage = ({
   return (
     <Grid container spacing={3}>
       <Grid item xs={12} name='title'>
-        <Typography variant='h5'>
+        <Typography variant='h5' className='witchcraft-title'>
           {cart.createdAt}
         </Typography>
       </Grid>
       <Grid item xs={6} container spacing={1}>
-        <Typography variant='h6' gutterBottom>Ingredients</Typography>
+        <Typography variant='h6' className='witchcraft-title' gutterBottom>Ingredients</Typography>
         {ingredients}
       </Grid>
       <Grid item xs={6}>
-        <Typography variant='h6' gutterBottom>Recipes</Typography>
+        <Typography variant='h6' className='witchcraft-title' gutterBottom>Recipes</Typography>
         {recipes}
       </Grid>
     </Grid>

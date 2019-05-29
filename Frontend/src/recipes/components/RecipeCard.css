@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css?family=Quicksand&display=swap');
-
 .card-media {
     height: 200px;
 }
@@ -12,7 +10,6 @@
     font-size: 1.28em !important;
     line-height: 1.28em !important;
     text-transform: capitalize;
-    font-family: 'Quicksand', sans-serif !important;
     color: rgba(0, 0, 0, .85) !important;
     font-weight: 700 !important;
 }
