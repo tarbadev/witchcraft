@@ -1,0 +1,9 @@
+.header__link {
+    margin: 0 5px !important;
+    border-radius: 0 !important;
+    border-bottom: 1px solid transparent !important;
+}
+
+.header__selected {
+    border-bottom: 1px solid #000 !important;
+}
