@@ -73,7 +73,12 @@ const initialState = {
     },
   },
   carts: [],
-  cart: {},
+  cart: {
+    id: '',
+    recipes: [],
+    items: [],
+    createdAt: '',
+  },
   week: {
     days: [
       {

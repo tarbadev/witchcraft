@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 import { Link } from 'react-router-dom'
+import { getCartTitle } from './CartHelper'
 
 export const CartsPage = ({
   history,
@@ -16,12 +17,12 @@ export const CartsPage = ({
 
   const cartList = carts.map(cart => (
     <Grid item xs={12} key={cart.id}>
-      <Link to={`/carts/${cart.id}`}>{cart.createdAt}</Link>
+      <Link to={`/carts/${cart.id}`}>{getCartTitle(cart.createdAt)}</Link>
     </Grid>
   ))
 
   return (
-    <Grid container spacing={3}>
+    <Grid container spacing={1}>
       <Grid item xs={12}>
         <Button variant='contained' className='cart-page__new-cart-button' color='primary' onClick={onNewCartClick}>
           New Cart

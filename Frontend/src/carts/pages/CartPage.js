@@ -7,6 +7,7 @@ import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 
 import { Ingredient } from 'src/recipes/components/Ingredient'
+import { getCartTitle } from './CartHelper'
 
 export const CartPage = ({
   cart,
@@ -31,7 +32,7 @@ export const CartPage = ({
     <Grid container spacing={3}>
       <Grid item xs={12} name='title'>
         <Typography variant='h5' className='witchcraft-title'>
-          {cart.createdAt}
+          {getCartTitle(cart.createdAt)}
         </Typography>
       </Grid>
       <Grid item xs={6} container spacing={1}>
