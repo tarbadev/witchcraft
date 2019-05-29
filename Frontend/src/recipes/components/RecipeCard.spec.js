@@ -32,7 +32,7 @@ describe('RecipeCard', function () {
       expect(cardHeader.props().title).toBe(expectedTitle)
 
       expect(cardHeader.props().classes.root).toBe('card-header-root')
-      expect(cardHeader.props().classes.title).toBe('card-header-title')
+      expect(cardHeader.props().classes.title).toBe('card-header-title witchcraft-title')
     })
 
     it('contains a CardMedia with a image url and title from props and a className', () => {

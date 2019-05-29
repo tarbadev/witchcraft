@@ -10,15 +10,15 @@ export const Ingredient = ({ quantity, unit, ingredient }) => {
   const quantityAndUnit = quantity + ' ' + unit
 
   return (
-    <Paper elevation={1} className={'paper'}>
+    <Paper elevation={1} className='paper'>
       <Grid container>
         <Grid item sm={10}>
-          <Typography variant="body2" className={'ingredient'}>
+          <Typography variant="body2" className='ingredient'>
             {ingredient}
           </Typography>
         </Grid>
         <Grid item sm={2}>
-          <Typography variant="body2" align="right" className={'unit'}>
+          <Typography variant="body2" align="right" className='unit'>
             {quantityAndUnit}
           </Typography>
         </Grid>

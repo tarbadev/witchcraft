@@ -64,6 +64,7 @@
     "jest-junit": "^6.4.0",
     "jest-transform-stub": "^1.0.0",
     "jest-webpack": "^0.5.1",
+    "node-fetch": "^2.6.0",
     "react-test-renderer": "^16.8.6",
     "redux-devtools-extension": "^2.13.8",
     "style-loader": "^0.21.0",

@@ -1,6 +1,5 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-import Grid from '@material-ui/core/Grid'
 
 import styles from './App.css'
 import { App } from './App'
@@ -16,13 +15,6 @@ describe('App', function () {
   describe('Content', function () {
     beforeEach(() => {
       this.instance = shallow(<App />)
-    })
-
-    it('is a Grid container with spacing and justify props with className', () => {
-      expect(this.instance.is(Grid)).toBeTruthy()
-      expect(this.instance.props().container).toBeTruthy()
-      expect(this.instance.props().spacing).toBe(24)
-      expect(this.instance.props().justify).toBe('center')
     })
 
     it('contains a Header in a Grid item', () => {

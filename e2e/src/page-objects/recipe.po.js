@@ -23,7 +23,7 @@ export const clickOnDeleteButton = async () => {
 }
 
 export const waitForPageLoaded = async () => {
-  await global.page.waitForSelector('h1.title')
+  await global.page.waitForSelector('h5.title')
 }
 
 export const waitForFavoriteState = async () => {
