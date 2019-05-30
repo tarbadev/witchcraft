@@ -1,0 +1,11 @@
+.cart-list__item {
+    padding: .5em !important;
+}
+
+.cart-list__item:hover {
+    transform: translateY(-1px);
+}
+
+.cart-list {
+    margin-top: 1em !important;
+}

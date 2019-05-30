@@ -5,6 +5,9 @@ import { bindActionCreators } from 'redux'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 import { Link } from 'react-router-dom'
+
+import './CartsPage.css'
+import { Paper, Typography } from '@material-ui/core'
 import { getCartTitle } from './CartHelper'
 
 export const CartsPage = ({
@@ -17,7 +20,13 @@ export const CartsPage = ({
 
   const cartList = carts.map(cart => (
     <Grid item xs={12} key={cart.id}>
-      <Link to={`/carts/${cart.id}`}>{getCartTitle(cart.createdAt)}</Link>
+      <Link to={`/carts/${cart.id}`}>
+        <Paper className='cart-list__item'>
+          <Typography className='witchcraft-title'>
+            {getCartTitle(cart.createdAt)}
+          </Typography>
+        </Paper>
+      </Link>
     </Grid>
   ))
 
@@ -28,7 +37,9 @@ export const CartsPage = ({
           New Cart
         </Button>
       </Grid>
-      {cartList}
+      <Grid item container xs={12} className='cart-list' spacing={1}>
+        {cartList}
+      </Grid>
     </Grid>
   )
 }
