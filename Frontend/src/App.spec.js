@@ -1,9 +1,7 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 
-import styles from './App.css'
 import { App } from './App'
-import { Header } from './Header'
 import { Content } from './Content'
 
 describe('App', function () {
@@ -15,13 +13,6 @@ describe('App', function () {
   describe('Content', function () {
     beforeEach(() => {
       this.instance = shallow(<App />)
-    })
-
-    it('contains a Header in a Grid item', () => {
-      let item = this.instance.findWhere(node => node.props().item).at(0)
-      expect(item.props().xs).toBe(10)
-      expect(item.props().className).toBe(styles.header)
-      expect(item.find(Header).length).toBe(1)
     })
 
     it('contains a Content in a Grid item', () => {
