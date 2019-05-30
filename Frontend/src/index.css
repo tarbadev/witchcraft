@@ -7,3 +7,7 @@ a {
 .witchcraft-title {
     font-family: 'Quicksand', sans-serif !important;
 }
+
+.witchcraft-paper {
+    padding: .5em !important;
+}

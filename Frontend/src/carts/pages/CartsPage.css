@@ -1,5 +1,5 @@
 .cart-list__item {
-    padding: .5em !important;
+    transition: transform .1s ease;
 }
 
 .cart-list__item:hover {

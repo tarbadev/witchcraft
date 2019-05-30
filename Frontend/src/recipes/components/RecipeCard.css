@@ -6,12 +6,19 @@
     padding: 1em;
 }
 
+.card-header-content {
+    max-width: 100%;
+}
+
 .card-header-title {
     font-size: 1.28em !important;
     line-height: 1.28em !important;
     text-transform: capitalize;
     color: rgba(0, 0, 0, .85) !important;
     font-weight: 700 !important;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .recipe-card {

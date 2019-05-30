@@ -21,7 +21,7 @@ export const CartsPage = ({
   const cartList = carts.map(cart => (
     <Grid item xs={12} key={cart.id}>
       <Link to={`/carts/${cart.id}`}>
-        <Paper className='cart-list__item'>
+        <Paper className='cart-list__item witchcraft-paper'>
           <Typography className='witchcraft-title'>
             {getCartTitle(cart.createdAt)}
           </Typography>

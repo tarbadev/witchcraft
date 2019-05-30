@@ -9,12 +9,13 @@ import 'src/recipes/components/RecipeCard.css'
 export const RecipeCard = ({ title, imgUrl }) => {
   let cardHeaderClasses = {
     root: 'card-header-root',
+    content: 'card-header-content',
     title: 'card-header-title witchcraft-title',
   }
 
   return (
     <Card className='recipe-card'>
-      <CardMedia className='card-media' title={title} image={imgUrl} />
+      <CardMedia className='card-media' component='div' title={title} image={imgUrl} />
       <CardHeader classes={cardHeaderClasses} title={title} />
     </Card>
   )

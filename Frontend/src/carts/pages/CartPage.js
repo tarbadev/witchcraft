@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography'
 
 import { Ingredient } from 'src/recipes/components/Ingredient'
 import { getCartTitle } from './CartHelper'
+import { RecipeCard } from '../../recipes/components/RecipeCard'
 
 export const CartPage = ({
   cart,
@@ -22,8 +23,10 @@ export const CartPage = ({
 
   const recipes = cart.recipes
     ? cart.recipes.map(recipe => (
-      <Grid item key={recipe.id} sm={12}>
-        <Link to={`/recipes/${recipe.id}`} data-recipe>{recipe.name}</Link>
+      <Grid item key={recipe.id} sm={6}>
+        <Link to={`/recipes/${recipe.id}`} data-recipe>
+          <RecipeCard title={recipe.name} imgUrl={recipe.imgUrl} />
+        </Link>
       </Grid>
     ))
     : []
@@ -41,7 +44,9 @@ export const CartPage = ({
       </Grid>
       <Grid item xs={6}>
         <Typography variant='h6' className='witchcraft-title' gutterBottom>Recipes</Typography>
-        {recipes}
+        <Grid container spacing={1}>
+          {recipes}
+        </Grid>
       </Grid>
     </Grid>
   )
