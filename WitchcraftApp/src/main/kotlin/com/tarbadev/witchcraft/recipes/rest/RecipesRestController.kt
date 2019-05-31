@@ -59,14 +59,14 @@ class RecipesRestController(
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build<Any>()
     }
 
-    @PostMapping("/importFromUrl")
+    @PostMapping("/import-from-url")
     fun importFromUrl(@RequestBody recipeFormRequest: RecipeFormRequest): RecipeResponse {
         val recipe = getRecipeDetailsFromUrlUseCase.execute(recipeFormRequest.url)
 
         return RecipeResponse.fromRecipe(saveRecipeUseCase.execute(recipe))
     }
 
-    @PostMapping("/importFromForm")
+    @PostMapping("/import-from-form")
     fun importFromForm(@RequestBody recipeFormRequest: RecipeFormRequest): RecipeResponse {
         val recipe = getRecipeDetailsFromFormUseCase.execute(
             recipeFormRequest.name,

@@ -15,7 +15,7 @@ describe('newRecipeActions', () => {
   describe('submitForm', function () {
     it('submits the form when called', () => {
       const dispatchSpy = jest.fn()
-      const url = '/api/recipes/importFromUrl'
+      const url = '/api/recipes/import-from-url'
       const form = {
         url: 'fakeUrl',
       }

@@ -35,7 +35,7 @@ describe('NewRecipePage', function () {
 
     newRecipe.find('.auto__submit-button').simulate('click', {})
 
-    expect(submitFormSpy).toHaveBeenCalledWith('/api/recipes/importFromUrl', { url: url })
+    expect(submitFormSpy).toHaveBeenCalledWith('/api/recipes/import-from-url', { url: url })
   })
 
   it('calls the callback when submit button is clicked on manual url', () => {
@@ -51,7 +51,7 @@ describe('NewRecipePage', function () {
 
     newRecipe.find('.manual__submit-button').simulate('click', {})
 
-    expect(submitFormSpy).toHaveBeenCalledWith('/api/recipes/importFromForm', manualUrl)
+    expect(submitFormSpy).toHaveBeenCalledWith('/api/recipes/import-from-form', manualUrl)
   })
 
   it('redirects to /recipes when redirect set to true', () => {

@@ -145,7 +145,7 @@ class RecipesRestControllerTest(
     whenever(getRecipeDetailsFromUrlUseCase.execute(recipe.originUrl)).thenReturn(recipe)
     whenever(saveRecipeUseCase.execute(recipe)).thenReturn(recipe)
 
-    mockMvc.perform(post("/api/recipes/importFromUrl")
+    mockMvc.perform(post("/api/recipes/import-from-url")
         .contentType(MediaType.APPLICATION_JSON_UTF8)
         .content(jacksonObjectMapper().writeValueAsString(recipeFormRequest))
     )
@@ -189,7 +189,7 @@ class RecipesRestControllerTest(
     )).thenReturn(recipe)
     whenever(saveRecipeUseCase.execute(recipe)).thenReturn(recipe)
 
-    mockMvc.perform(post("/api/recipes/importFromForm")
+    mockMvc.perform(post("/api/recipes/import-from-form")
         .contentType(MediaType.APPLICATION_JSON_UTF8)
         .content(jacksonObjectMapper().writeValueAsString(recipeFormRequest))
     )

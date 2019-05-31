@@ -32,11 +32,11 @@ export const NewRecipePage = ({
 }) => {
   const classes = useStyles()
   const onUrlFormSubmit = () => {
-    submitForm('/api/recipes/importFromUrl', autoUrl)
+    submitForm('/api/recipes/import-from-url', autoUrl)
   }
 
   const onManualUrlFormSubmit = () => {
-    submitForm('/api/recipes/importFromForm', manualUrl)
+    submitForm('/api/recipes/import-from-form', manualUrl)
   }
 
   if (redirect) {
