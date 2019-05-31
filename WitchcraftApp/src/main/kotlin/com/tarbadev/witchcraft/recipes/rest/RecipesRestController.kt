@@ -17,13 +17,9 @@ class RecipesRestController(
     private val deleteRecipeUseCase: DeleteRecipeUseCase,
     private val doesRecipeExistUseCase: DoesRecipeExistUseCase,
     private val setFavoriteRecipeUseCase: SetFavoriteRecipeUseCase,
-    private val getRecipeDetailsFromUrlUseCase: GetRecipeDetailsFromUrlUseCase,
     private val saveRecipeUseCase: SaveRecipeUseCase,
-    private val getRecipeDetailsFromFormUseCase: GetRecipeDetailsFromFormUseCase,
     private val getFavoriteRecipesUseCase: GetFavoriteRecipesUseCase,
-    private val lastAddedRecipesUseCase: LastAddedRecipesUseCase,
-    private val getRecipeNotesUseCase: GetRecipeNotesUseCase,
-    private val editRecipeNotesUseCase: EditRecipeNotesUseCase
+    private val lastAddedRecipesUseCase: LastAddedRecipesUseCase
 ) {
     @GetMapping
     fun list(): RecipeListResponse {
@@ -57,26 +53,6 @@ class RecipesRestController(
         deleteRecipeUseCase.execute(id)
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build<Any>()
-    }
-
-    @PostMapping("/import-from-url")
-    fun importFromUrl(@RequestBody recipeFormRequest: RecipeFormRequest): RecipeResponse {
-        val recipe = getRecipeDetailsFromUrlUseCase.execute(recipeFormRequest.url)
-
-        return RecipeResponse.fromRecipe(saveRecipeUseCase.execute(recipe))
-    }
-
-    @PostMapping("/import-from-form")
-    fun importFromForm(@RequestBody recipeFormRequest: RecipeFormRequest): RecipeResponse {
-        val recipe = getRecipeDetailsFromFormUseCase.execute(
-            recipeFormRequest.name,
-            recipeFormRequest.url,
-            recipeFormRequest.ingredients,
-            recipeFormRequest.steps,
-            recipeFormRequest.imageUrl
-        )
-
-        return RecipeResponse.fromRecipe(saveRecipeUseCase.execute(recipe))
     }
 
     @PutMapping("/{id}/update")
@@ -115,19 +91,4 @@ class RecipesRestController(
     fun latest(): List<Recipe> {
         return lastAddedRecipesUseCase.execute()
     }
-
-    @GetMapping("/{recipeId}/notes")
-    fun getNotes(@PathVariable recipeId: Int): NotesResponse? {
-        val notes = getRecipeNotesUseCase.execute(recipeId) ?: throw NotesNotFoundException()
-
-        return NotesResponse.fromNotes(notes)
-    }
-
-    @PostMapping("/{recipeId}/notes")
-    fun editNotes(@RequestBody editNotesRequest: EditNotesRequest): NotesResponse? {
-        return NotesResponse.fromNotes(editRecipeNotesUseCase.execute(editNotesRequest.toNotes()))
-    }
-
-    @ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "Notes not found")
-    inner class NotesNotFoundException : RuntimeException()
 }

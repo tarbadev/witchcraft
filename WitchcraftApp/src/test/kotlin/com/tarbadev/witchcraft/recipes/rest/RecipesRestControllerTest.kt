@@ -50,10 +50,6 @@ class RecipesRestControllerTest(
   private lateinit var getFavoriteRecipesUseCase: GetFavoriteRecipesUseCase
   @MockBean
   private lateinit var lastAddedRecipesUseCase: LastAddedRecipesUseCase
-  @MockBean
-  private lateinit var getRecipeNotesUseCase: GetRecipeNotesUseCase
-  @MockBean
-  private lateinit var editRecipeNotesUseCase: EditRecipeNotesUseCase
 
   @Test
   fun list() {
@@ -135,67 +131,6 @@ class RecipesRestControllerTest(
         .andExpect(status().isNotFound)
 
     verify(deleteRecipeUseCase, never()).execute(id)
-  }
-
-  @Test
-  fun importFromUrl() {
-    val recipe = TestResources.Recipes.cookinCanuck
-    val recipeFormRequest = RecipeFormRequest(url = recipe.originUrl)
-
-    whenever(getRecipeDetailsFromUrlUseCase.execute(recipe.originUrl)).thenReturn(recipe)
-    whenever(saveRecipeUseCase.execute(recipe)).thenReturn(recipe)
-
-    mockMvc.perform(post("/api/recipes/import-from-url")
-        .contentType(MediaType.APPLICATION_JSON_UTF8)
-        .content(jacksonObjectMapper().writeValueAsString(recipeFormRequest))
-    )
-        .andExpect(status().isOk)
-        .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE))
-        .andExpect(content().json(jacksonObjectMapper().writeValueAsString(RecipeResponse.fromRecipe(recipe))))
-
-    verify(getRecipeDetailsFromUrlUseCase).execute(recipe.originUrl)
-    verify(saveRecipeUseCase).execute(recipe)
-  }
-
-  @Test
-  fun importFromForm() {
-    val recipeFormRequest = RecipeFormRequest(
-        name = "Some recipe name",
-        url = "http://some/url/of/recipe",
-        imageUrl = "http://some/url/of/recipe.png",
-        ingredients = arrayOf("10 tbsp sugar", "1/2 cup olive oil", "1 lemon").joinToString("\n"),
-        steps = arrayOf("Add ingredients and stir", "Serve on each plate").joinToString("\n")
-    )
-    val recipe = Recipe(
-        name = recipeFormRequest.name,
-        originUrl = recipeFormRequest.url,
-        imgUrl = recipeFormRequest.imageUrl,
-        ingredients = recipeFormRequest.ingredients
-            .split("\n")
-            .dropLastWhile { it.isEmpty() }
-            .map { ingredient -> Ingredient(name = ingredient) },
-        steps = recipeFormRequest.steps
-            .split("\n")
-            .dropLastWhile { it.isEmpty() }
-            .map { step -> Step(name = step) }
-    )
-
-    whenever(getRecipeDetailsFromFormUseCase.execute(
-        recipeFormRequest.name,
-        recipeFormRequest.url,
-        recipeFormRequest.ingredients,
-        recipeFormRequest.steps,
-        recipeFormRequest.imageUrl
-    )).thenReturn(recipe)
-    whenever(saveRecipeUseCase.execute(recipe)).thenReturn(recipe)
-
-    mockMvc.perform(post("/api/recipes/import-from-form")
-        .contentType(MediaType.APPLICATION_JSON_UTF8)
-        .content(jacksonObjectMapper().writeValueAsString(recipeFormRequest))
-    )
-        .andExpect(status().isOk)
-        .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE))
-        .andExpect(content().json(jacksonObjectMapper().writeValueAsString(RecipeResponse.fromRecipe(recipe))))
   }
 
   @Test
@@ -288,43 +223,5 @@ class RecipesRestControllerTest(
         .andExpect(status().isOk)
         .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE))
         .andExpect(content().json(jacksonObjectMapper().writeValueAsString(recipesResponse)))
-  }
-
-  @Test
-  fun getNotes() {
-    val notes = Notes(recipeId = 15, comment = "Some notes")
-    val notesResponse = NotesResponse.fromNotes(notes)
-
-    whenever(getRecipeNotesUseCase.execute(15)).thenReturn(notes)
-
-    mockMvc.perform(get("/api/recipes/15/notes"))
-        .andExpect(status().isOk)
-        .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE))
-        .andExpect(content().json(jacksonObjectMapper().writeValueAsString(notesResponse)))
-  }
-
-  @Test
-  fun `getNotes returns 404 when notes are not found`() {
-    whenever(getRecipeNotesUseCase.execute(15)).thenReturn(null)
-
-    mockMvc.perform(get("/api/recipes/15/notes"))
-        .andExpect(status().isNotFound)
-  }
-
-  @Test
-  fun editNotes() {
-    val notesRequest = EditNotesRequest(recipeId = 15, notes = "Some notes")
-    val notes = notesRequest.toNotes()
-    val notesResponse = NotesResponse.fromNotes(notes)
-
-    whenever(editRecipeNotesUseCase.execute(notes)).thenReturn(notes)
-
-    mockMvc.perform(post("/api/recipes/15/notes")
-        .contentType(MediaType.APPLICATION_JSON_UTF8)
-        .content(jacksonObjectMapper().writeValueAsString(notesRequest))
-    )
-        .andExpect(status().isOk)
-        .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE))
-        .andExpect(content().json(jacksonObjectMapper().writeValueAsString(notesResponse)))
   }
 }
