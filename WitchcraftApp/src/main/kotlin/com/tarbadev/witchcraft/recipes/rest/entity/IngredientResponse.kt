@@ -13,7 +13,7 @@ data class IngredientResponse(
         IngredientResponse(
             id = ingredient.id,
             name = ingredient.name,
-            quantity = ingredient.quantity,
+            quantity = "%.3f".format(ingredient.quantity).toDouble(),
             unit = ingredient.unit
         )
   }
