@@ -61,6 +61,6 @@ describe('NewRecipePage', function () {
     shallow(<NewRecipePage setState={setStateSpy} history={{ push: pushSpy }} redirect classes={{}} />)
 
     expect(pushSpy).toHaveBeenCalledWith('/recipes')
-    expect(setStateSpy).toHaveBeenCalledWith('newRecipe.forms', { recipeAdded: false, autoUrl: {}, manualUrl: {} })
+    expect(setStateSpy).toHaveBeenCalledWith('newRecipePage.forms', { recipeAdded: false, autoUrl: {}, manualUrl: {} })
   })
 })

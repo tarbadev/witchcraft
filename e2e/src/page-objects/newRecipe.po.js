@@ -1,7 +1,7 @@
 import * as RecipePage from './recipes.po'
 import { goToUrl } from './helpers.po'
 
-const goTo = async () => {
+export const goTo = async () => {
   await goToUrl('/recipes/new')
   await global.page.waitForSelector('.auto__submit-button')
 }
@@ -26,4 +26,11 @@ export const addFromForm = async ({
 
   await global.page.click('.manual__submit-button')
   await RecipePage.waitForPageLoaded()
+}
+
+export const getSupportedDomains = async () => {
+  return await global.page.$$eval(
+    '.supported-domains__domain-image',
+    elements => elements.map(el => el.title),
+  )
 }

@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/api/recipes/notes")
+@RequestMapping("/api/recipes/{recipeId}/notes")
 class RecipeNotesRestController(
     private val getRecipeNotesUseCase: GetRecipeNotesUseCase,
     private val editRecipeNotesUseCase: EditRecipeNotesUseCase

@@ -3,6 +3,7 @@ package com.tarbadev.witchcraft.recipes.domain.parser
 import com.tarbadev.witchcraft.recipes.domain.entity.Ingredient
 import com.tarbadev.witchcraft.recipes.domain.entity.Recipe
 import com.tarbadev.witchcraft.recipes.domain.entity.Step
+import com.tarbadev.witchcraft.recipes.domain.entity.SupportedDomain
 import com.tarbadev.witchcraft.recipes.domain.usecase.ConvertAndAddSameIngredientUseCase
 import com.tarbadev.witchcraft.recipes.domain.usecase.IngredientFromStringUseCase
 import org.jsoup.Jsoup
@@ -20,6 +21,7 @@ abstract class RecipeHtmlParser(
   abstract val imgUrlAttribute: String
   abstract val ingredientSelector: String
 
+  abstract val supportedDomain: SupportedDomain
   abstract fun getStepsFromHtml(html: Document): List<Step>
 
   fun parse(originUrl: String): Recipe {

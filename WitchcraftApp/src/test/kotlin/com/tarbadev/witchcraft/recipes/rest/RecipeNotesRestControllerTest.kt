@@ -22,7 +22,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 
 
 @ExtendWith(SpringExtension::class)
-@WebMvcTest(RecipesRestController::class)
+@WebMvcTest(RecipeNotesRestController::class)
 class RecipeNotesRestControllerTest(
     @Autowired private val mockMvc: MockMvc
 ) {

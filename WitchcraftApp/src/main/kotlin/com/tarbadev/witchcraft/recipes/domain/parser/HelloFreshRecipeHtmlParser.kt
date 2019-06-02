@@ -1,6 +1,7 @@
 package com.tarbadev.witchcraft.recipes.domain.parser
 
 import com.tarbadev.witchcraft.recipes.domain.entity.Step
+import com.tarbadev.witchcraft.recipes.domain.entity.SupportedDomain
 import com.tarbadev.witchcraft.recipes.domain.usecase.ConvertAndAddSameIngredientUseCase
 import com.tarbadev.witchcraft.recipes.domain.usecase.IngredientFromStringUseCase
 import org.jsoup.nodes.Document
@@ -16,6 +17,13 @@ class HelloFreshRecipeHtmlParser(
     ingredientFromStringUseCase,
     convertAndAddSameIngredientUseCase
 ) {
+  override val supportedDomain: SupportedDomain =
+      SupportedDomain(
+          "HelloFresh",
+          "https://www.hellofresh.com/recipes/",
+          "https://cdn.hellofresh.com/logo/HelloFresh_Logo_Horizontal_V2.svg"
+      )
+
   override val recipeNameSelector = "h1[data-test-id='recipeDetailFragment.recipe-name']"
   override val imgUrlSelector = "img.fela-1f1h1of"
   override val imgUrlAttribute = "src"

@@ -5,10 +5,7 @@ import com.nhaarman.mockitokotlin2.never
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import com.tarbadev.witchcraft.TestResources
-import com.tarbadev.witchcraft.recipes.domain.entity.Ingredient
-import com.tarbadev.witchcraft.recipes.domain.entity.Notes
-import com.tarbadev.witchcraft.recipes.domain.entity.Recipe
-import com.tarbadev.witchcraft.recipes.domain.entity.Step
+import com.tarbadev.witchcraft.recipes.domain.entity.*
 import com.tarbadev.witchcraft.recipes.domain.usecase.*
 import com.tarbadev.witchcraft.recipes.rest.entity.*
 import org.junit.jupiter.api.Test
@@ -36,6 +33,8 @@ class NewRecipeRestControllerTest(
   private lateinit var saveRecipeUseCase: SaveRecipeUseCase
   @MockBean
   private lateinit var getRecipeDetailsFromFormUseCase: GetRecipeDetailsFromFormUseCase
+  @MockBean
+  private lateinit var getSupportedDomainsUseCase: GetSupportedDomainsUseCase
 
   @Test
   fun importFromUrl() {
@@ -96,5 +95,24 @@ class NewRecipeRestControllerTest(
         .andExpect(status().isOk)
         .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE))
         .andExpect(content().json(jacksonObjectMapper().writeValueAsString(RecipeResponse.fromRecipe(recipe))))
+  }
+
+  @Test
+  fun getSupportedDomains() {
+    val supportedDomains = listOf(
+        SupportedDomain(
+            "Some Vendor",
+            "www.some.vendor.example.com/recipes",
+            "www.some.vendor.example.com/logo.png"
+        )
+    )
+    val supportedDomainsResponse = supportedDomains.map { SupportedDomainResponse.fromSupportedDomain(it) }
+
+    whenever(getSupportedDomainsUseCase.execute()).thenReturn(supportedDomains)
+
+    mockMvc.perform(get("/api/recipes/import-from-url/supported"))
+        .andExpect(status().isOk)
+        .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE))
+        .andExpect(content().json(jacksonObjectMapper().writeValueAsString(supportedDomainsResponse)))
   }
 }

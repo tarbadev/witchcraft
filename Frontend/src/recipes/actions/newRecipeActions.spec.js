@@ -1,4 +1,6 @@
-import { formInputChange, submitForm, submitFormSuccess } from 'src/recipes/actions/NewRecipeActions'
+import { formInputChange, getSupportedDomains, submitForm, submitFormSuccess, getSupportedDomainsSuccess } from './NewRecipeActions'
+import { setState } from '../../RootReducer'
+import { fetchAction } from '../../WitchcraftMiddleware'
 
 describe('newRecipeActions', () => {
   describe('formInputChange', function () {
@@ -8,7 +10,7 @@ describe('newRecipeActions', () => {
 
       formInputChange('url', url)(dispatchSpy)
 
-      expect(dispatchSpy).toHaveBeenCalledWith({ type: 'SET_STATE', key: 'newRecipe.forms.url', payload: url })
+      expect(dispatchSpy).toHaveBeenCalledWith(setState('newRecipePage.forms.url', url))
     })
   })
 
@@ -22,14 +24,12 @@ describe('newRecipeActions', () => {
 
       submitForm(url, form)(dispatchSpy)
 
-      expect(dispatchSpy).toHaveBeenCalledWith({
-        type: 'FETCH',
+      expect(dispatchSpy).toHaveBeenCalledWith(fetchAction({
         url: url,
         method: 'POST',
         body: form,
         onSuccess: submitFormSuccess,
-        onError: undefined,
-      })
+      }))
     })
   })
 
@@ -39,7 +39,42 @@ describe('newRecipeActions', () => {
 
       submitFormSuccess()(dispatchSpy)
 
-      expect(dispatchSpy).toHaveBeenCalledWith({ type: 'SET_STATE', key: 'newRecipe.forms.recipeAdded', payload: true })
+      expect(dispatchSpy).toHaveBeenCalledWith(setState('newRecipePage.forms.recipeAdded', true))
+    })
+  })
+
+  describe('getSupportedDomains', function () {
+    it('fetches the supported actions', () => {
+      const dispatchSpy = jest.fn()
+      const url = '/api/recipes/import-from-url/supported'
+
+      getSupportedDomains()(dispatchSpy)
+
+      expect(dispatchSpy).toHaveBeenCalledWith(fetchAction({
+        url: url,
+        method: 'GET',
+        onSuccess: getSupportedDomainsSuccess,
+      }))
+    })
+  })
+
+  describe('getSupportedDomainsSuccess', function () {
+    it('stores the supported domains in the state', () => {
+      const dispatchSpy = jest.fn()
+      const data = [
+        {
+          name: 'Some Vendor',
+          url: 'www.some.vendor.example.com/recipes',
+          imgUrl: 'www.some.vendor.example.com/logo.png',
+        }
+      ]
+
+      getSupportedDomainsSuccess(data)(dispatchSpy)
+
+      expect(dispatchSpy).toHaveBeenCalledWith(setState(
+        'newRecipePage.supportedDomains',
+        data
+      ))
     })
   })
 })

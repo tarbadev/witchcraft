@@ -1,6 +1,7 @@
 package com.tarbadev.witchcraft.recipes.domain.parser
 
 import com.tarbadev.witchcraft.recipes.domain.entity.Step
+import com.tarbadev.witchcraft.recipes.domain.entity.SupportedDomain
 import com.tarbadev.witchcraft.recipes.domain.usecase.ConvertAndAddSameIngredientUseCase
 import com.tarbadev.witchcraft.recipes.domain.usecase.IngredientFromStringUseCase
 import org.jsoup.Jsoup
@@ -18,6 +19,13 @@ class CookinCanuckRecipeHtmlParser(
     ingredientFromStringUseCase,
     convertAndAddSameIngredientUseCase
 ) {
+  override val supportedDomain: SupportedDomain =
+    SupportedDomain(
+        "Cookin Canuck",
+        "https://www.cookincanuck.com",
+        "https://www.cookincanuck.com/wp-content/uploads/2017/09/logo.png"
+    )
+
   override val recipeNameSelector = "h1.entry-title"
   override val imgUrlSelector = "div.recipe-thumbnail img"
   override val imgUrlAttribute = "data-lazy-src"

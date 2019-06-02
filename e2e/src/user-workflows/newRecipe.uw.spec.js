@@ -61,4 +61,18 @@ describe('New Recipe', () => {
       expect(recipes).toEqual(expectedRecipes)
     })
   })
+
+  it('displays the list of supported domains', async () => {
+    await NewRecipePage.goTo()
+
+    const expectedDomains = [
+      'HelloFresh',
+      'Cookin Canuck',
+      'Marmiton',
+    ]
+
+    const supportedDomains = await NewRecipePage.getSupportedDomains()
+
+    expect(supportedDomains.sort()).toEqual(expectedDomains.sort())
+  })
 })

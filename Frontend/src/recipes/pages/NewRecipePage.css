@@ -1,0 +1,14 @@
+.supported-domains {
+    margin-top: 1.5em !important;
+}
+
+.supported-domains__domain {
+    width: 100%;
+    height: 100%;
+    display: block;
+    text-align: center;
+}
+
+.supported-domains__domain-image {
+    width: 80%;
+}

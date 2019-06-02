@@ -1,6 +1,7 @@
 package com.tarbadev.witchcraft.recipes.domain.parser
 
 import com.tarbadev.witchcraft.recipes.domain.entity.Step
+import com.tarbadev.witchcraft.recipes.domain.entity.SupportedDomain
 import com.tarbadev.witchcraft.recipes.domain.usecase.ConvertAndAddSameIngredientUseCase
 import com.tarbadev.witchcraft.recipes.domain.usecase.IngredientFromStringUseCase
 import org.jsoup.nodes.Document
@@ -16,6 +17,12 @@ class MarmitonRecipeHtmlParser(
     ingredientFromStringUseCase,
     convertAndAddSameIngredientUseCase
 ) {
+  override val supportedDomain: SupportedDomain =
+      SupportedDomain(
+          "Marmiton",
+          "https://www.marmiton.org",
+          "http://brochure.octelio.com/catalogues/marmiton/logo.png"
+      )
   override val recipeNameSelector = "h1.main-title"
   override val imgUrlSelector: String = "img#af-diapo-desktop-0_img"
   override val imgUrlAttribute: String = "src"

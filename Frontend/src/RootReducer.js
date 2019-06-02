@@ -7,7 +7,7 @@ export function setState(key, payload) {
 }
 
 const initialState = {
-  newRecipe: {
+  newRecipePage: {
     forms: {
       autoUrl: {
         url: '',
@@ -20,6 +20,7 @@ const initialState = {
         steps: '',
       },
     },
+    supportedDomains: [],
   },
   recipe: {
     id: 0,

@@ -10,6 +10,7 @@ import { WitchcraftMiddleware } from './WitchcraftMiddleware'
 
 import { getAllRecipes, getFavoriteRecipes, getLatestRecipes } from 'src/recipes/actions/RecipesActions'
 import { getRecipe, getRecipeNotes } from 'src/recipes/actions/RecipeActions'
+import { getSupportedDomains } from 'src/recipes/actions/NewRecipeActions'
 import { getAllCarts } from 'src/carts/actions/CartsActions'
 import { getCart } from 'src/carts/actions/CartActions'
 import { getWeek, getCurrentWeek } from 'src/weeks/actions/WeekActions'
@@ -30,6 +31,9 @@ const pathRegexes = [
   }, {
     regex: /^\/recipes$/,
     callback: () => store.dispatch(getAllRecipes()),
+  }, {
+    regex: /^\/recipes\/new$/,
+    callback: () => store.dispatch(getSupportedDomains()),
   }, {
     regex: /^\/carts$/,
     callback: () => store.dispatch(getAllCarts()),
