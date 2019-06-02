@@ -4,6 +4,7 @@ applications:
   buildpacks:
   - java_buildpack
   instances: 1
+  stack: cflinuxfs3
   routes:
   - route: witchcraft-backend-dev.cfapps.io
   env:
