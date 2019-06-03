@@ -39,6 +39,11 @@ export const waitForPageLoaded = async () => {
   await global.page.waitForSelector('.week-page__create-cart-button')
 }
 
+export const save = async () => {
+  const saveButton = await global.page.$('.week-page__save-button')
+  await saveButton.click()
+}
+
 export const getModalRecipeList = async () => {
   return await global.page.$$eval(
     'div.recipe-card-title',

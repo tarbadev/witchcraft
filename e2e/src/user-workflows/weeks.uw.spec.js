@@ -20,6 +20,17 @@ describe('Weeks page', () => {
       expect(thursdayLunch).toEqual('thai chicken salad')
     })
 
+    it('saves the current week', async () => {
+      await WeeksPage.goTo()
+      await WeeksPage.clickOnMeal('lunch', 'THURSDAY')
+      await WeeksPage.clickOnRecipe('thai chicken salad')
+      await WeeksPage.save()
+      await WeeksPage.goTo()
+
+      const thursdayLunch = await WeeksPage.getMeal('lunch', 'THURSDAY')
+      expect(thursdayLunch).toEqual('thai chicken salad')
+    })
+
     it('generates a cart from a given week', async () => {
       await WeeksPage.goTo()
       await WeeksPage.clickOnMeal('lunch', 'THURSDAY')

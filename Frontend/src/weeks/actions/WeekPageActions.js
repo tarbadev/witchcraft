@@ -16,11 +16,23 @@ export const saveWeekSuccess = week => dispatch => {
 }
 
 export const saveWeek = week => dispatch => {
+  const weekRequest = {
+    id: week.id,
+    year: week.year,
+    weekNumber: week.weekNumber,
+    days: week.days.map(day => ({
+      id: day.id,
+      name: day.name,
+      lunch: day.lunch?.id,
+      diner: day.diner?.id,
+    }))
+  }
+
   dispatch(fetchAction(
     {
       url: `/api/weeks/${week.year}/${week.weekNumber}`,
       method: 'POST',
-      body: week,
+      body: weekRequest,
       onSuccess: saveWeekSuccess,
     },
   ))

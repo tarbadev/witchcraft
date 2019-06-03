@@ -39,6 +39,45 @@ describe('WeekPageActions', () => {
         onSuccess: saveWeekSuccess,
       }))
     })
+
+    it('sends only the id of the recipes, not the object', () => {
+      const dispatchSpy = jest.fn()
+      const week = {
+        id: 12,
+        year: 2018,
+        weekNumber: 33,
+        days: [
+          {
+            diner: { id: 34 },
+          },
+          {
+            lunch: { id: 4 },
+          },
+        ],
+      }
+      const weekRequest = {
+        id: 12,
+        year: 2018,
+        weekNumber: 33,
+        days: [
+          {
+            diner: 34,
+          },
+          {
+            lunch: 4,
+          },
+        ],
+      }
+
+      saveWeek(week)(dispatchSpy)
+
+      expect(dispatchSpy).toHaveBeenCalledWith(fetchAction({
+        url: '/api/weeks/2018/33',
+        method: 'POST',
+        body: weekRequest,
+        onSuccess: saveWeekSuccess,
+      }))
+    })
   })
 
   describe('saveWeekSuccess', () => {
