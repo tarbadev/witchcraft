@@ -231,7 +231,7 @@ class DatabaseRecipeRepositoryTest(
                 steps = emptySet(),
                 originUrl = "URL"
             )
-        ).recipe()
+        ).toRecipe()
 
         entityManager.clear()
 
@@ -248,7 +248,7 @@ class DatabaseRecipeRepositoryTest(
                 name = "Recipe 1",
                 isArchived = true
             )
-        ).recipe()
+        ).toRecipe()
 
         entityManager.clear()
 
@@ -321,7 +321,7 @@ class DatabaseRecipeRepositoryTest(
             entityManager.persist(RecipeEntity(favorite = false))
         )
             .filter { it.favorite }
-            .map { it.recipe() }
+            .map { it.toRecipe() }
             .sortedBy { it.id }
 
         entityManager.flush()
@@ -343,7 +343,7 @@ class DatabaseRecipeRepositoryTest(
             entityManager.persist(RecipeEntity(favorite = false, isArchived = false))
         )
             .filter { it.favorite && !it.isArchived }
-            .map { it.recipe() }
+            .map { it.toRecipe() }
             .sortedBy { it.id }
 
         entityManager.flush()
@@ -366,7 +366,7 @@ class DatabaseRecipeRepositoryTest(
             entityManager.persist(RecipeEntity(name = "", ingredients = emptyList(), steps = emptySet())),
             entityManager.persist(RecipeEntity(name = "", ingredients = emptyList(), steps = emptySet()))
         )
-            .map { it.recipe() }
+            .map { it.toRecipe() }
             .sortedBy { it.id }
             .reversed()
             .subList(0, 8)

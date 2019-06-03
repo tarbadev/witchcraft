@@ -48,14 +48,7 @@ class CreateCartUseCaseTest {
         ))
         val items = recipes
             .flatMap {
-                it.ingredients
-                    .map { ingredient ->
-                        Item(
-                            name = ingredient.name,
-                            quantity = ingredient.quantity,
-                            unit = ingredient.unit
-                        )
-                    }
+                it.ingredients.map { ingredient -> Item.fromIngredient(ingredient) }
             }
             .sortedBy { it.name }
 
@@ -109,12 +102,14 @@ class CreateCartUseCaseTest {
             Item(
                 name = "Ingredient 1",
                 quantity = 2.2 + 1.2,
-                unit = "lb"
+                unit = "lb",
+                enabled = true
             ),
             Item(
                 name = "Ingredient 2",
                 quantity = 10.33814,
-                unit = "oz"
+                unit = "oz",
+                enabled = true
             )
         )
         val cart = Cart(

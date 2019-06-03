@@ -28,19 +28,23 @@ data class CartEntity(
     @OrderBy("name ASC")
     val items: List<ItemEntity> = emptyList()
 ) {
-    constructor(cart: Cart) : this(
-        id = cart.id,
-        createdAt = cart.createdAt,
-        recipes = cart.recipes.map { RecipeEntity(it) }.toSet(),
-        items = cart.items.map { ItemEntity(it) }
-    )
+    companion object {
+        fun fromCart(cart: Cart): CartEntity {
+            return CartEntity(
+                cart.id,
+                cart.createdAt,
+                cart.recipes.map { RecipeEntity.fromRecipe(it) }.toSet(),
+                cart.items.map { ItemEntity.fromItem(it) }
+            )
+        }
+    }
 
-    fun cart(): Cart {
+    fun toCart(): Cart {
         return Cart(
             id = id,
             createdAtDateTime = createdAt,
-            recipes = recipes.map { it.recipe() },
-            items = items.map { it.item() }
+            recipes = recipes.map { it.toRecipe() },
+            items = items.map { it.toItem() }
         )
     }
 }

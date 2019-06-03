@@ -22,27 +22,31 @@ data class RecipeEntity(
     @Column(name = "archived", nullable = false)
     var isArchived: Boolean = false
 ) {
-    constructor(recipe: Recipe) : this(
-        id = recipe.id,
-        originUrl = recipe.originUrl,
-        name = recipe.name,
-        imgUrl = recipe.imgUrl,
-        favorite = recipe.favorite,
-        ingredients = recipe.ingredients.map { IngredientEntity(it) },
-        steps = recipe.steps.map { StepEntity(it) }.toSet(),
-        isArchived = recipe.isArchived
-    )
-
-    fun recipe(): Recipe {
-        return Recipe(
-            id = id,
-            name = name.toLowerCase(),
-            originUrl = originUrl,
-            imgUrl = imgUrl,
-            favorite = favorite,
-            ingredients = ingredients.map { it.ingredient() },
-            steps = steps.map { it.step() },
-            isArchived = isArchived
-        )
+  companion object {
+    fun fromRecipe(recipe: Recipe): RecipeEntity {
+      return RecipeEntity(
+          recipe.id,
+          recipe.originUrl,
+          recipe.name,
+          recipe.imgUrl,
+          recipe.favorite,
+          recipe.ingredients.map { IngredientEntity(it) },
+          recipe.steps.map { StepEntity(it) }.toSet(),
+          recipe.isArchived
+      )
     }
+  }
+
+  fun toRecipe(): Recipe {
+    return Recipe(
+        id = id,
+        name = name.toLowerCase(),
+        originUrl = originUrl,
+        imgUrl = imgUrl,
+        favorite = favorite,
+        ingredients = ingredients.map { it.ingredient() },
+        steps = steps.map { it.step() },
+        isArchived = isArchived
+    )
+  }
 }

@@ -35,6 +35,6 @@ class CreateCartUseCase(
                     it.value.reduce { ingredient1, ingredient2 -> ingredientConverter.addToHighestUnit(ingredient1, ingredient2) }
                 }
 
-        return ingredients.map { Item(name = it.name, quantity = it.quantity, unit = it.unit) }
+        return ingredients.map { Item.fromIngredient(it) }
     }
 }

@@ -11,14 +11,16 @@ class ItemResponseTest {
         id = 10,
         name = "Raclette cheese",
         quantity = 2.0,
-        unit = "lb"
+        unit = "lb",
+        enabled = true
     )
 
     val itemResponse = ItemResponse(
         id = 10,
         name = "Raclette cheese",
         quantity = 2.0,
-        unit = "lb"
+        unit = "lb",
+        enabled = true
     )
 
     assertThat(ItemResponse.fromItem(item)).isEqualTo(itemResponse)

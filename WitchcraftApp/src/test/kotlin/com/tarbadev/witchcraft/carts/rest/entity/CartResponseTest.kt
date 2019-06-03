@@ -15,7 +15,8 @@ class CartResponseTest {
         id = 10,
         name = "Raclette cheese",
         quantity = 2.0,
-        unit = "lb"
+        unit = "lb",
+        enabled = true
     )
     val recipe = Recipe(
         id = 1,

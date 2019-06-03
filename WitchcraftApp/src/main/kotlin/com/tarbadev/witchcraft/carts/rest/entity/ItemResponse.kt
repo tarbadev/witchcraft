@@ -6,7 +6,8 @@ data class ItemResponse(
     val id: Int = 0,
     val name: String,
     val quantity: Double,
-    val unit: String
+    val unit: String,
+    val enabled: Boolean
 ) {
   companion object {
     fun fromItem(item: Item): ItemResponse {
@@ -14,7 +15,8 @@ data class ItemResponse(
           item.id,
           item.name,
           item.quantity,
-          item.unit
+          item.unit,
+          item.enabled
       )
     }
   }

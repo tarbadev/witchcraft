@@ -13,21 +13,28 @@ data class ItemEntity(
     val id: Int = 0,
     val name: String = "",
     val quantity: Double = 0.0,
-    val unit: String = ""
+    val unit: String = "",
+    val enabled: Boolean = true
 ) {
-    constructor(item: Item) : this(
-        id = item.id,
-        name = item.name,
-        quantity = item.quantity,
-        unit = item.unit
-    )
-
-    fun item(): Item {
-        return Item(
-            id = id,
-            name = name,
-            quantity = quantity,
-            unit = unit
-        )
+  companion object {
+    fun fromItem(item: Item): ItemEntity {
+      return ItemEntity(
+          item.id,
+          item.name,
+          item.quantity,
+          item.unit,
+          item.enabled
+      )
     }
+  }
+
+  fun toItem(): Item {
+    return Item(
+        id = id,
+        name = name,
+        quantity = quantity,
+        unit = unit,
+        enabled = enabled
+    )
+  }
 }

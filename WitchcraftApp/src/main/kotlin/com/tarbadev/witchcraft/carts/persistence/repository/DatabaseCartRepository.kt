@@ -9,16 +9,16 @@ import org.springframework.stereotype.Repository
 class DatabaseCartRepository(private val cartEntityRepository: CartEntityRepository) : CartRepository {
 
     override fun findAll(): List<Cart> {
-        return cartEntityRepository.findAll().map { it.cart() }
+        return cartEntityRepository.findAll().map { it.toCart() }
     }
 
     override fun save(cart: Cart): Cart {
-        return cartEntityRepository.saveAndFlush(CartEntity(cart)).cart()
+        return cartEntityRepository.saveAndFlush(CartEntity.fromCart(cart)).toCart()
     }
 
     override fun findById(id: Int): Cart? {
         return cartEntityRepository.findById(id)
-            .map { it.cart() }
+            .map { it.toCart() }
             .orElse(null)
     }
 }

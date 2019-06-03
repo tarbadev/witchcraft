@@ -21,16 +21,16 @@ data class DayEntity(
     constructor(day: Day) : this(
         id = day.id,
         name = day.name.name,
-        lunch = if (day.lunch != null) RecipeEntity(day.lunch!!) else null,
-        diner = if (day.diner != null) RecipeEntity(day.diner!!) else null
+        lunch = if (day.lunch != null) RecipeEntity.fromRecipe(day.lunch!!) else null,
+        diner = if (day.diner != null) RecipeEntity.fromRecipe(day.diner!!) else null
     )
 
     fun day(): Day {
         return Day(
             id = id,
             name = DayName.valueOf(name),
-            lunch = lunch?.recipe(),
-            diner = diner?.recipe()
+            lunch = lunch?.toRecipe(),
+            diner = diner?.toRecipe()
         )
     }
 }

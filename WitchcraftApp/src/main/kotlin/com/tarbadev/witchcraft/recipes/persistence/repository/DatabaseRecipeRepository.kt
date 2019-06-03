@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component
 class DatabaseRecipeRepository(private val recipeEntityRepository: RecipeEntityRepository) : RecipeRepository {
 
     override fun saveRecipe(recipe: Recipe): Recipe {
-        return recipeEntityRepository.saveAndFlush(RecipeEntity(recipe)).recipe()
+        return recipeEntityRepository.saveAndFlush(RecipeEntity.fromRecipe(recipe)).toRecipe()
     }
 
     override fun updateRecipe(recipe: Recipe): Recipe {
@@ -22,19 +22,19 @@ class DatabaseRecipeRepository(private val recipeEntityRepository: RecipeEntityR
             ingredients = recipe.ingredients.map { IngredientEntity(it) },
             steps = recipe.steps.map { StepEntity(it) }.toSet()
         )
-        return recipeEntityRepository.saveAndFlush(entity).recipe()
+        return recipeEntityRepository.saveAndFlush(entity).toRecipe()
     }
 
     override fun findAll(): List<Recipe> {
         return recipeEntityRepository.findAllByOrderByName()
             .filter { !it.isArchived }
-            .map { it.recipe() }
+            .map { it.toRecipe() }
     }
 
     override fun findById(id: Int): Recipe? {
         return recipeEntityRepository.findById(id)
             .filter { !it.isArchived }
-            .map { it.recipe() }
+            .map { it.toRecipe() }
             .orElse(null)
     }
 
@@ -49,19 +49,19 @@ class DatabaseRecipeRepository(private val recipeEntityRepository: RecipeEntityR
 
         recipeEntityRepository.flush()
 
-        return recipeEntity.recipe()
+        return recipeEntity.toRecipe()
     }
 
     override fun findAllFavorite(): List<Recipe> {
         return recipeEntityRepository.findAllByFavorite(true)
             .filter { !it.isArchived }
-            .map { it.recipe() }
+            .map { it.toRecipe() }
     }
 
     override fun findLastAddedRecipes(): List<Recipe> {
         return recipeEntityRepository.findTop8ByOrderByIdDesc()
             .filter { !it.isArchived }
-            .map { it.recipe() }
+            .map { it.toRecipe() }
     }
 
     override fun existsById(id: Int): Boolean {

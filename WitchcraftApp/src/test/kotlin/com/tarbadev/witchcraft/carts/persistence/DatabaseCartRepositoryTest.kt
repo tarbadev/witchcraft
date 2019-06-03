@@ -8,8 +8,6 @@ import com.tarbadev.witchcraft.carts.persistence.repository.CartEntityRepository
 import com.tarbadev.witchcraft.carts.persistence.repository.DatabaseCartRepository
 import com.tarbadev.witchcraft.recipes.persistence.entity.IngredientEntity
 import com.tarbadev.witchcraft.recipes.persistence.entity.RecipeEntity
-import org.hibernate.validator.internal.util.CollectionHelper.asSet
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -18,9 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager
-import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.context.junit.jupiter.SpringExtension
-import java.util.*
 import java.util.Arrays.asList
 
 @ExtendWith(SpringExtension::class)
@@ -74,25 +70,28 @@ class DatabaseCartRepositoryTest(
                 steps = emptySet()
             )
         )
-            .recipe())
+            .toRecipe())
 
         entityManager.clear()
 
-        val items = Arrays.asList(
+        val items = asList(
             Item(
                 name = "Ingredient 1",
                 unit = "lb",
-                quantity = 2.0
+                quantity = 2.0,
+                enabled = true
             ),
             Item(
                 name = "Ingredient 2",
                 unit = "oz",
-                quantity = 8.0
+                quantity = 8.0,
+                enabled = true
             ),
             Item(
                 name = "Ingredient 3",
                 unit = "cup",
-                quantity = 2.0
+                quantity = 2.0,
+                enabled = true
             )
         )
         val (id) = databaseCartRepository.save(Cart(
@@ -110,7 +109,7 @@ class DatabaseCartRepositoryTest(
 
     @Test
     fun findById() {
-        val cart = entityManager.persistAndFlush(CartEntity()).cart()
+        val cart = entityManager.persistAndFlush(CartEntity()).toCart()
 
         entityManager.clear()
 
@@ -132,14 +131,7 @@ class DatabaseCartRepositoryTest(
         entityManager.clear()
 
         val items = cart.items
-            .map { itemEntity ->
-                Item(
-                    id = itemEntity.id,
-                    name = itemEntity.name,
-                    quantity = itemEntity.quantity,
-                    unit = itemEntity.unit
-                )
-            }
+            .map { itemEntity -> itemEntity.toItem() }
             .sortedBy { it.name }
 
         assertIterableEquals(items, databaseCartRepository.findById(cart.id)!!.items)
