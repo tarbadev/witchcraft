@@ -1,5 +1,7 @@
 package com.tarbadev.witchcraft
 
+import com.tarbadev.witchcraft.carts.domain.entity.Cart
+import com.tarbadev.witchcraft.carts.domain.entity.Item
 import com.tarbadev.witchcraft.recipes.domain.entity.Ingredient
 import com.tarbadev.witchcraft.recipes.domain.entity.Recipe
 import com.tarbadev.witchcraft.recipes.domain.entity.Step
@@ -192,5 +194,25 @@ class TestResources {
           )
       )
     }
+  }
+
+  class Items {
+    companion object {
+      val itemLardon = Item(
+          id = 12,
+          name = "Lardon",
+          quantity = 12.0,
+          unit = "g",
+          enabled = true
+      )
+    }
+  }
+
+  companion object {
+    val cart = Cart(
+        id = 43,
+        recipes = listOf(Recipes.helloFresh, Recipes.marmiton),
+        items = listOf(Items.itemLardon)
+    )
   }
 }

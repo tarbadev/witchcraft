@@ -49,41 +49,13 @@ class WeekFromYearAndWeekNumberUseCaseTest {
             year = year,
             weekNumber = weekNumber,
             days = asList(
-                Day(
-                    name = DayName.MONDAY,
-                    lunch = Recipe(),
-                    diner = Recipe()
-                ),
-                Day(
-                    name = DayName.TUESDAY,
-                    lunch = Recipe(),
-                    diner = Recipe()
-                ),
-                Day(
-                    name = DayName.WEDNESDAY,
-                    lunch = Recipe(),
-                    diner = Recipe()
-                ),
-                Day(
-                    name = DayName.THURSDAY,
-                    lunch = Recipe(),
-                    diner = Recipe()
-                ),
-                Day(
-                    name = DayName.FRIDAY,
-                    lunch = Recipe(),
-                    diner = Recipe()
-                ),
-                Day(
-                    name = DayName.SATURDAY,
-                    lunch = Recipe(),
-                    diner = Recipe()
-                ),
-                Day(
-                    name = DayName.SUNDAY,
-                    lunch = Recipe(),
-                    diner = Recipe()
-                )
+                Day(name = DayName.MONDAY),
+                Day(name = DayName.TUESDAY),
+                Day(name = DayName.WEDNESDAY),
+                Day(name = DayName.THURSDAY),
+                Day(name = DayName.FRIDAY),
+                Day(name = DayName.SATURDAY),
+                Day(name = DayName.SUNDAY)
             ))
 
         whenever(weekRepository.findByYearAndWeekNumber(year, weekNumber)).thenReturn(null)
