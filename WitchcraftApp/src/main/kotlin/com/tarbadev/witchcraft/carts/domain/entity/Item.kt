@@ -12,7 +12,7 @@ data class Item(
   companion object {
     fun fromIngredient(ingredient: Ingredient): Item {
       return Item(
-          ingredient.id,
+          0,
           ingredient.name,
           ingredient.quantity,
           ingredient.unit,

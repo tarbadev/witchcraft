@@ -15,7 +15,7 @@ class ItemTest {
     )
 
     val item = Item(
-        id = 10,
+        id = 0,
         name = "Raclette cheese",
         quantity = 2.0,
         unit = "lb",

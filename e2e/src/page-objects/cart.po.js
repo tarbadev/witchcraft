@@ -18,3 +18,18 @@ export const getIngredients = async () => {
     elements => elements.map(el => el.textContent),
   )
 }
+
+export const tapOnIngredient = async ingredient => {
+  const ingredients = await global.page.$x(`//p[contains(text(), '${ingredient}') and contains(@class, 'ingredient')]`)
+
+  if (await ingredients.length > 0) {
+    await ingredients[0].click()
+    await global.page.waitForSelector('.cart-page__ingredient-disabled')
+  } else {
+    throw new Error(`Ingredient not found: ${ingredient}`)
+  }
+}
+
+export const numberOfDisabledItems = async () => {
+  return await (await global.page.$$('.cart-page__ingredient-disabled')).length
+}

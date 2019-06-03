@@ -1,0 +1,13 @@
+.cart-page__ingredient {
+    cursor: pointer;
+}
+
+.cart-page__ingredient .paper:hover {
+    background-color: #eeeeee;
+    transition: .2s ease;
+}
+
+.cart-page__ingredient-disabled .paper {
+    background-color: #bdbdbd;
+    font-style: italic;
+}

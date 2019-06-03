@@ -8,15 +8,28 @@ import Typography from '@material-ui/core/Typography'
 
 import { Ingredient } from 'src/recipes/components/Ingredient'
 import { getCartTitle } from './CartHelper'
-import { RecipeCard } from '../../recipes/components/RecipeCard'
+import { RecipeCard } from 'src/recipes/components/RecipeCard'
+import { toggleItem } from 'src/carts/actions/CartActions'
+
+import './CartPage.css'
 
 export const CartPage = ({
   cart,
+  onItemClick,
 }) => {
   const ingredients = cart.items
     ? cart.items.map(ingredient => (
-      <Grid item key={ingredient.id} sm={12} data-item>
-        <Ingredient ingredient={ingredient.name} unit={ingredient.unit} quantity={ingredient.quantity} />
+      <Grid
+        item
+        key={ingredient.id}
+        sm={12}
+        data-item
+        className={`cart-page__ingredient ${ingredient.enabled ? '' : 'cart-page__ingredient-disabled'}`}
+        onClick={() => onItemClick(cart.id, ingredient.id, !ingredient.enabled)}>
+        <Ingredient
+          ingredient={ingredient.name}
+          unit={ingredient.unit}
+          quantity={ingredient.quantity} />
       </Grid>
     ))
     : []
@@ -54,6 +67,7 @@ export const CartPage = ({
 
 CartPage.propTypes = {
   cart: PropTypes.object,
+  onItemClick: PropTypes.func,
 }
 
 const mapStateToProps = state => {
@@ -63,7 +77,9 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({}, dispatch)
+  return bindActionCreators({
+    onItemClick: toggleItem,
+  }, dispatch)
 }
 
 export const CartPageContainer = connect(mapStateToProps, mapDispatchToProps)(CartPage)
