@@ -66,7 +66,7 @@ class TestResources {
           )
       )
       val helloFresh = Recipe(
-          name = "Baja Chicken Quesadilla",
+          name = "Baja chicken quesadillas",
           originUrl = "https://www.hellofresh.com/recipes/2019-w26-r14-baja-chicken-quesadilla-5cd9dfa0d5c2f800105388bc?locale=en-US",
           imgUrl = "https://res.cloudinary.com/hellofresh/image/upload/f_auto,fl_lossy,q_auto,w_1200/v1/hellofresh_s3/image/2019-w26-r14-baja-chicken-quesadilla-e4f0ad1b.jpg",
           ingredients = Arrays.asList(

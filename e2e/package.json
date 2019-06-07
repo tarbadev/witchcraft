@@ -16,7 +16,7 @@
     "@babel/core": "^7.4.5",
     "@babel/polyfill": "^7.4.4",
     "@babel/preset-env": "^7.4.5",
-    "axios": "^0.18.0",
+    "axios": "^0.19.0",
     "babel-jest": "^24.8.0",
     "jest": "^24.8.0",
     "jest-junit": "^6.4.0",
@@ -25,8 +25,8 @@
     "puppeteer": "^1.17.0"
   },
   "engines": {
-    "node": "10.15.3",
-    "npm": "6.4.1"
+    "node": "12.4.0",
+    "npm": "6.9.0"
   },
   "jest": {
     "verbose": true,

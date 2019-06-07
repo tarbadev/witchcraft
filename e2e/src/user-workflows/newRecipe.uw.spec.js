@@ -19,7 +19,7 @@ describe('New Recipe', () => {
       await NewRecipePage.addFromUrl('https://www.hellofresh.com/recipes/2019-w26-r14-baja-chicken-quesadilla-5cd9dfa0d5c2f800105388bc?locale=en-US')
       const recipes = await RecipesPage.getRecipes()
       const expectedRecipes = [
-        'baja chicken quesadilla',
+        'baja chicken quesadillas',
         'lasagna alla bolognese',
         'tartiflette',
         'thai chicken salad',
