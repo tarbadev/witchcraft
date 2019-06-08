@@ -64,5 +64,24 @@ describe('Weeks page', () => {
         'lasagna alla bolognese',
       ].sort())
     })
+
+    it('saves the cart when clicking on create cart', async () => {
+      await WeeksPage.goTo()
+      await WeeksPage.clickOnMeal('lunch', 'THURSDAY')
+      await WeeksPage.clickOnRecipe('thai chicken salad')
+      await WeeksPage.clickOnMeal('diner', 'MONDAY')
+      await WeeksPage.clickOnRecipe('lasagna alla bolognese')
+
+      await WeeksPage.clickOnCreateCart()
+      await CartPage.waitForPageLoaded()
+
+      await WeeksPage.goTo()
+
+      const thursdayLunch = await WeeksPage.getMeal('lunch', 'THURSDAY')
+      expect(thursdayLunch).toEqual('thai chicken salad')
+
+      const wednesdayDiner = await WeeksPage.getMeal('diner', 'MONDAY')
+      expect(wednesdayDiner).toEqual('lasagna alla bolognese')
+    })
   })
 })
