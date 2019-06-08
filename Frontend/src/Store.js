@@ -4,7 +4,7 @@ import { connectRouter, routerMiddleware } from 'connected-react-router'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import thunk from 'redux-thunk'
 
-import { reducer } from './RootReducer'
+import { reducer, setState } from './RootReducer'
 import { createHistoryObserver } from './HistoryObserver'
 import { WitchcraftMiddleware } from './WitchcraftMiddleware'
 
@@ -48,6 +48,7 @@ const pathRegexes = [
     callback: ([year, week]) => {
       store.dispatch(getAllRecipes())
       store.dispatch(getWeek(year, week))
+      store.dispatch(setState('weekPage.showSuccessMessage', false))
     },
   }, {
     regex: /^\/$/,
