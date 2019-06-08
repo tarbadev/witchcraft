@@ -50,13 +50,13 @@ describe('WeekPage', () => {
 
   describe('when save button clicked', () => {
     it('calls saveWeek', () => {
-      const onSaveClick = jest.fn()
+      const saveWeek = jest.fn()
       const week = { year: 2018, weekNumber: 45, days: [] }
-      const weekPage = shallow(<WeekPage onSaveClick={onSaveClick} week={week} />)
+      const weekPage = shallow(<WeekPage saveWeek={saveWeek} week={week} />)
 
       weekPage.find('.week-page__save-button').simulate('click')
 
-      expect(onSaveClick).toHaveBeenCalled()
+      expect(saveWeek).toHaveBeenCalled()
     })
   })
 
@@ -91,6 +91,33 @@ describe('WeekPage', () => {
       weekPage.find('.week-page__create-cart-button').simulate('click')
 
       expect(createCartFromWeek).toHaveBeenCalledWith(recipeIds)
+    })
+
+    it('calls saveWeek', () => {
+      const saveWeekSpy = jest.fn()
+      const week = {
+        year: 2018,
+        weekNumber: 45,
+        days: [
+          {
+            lunch: { id: 1 },
+            diner: { id: 3 },
+          },
+          {
+            lunch: { id: 9 },
+            diner: { id: 0 },
+          },
+          {
+            lunch: null,
+            diner: null,
+          },
+        ],
+      }
+      const weekPage = shallow(<WeekPage saveWeek={saveWeekSpy} createCart={jest.fn()} week={week} />)
+
+      weekPage.find('.week-page__create-cart-button').simulate('click')
+
+      expect(saveWeekSpy).toHaveBeenCalled()
     })
   })
 })

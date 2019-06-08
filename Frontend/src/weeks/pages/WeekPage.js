@@ -41,7 +41,7 @@ export const WeekPage = ({
   week,
   history,
   openModal,
-  onSaveClick,
+  saveWeek,
   createCart,
   showSuccessMessage,
   onSuccessButtonClose,
@@ -64,6 +64,7 @@ export const WeekPage = ({
       .reduce((prev, curr) => prev.concat(curr))
       .filter(recipeId => recipeId.id > 0)
 
+    saveWeek(week)
     createCart(recipeIds)
   }
 
@@ -106,7 +107,7 @@ export const WeekPage = ({
             className='week-page__save-button'
             variant='contained'
             color='primary'
-            onClick={() => onSaveClick(week)}>
+            onClick={() => saveWeek(week)}>
             Save
           </Button>
         </Grid>
@@ -132,7 +133,7 @@ WeekPage.propTypes = {
   week: PropTypes.object,
   history: PropTypes.object,
   openModal: PropTypes.func,
-  onSaveClick: PropTypes.func,
+  saveWeek: PropTypes.func,
   createCart: PropTypes.func,
   showSuccessMessage: PropTypes.bool,
   onSuccessButtonClose: PropTypes.func,
@@ -148,7 +149,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     openModal: (day, meal, currentRecipeId) => toggleModal(true, day, meal, currentRecipeId),
-    onSaveClick: saveWeek,
+    saveWeek: saveWeek,
     createCart: createCart,
     onSuccessButtonClose: () => setState('weekPage.showSuccessMessage', false),
   }, dispatch)
