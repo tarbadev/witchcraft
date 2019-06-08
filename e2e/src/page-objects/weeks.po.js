@@ -50,3 +50,12 @@ export const getModalRecipeList = async () => {
     elements => elements.map(el => el.textContent),
   )
 }
+
+export const isSuccessMessageDisplayed = async () => {
+  return await global.page.$('.week-page__success-message') !== null
+}
+
+export const discardSuccessMessage = async () => {
+  await global.page.click('.week-page__success-message-close')
+  await global.page.waitFor(200)
+}

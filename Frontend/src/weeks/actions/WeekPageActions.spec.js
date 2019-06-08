@@ -81,7 +81,7 @@ describe('WeekPageActions', () => {
   })
 
   describe('saveWeekSuccess', () => {
-    it('success callback saves week in state', () => {
+    it('saves week in state', () => {
       const dispatchSpy = jest.fn()
       const week = {
         id: 12,
@@ -90,11 +90,13 @@ describe('WeekPageActions', () => {
         days: [],
       }
       saveWeekSuccess(week)(dispatchSpy)
-      expect(dispatchSpy).toHaveBeenCalledWith({
-        type: 'SET_STATE',
-        key: 'week',
-        payload: week,
-      })
+      expect(dispatchSpy).toHaveBeenCalledWith(setState('week', week))
+    })
+
+    it('dispatches a state action to display the success message', () => {
+      const dispatchSpy = jest.fn()
+      saveWeekSuccess()(dispatchSpy)
+      expect(dispatchSpy).toHaveBeenCalledWith(setState('weekPage.showSuccessMessage', true))
     })
   })
 })

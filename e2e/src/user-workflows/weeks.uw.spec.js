@@ -20,11 +20,19 @@ describe('Weeks page', () => {
       expect(thursdayLunch).toEqual('thai chicken salad')
     })
 
-    it('saves the current week', async () => {
+    it('saves the current week and displays a success message', async () => {
       await WeeksPage.goTo()
       await WeeksPage.clickOnMeal('lunch', 'THURSDAY')
       await WeeksPage.clickOnRecipe('thai chicken salad')
       await WeeksPage.save()
+
+      await global.page.waitForSelector('.week-page__success-message')
+      expect(await WeeksPage.isSuccessMessageDisplayed()).toBeTruthy()
+
+      await WeeksPage.discardSuccessMessage()
+
+      expect(await WeeksPage.isSuccessMessageDisplayed()).toBeFalsy()
+
       await WeeksPage.goTo()
 
       const thursdayLunch = await WeeksPage.getMeal('lunch', 'THURSDAY')

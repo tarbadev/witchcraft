@@ -72,6 +72,7 @@ const initialState = {
       day: '',
       meal: '',
     },
+    showSuccessMessage: false,
   },
   carts: [],
   cart: {

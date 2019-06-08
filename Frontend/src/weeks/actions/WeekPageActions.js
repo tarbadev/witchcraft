@@ -13,6 +13,7 @@ export const toggleModal = (isModalOpen, day = '', meal = '', currentRecipeId) =
 
 export const saveWeekSuccess = week => dispatch => {
   dispatch(setState('week', week))
+  dispatch(setState('weekPage.showSuccessMessage', true))
 }
 
 export const saveWeek = week => dispatch => {

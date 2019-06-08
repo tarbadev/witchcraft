@@ -2,18 +2,26 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { withStyles } from '@material-ui/core/styles'
-import Button from '@material-ui/core/Button'
-import Grid from '@material-ui/core/Grid'
-import Typography from '@material-ui/core/Typography'
-import IconButton from '@material-ui/core/IconButton'
+import {
+  Snackbar,
+  Button,
+  Grid,
+  Typography,
+  SnackbarContent,
+  IconButton,
+  withStyles,
+} from '@material-ui/core'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
+import CloseIcon from '@material-ui/icons/Close'
 
 import { toggleModal, saveWeek } from 'src/weeks/actions/WeekPageActions'
 import { createCart } from 'src/carts/actions/NewCartActions'
 import { WeekPane } from 'src/weeks/components/WeekPane'
 import { RecipeListModalContainer } from 'src/weeks/components/RecipeListModal'
+import { setState } from 'src/RootReducer'
+
+import './WeekPage.css'
 
 export const WEEKS_IN_A_YEAR = 52
 
@@ -35,6 +43,8 @@ export const WeekPage = ({
   openModal,
   onSaveClick,
   createCart,
+  showSuccessMessage,
+  onSuccessButtonClose,
 }) => {
   const onPreviousWeekClick = () => {
     const previousWeekNumber = week.weekNumber <= 1 ? WEEKS_IN_A_YEAR : (week.weekNumber - 1)
@@ -59,6 +69,26 @@ export const WeekPage = ({
 
   return (
     <Grid container spacing={3} justify='center'>
+      <Snackbar
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        open={showSuccessMessage}
+        autoHideDuration={3000}
+        onClose={onSuccessButtonClose}>
+        <SnackbarContent
+          className={'week-page__success-message'}
+          message={<span>Week saved successfully</span>}
+          action={[
+            <IconButton
+              key="close"
+              aria-label="Close"
+              color="inherit"
+              onClick={onSuccessButtonClose}
+              className={'week-page__success-message-close'}>
+              <CloseIcon />
+            </IconButton>,
+          ]}
+        />
+      </Snackbar>
       <Grid item xs={3}>
       </Grid>
       <Grid item container xs={6} justify='center' alignItems='center'>
@@ -104,11 +134,14 @@ WeekPage.propTypes = {
   openModal: PropTypes.func,
   onSaveClick: PropTypes.func,
   createCart: PropTypes.func,
+  showSuccessMessage: PropTypes.bool,
+  onSuccessButtonClose: PropTypes.func,
 }
 
 const mapStateToProps = state => {
   return {
     week: state.week,
+    showSuccessMessage: state.weekPage.showSuccessMessage,
   }
 }
 
@@ -117,6 +150,7 @@ const mapDispatchToProps = (dispatch) => {
     openModal: (day, meal, currentRecipeId) => toggleModal(true, day, meal, currentRecipeId),
     onSaveClick: saveWeek,
     createCart: createCart,
+    onSuccessButtonClose: () => setState('weekPage.showSuccessMessage', false),
   }, dispatch)
 }
 
