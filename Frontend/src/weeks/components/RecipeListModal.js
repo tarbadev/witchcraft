@@ -11,6 +11,8 @@ import {
   GridListTile,
   ListSubheader,
   Button,
+  CardMedia,
+  Typography,
 } from '@material-ui/core'
 import CheckCircleIcon from '@material-ui/icons/CheckCircle'
 
@@ -48,7 +50,7 @@ export const RecipeListModal = ({
       : undefined
     return (
       <GridListTile key={recipe.imgUrl} className={'recipe-card'} onClick={onClick}>
-        <img src={recipe.imgUrl} alt={recipe.name} />
+        {recipe.imgUrl && <CardMedia component='img' image={recipe.imgUrl} alt={recipe.name} />}
         <GridListTileBar title={recipe.name} className={'recipe-card-title'} />
         {currentRecipeIcon && currentRecipeIcon}
       </GridListTile>
@@ -68,12 +70,16 @@ export const RecipeListModal = ({
             <GridList cellHeight={180} cols={4}>
               <GridListTile key="Subheader" cols={4} className={'recipe-cards-title'}>
                 <ListSubheader component="div">
-                  Choose a recipe for <span className={'day'}>{day}</span>{'\''}s {meal}
-                  <Button
-                    className='week-page__add-express-recipe__button'
-                    onClick={displayExpressRecipeForm}>
-                    Add express recipe
-                  </Button>
+                  <Grid container justify='space-between' alignItems='center'>
+                    <Typography>Choose a recipe for <span className={'day'}>{day}</span>{'\''}s {meal}</Typography>
+                    <Button
+                      className='week-page__add-express-recipe__button'
+                      onClick={displayExpressRecipeForm}
+                      variant='contained'
+                      color='primary'>
+                      Add express recipe
+                    </Button>
+                  </Grid>
                 </ListSubheader>
               </GridListTile>
               {recipeCards}
@@ -85,7 +91,7 @@ export const RecipeListModal = ({
           onRecipeNameChange={setExpressRecipeName}
           isModalOpen={isDisplayExpressRecipeForm}
           onAddRecipeClick={recipeName => addExpressRecipe(recipeName, day, meal)}
-          onClose={closeAddExpressRecipeForm}/>
+          onClose={closeAddExpressRecipeForm} />
       </Grid>
     </Modal>
   )

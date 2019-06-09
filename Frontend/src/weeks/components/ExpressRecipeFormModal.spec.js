@@ -22,7 +22,7 @@ describe('ExpressRecipeFormModal', () => {
         recipeName={recipeName} />,
     )
 
-    recipeListModal.find('.week-page__add-express-recipe__submit-button').simulate('click')
+    recipeListModal.find('.express-recipe-form__submit-button').simulate('click')
 
     expect(onAddRecipeClickSpy).toHaveBeenCalledWith(recipeName)
   })

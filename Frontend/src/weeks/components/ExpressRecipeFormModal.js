@@ -3,8 +3,9 @@ import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
 import React from 'react'
 import * as PropTypes from 'prop-types'
-import { TextField } from '@material-ui/core'
-import Button from '@material-ui/core/Button'
+import { TextField, Button } from '@material-ui/core'
+
+import './ExpressRecipeFormModal.css'
 
 export const ExpressRecipeFormModal = ({
   isModalOpen,
@@ -22,17 +23,19 @@ export const ExpressRecipeFormModal = ({
       disableAutoFocus={true}>
       <Grid container justify='center' alignItems='center' direction='row'>
         <Grid item xs={4}>
-          <Paper>
+          <Paper className='express-recipe-form__paper'>
             <TextField
               fullWidth
               className='express-recipe-form__recipe-name'
               onChange={(e) => onRecipeNameChange(e.target.value)}
               value={recipeName}
-              label='Lasagna'
+              label='Name'
               type='search' />
             <Button
-              className='week-page__add-express-recipe__submit-button'
-              onClick={() => onAddRecipeClick(recipeName)}>
+              className='express-recipe-form__submit-button'
+              onClick={() => onAddRecipeClick(recipeName)}
+              variant='contained'
+              color='primary'>
               Add
             </Button>
           </Paper>
