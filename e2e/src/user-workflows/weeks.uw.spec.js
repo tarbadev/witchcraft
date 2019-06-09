@@ -83,5 +83,14 @@ describe('Weeks page', () => {
       const wednesdayDiner = await WeeksPage.getMeal('diner', 'MONDAY')
       expect(wednesdayDiner).toEqual('lasagna alla bolognese')
     })
+
+    it('adds an express recipe', async () => {
+      await WeeksPage.goTo()
+      await WeeksPage.clickOnMeal('diner', 'MONDAY')
+      await WeeksPage.addExpressRecipe('Fajitas With Beef')
+
+      const mondayDiner = await WeeksPage.getMeal('diner', 'MONDAY')
+      expect(mondayDiner).toEqual('fajitas with beef')
+    })
   })
 })

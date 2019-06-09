@@ -5,11 +5,8 @@ import com.tarbadev.witchcraft.recipes.domain.entity.Recipe
 import com.tarbadev.witchcraft.recipes.domain.repository.RecipeRepository
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.Mock
 import org.mockito.Mockito.reset
 import org.mockito.Mockito.verify
-import org.mockito.junit.MockitoJUnitRunner
 
 class SaveRecipeUseCaseTest {
     private lateinit var saveRecipeUseCase: SaveRecipeUseCase
@@ -27,7 +24,7 @@ class SaveRecipeUseCaseTest {
 
         saveRecipeUseCase.execute(recipe)
 
-        verify<RecipeRepository>(recipeRepository).saveRecipe(recipe)
+        verify<RecipeRepository>(recipeRepository).save(recipe)
     }
 
     @Test
@@ -36,6 +33,6 @@ class SaveRecipeUseCaseTest {
 
         saveRecipeUseCase.execute(recipe)
 
-        verify<RecipeRepository>(recipeRepository).updateRecipe(recipe)
+        verify<RecipeRepository>(recipeRepository).update(recipe)
     }
 }

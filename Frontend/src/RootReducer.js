@@ -74,6 +74,7 @@ const initialState = {
       isModalOpen: false,
       day: '',
       meal: '',
+      displayExpressRecipeForm: false,
     },
     showSuccessMessage: false,
   },

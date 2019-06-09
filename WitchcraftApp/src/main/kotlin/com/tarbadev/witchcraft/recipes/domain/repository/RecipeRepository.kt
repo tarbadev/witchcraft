@@ -3,9 +3,9 @@ package com.tarbadev.witchcraft.recipes.domain.repository
 import com.tarbadev.witchcraft.recipes.domain.entity.Recipe
 
 interface RecipeRepository {
-    fun saveRecipe(recipe: Recipe): Recipe
+    fun save(recipe: Recipe): Recipe
 
-    fun updateRecipe(recipe: Recipe): Recipe
+    fun update(recipe: Recipe): Recipe
 
     fun findAll(): List<Recipe>
 

@@ -59,3 +59,9 @@ export const discardSuccessMessage = async () => {
   await global.page.click('.week-page__success-message-close')
   await global.page.waitFor(200)
 }
+
+export const addExpressRecipe = async (recipeName) => {
+  await global.page.click('.week-page__add-express-recipe__button')
+  await global.page.type('.express-recipe-form__recipe-name input', recipeName)
+  await global.page.click('.week-page__add-express-recipe__submit-button')
+}

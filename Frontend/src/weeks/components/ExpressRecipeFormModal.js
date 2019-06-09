@@ -11,13 +11,14 @@ export const ExpressRecipeFormModal = ({
   recipeName,
   onRecipeNameChange,
   onAddRecipeClick,
+  onClose,
 }) => {
   return (
     <Modal
       aria-labelledby="simple-modal-title"
       aria-describedby="simple-modal-description"
       open={isModalOpen}
-      // onClose={closeModal}
+      onClose={onClose}
       disableAutoFocus={true}>
       <Grid container justify='center' alignItems='center' direction='row'>
         <Grid item xs={4}>
@@ -46,4 +47,5 @@ ExpressRecipeFormModal.propTypes = {
   recipeName: PropTypes.string,
   onRecipeNameChange: PropTypes.func,
   onAddRecipeClick: PropTypes.func,
+  onClose: PropTypes.func,
 }

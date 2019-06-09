@@ -17,6 +17,7 @@ export const setRecipe = (recipe, day, meal) => dispatch => {
     day: '',
     meal: '',
     currentRecipe: 0,
+    displayExpressRecipeForm: false,
   }
   const dayIndex = days.indexOf(day.toLowerCase())
   dispatch(setState(`week.days.${dayIndex}.${meal.toLowerCase()}`, recipe))
@@ -25,7 +26,7 @@ export const setRecipe = (recipe, day, meal) => dispatch => {
 
 export const addExpressRecipe = (recipeName, day, meal) => dispatch => {
   dispatch(fetchAction({
-    url: '/recipes/express',
+    url: '/api/recipes/express',
     method: 'POST',
     body: { name: recipeName },
     onSuccess: recipe => setRecipe(recipe, day, meal),

@@ -35,6 +35,8 @@ class NewRecipeRestControllerTest(
   private lateinit var getRecipeDetailsFromFormUseCase: GetRecipeDetailsFromFormUseCase
   @MockBean
   private lateinit var getSupportedDomainsUseCase: GetSupportedDomainsUseCase
+  @MockBean
+  private lateinit var addExpressRecipeUseCase: AddExpressRecipeUseCase
 
   @Test
   fun importFromUrl() {
@@ -114,5 +116,21 @@ class NewRecipeRestControllerTest(
         .andExpect(status().isOk)
         .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE))
         .andExpect(content().json(jacksonObjectMapper().writeValueAsString(supportedDomainsResponse)))
+  }
+
+  @Test
+  fun addExpressRecipe() {
+    val expressRecipeRequest = ExpressRecipeRequest("Lasagna")
+    val recipe = Recipe(id = 3, name = "Lasagna")
+
+    whenever(addExpressRecipeUseCase.execute(expressRecipeRequest.toRecipe())).thenReturn(recipe)
+
+    mockMvc.perform(post("/api/recipes/express")
+        .contentType(MediaType.APPLICATION_JSON_UTF8)
+        .content(jacksonObjectMapper().writeValueAsString(expressRecipeRequest))
+    )
+        .andExpect(status().isOk)
+        .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE))
+        .andExpect(content().json(jacksonObjectMapper().writeValueAsString(RecipeResponse.fromRecipe(recipe))))
   }
 }

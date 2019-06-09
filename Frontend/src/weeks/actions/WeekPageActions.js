@@ -7,6 +7,7 @@ export const toggleModal = (isModalOpen, day = '', meal = '', currentRecipeId) =
     day: day,
     meal: meal,
     currentRecipeId: currentRecipeId,
+    displayExpressRecipeForm: false,
   }
   dispatch(setState('weekPage.modal', newModal))
 }

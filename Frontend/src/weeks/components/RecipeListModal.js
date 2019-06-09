@@ -32,6 +32,8 @@ export const RecipeListModal = ({
   isDisplayExpressRecipeForm,
   setExpressRecipeName,
   expressRecipeName,
+  addExpressRecipe,
+  closeAddExpressRecipeForm,
 }) => {
   const recipeCards = recipes.map(recipe => {
     const onClick = () => {
@@ -78,12 +80,13 @@ export const RecipeListModal = ({
             </GridList>
           </Paper>
         </Grid>
+        <ExpressRecipeFormModal
+          recipeName={expressRecipeName}
+          onRecipeNameChange={setExpressRecipeName}
+          isModalOpen={isDisplayExpressRecipeForm}
+          onAddRecipeClick={recipeName => addExpressRecipe(recipeName, day, meal)}
+          onClose={closeAddExpressRecipeForm}/>
       </Grid>
-      <ExpressRecipeFormModal
-        recipeName={expressRecipeName}
-        onRecipeNameChange={setExpressRecipeName}
-        isModalOpen={isDisplayExpressRecipeForm}
-        onAddRecipeClick={recipeName => addExpressRecipe(recipeName, day, meal)} />
     </Modal>
   )
 }
@@ -101,6 +104,7 @@ RecipeListModal.propTypes = {
   expressRecipeName: PropTypes.string,
   setExpressRecipeName: PropTypes.func,
   addExpressRecipe: PropTypes.func,
+  closeAddExpressRecipeForm: PropTypes.func,
 }
 
 const mapStateToProps = state => {
@@ -111,6 +115,7 @@ const mapStateToProps = state => {
     meal: state.weekPage.modal.meal,
     currentRecipeId: state.weekPage.modal.currentRecipeId,
     expressRecipeName: state.expressRecipeForm.recipeName,
+    isDisplayExpressRecipeForm: state.weekPage.modal.displayExpressRecipeForm,
   }
 }
 
@@ -118,7 +123,8 @@ const mapDispatchToProps = dispatch => {
   return bindActionCreators({
     closeModal: () => toggleModal(false),
     onRecipeClick: setRecipe,
-    displayExpressRecipeForm: setState('recipeModal.displayExpressRecipeForm', true),
+    displayExpressRecipeForm: () => setState('weekPage.modal.displayExpressRecipeForm', true),
+    closeAddExpressRecipeForm: () => setState('weekPage.modal.displayExpressRecipeForm', false),
     setExpressRecipeName: recipeName => setState('expressRecipeForm.recipeName', recipeName),
     addExpressRecipe: addExpressRecipe,
   }, dispatch)

@@ -9,8 +9,8 @@ class SaveRecipeUseCase(private val recipeRepository: RecipeRepository) {
 
     fun execute(recipe: Recipe): Recipe {
         return if (recipe.id > 0)
-            recipeRepository.updateRecipe(recipe)
+            recipeRepository.update(recipe)
         else
-            recipeRepository.saveRecipe(recipe)
+            recipeRepository.save(recipe)
     }
 }

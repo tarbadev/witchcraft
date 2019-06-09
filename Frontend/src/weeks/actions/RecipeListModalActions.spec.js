@@ -14,6 +14,7 @@ describe('RecipeListModalActions', () => {
         day: '',
         meal: '',
         currentRecipe: 0,
+        displayExpressRecipeForm: false,
       }
 
       setRecipe(recipe, day, meal)(dispatchSpy)
@@ -35,7 +36,7 @@ describe('RecipeListModalActions', () => {
       const actual = dispatchSpy.mock.calls[0][0]
 
       let expectedFetchAction = fetchAction({
-        url: '/recipes/express',
+        url: '/api/recipes/express',
         method: 'POST',
         body: { name: recipeName },
         onSuccess: (recipe) => setRecipe(recipe, day, meal)

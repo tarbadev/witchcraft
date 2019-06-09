@@ -13,6 +13,7 @@ describe('WeekPageActions', () => {
       day: day,
       meal: meal,
       currentRecipeId: recipeId,
+      displayExpressRecipeForm: false,
     }
 
     toggleModal(true, day, meal, recipeId)(dispatchSpy)

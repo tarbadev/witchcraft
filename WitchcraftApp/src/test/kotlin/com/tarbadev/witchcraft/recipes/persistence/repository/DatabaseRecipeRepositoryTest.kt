@@ -38,7 +38,7 @@ class DatabaseRecipeRepositoryTest(
     fun saveRecipe() {
         val recipeUrl = "URL"
 
-        val recipe = databaseRecipeRepository.saveRecipe(
+        val recipe = databaseRecipeRepository.save(
             Recipe(
                 name = "Lasagna",
                 originUrl = recipeUrl,
@@ -68,7 +68,7 @@ class DatabaseRecipeRepositoryTest(
             steps = emptyList()
         )
 
-        val returnedRecipe = databaseRecipeRepository.saveRecipe(recipe)
+        val returnedRecipe = databaseRecipeRepository.save(recipe)
 
         val expectedRecipe = Recipe(
             id = returnedRecipe.id,
@@ -85,7 +85,7 @@ class DatabaseRecipeRepositoryTest(
 
     @Test
     fun updateRecipe_updatesRecipe() {
-        var recipe = databaseRecipeRepository.saveRecipe(
+        var recipe = databaseRecipeRepository.save(
             Recipe(
                 name = "Name uncorrect",
                 originUrl = "URL",
@@ -105,7 +105,7 @@ class DatabaseRecipeRepositoryTest(
             steps = recipe.steps
         )
 
-        recipe = databaseRecipeRepository.updateRecipe(modifiedRecipe)
+        recipe = databaseRecipeRepository.update(modifiedRecipe)
 
         assertEquals(modifiedRecipe.name, recipe.name)
     }

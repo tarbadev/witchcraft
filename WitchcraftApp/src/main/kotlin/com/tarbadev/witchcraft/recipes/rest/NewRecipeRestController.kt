@@ -1,9 +1,7 @@
 package com.tarbadev.witchcraft.recipes.rest
 
-import com.tarbadev.witchcraft.recipes.domain.usecase.GetRecipeDetailsFromFormUseCase
-import com.tarbadev.witchcraft.recipes.domain.usecase.GetRecipeDetailsFromUrlUseCase
-import com.tarbadev.witchcraft.recipes.domain.usecase.GetSupportedDomainsUseCase
-import com.tarbadev.witchcraft.recipes.domain.usecase.SaveRecipeUseCase
+import com.tarbadev.witchcraft.recipes.domain.usecase.*
+import com.tarbadev.witchcraft.recipes.rest.entity.ExpressRecipeRequest
 import com.tarbadev.witchcraft.recipes.rest.entity.RecipeFormRequest
 import com.tarbadev.witchcraft.recipes.rest.entity.RecipeResponse
 import com.tarbadev.witchcraft.recipes.rest.entity.SupportedDomainResponse
@@ -15,7 +13,8 @@ class NewRecipeRestController(
     private val getRecipeDetailsFromUrlUseCase: GetRecipeDetailsFromUrlUseCase,
     private val saveRecipeUseCase: SaveRecipeUseCase,
     private val getRecipeDetailsFromFormUseCase: GetRecipeDetailsFromFormUseCase,
-    private val getSupportedDomainsUseCase: GetSupportedDomainsUseCase
+    private val getSupportedDomainsUseCase: GetSupportedDomainsUseCase,
+    private val addExpressRecipeUseCase: AddExpressRecipeUseCase
 ) {
   @PostMapping("/import-from-url")
   fun importFromUrl(@RequestBody recipeFormRequest: RecipeFormRequest): RecipeResponse {
@@ -40,5 +39,10 @@ class NewRecipeRestController(
     )
 
     return RecipeResponse.fromRecipe(saveRecipeUseCase.execute(recipe))
+  }
+
+  @PostMapping("/express")
+  fun addExpressRecipe(@RequestBody expressRecipeRequest: ExpressRecipeRequest): RecipeResponse {
+    return RecipeResponse.fromRecipe(addExpressRecipeUseCase.execute(expressRecipeRequest.toRecipe()))
   }
 }

@@ -10,11 +10,11 @@ import org.springframework.stereotype.Component
 @Component
 class DatabaseRecipeRepository(private val recipeEntityRepository: RecipeEntityRepository) : RecipeRepository {
 
-    override fun saveRecipe(recipe: Recipe): Recipe {
+    override fun save(recipe: Recipe): Recipe {
         return recipeEntityRepository.saveAndFlush(RecipeEntity.fromRecipe(recipe)).toRecipe()
     }
 
-    override fun updateRecipe(recipe: Recipe): Recipe {
+    override fun update(recipe: Recipe): Recipe {
         val entity = recipeEntityRepository.findById(recipe.id).orElse(null).copy(
             name = recipe.name,
             originUrl = recipe.originUrl,

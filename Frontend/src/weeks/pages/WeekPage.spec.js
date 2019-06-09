@@ -86,7 +86,7 @@ describe('WeekPage', () => {
         { id: 3 },
         { id: 9 },
       ]
-      const weekPage = shallow(<WeekPage createCart={createCartFromWeek} week={week} />)
+      const weekPage = shallow(<WeekPage createCart={createCartFromWeek} saveWeek={jest.fn()} week={week} />)
 
       weekPage.find('.week-page__create-cart-button').simulate('click')
 
