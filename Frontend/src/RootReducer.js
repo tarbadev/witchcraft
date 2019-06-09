@@ -66,6 +66,9 @@ const initialState = {
   newCartPage: {
     form: [],
   },
+  expressRecipeForm: {
+    recipeName: '',
+  },
   weekPage: {
     modal: {
       isModalOpen: false,
