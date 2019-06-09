@@ -1,4 +1,4 @@
-import { addExpressRecipe, addExpressRecipeSuccess, setRecipe } from './RecipeListModalActions'
+import { addExpressRecipe, setRecipe } from './RecipeListModalActions'
 import { setState } from 'src/RootReducer'
 import { fetchAction } from '../../WitchcraftMiddleware'
 
