@@ -20,6 +20,8 @@ import { Ingredient } from 'src/recipes/components/Ingredient'
 import { setFavorite, deleteRecipe, updateNotes, showEditableNotes, hideEditableNotes } from 'src/recipes/actions/RecipeActions'
 import { setState } from 'src/RootReducer'
 import Paper from '@material-ui/core/Paper'
+import { onRecipeImageNotFoundError } from 'src/App'
+import CardMedia from '@material-ui/core/CardMedia'
 
 export const RecipePage = ({
   recipe,
@@ -125,7 +127,7 @@ export const RecipePage = ({
       </Grid>
       <Grid item container sm={3} name='image' direction="column" justify="flex-start" alignItems="stretch">
         <Grid item>
-          <img src={recipe.imgUrl} className="image" />
+          <CardMedia image={recipe.imgUrl} component='img' className="image" onError={onRecipeImageNotFoundError} />
         </Grid>
         <Grid item container direction="column" justify="flex-start" alignItems="stretch">
           <Paper className='notes-container' square elevation={0}>

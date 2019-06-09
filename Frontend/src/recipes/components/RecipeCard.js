@@ -4,7 +4,8 @@ import Card from '@material-ui/core/Card'
 import CardHeader from '@material-ui/core/CardHeader'
 import CardMedia from '@material-ui/core/CardMedia'
 
-import 'src/recipes/components/RecipeCard.css'
+import './RecipeCard.css'
+import { onRecipeImageNotFoundError } from 'src/App'
 
 export const RecipeCard = ({ title, imgUrl }) => {
   let cardHeaderClasses = {
@@ -15,7 +16,12 @@ export const RecipeCard = ({ title, imgUrl }) => {
 
   return (
     <Card className='recipe-card'>
-      <CardMedia className='card-media' component='div' title={title} image={imgUrl} />
+      <CardMedia
+        className='card-media'
+        component='img'
+        title={title}
+        image={imgUrl}
+        onError={onRecipeImageNotFoundError} />
       <CardHeader classes={cardHeaderClasses} title={title} />
     </Card>
   )

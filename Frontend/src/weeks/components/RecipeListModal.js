@@ -21,6 +21,7 @@ import { setRecipe, addExpressRecipe } from 'src/weeks/actions/RecipeListModalAc
 import { setState } from 'src/RootReducer'
 import './RecipeListModal.css'
 import { ExpressRecipeFormModal } from './ExpressRecipeFormModal'
+import { onRecipeImageNotFoundError } from 'src/App'
 
 export const RecipeListModal = ({
   recipes = [],
@@ -50,7 +51,7 @@ export const RecipeListModal = ({
       : undefined
     return (
       <GridListTile key={recipe.imgUrl} className={'recipe-card'} onClick={onClick}>
-        {recipe.imgUrl && <CardMedia component='img' image={recipe.imgUrl} alt={recipe.name} />}
+        {recipe.imgUrl && <CardMedia component='img' image={recipe.imgUrl} alt={recipe.name} onError={onRecipeImageNotFoundError} />}
         <GridListTileBar title={recipe.name} className={'recipe-card-title'} />
         {currentRecipeIcon && currentRecipeIcon}
       </GridListTile>

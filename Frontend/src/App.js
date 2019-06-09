@@ -6,6 +6,9 @@ import './App.css'
 import { Header } from './Header'
 import { Content } from './Content'
 
+import DefaultRecipePicture from 'src/recipes/images/recipe-default.png'
+export const onRecipeImageNotFoundError = (e) => e.target.src = DefaultRecipePicture
+
 export const App = () => {
   return (
     <Grid container justify='center'>

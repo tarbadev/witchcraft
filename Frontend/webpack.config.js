@@ -44,6 +44,10 @@ module.exports = {
         test: /\.css$/,
         loader: ['style-loader', 'css-loader'],
       },
+      {
+        test: /\.(png|svg|jpg|gif)$/,
+        loader: ['file-loader'],
+      },
     ],
   },
   devServer: {
@@ -56,7 +60,7 @@ module.exports = {
         target: 'http://localhost:8080',
         secure: false,
       },
-    }
+    },
   },
   plugins: [
     new CleanWebpackPlugin([DEST]),
