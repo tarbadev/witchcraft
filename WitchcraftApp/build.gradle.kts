@@ -43,6 +43,13 @@ dependencies {
     compile("org.jsoup:jsoup:1.11.2")
     compile("org.flywaydb:flyway-core:5.2.3")
     compile("com.fasterxml.jackson.module:jackson-module-kotlin:2.9.8")
+    compile("javax.measure:unit-api:2.0-PRD")
+    compile("tec.units:unit-ri:1.0.3")
+
+    compile("si.uom:si-quantity:1.2")
+    compile("systems.uom:systems-common:1.0")
+
+
     testCompile("org.springframework.boot:spring-boot-starter-test:${extra["springBootVersion"]}") {
         exclude("junit")
         exclude("org.hamcrest")

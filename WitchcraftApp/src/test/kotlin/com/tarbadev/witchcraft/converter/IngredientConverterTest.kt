@@ -19,9 +19,9 @@ class IngredientConverterTest {
     }
 
     @Test
-    fun addToHighestUnit() {
-        val ingredientOz = Ingredient(quantity = 10.0, unit = UnitConverter.UnitName.OZ.name)
+    fun addToHighestUnit_MlToOz() {
         val ingredientMl = Ingredient(quantity = 10.0, unit = UnitConverter.UnitName.ML.name)
+        val ingredientOz = Ingredient(quantity = 10.0, unit = UnitConverter.UnitName.OZ.name)
         val expectedIngredient = Ingredient(unit = UnitConverter.UnitName.OZ.name, quantity = 10.33814)
 
         whenever(unitConverter.convertToHighestUnit(ingredientMl.quantity, ingredientMl.unit, ingredientOz.unit))

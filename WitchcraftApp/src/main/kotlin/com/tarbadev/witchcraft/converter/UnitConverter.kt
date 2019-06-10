@@ -1,7 +1,10 @@
 package com.tarbadev.witchcraft.converter
 
 import org.springframework.stereotype.Component
+import tech.units.indriya.ComparableQuantity
 import java.util.*
+import java.util.AbstractMap.SimpleEntry
+import javax.measure.quantity.Volume
 
 @Component
 class UnitConverter {
@@ -58,14 +61,14 @@ class UnitConverter {
     return converter
   }
 
-  fun convertToHighestUnit(quantity: Double, unitIn: String, otherUnit: String): AbstractMap.SimpleEntry<String, Double> {
+  fun convertToHighestUnit(quantity: Double, unitIn: String, otherUnit: String): SimpleEntry<String, Double> {
     val conversionFactors = getConversionFactors(quantity, unitIn, otherUnit)
 
     return if (conversionFactors.unitOut == unitIn) {
-      AbstractMap.SimpleEntry(conversionFactors.unitOut, conversionFactors.quantity)
+      SimpleEntry(conversionFactors.unitOut, conversionFactors.quantity)
     } else {
       val converter = getConverter(conversionFactors.unitIn, conversionFactors.unitOut)
-      AbstractMap.SimpleEntry(conversionFactors.unitOut, converter!!.convert(conversionFactors.quantity))
+      SimpleEntry(conversionFactors.unitOut, converter!!.convert(conversionFactors.quantity))
     }
   }
 
@@ -95,6 +98,14 @@ class UnitConverter {
     }
 
     return ConversionFactors(unitIn, quantity, unitOut)
+  }
+
+  fun convertToHighestUnit(input1: ComparableQuantity<Volume>, input2: ComparableQuantity<Volume>): ComparableQuantity<Volume> {
+    return if (input1.isGreaterThanOrEqualTo(input2)) {
+      input1.add(input2)
+    } else {
+      input2.add(input1)
+    }
   }
 
   private data class ConversionFactors(
