@@ -1,5 +1,8 @@
 package com.tarbadev.witchcraft.recipes.persistence.repository
 
+import com.tarbadev.witchcraft.converter.liter
+import com.tarbadev.witchcraft.converter.milliliter
+import com.tarbadev.witchcraft.converter.unit
 import com.tarbadev.witchcraft.recipes.domain.entity.Ingredient
 import com.tarbadev.witchcraft.recipes.domain.entity.Recipe
 import com.tarbadev.witchcraft.recipes.domain.entity.Step
@@ -62,8 +65,8 @@ class DatabaseRecipeRepositoryTest(
         val recipe = Recipe(
             name = "Lasagna",
             ingredients = asList(
-                Ingredient(),
-                Ingredient()
+                Ingredient(quantity = 1.unit),
+                Ingredient(quantity = 1.unit)
             ),
             steps = emptyList()
         )
@@ -74,8 +77,8 @@ class DatabaseRecipeRepositoryTest(
             id = returnedRecipe.id,
             name = "lasagna",
             ingredients = asList(
-                Ingredient(id = returnedRecipe.ingredients[0].id),
-                Ingredient(id = returnedRecipe.ingredients[1].id)
+                Ingredient(id = returnedRecipe.ingredients[0].id, quantity = 1.unit),
+                Ingredient(id = returnedRecipe.ingredients[1].id, quantity = 1.unit)
             ),
             steps = emptyList()
         )
@@ -266,8 +269,7 @@ class DatabaseRecipeRepositoryTest(
                     Ingredient(
                         id = ingredientEntity.id,
                         name = ingredientEntity.name,
-                        quantity = ingredientEntity.quantity,
-                        unit = ingredientEntity.unit
+                        quantity = ingredientEntity.quantity.liter
                     )
                 },
             steps = recipeEntity.steps

@@ -1,5 +1,6 @@
 package com.tarbadev.witchcraft.carts.domain.entity
 
+import com.tarbadev.witchcraft.converter.getUnitShortName
 import com.tarbadev.witchcraft.recipes.domain.entity.Ingredient
 
 data class Item(
@@ -14,8 +15,8 @@ data class Item(
       return Item(
           0,
           ingredient.name,
-          ingredient.quantity,
-          ingredient.unit,
+          ingredient.quantity.getValue().toDouble(),
+          getUnitShortName(ingredient.quantity),
           true
       )
     }

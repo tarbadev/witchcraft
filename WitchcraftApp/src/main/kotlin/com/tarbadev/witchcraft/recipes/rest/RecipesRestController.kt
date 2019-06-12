@@ -1,5 +1,6 @@
 package com.tarbadev.witchcraft.recipes.rest
 
+import com.tarbadev.witchcraft.converter.getQuantity
 import com.tarbadev.witchcraft.recipes.domain.entity.Ingredient
 import com.tarbadev.witchcraft.recipes.domain.entity.Recipe
 import com.tarbadev.witchcraft.recipes.domain.entity.Step
@@ -8,6 +9,7 @@ import com.tarbadev.witchcraft.recipes.rest.entity.*
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import tech.units.indriya.ComparableQuantity
 
 @RestController
 @RequestMapping("/api/recipes")
@@ -67,8 +69,7 @@ class RecipesRestController(
                 Ingredient(
                     id = ingredientModifyForm.id,
                     name = ingredientModifyForm.name,
-                    unit = ingredientModifyForm.unit,
-                    quantity = ingredientModifyForm.quantity
+                    quantity = getQuantity(ingredientModifyForm.unit, ingredientModifyForm.quantity)
                 )
             },
             steps = recipeModifyRequest.steps.map { stepModifyForm ->

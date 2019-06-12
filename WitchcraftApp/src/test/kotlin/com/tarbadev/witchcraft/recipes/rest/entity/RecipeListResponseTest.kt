@@ -1,5 +1,6 @@
 package com.tarbadev.witchcraft.recipes.rest.entity
 
+import com.tarbadev.witchcraft.converter.pound
 import com.tarbadev.witchcraft.recipes.domain.entity.Ingredient
 import com.tarbadev.witchcraft.recipes.domain.entity.Recipe
 import com.tarbadev.witchcraft.recipes.domain.entity.Step
@@ -18,8 +19,7 @@ class RecipeListResponseTest {
             ingredients = listOf(Ingredient(
                 id = 10,
                 name = "Raclette cheese",
-                quantity = 2.0,
-                unit = "lb"
+                quantity = 2.pound
             )),
             steps = listOf(Step(
                 id = 20,

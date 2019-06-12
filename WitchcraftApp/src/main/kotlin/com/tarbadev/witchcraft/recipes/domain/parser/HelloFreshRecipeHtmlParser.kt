@@ -25,7 +25,7 @@ class HelloFreshRecipeHtmlParser(
       )
 
   override val recipeNameSelector = "h1[data-test-id='recipeDetailFragment.recipe-name']"
-  override val imgUrlSelector = "img.fela-1f1h1of"
+  override val imgUrlSelector = "div > img"
   override val imgUrlAttribute = "src"
   override val ingredientSelector = "div.fela-1qz307e"
 

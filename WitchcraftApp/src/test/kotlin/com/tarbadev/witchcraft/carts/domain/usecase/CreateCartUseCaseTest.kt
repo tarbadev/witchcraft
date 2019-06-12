@@ -8,6 +8,9 @@ import com.tarbadev.witchcraft.carts.domain.entity.Cart
 import com.tarbadev.witchcraft.carts.domain.entity.Item
 import com.tarbadev.witchcraft.carts.domain.repository.CartRepository
 import com.tarbadev.witchcraft.converter.IngredientConverter
+import com.tarbadev.witchcraft.converter.milliliter
+import com.tarbadev.witchcraft.converter.ounce
+import com.tarbadev.witchcraft.converter.pound
 import com.tarbadev.witchcraft.recipes.domain.entity.Ingredient
 import com.tarbadev.witchcraft.recipes.domain.entity.Recipe
 import org.junit.jupiter.api.BeforeEach
@@ -35,13 +38,11 @@ class CreateCartUseCaseTest {
             ingredients = asList(
                 Ingredient(
                     name = "Ingredient 1",
-                    quantity = 2.2,
-                    unit = "lb"
+                    quantity = 2.2.pound
                 ),
                 Ingredient(
                     name = "Ingredient 2",
-                    quantity = 10.0,
-                    unit = "oz"
+                    quantity = 10.ounce
                 )
             ),
             steps = emptyList()
@@ -71,13 +72,11 @@ class CreateCartUseCaseTest {
                 ingredients = asList(
                     Ingredient(
                         name = "Ingredient 1",
-                        quantity = 1.2,
-                        unit = "lb"
+                        quantity = 1.2.pound
                     ),
                     Ingredient(
                         name = "Ingredient 2",
-                        quantity = 10.0,
-                        unit = "oz"
+                        quantity = 10.ounce
                     )
                 ),
                 steps = emptyList()
@@ -86,13 +85,11 @@ class CreateCartUseCaseTest {
                 ingredients = asList(
                     Ingredient(
                         name = "Ingredient 1",
-                        quantity = 2.2,
-                        unit = "lb"
+                        quantity = 2.2.pound
                     ),
                     Ingredient(
                         name = "Ingredient 2",
-                        quantity = 10.0,
-                        unit = "ml"
+                        quantity = 10.milliliter
                     )
                 ),
                 steps = emptyList()
@@ -118,7 +115,7 @@ class CreateCartUseCaseTest {
         )
 
         whenever(ingredientConverter.addToHighestUnit(recipes[0].ingredients[1], recipes[1].ingredients[1]))
-            .thenReturn(Ingredient(name = "Ingredient 2", quantity = 10.33814, unit = "oz"))
+            .thenReturn(Ingredient(name = "Ingredient 2", quantity = 10.33814.ounce))
         whenever(cartRepository.save(cart)).thenReturn(cart)
 
         assertEquals(cart, subject.execute(recipes))

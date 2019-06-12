@@ -4,9 +4,9 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.nhaarman.mockitokotlin2.never
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
-import com.tarbadev.witchcraft.TestResources
+import com.tarbadev.witchcraft.converter.gram
+import com.tarbadev.witchcraft.converter.unit
 import com.tarbadev.witchcraft.recipes.domain.entity.Ingredient
-import com.tarbadev.witchcraft.recipes.domain.entity.Notes
 import com.tarbadev.witchcraft.recipes.domain.entity.Recipe
 import com.tarbadev.witchcraft.recipes.domain.entity.Step
 import com.tarbadev.witchcraft.recipes.domain.usecase.*
@@ -156,8 +156,7 @@ class RecipesRestControllerTest(
               Ingredient(
                   id = ingredientModifyRequest.id,
                   name = ingredientModifyRequest.name,
-                  unit = ingredientModifyRequest.unit,
-                  quantity = ingredientModifyRequest.quantity
+                  quantity = 0.unit
               )
             },
         steps = recipeModifyRequest.steps

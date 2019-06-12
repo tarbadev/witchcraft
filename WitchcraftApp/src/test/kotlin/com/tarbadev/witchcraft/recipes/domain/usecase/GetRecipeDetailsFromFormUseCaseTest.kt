@@ -3,6 +3,10 @@ package com.tarbadev.witchcraft.recipes.domain.usecase
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.reset
 import com.nhaarman.mockitokotlin2.whenever
+import com.tarbadev.witchcraft.converter.cup
+import com.tarbadev.witchcraft.converter.tablespoon
+import com.tarbadev.witchcraft.converter.teaspoon
+import com.tarbadev.witchcraft.converter.unit
 import com.tarbadev.witchcraft.recipes.domain.entity.Ingredient
 import com.tarbadev.witchcraft.recipes.domain.entity.Recipe
 import com.tarbadev.witchcraft.recipes.domain.entity.Step
@@ -37,18 +41,15 @@ class GetRecipeDetailsFromFormUseCaseTest {
 
         val ingredient1 = Ingredient(
             name = "sugar",
-            quantity = 10.0,
-            unit = "tbsp"
+            quantity = 10.tablespoon
         )
         val ingredient2 = Ingredient(
             name = "olive oil",
-            quantity = 0.5,
-            unit = "cup"
+            quantity = 0.5.cup
         )
         val ingredient3 = Ingredient(
             name = "lemon",
-            quantity = 1.0,
-            unit = ""
+            quantity = 1.unit
         )
         val recipe = Recipe(
             name = name,
@@ -84,23 +85,19 @@ class GetRecipeDetailsFromFormUseCaseTest {
 
         val ingredient1 = Ingredient(
             name = "sugar",
-            quantity = 10.0,
-            unit = "tbsp"
+            quantity = 10.tablespoon
         )
         val ingredient2 = Ingredient(
             name = "olive oil",
-            quantity = 0.5,
-            unit = "cup"
+            quantity = 0.5.cup
         )
         val ingredient3 = Ingredient(
             name = "olive oil",
-            quantity = 3.0,
-            unit = "tsp"
+            quantity = 3.teaspoon
         )
         val ingredient4 = Ingredient(
             name = "lemon",
-            quantity = 1.0,
-            unit = ""
+            quantity = 1.unit
         )
         val allIngredients = asList(
             ingredient1,
@@ -112,18 +109,15 @@ class GetRecipeDetailsFromFormUseCaseTest {
         val expectedIngredients = Arrays.asList(
             Ingredient(
                 name = "sugar",
-                quantity = 10.0,
-                unit = "tbsp"
+                quantity = 10.tablespoon
             ),
             Ingredient(
                 name = "olive oil",
-                quantity = 0.5625,
-                unit = "cup"
+                quantity = 0.5625.cup
             ),
             Ingredient(
                 name = "lemon",
-                quantity = 1.0,
-                unit = ""
+                quantity = 1.unit
             )
         )
         val recipe = Recipe(

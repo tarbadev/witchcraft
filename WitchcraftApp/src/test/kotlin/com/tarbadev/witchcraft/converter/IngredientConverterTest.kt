@@ -1,46 +1,47 @@
 package com.tarbadev.witchcraft.converter
 
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.reset
-import com.nhaarman.mockitokotlin2.whenever
+import com.tarbadev.witchcraft.converter.IngredientConverter.IncompatibleIngredientUnitException
 import com.tarbadev.witchcraft.recipes.domain.entity.Ingredient
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.BeforeEach
+import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
-import java.util.*
 
 class IngredientConverterTest {
-    private val unitConverter: UnitConverter = mock()
-    private var subject: IngredientConverter = IngredientConverter(unitConverter)
+  private var subject: IngredientConverter = IngredientConverter()
 
-    @BeforeEach
-    fun setUp() {
-        reset(unitConverter)
-    }
+  @Test
+  fun addToHighestUnit_CompatibleUnits() {
+    val ingredientMl = Ingredient(quantity = 10.milliliter)
+    val ingredientOz = Ingredient(quantity = 10.fluid_ounce)
+    val expectedIngredient = Ingredient(quantity = 10.33814022701843.fluid_ounce)
 
-    @Test
-    fun addToHighestUnit_MlToOz() {
-        val ingredientMl = Ingredient(quantity = 10.0, unit = UnitConverter.UnitName.ML.name)
-        val ingredientOz = Ingredient(quantity = 10.0, unit = UnitConverter.UnitName.OZ.name)
-        val expectedIngredient = Ingredient(unit = UnitConverter.UnitName.OZ.name, quantity = 10.33814)
+    assertThat(subject.addToHighestUnit(ingredientMl, ingredientOz)).isEqualTo(expectedIngredient)
+  }
 
-        whenever(unitConverter.convertToHighestUnit(ingredientMl.quantity, ingredientMl.unit, ingredientOz.unit))
-            .thenReturn(AbstractMap.SimpleEntry(UnitConverter.UnitName.OZ.name, expectedIngredient.quantity - ingredientOz.quantity))
+  @Test
+  fun addToHighestUnit_IncompatibleUnits_OuncesForIngredient1() {
+    val ingredientOz = Ingredient(quantity = 10.ounce)
+    val ingredientMl = Ingredient(quantity = 10.milliliter)
+    val expectedIngredient = Ingredient(quantity = 10.33814022701843.fluid_ounce)
 
-        assertEquals(expectedIngredient, subject.addToHighestUnit(ingredientMl, ingredientOz))
-    }
+    assertThat(subject.addToHighestUnit(ingredientOz, ingredientMl)).isEqualTo(expectedIngredient)
+  }
 
-    @Test
-    fun addToHighestUnit_OzToMl() {
-        val ingredientOz = Ingredient(quantity = 10.0, unit = UnitConverter.UnitName.OZ.name)
-        val ingredientMl = Ingredient(quantity = 10.0, unit = UnitConverter.UnitName.ML.name)
-        val expectedIngredient = Ingredient(unit = UnitConverter.UnitName.OZ.name, quantity = 10.33814)
+  @Test
+  fun addToHighestUnit_IncompatibleUnits_OuncesForIngredient2() {
+    val ingredientOz = Ingredient(quantity = 10.ounce)
+    val ingredientMl = Ingredient(quantity = 10.milliliter)
+    val expectedIngredient = Ingredient(quantity = 10.33814022701843.fluid_ounce)
 
-        whenever(unitConverter.convertToHighestUnit(ingredientOz.quantity, ingredientOz.unit, ingredientMl.unit))
-            .thenReturn(AbstractMap.SimpleEntry(UnitConverter.UnitName.OZ.name, ingredientOz.quantity))
-        whenever(unitConverter.convert(ingredientMl.quantity, ingredientMl.unit, ingredientOz.unit))
-            .thenReturn(expectedIngredient.quantity - ingredientOz.quantity)
+    assertThat(subject.addToHighestUnit(ingredientMl, ingredientOz)).isEqualTo(expectedIngredient)
+  }
 
-        assertEquals(expectedIngredient, subject.addToHighestUnit(ingredientOz, ingredientMl))
-    }
+  @Test
+  fun addToHighestUnit_IncompatibleUnits_ThrowsWhenDoesNotKnowWhatToDo() {
+    val ingredientOz = Ingredient(quantity = 10.gram)
+    val ingredientMl = Ingredient(quantity = 10.milliliter)
+    val expectedException = IncompatibleIngredientUnitException(ingredientMl, ingredientOz)
+
+    assertThatThrownBy { subject.addToHighestUnit(ingredientMl, ingredientOz) }.isEqualTo(expectedException)
+  }
 }

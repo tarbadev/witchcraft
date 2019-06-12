@@ -5,6 +5,7 @@ import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.reset
 import com.nhaarman.mockitokotlin2.whenever
 import com.tarbadev.witchcraft.TestResources
+import com.tarbadev.witchcraft.converter.*
 import com.tarbadev.witchcraft.recipes.domain.entity.Ingredient
 import com.tarbadev.witchcraft.recipes.domain.usecase.ConvertAndAddSameIngredientUseCase
 import com.tarbadev.witchcraft.recipes.domain.usecase.IngredientFromStringUseCase
@@ -22,67 +23,59 @@ class HelloFreshRecipeHtmlParserTest {
 
   private val ingredient1 = Ingredient(
       name = "Red Onion",
-      quantity = 1.0
+      quantity = 1.unit
   )
   private val ingredient2 = Ingredient(
       name = "Blackening Spice",
-      quantity = 1.0,
-      unit = "tbsp"
+      quantity = 1.tablespoon
   )
   private val ingredient3 = Ingredient(
       name = "Roma Tomato",
-      quantity = 1.0
+      quantity = 1.unit
   )
   private val ingredient4 = Ingredient(
       name = "Flour Tortilla",
-      quantity = 2.0
+      quantity = 2.unit
   )
   private val ingredient5 = Ingredient(
       name = "Mexican Cheese Blend",
-      quantity = 0.5,
-      unit = "cup"
+      quantity = 0.5.cup
   )
   private val ingredient6 = Ingredient(
       name = "Chicken Breast Strips",
-      quantity = 10.0,
-      unit = "oz"
+      quantity = 10.ounce
   )
   private val ingredient7 = Ingredient(
       name = "Lime",
-      quantity = 1.0
+      quantity = 1.unit
   )
   private val ingredient8 = Ingredient(
       name = "Sour Cream",
-      quantity = 2.0,
-      unit = "tbsp"
+      quantity = 2.tablespoon
   )
   private val ingredient9 = Ingredient(
       name = "Mozzarella Cheese",
-      quantity = 0.5,
-      unit = "cup"
+      quantity = 0.5.cup
   )
   private val ingredient10 = Ingredient(
       name = "Hot Sauce",
-      quantity = 1.0,
-      unit = "tsp"
+      quantity = 1.teaspoon
   )
   private val ingredient11 = Ingredient(
       name = "Vegetable Oil",
-      quantity = 4.0,
-      unit = "tsp"
+      quantity = 4.teaspoon
   )
   private val ingredient12 = Ingredient(
       name = "Butter",
-      quantity = 2.0,
-      unit = "tbsp"
+      quantity = 2.tablespoon
   )
   private val ingredient13 = Ingredient(
       name = "Salt",
-      quantity = 1.0
+      quantity = 1.unit
   )
   private val ingredient14 = Ingredient(
       name = "Pepper",
-      quantity = 1.0
+      quantity = 1.unit
   )
 
   @BeforeEach
@@ -94,7 +87,7 @@ class HelloFreshRecipeHtmlParserTest {
         ingredientFromStringUseCase
     )
 
-    whenever(ingredientFromStringUseCase.execute(any())).thenReturn(Ingredient())
+    whenever(ingredientFromStringUseCase.execute(any())).thenReturn(Ingredient(quantity = 1.unit))
   }
 
   @Test

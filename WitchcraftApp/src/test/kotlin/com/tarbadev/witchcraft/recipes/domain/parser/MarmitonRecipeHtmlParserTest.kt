@@ -5,6 +5,10 @@ import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.reset
 import com.nhaarman.mockitokotlin2.whenever
 import com.tarbadev.witchcraft.TestResources
+import com.tarbadev.witchcraft.converter.centiliter
+import com.tarbadev.witchcraft.converter.gram
+import com.tarbadev.witchcraft.converter.tablespoon
+import com.tarbadev.witchcraft.converter.unit
 import com.tarbadev.witchcraft.recipes.domain.entity.Ingredient
 import com.tarbadev.witchcraft.recipes.domain.usecase.ConvertAndAddSameIngredientUseCase
 import com.tarbadev.witchcraft.recipes.domain.usecase.IngredientFromStringUseCase
@@ -22,37 +26,31 @@ class MarmitonRecipeHtmlParserTest {
 
   private val ingredient1 = Ingredient(
       name = "Farine",
-      quantity = 300.0,
-      unit = "g"
+      quantity = 300.gram
   )
   private val ingredient2 = Ingredient(
       name = "Oeufs entiers",
-      quantity = 3.0
+      quantity = 3.unit
   )
   private val ingredient3 = Ingredient(
       name = "Sucre",
-      quantity = 3.0,
-      unit = "tbsp"
+      quantity = 3.tablespoon
   )
   private val ingredient4 = Ingredient(
       name = "Huile",
-      quantity = 2.0,
-      unit = "tbsp"
+      quantity = 2.tablespoon
   )
   private val ingredient5 = Ingredient(
       name = "Beurre fondu",
-      quantity = 50.0,
-      unit = "g"
+      quantity = 50.gram
   )
   private val ingredient6 = Ingredient(
       name = "Lait",
-      quantity = 60.0,
-      unit = "cl"
+      quantity = 60.centiliter
   )
   private val ingredient7 = Ingredient(
       name = "Rhum",
-      quantity = 5.0,
-      unit = "cl"
+      quantity = 5.centiliter
   )
 
   @BeforeEach
@@ -64,7 +62,7 @@ class MarmitonRecipeHtmlParserTest {
         ingredientFromStringUseCase
     )
 
-    whenever(ingredientFromStringUseCase.execute(any())).thenReturn(Ingredient())
+    whenever(ingredientFromStringUseCase.execute(any())).thenReturn(Ingredient(quantity = 1.unit))
   }
 
   @Test

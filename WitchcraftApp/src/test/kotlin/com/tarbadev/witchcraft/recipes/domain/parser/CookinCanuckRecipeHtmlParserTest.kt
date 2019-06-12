@@ -5,6 +5,7 @@ import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.reset
 import com.nhaarman.mockitokotlin2.whenever
 import com.tarbadev.witchcraft.TestResources
+import com.tarbadev.witchcraft.converter.*
 import com.tarbadev.witchcraft.recipes.domain.entity.Ingredient
 import com.tarbadev.witchcraft.recipes.domain.entity.Step
 import com.tarbadev.witchcraft.recipes.domain.usecase.ConvertAndAddSameIngredientUseCase
@@ -23,48 +24,39 @@ class CookinCanuckRecipeHtmlParserTest {
 
     private val ingredient1 = Ingredient(
         name = "Little Potato Co. Creamer potatoes (I used Dynamic Duo)",
-        quantity = 1.5,
-        unit = "lb"
+        quantity = 1.5.pound
     )
     private val ingredient2 = Ingredient(
         name = "soft goat cheese (chevre), room temperature",
-        quantity = 2.0,
-        unit = "oz"
+        quantity = 2.ounce
     )
     private val ingredient3 = Ingredient(
         name = "diced roasted red pepper",
-        quantity = 3.0,
-        unit = "tbsp"
+        quantity = 3.tablespoon
     )
     private val ingredient4 = Ingredient(
         name = "pitted Kalamata olives, diced",
-        quantity = 4.0,
-        unit = ""
+        quantity = 4.unit
     )
     private val ingredient5 = Ingredient(
         name = "minced flat-leaf parsley",
-        quantity = 1.0,
-        unit = "tbsp"
+        quantity = 1.tablespoon
     )
     private val ingredient6 = Ingredient(
         name = "soft goat cheese (chevre), room temperature",
-        quantity = 2.0,
-        unit = "oz"
+        quantity = 2.ounce
     )
     private val ingredient7 = Ingredient(
         name = "pistachios halves, divided",
-        quantity = 3.0,
-        unit = "tbsp"
+        quantity = 3.tablespoon
     )
     private val ingredient8 = Ingredient(
         name = "honey",
-        quantity = 1.0,
-        unit = "tsp"
+        quantity = 1.teaspoon
     )
     private val ingredient9 = Ingredient(
         name = "ground cinnamon",
-        quantity = 0.25,
-        unit = "tsp"
+        quantity = 0.25.teaspoon
     )
 
     @BeforeEach
@@ -76,7 +68,7 @@ class CookinCanuckRecipeHtmlParserTest {
             ingredientFromStringUseCase
         )
 
-        whenever(ingredientFromStringUseCase.execute(any())).thenReturn(Ingredient())
+        whenever(ingredientFromStringUseCase.execute(any())).thenReturn(Ingredient(quantity = 1.unit))
     }
 
     @Test

@@ -1,5 +1,6 @@
 package com.tarbadev.witchcraft.recipes.rest.entity
 
+import com.tarbadev.witchcraft.converter.getUnitShortName
 import com.tarbadev.witchcraft.recipes.domain.entity.Ingredient
 
 data class IngredientResponse(
@@ -13,8 +14,8 @@ data class IngredientResponse(
         IngredientResponse(
             id = ingredient.id,
             name = ingredient.name,
-            quantity = "%.3f".format(ingredient.quantity).toDouble(),
-            unit = ingredient.unit
+            quantity = "%.3f".format(ingredient.quantity.getValue().toDouble()).toDouble(),
+            unit = getUnitShortName(ingredient.quantity)
         )
   }
 }

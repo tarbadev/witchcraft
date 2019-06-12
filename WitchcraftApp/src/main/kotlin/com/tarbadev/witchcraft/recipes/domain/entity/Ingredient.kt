@@ -1,13 +1,22 @@
 package com.tarbadev.witchcraft.recipes.domain.entity
 
-data class Ingredient (
+import com.tarbadev.witchcraft.converter.getQuantity
+import com.tarbadev.witchcraft.converter.getUnitShortName
+import tech.units.indriya.ComparableQuantity
+
+
+data class Ingredient(
     val id: Int = 0,
     val name: String = "",
-    val quantity: Double = 0.0,
-    val unit: String = ""
+    val quantity: ComparableQuantity<*>
 ) {
 
-    fun addQuantity(quantity: Double): Ingredient {
-        return this.copy(quantity = this.quantity + quantity)
-    }
+  fun addQuantity(quantity: ComparableQuantity<*>): Ingredient {
+    return this.copy(
+        quantity = getQuantity(
+            getUnitShortName(this.quantity),
+            this.quantity.getValue().toDouble().plus(quantity.getValue().toDouble())
+        )
+    )
+  }
 }

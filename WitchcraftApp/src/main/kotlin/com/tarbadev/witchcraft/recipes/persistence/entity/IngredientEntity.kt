@@ -1,5 +1,7 @@
 package com.tarbadev.witchcraft.recipes.persistence.entity
 
+import com.tarbadev.witchcraft.converter.getQuantity
+import com.tarbadev.witchcraft.converter.getUnitShortName
 import com.tarbadev.witchcraft.recipes.domain.entity.Ingredient
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
@@ -18,16 +20,15 @@ data class IngredientEntity(
     constructor(ingredient: Ingredient) : this(
         id = ingredient.id,
         name = ingredient.name,
-        quantity = ingredient.quantity,
-        unit = ingredient.unit
+        quantity = ingredient.quantity.getValue().toDouble(),
+        unit = getUnitShortName(ingredient.quantity)
     )
 
     fun ingredient(): Ingredient {
         return Ingredient(
             id = id,
             name = name,
-            quantity = quantity,
-            unit = unit
+            quantity = getQuantity(unit, quantity)
         )
     }
 }

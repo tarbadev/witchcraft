@@ -2,21 +2,41 @@ package com.tarbadev.witchcraft.converter
 
 import com.tarbadev.witchcraft.recipes.domain.entity.Ingredient
 import org.springframework.stereotype.Component
+import systems.uom.common.USCustomary.OUNCE
+import tech.units.indriya.ComparableQuantity
 
 @Component
-class IngredientConverter(private val unitConverter: UnitConverter) {
+class IngredientConverter() {
 
   fun addToHighestUnit(ingredient1: Ingredient, ingredient2: Ingredient): Ingredient {
-    val highestUnit = unitConverter.convertToHighestUnit(ingredient1.quantity, ingredient1.unit, ingredient2.unit)
-    return if (highestUnit.key == ingredient1.unit) {
-      val result = unitConverter.convert(ingredient2.quantity, ingredient2.unit, ingredient1.unit)
-      ingredient1.addQuantity(result)
-    } else
-      Ingredient(
-          name = ingredient1.name,
-          unit = highestUnit.key,
-          quantity = highestUnit.value
+    when {
+      ingredient1.quantity.getUnit().isCompatible(ingredient2.quantity.getUnit()) -> {
+        val result = if ((ingredient1.quantity as ComparableQuantity<Nothing>).isGreaterThanOrEqualTo(ingredient2.quantity as ComparableQuantity<Nothing>)) {
+          ingredient1.quantity.add(ingredient2.quantity)
+        } else {
+          ingredient2.quantity.add(ingredient1.quantity)
+        }
+
+        return Ingredient(
+            name = ingredient1.name,
+            quantity = result
+        )
+      }
+      ingredient1.quantity.getUnit() == OUNCE -> return addToHighestUnit(
+          getIngredientWithFluidOunceUnit(ingredient1),
+          ingredient2
       )
-          .addQuantity(ingredient2.quantity)
+      ingredient2.quantity.getUnit() == OUNCE -> return addToHighestUnit(
+          ingredient1,
+          getIngredientWithFluidOunceUnit(ingredient2)
+      )
+      else -> throw IncompatibleIngredientUnitException(ingredient1, ingredient2)
+    }
   }
+
+  private fun getIngredientWithFluidOunceUnit(ingredient: Ingredient) =
+      ingredient.copy(quantity = getQuantity("fl oz", ingredient.quantity.getValue().toDouble()))
+
+  data class IncompatibleIngredientUnitException(val ingredient1: Ingredient, val ingredient2: Ingredient)
+    : Exception("Cannot convert ${ingredient1.quantity.getUnit().getName()} and ${ingredient2.quantity.getUnit().getName()}, units are incompatible")
 }

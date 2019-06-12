@@ -1,234 +1,212 @@
 package com.tarbadev.witchcraft.recipes.domain.usecase
 
+import com.tarbadev.witchcraft.converter.*
 import com.tarbadev.witchcraft.recipes.domain.entity.Ingredient
-import org.junit.jupiter.api.Assertions.assertEquals
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 class IngredientFromStringUseCaseTest {
-    private lateinit var subject: IngredientFromStringUseCase
+  private lateinit var subject: IngredientFromStringUseCase
 
-    @BeforeEach
-    fun setUp() {
-        subject = IngredientFromStringUseCase()
-    }
+  @BeforeEach
+  fun setUp() {
+    subject = IngredientFromStringUseCase()
+  }
 
-    @Test
-    fun execute() {
-        val expectedIngredient = Ingredient(
-            name = "something",
-            quantity = 1.0,
-            unit = "cup"
-        )
-        assertEquals(expectedIngredient, subject.execute("1 cup something"))
-    }
+  @Test
+  fun execute() {
+    val expectedIngredient = Ingredient(
+        name = "something",
+        quantity = 1.cup
+    )
 
-    @Test
-    fun execute_transformsSpecialFractionCharacters() {
-        var expectedIngredient = Ingredient(
-            name = "something",
-            quantity = 1.0 / 2.0,
-            unit = "cup"
-        )
-        assertEquals(expectedIngredient, subject.execute("½ cup something"))
+    assertThat(subject.execute("1 cup something")).isEqualTo(expectedIngredient)
+  }
 
-        expectedIngredient = Ingredient(
-            name = "something",
-            quantity = 1.0 / 3.0,
-            unit = "cup"
-        )
-        assertEquals(expectedIngredient, subject.execute("⅓ cup something"))
+  @Test
+  fun execute_transformsSpecialFractionCharacters() {
+    var expectedIngredient = Ingredient(
+        name = "something",
+        quantity = (1.0 / 2.0).cup
+    )
+    assertThat(subject.execute("½ cup something")).isEqualTo(expectedIngredient)
 
-        expectedIngredient = Ingredient(
-            name = "something",
-            quantity = 2.0 / 3.0,
-            unit = "cup"
-        )
-        assertEquals(expectedIngredient, subject.execute("⅔ cup something"))
+    expectedIngredient = Ingredient(
+        name = "something",
+        quantity = (1.0 / 3.0).cup
+    )
+    assertThat(subject.execute("⅓ cup something")).isEqualTo(expectedIngredient)
 
-        expectedIngredient = Ingredient(
-            name = "something",
-            quantity = 1.0 / 3.0,
-            unit = "cup"
-        )
-        assertEquals(expectedIngredient, subject.execute("⅓ cup something"))
+    expectedIngredient = Ingredient(
+        name = "something",
+        quantity = (2.0 / 3.0).cup
+    )
+    assertThat(subject.execute("⅔ cup something")).isEqualTo(expectedIngredient)
 
-        expectedIngredient = Ingredient(
-            name = "something",
-            quantity = 1.0 / 4.0,
-            unit = "cup"
-        )
-        assertEquals(expectedIngredient, subject.execute("¼ cup something"))
+    expectedIngredient = Ingredient(
+        name = "something",
+        quantity = (1.0 / 3.0).cup
+    )
+    assertThat(subject.execute("⅓ cup something")).isEqualTo(expectedIngredient)
 
-        expectedIngredient = Ingredient(
-            name = "something",
-            quantity = 3.0 / 4.0,
-            unit = "cup"
-        )
-        assertEquals(expectedIngredient, subject.execute("¾ cup something"))
+    expectedIngredient = Ingredient(
+        name = "something",
+        quantity = (1.0 / 4.0).cup
+    )
+    assertThat(subject.execute("¼ cup something")).isEqualTo(expectedIngredient)
 
-        expectedIngredient = Ingredient(
-            name = "something",
-            quantity = 1.0 / 8.0,
-            unit = "cup"
-        )
-        assertEquals(expectedIngredient, subject.execute("⅛ cup something"))
-    }
+    expectedIngredient = Ingredient(
+        name = "something",
+        quantity = (3.0 / 4.0).cup
+    )
+    assertThat(subject.execute("¾ cup something")).isEqualTo(expectedIngredient)
 
-    @Test
-    fun execute_convertsLongUnitToShort() {
-        var expectedIngredient = Ingredient(
-            name = "something",
-            quantity = 1.0,
-            unit = "oz"
-        )
-        assertEquals(expectedIngredient, subject.execute("1 ounce something"))
+    expectedIngredient = Ingredient(
+        name = "something",
+        quantity = (1.0 / 8.0).cup
+    )
+    assertThat(subject.execute("⅛ cup something")).isEqualTo(expectedIngredient)
+  }
 
-        expectedIngredient = Ingredient(
-            name = "something",
-            quantity = 1.0,
-            unit = "lb"
-        )
-        assertEquals(expectedIngredient, subject.execute("1 pound something"))
+  @Test
+  fun execute_convertsLongUnitToShort() {
+    var expectedIngredient = Ingredient(
+        name = "something",
+        quantity = 1.ounce
+    )
+    assertThat(subject.execute("1 ounce something")).isEqualTo(expectedIngredient)
 
-        expectedIngredient = Ingredient(
-            name = "something",
-            quantity = 1.0,
-            unit = "tbsp"
-        )
-        assertEquals(expectedIngredient, subject.execute("1 tablespoon something"))
+    expectedIngredient = Ingredient(
+        name = "something",
+        quantity = 1.pound
+    )
+    assertThat(subject.execute("1 pound something")).isEqualTo(expectedIngredient)
 
-        expectedIngredient = Ingredient(
-            name = "something",
-            quantity = 1.0,
-            unit = "tsp"
-        )
-        assertEquals(expectedIngredient, subject.execute("1 teaspoon something"))
-    }
+    expectedIngredient = Ingredient(
+        name = "something",
+        quantity = 1.tablespoon
+    )
+    assertThat(subject.execute("1 tablespoon something")).isEqualTo(expectedIngredient)
 
-    @Test
-    fun execute_removesPluralForUnits() {
-        val expectedIngredient = Ingredient(
-            name = "something",
-            quantity = 1.0,
-            unit = "cup"
-        )
-        assertEquals(expectedIngredient, subject.execute("1 cups something"))
-    }
+    expectedIngredient = Ingredient(
+        name = "something",
+        quantity = 1.teaspoon
+    )
+    assertThat(subject.execute("1 teaspoon something")).isEqualTo(expectedIngredient)
+  }
 
-    @Test
-    fun execute_acceptsNoUnit() {
-        val expectedIngredient = Ingredient(
-            name = "something",
-            quantity = 1.0,
-            unit = ""
-        )
-        assertEquals(expectedIngredient, subject.execute("1 something"))
-    }
+  @Test
+  fun execute_removesPluralForUnits() {
+    val expectedIngredient = Ingredient(
+        name = "something",
+        quantity = 1.cup
+    )
+    assertThat(subject.execute("1 cups something")).isEqualTo(expectedIngredient)
+  }
 
-    @Test
-    fun execute_acceptsParenthesesInName() {
-        val expectedIngredient = Ingredient(
-            name = "(something)",
-            quantity = 1.0,
-            unit = "cup"
-        )
-        assertEquals(expectedIngredient, subject.execute("1 cup (something)"))
-    }
+  @Test
+  fun execute_acceptsNoUnit() {
+    val expectedIngredient = Ingredient(
+        name = "something",
+        quantity = 1.unit
+    )
+    assertThat(subject.execute("1 something")).isEqualTo(expectedIngredient)
+  }
 
-    @Test
-    fun execute_acceptsFractions() {
-        val expectedIngredient = Ingredient(
-            name = "something",
-            quantity = 1.5,
-            unit = "cup"
-        )
-        assertEquals(expectedIngredient, subject.execute("1 1/2 cup something"))
-    }
+  @Test
+  fun execute_acceptsParenthesesInName() {
+    val expectedIngredient = Ingredient(
+        name = "(something)",
+        quantity = 1.cup
+    )
+    assertThat(subject.execute("1 cup (something)")).isEqualTo(expectedIngredient)
+  }
 
-    @Test
-    fun execute_changesUnitToLowerButNotName() {
-        val expectedIngredient = Ingredient(
-            name = "Something",
-            quantity = 1.0,
-            unit = "cup"
-        )
-        assertEquals(expectedIngredient, subject.execute("1 Cup Something"))
-    }
+  @Test
+  fun execute_acceptsFractions() {
+    val expectedIngredient = Ingredient(
+        name = "something",
+        quantity = 1.5.cup
+    )
+    assertThat(subject.execute("1 1/2 cup something")).isEqualTo(expectedIngredient)
+  }
 
-    @Test
-    fun execute_removesPointAfterUnit() {
-        val expectedIngredient = Ingredient(
-            name = "Something",
-            quantity = 1.0,
-            unit = "lb"
-        )
-        assertEquals(expectedIngredient, subject.execute("1 lb. Something"))
-    }
+  @Test
+  fun execute_changesUnitToLowerButNotName() {
+    val expectedIngredient = Ingredient(
+        name = "Something",
+        quantity = 1.cup
+    )
+    assertThat(subject.execute("1 Cup Something")).isEqualTo(expectedIngredient)
+  }
 
-    @Test
-    fun execute_handlesSpecialSlash() {
-        val expectedIngredient = Ingredient(
-            name = "Something",
-            quantity = 0.5,
-            unit = "lb"
-        )
-        assertEquals(expectedIngredient, subject.execute("1⁄2 lb Something"))
-    }
+  @Test
+  fun execute_removesPointAfterUnit() {
+    val expectedIngredient = Ingredient(
+        name = "Something",
+        quantity = 1.pound
+    )
+    assertThat(subject.execute("1 lb. Something")).isEqualTo(expectedIngredient)
+  }
 
-    @Test
-    fun execute_supportsGrams() {
-        val expectedIngredient = Ingredient(
-            name = "farine",
-            quantity = 300.0,
-            unit = "g"
-        )
-        assertEquals(expectedIngredient, subject.execute("300 g de farine"))
-    }
+  @Test
+  fun execute_handlesSpecialSlash() {
+    val expectedIngredient = Ingredient(
+        name = "Something",
+        quantity = 0.5.pound
+    )
+    assertThat(subject.execute("1⁄2 lb Something")).isEqualTo(expectedIngredient)
+  }
 
-    @Test
-    fun execute_supportsCentiliters() {
-        val expectedIngredient = Ingredient(
-            name = "lait",
-            quantity = 250.0,
-            unit = "cl"
-        )
-        assertEquals(expectedIngredient, subject.execute("250 cl de lait"))
-    }
+  @Test
+  fun execute_supportsGrams() {
+    val expectedIngredient = Ingredient(
+        name = "farine",
+        quantity = 300.gram
+    )
+    assertThat(subject.execute("300 g de farine")).isEqualTo(expectedIngredient)
+  }
 
-    @Test
-    fun execute_supportsLiters() {
-        val expectedIngredient = Ingredient(
-            name = "lait",
-            quantity = 1.0,
-            unit = "l"
-        )
-        assertEquals(expectedIngredient, subject.execute("1 l de lait"))
-    }
+  @Test
+  fun execute_supportsCentiliters() {
+    val expectedIngredient = Ingredient(
+        name = "lait",
+        quantity = 250.centiliter
+    )
+    assertThat(subject.execute("250 cl de lait")).isEqualTo(expectedIngredient)
+  }
 
-    @Test
-    fun execute_supportsCuillereASoupe() {
-        var expectedIngredient = Ingredient(
-            name = "sucre",
-            quantity = 3.0,
-            unit = "tbsp"
-        )
-        assertEquals(expectedIngredient, subject.execute("3 cuillères à soupe de sucre"))
+  @Test
+  fun execute_supportsLiters() {
+    val expectedIngredient = Ingredient(
+        name = "lait",
+        quantity = 1.liter
+    )
+    assertThat(subject.execute("1 l de lait")).isEqualTo(expectedIngredient)
+  }
 
-        expectedIngredient = Ingredient(
-            name = "sucre",
-            quantity = 1.0,
-            unit = "tbsp"
-        )
-        assertEquals(expectedIngredient, subject.execute("1 cuillère à soupe de sucre"))
-    }
+  @Test
+  fun execute_supportsCuillereASoupe() {
+    var expectedIngredient = Ingredient(
+        name = "sucre",
+        quantity = 3.tablespoon
+    )
+    assertThat(subject.execute("3 cuillères à soupe de sucre")).isEqualTo(expectedIngredient)
 
-    @Test
-    fun execute_supportsAccents() {
-        val expectedIngredient = Ingredient(
-            name = "verre de bière",
-            quantity = 0.5
-        )
-        assertEquals(expectedIngredient, subject.execute("1/2 verre de bière"))
-    }
+    expectedIngredient = Ingredient(
+        name = "sucre",
+        quantity = 1.tablespoon
+    )
+    assertThat(subject.execute("1 cuillère à soupe de sucre")).isEqualTo(expectedIngredient)
+  }
+
+  @Test
+  fun execute_supportsAccents() {
+    val expectedIngredient = Ingredient(
+        name = "bière",
+        quantity = 0.5.verre
+    )
+    assertThat(subject.execute("1/2 verre de bière")).isEqualTo(expectedIngredient)
+  }
 }

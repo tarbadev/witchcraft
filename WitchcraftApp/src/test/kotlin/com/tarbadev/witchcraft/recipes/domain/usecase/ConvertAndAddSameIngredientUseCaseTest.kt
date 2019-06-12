@@ -4,6 +4,8 @@ import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.reset
 import com.nhaarman.mockitokotlin2.whenever
 import com.tarbadev.witchcraft.converter.IngredientConverter
+import com.tarbadev.witchcraft.converter.cup
+import com.tarbadev.witchcraft.converter.tablespoon
 import com.tarbadev.witchcraft.recipes.domain.entity.Ingredient
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
@@ -25,14 +27,13 @@ class ConvertAndAddSameIngredientUseCaseTest {
     @Test
     fun execute() {
         val allIngredients = Arrays.asList(
-            Ingredient(name = "olive oil", quantity = 0.5, unit = "cup"),
-            Ingredient(name = "olive oil", quantity = 3.0, unit = "tbsp")
+            Ingredient(name = "olive oil", quantity = 0.5.cup),
+            Ingredient(name = "olive oil", quantity = 3.tablespoon)
         )
 
         val expectedIngredient = Ingredient(
             name = "olive oil",
-            quantity = 0.5625,
-            unit = "cup"
+            quantity = 0.5625.cup
         )
 
         whenever(ingredientConverter.addToHighestUnit(allIngredients[0], allIngredients[1]))

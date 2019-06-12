@@ -1,5 +1,6 @@
 package com.tarbadev.witchcraft.recipes.rest.entity
 
+import com.tarbadev.witchcraft.converter.pound
 import com.tarbadev.witchcraft.recipes.domain.entity.Ingredient
 import com.tarbadev.witchcraft.recipes.domain.entity.Recipe
 import com.tarbadev.witchcraft.recipes.domain.entity.Step
@@ -12,8 +13,7 @@ class RecipeResponseTest {
     val ingredient = Ingredient(
         id = 10,
         name = "Raclette cheese",
-        quantity = 2.0,
-        unit = "lb"
+        quantity = 2.pound
     )
     val step = Step(
         id = 20,

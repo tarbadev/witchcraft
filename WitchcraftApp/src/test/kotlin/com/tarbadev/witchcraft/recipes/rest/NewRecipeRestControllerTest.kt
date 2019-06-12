@@ -1,10 +1,10 @@
 package com.tarbadev.witchcraft.recipes.rest
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.nhaarman.mockitokotlin2.never
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import com.tarbadev.witchcraft.TestResources
+import com.tarbadev.witchcraft.converter.unit
 import com.tarbadev.witchcraft.recipes.domain.entity.*
 import com.tarbadev.witchcraft.recipes.domain.usecase.*
 import com.tarbadev.witchcraft.recipes.rest.entity.*
@@ -19,7 +19,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
-import java.util.Arrays.asList
 
 
 @ExtendWith(SpringExtension::class)
@@ -74,7 +73,7 @@ class NewRecipeRestControllerTest(
         ingredients = recipeFormRequest.ingredients
             .split("\n")
             .dropLastWhile { it.isEmpty() }
-            .map { ingredient -> Ingredient(name = ingredient) },
+            .map { ingredient -> Ingredient(name = ingredient, quantity = 1.unit) },
         steps = recipeFormRequest.steps
             .split("\n")
             .dropLastWhile { it.isEmpty() }

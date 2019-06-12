@@ -1,5 +1,6 @@
 package com.tarbadev.witchcraft.recipes.rest.entity
 
+import com.tarbadev.witchcraft.converter.pound
 import com.tarbadev.witchcraft.recipes.domain.entity.Ingredient
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -10,8 +11,7 @@ class IngredientResponseTest {
     val ingredient = Ingredient(
         id = 10,
         name = "Raclette cheese",
-        quantity = 2.0,
-        unit = "lb"
+        quantity = 2.pound
     )
 
     val expectedIngredientResponse = IngredientResponse(
@@ -29,8 +29,7 @@ class IngredientResponseTest {
     val ingredient = Ingredient(
         id = 10,
         name = "Raclette cheese",
-        quantity = 2.5876,
-        unit = "lb"
+        quantity = 2.5876.pound
     )
 
     val expectedIngredientResponse = IngredientResponse(
