@@ -9,18 +9,18 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/api/weeks")
+@RequestMapping("/api/weeks/{year}/{weekNumber}")
 class WeekRestController(
     private val weekFromYearAndWeekNumberUseCase: WeekFromYearAndWeekNumberUseCase,
     private val saveWeekUseCase: SaveWeekUseCase
 ) {
 
-  @GetMapping("/{year}/{weekNumber}")
+  @GetMapping
   fun getWeek(@PathVariable year: Int?, @PathVariable weekNumber: Int?): WeekResponse {
     return WeekResponse.fromWeek(weekFromYearAndWeekNumberUseCase.execute(year, weekNumber))
   }
 
-  @PostMapping("/{year}/{weekNumber}")
+  @PostMapping
   fun saveWeek(@PathVariable year: Int, @PathVariable weekNumber: Int, @RequestBody week: WeekRequest): ResponseEntity<WeekResponse> {
     return if (week.weekNumber == weekNumber && week.year == year) {
       ResponseEntity.ok(WeekResponse.fromWeek(saveWeekUseCase.execute(week.toWeek())))
