@@ -19,7 +19,7 @@ object UnitHelper {
       UnitMapping(USCustomary.OUNCE, "oz", "getOunce"),
       UnitMapping(USCustomary.POUND, "lb", "getPound"),
       UnitMapping(CGS.GRAM, "g", "getGram"),
-      UnitMapping(AbstractUnit.ONE, "unit", "getUnit")
+      UnitMapping(AbstractUnit.ONE, "", "getUnit")
   )
 
   fun getQuantity(unit: String, quantity: Double): ComparableQuantity<*> {
