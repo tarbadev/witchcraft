@@ -1,7 +1,7 @@
 package com.tarbadev.witchcraft.recipes.domain.usecase
 
-import com.tarbadev.witchcraft.converter.SHORT_UNIT_NAME_MAPPING
-import com.tarbadev.witchcraft.converter.getQuantity
+import com.tarbadev.witchcraft.converter.UnitHelper.getQuantity
+import com.tarbadev.witchcraft.converter.UnitHelper.getUnitMappingByShortName
 import com.tarbadev.witchcraft.recipes.domain.entity.Ingredient
 import org.springframework.stereotype.Component
 import java.lang.Double.parseDouble
@@ -60,7 +60,7 @@ class IngredientFromStringUseCase {
         val tempUnit = matcher.group(4)
             .toLowerCase()
             .replace("\\.".toRegex(), "")
-        if (SHORT_UNIT_NAME_MAPPING[tempUnit] != null) {
+        if (getUnitMappingByShortName(tempUnit) != null) {
           unit = tempUnit
         } else if (tempUnit.isNotEmpty()) {
           name = tempUnit + matcher.group(5) + matcher.group(6)

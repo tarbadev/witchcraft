@@ -1,6 +1,6 @@
 package com.tarbadev.witchcraft.recipes.rest
 
-import com.tarbadev.witchcraft.converter.getQuantity
+import com.tarbadev.witchcraft.converter.UnitHelper.getQuantity
 import com.tarbadev.witchcraft.recipes.domain.entity.Ingredient
 import com.tarbadev.witchcraft.recipes.domain.entity.Recipe
 import com.tarbadev.witchcraft.recipes.domain.entity.Step

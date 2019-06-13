@@ -1,12 +1,13 @@
 package com.tarbadev.witchcraft.converter
 
+import com.tarbadev.witchcraft.converter.UnitHelper.getQuantity
 import com.tarbadev.witchcraft.recipes.domain.entity.Ingredient
 import org.springframework.stereotype.Component
 import systems.uom.common.USCustomary.OUNCE
 import tech.units.indriya.ComparableQuantity
 
 @Component
-class IngredientConverter() {
+class IngredientConverter {
 
   fun addToHighestUnit(ingredient1: Ingredient, ingredient2: Ingredient): Ingredient {
     when {
@@ -40,3 +41,4 @@ class IngredientConverter() {
   data class IncompatibleIngredientUnitException(val ingredient1: Ingredient, val ingredient2: Ingredient)
     : Exception("Cannot convert ${ingredient1.quantity.getUnit().getName()} and ${ingredient2.quantity.getUnit().getName()}, units are incompatible")
 }
+

@@ -1,6 +1,6 @@
 package com.tarbadev.witchcraft.carts.domain.entity
 
-import com.tarbadev.witchcraft.converter.getUnitShortName
+import com.tarbadev.witchcraft.converter.UnitHelper.getUnitShortName
 import com.tarbadev.witchcraft.recipes.domain.entity.Ingredient
 
 data class Item(

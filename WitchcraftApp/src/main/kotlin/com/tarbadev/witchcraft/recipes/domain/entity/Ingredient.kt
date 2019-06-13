@@ -1,7 +1,7 @@
 package com.tarbadev.witchcraft.recipes.domain.entity
 
-import com.tarbadev.witchcraft.converter.getQuantity
-import com.tarbadev.witchcraft.converter.getUnitShortName
+import com.tarbadev.witchcraft.converter.UnitHelper.getQuantity
+import com.tarbadev.witchcraft.converter.UnitHelper.getUnitShortName
 import tech.units.indriya.ComparableQuantity
 
 
