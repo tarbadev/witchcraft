@@ -17,11 +17,18 @@ import './RecipePage.css'
 import { Step } from 'src/recipes/components/Step'
 import { Ingredient } from 'src/recipes/components/Ingredient'
 
-import { setFavorite, deleteRecipe, updateNotes, showEditableNotes, hideEditableNotes } from 'src/recipes/actions/RecipeActions'
+import {
+  deleteRecipe,
+  hideEditableNotes,
+  setFavorite,
+  showEditableNotes,
+  updateNotes,
+} from 'src/recipes/actions/RecipeActions'
 import { setState } from 'src/RootReducer'
 import Paper from '@material-ui/core/Paper'
 import { onRecipeImageNotFoundError } from 'src/App'
 import CardMedia from '@material-ui/core/CardMedia'
+import { PageTitle } from '../../PageTitle'
 
 export const RecipePage = ({
   recipe,
@@ -93,6 +100,7 @@ export const RecipePage = ({
 
   return (
     <Grid container spacing={3}>
+      <PageTitle title={recipe.name} />
       <Grid item sm={12} name='title'>
         <Grid container justify='space-between'>
           <Grid item sm={8}>
@@ -108,7 +116,8 @@ export const RecipePage = ({
               <EditIcon className="editIcon" />
               Modify
             </Button>
-            <Button className="deleteButton" variant='contained' onClick={() => deleteRecipe(recipe.id)} disabled={isDeleting}>
+            <Button className="deleteButton" variant='contained' onClick={() => deleteRecipe(recipe.id)}
+                    disabled={isDeleting}>
               <DeleteIcon className="deleteIcon" />
               Delete
             </Button>

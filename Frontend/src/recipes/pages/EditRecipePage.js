@@ -9,6 +9,7 @@ import Typography from '@material-ui/core/Typography'
 import { setState } from 'src/RootReducer'
 
 import { updateRecipe } from 'src/recipes/actions/RecipeActions'
+import { PageTitle } from '../../PageTitle'
 
 export const EditRecipePage = ({ changeFormInput, form, submitForm }) => {
   const onFormSubmit = () => {
@@ -73,52 +74,55 @@ export const EditRecipePage = ({ changeFormInput, form, submitForm }) => {
     </Grid>))
     : undefined
 
-  return (<Grid container spacing={3}>
-    <Grid item xs={12}>
-      <TextField
-        label='Name'
-        className='modify-form__name'
-        fullWidth
-        onChange={(e) => {
-          changeFormInput('editRecipe.form.name', e.target.value)
-        }}
-        value={form.name}
-        placeholder='Mini Goat Cheese Stuffed Potato Appetizers'
-        type='text' />
-    </Grid>
-    <Grid item xs={6}>
-      <TextField
-        label='Url'
-        className='modify-form__url'
-        fullWidth
-        onChange={(e) => {
-          changeFormInput('editRecipe.form.url', e.target.value)
-        }}
-        value={form.url}
-        placeholder='http://example.com/recipes/32434'
-        type='text' />
-    </Grid>
-    <Grid item xs={6}>
-      <TextField
-        label='Image
+  return (
+    <Grid container spacing={3}>
+      <PageTitle title={`Edit ${form.name}`} />
+      <Grid item xs={12}>
+        <TextField
+          label='Name'
+          className='modify-form__name'
+          fullWidth
+          onChange={(e) => {
+            changeFormInput('editRecipe.form.name', e.target.value)
+          }}
+          value={form.name}
+          placeholder='Mini Goat Cheese Stuffed Potato Appetizers'
+          type='text' />
+      </Grid>
+      <Grid item xs={6}>
+        <TextField
+          label='Url'
+          className='modify-form__url'
+          fullWidth
+          onChange={(e) => {
+            changeFormInput('editRecipe.form.url', e.target.value)
+          }}
+          value={form.url}
+          placeholder='http://example.com/recipes/32434'
+          type='text' />
+      </Grid>
+      <Grid item xs={6}>
+        <TextField
+          label='Image
         Url'
-        className='modify-form__imgUrl'
-        fullWidth
-        onChange={(e) => {
-          changeFormInput('editRecipe.form.imgUrl', e.target.value)
-        }}
-        value={form.imgUrl}
-        placeholder='http://example.com/recipes/32434.png'
-        type='text' />
+          className='modify-form__imgUrl'
+          fullWidth
+          onChange={(e) => {
+            changeFormInput('editRecipe.form.imgUrl', e.target.value)
+          }}
+          value={form.imgUrl}
+          placeholder='http://example.com/recipes/32434.png'
+          type='text' />
+      </Grid>
+      {ingredients}
+      {steps}
+      <Grid item xs={12}>
+        <Button variant='contained' className='modify-form__submit-button' color='primary' onClick={onFormSubmit}>
+          Modify
+        </Button>
+      </Grid>
     </Grid>
-    {ingredients}
-    {steps}
-    <Grid item xs={12}>
-      <Button variant='contained' className='modify-form__submit-button' color='primary' onClick={onFormSubmit}>
-        Modify
-      </Button>
-    </Grid>
-  </Grid>)
+  )
 }
 
 EditRecipePage.propTypes = {

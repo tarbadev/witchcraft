@@ -9,6 +9,7 @@ import { formInputChange, submitForm } from 'src/recipes/actions/NewRecipeAction
 import './NewRecipePage.css'
 import GridList from '@material-ui/core/GridList'
 import GridListTile from '@material-ui/core/GridListTile'
+import { PageTitle } from '../../PageTitle'
 
 const useStyles = makeStyles({
   root: {
@@ -53,6 +54,7 @@ export const NewRecipePage = ({
 
   return (
     <Grid container spacing={3} justify='flex-start' alignItems='flex-start'>
+      <PageTitle title='New Recipe' />
       <Grid item xs={12}>
         <Typography variant='h4'>New Recipe</Typography>
       </Grid>
@@ -120,7 +122,8 @@ export const NewRecipePage = ({
                   type='text' />
               </Grid>
               <Grid item xs={12}>
-                <Button variant='contained' className='manual__submit-button' color='primary' onClick={onManualUrlFormSubmit}>
+                <Button variant='contained' className='manual__submit-button' color='primary'
+                        onClick={onManualUrlFormSubmit}>
                   Submit
                 </Button>
               </Grid>

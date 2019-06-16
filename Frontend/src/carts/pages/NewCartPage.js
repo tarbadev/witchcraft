@@ -10,6 +10,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 
 import { setState } from 'src/RootReducer'
 import { createCart } from 'src/carts/actions/NewCartActions'
+import { PageTitle } from '../../PageTitle'
 
 export const NewCartPage = ({
   form,
@@ -39,6 +40,7 @@ export const NewCartPage = ({
 
   return (
     <Grid container spacing={3}>
+      <PageTitle title='New Cart' />
       <Grid item xs={12}>
         <FormGroup>
           {recipeList}

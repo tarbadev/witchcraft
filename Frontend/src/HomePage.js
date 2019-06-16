@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography'
 
 import { RecipeList } from 'src/recipes/components/RecipeList'
 import { WeekPane } from 'src/weeks/components/WeekPane'
+import { PageTitle } from './PageTitle'
 
 export const HomePage = ({
   week,
@@ -15,6 +16,7 @@ export const HomePage = ({
 }) => {
   return (
     <Grid container spacing={3}>
+      <PageTitle />
       <Grid item xs={12}>
         <Typography variant='h6' gutterBottom className='witchcraft-title'>Current Week</Typography>
         <WeekPane week={week} />

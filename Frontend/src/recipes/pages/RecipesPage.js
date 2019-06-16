@@ -11,6 +11,7 @@ import { RecipeList } from 'src/recipes/components/RecipeList'
 
 import { filterRecipes } from 'src/recipes/actions/RecipesActions'
 import { makeStyles } from '@material-ui/core'
+import { PageTitle } from '../../PageTitle'
 
 const useStyles = makeStyles({
   paper: {
@@ -26,6 +27,7 @@ export const RecipesPage = ({ recipes, searchRecipe, history }) => {
 
   return (
     <Grid container spacing={3}>
+      <PageTitle title='Recipes' />
       <Grid item xs={12}>
         <Paper elevation={1} className={classes.paper}>
           <TextField

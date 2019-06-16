@@ -22,6 +22,7 @@ import { RecipeListModalContainer } from 'src/weeks/components/RecipeListModal'
 import { setState } from 'src/RootReducer'
 
 import './WeekPage.css'
+import { PageTitle } from '../../PageTitle'
 
 export const WEEKS_IN_A_YEAR = 52
 
@@ -68,8 +69,11 @@ export const WeekPage = ({
     createCart(recipeIds)
   }
 
+  const title = `Year ${week.year}, week ${week.weekNumber}`
+
   return (
     <Grid container spacing={3} justify='center'>
+      <PageTitle title={title} />
       <Snackbar
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         open={showSuccessMessage}
@@ -96,7 +100,7 @@ export const WeekPage = ({
         <IconButtonStyled fontSize='large' className='week-page__previous-week' onClick={onPreviousWeekClick}>
           <ChevronLeftIcon />
         </IconButtonStyled>
-        <Title variant='h6' className='witchcraft-title'>Year {week.year}, week {week.weekNumber}</Title>
+        <Title variant='h6' className='witchcraft-title'>{title}</Title>
         <IconButtonStyled fontSize='large' className='week-page__next-week' onClick={onNextWeekClick}>
           <ChevronRightIcon />
         </IconButtonStyled>

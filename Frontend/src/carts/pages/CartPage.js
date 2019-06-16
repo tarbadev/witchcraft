@@ -12,6 +12,7 @@ import { RecipeCard } from 'src/recipes/components/RecipeCard'
 import { toggleItem } from 'src/carts/actions/CartActions'
 
 import './CartPage.css'
+import { PageTitle } from 'src/PageTitle'
 
 export const CartPage = ({
   cart,
@@ -44,11 +45,14 @@ export const CartPage = ({
     ))
     : []
 
+  const title = getCartTitle(cart.createdAt)
+
   return (
     <Grid container spacing={3}>
+      <PageTitle title={title} />
       <Grid item xs={12} name='title'>
         <Typography variant='h5' className='witchcraft-title'>
-          {getCartTitle(cart.createdAt)}
+          {title}
         </Typography>
       </Grid>
       <Grid item xs={6} container spacing={1}>
