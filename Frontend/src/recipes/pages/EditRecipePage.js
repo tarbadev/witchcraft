@@ -128,7 +128,7 @@ EditRecipePage.propTypes = {
 }
 
 const mapStateToProps = state => {
-  return { form: state.editRecipe.form }
+  return { form: state.app.editRecipe.form }
 }
 
 const mapDispatchToProps = (dispatch) => {

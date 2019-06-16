@@ -188,10 +188,10 @@ RecipePage.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    recipe: state.recipe,
-    notes: state.recipePage.notes,
-    editableNotes: state.recipePage.editableNotes,
-    notesInput: state.recipePage.notesInput,
+    recipe: state.app.recipe,
+    notes: state.app.recipePage.notes,
+    editableNotes: state.app.recipePage.editableNotes,
+    notesInput: state.app.recipePage.notesInput,
   }
 }
 

@@ -24,7 +24,7 @@ export const toggleItem = (cartId, ingredientId, enabled) => dispatch => {
 }
 
 export const toggleItemSuccess = data => (dispatch, getState) => {
-  const index = findWithAttr(getState().cart.items, 'id', data.id)
+  const index = findWithAttr(getState().app.cart.items, 'id', data.id)
   dispatch(setState(`cart.items.${index}`, data))
 }
 

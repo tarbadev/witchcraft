@@ -57,7 +57,7 @@ RecipesPage.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    recipes: state.recipes,
+    recipes: state.app.recipes,
   }
 }
 

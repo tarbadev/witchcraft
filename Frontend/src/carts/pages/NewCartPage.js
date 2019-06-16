@@ -65,7 +65,7 @@ NewCartPage.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    form: state.newCartPage.form,
+    form: state.app.newCartPage.form,
   }
 }
 

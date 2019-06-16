@@ -45,7 +45,7 @@ export const getAllRecipes = () => (dispatch) => {
 
 export const filterRecipes = (search) => {
   return (dispatch, getState) => {
-    const filteredRecipes = getState().allRecipes.filter((recipe) => {
+    const filteredRecipes = getState().app.allRecipes.filter((recipe) => {
       return recipe.name.toLowerCase().includes(search.toLowerCase())
     })
     dispatch(setState('recipes', filteredRecipes))

@@ -116,13 +116,13 @@ RecipeListModal.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    recipes: state.recipes,
-    isModalOpen: state.weekPage.modal.isModalOpen,
-    day: state.weekPage.modal.day,
-    meal: state.weekPage.modal.meal,
-    currentRecipeId: state.weekPage.modal.currentRecipeId,
-    expressRecipeName: state.expressRecipeForm.recipeName,
-    isDisplayExpressRecipeForm: state.weekPage.modal.displayExpressRecipeForm,
+    recipes: state.app.recipes,
+    isModalOpen: state.app.weekPage.modal.isModalOpen,
+    day: state.app.weekPage.modal.day,
+    meal: state.app.weekPage.modal.meal,
+    currentRecipeId: state.app.weekPage.modal.currentRecipeId,
+    expressRecipeName: state.app.expressRecipeForm.recipeName,
+    isDisplayExpressRecipeForm: state.app.weekPage.modal.displayExpressRecipeForm,
   }
 }
 

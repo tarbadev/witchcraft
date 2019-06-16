@@ -104,7 +104,7 @@ export const getRecipesNotesError = () => dispatch => {
 }
 
 export const showEditableNotes = () => (dispatch, getState) => {
-  dispatch(setState('recipePage.notesInput', getState().recipePage.notes))
+  dispatch(setState('recipePage.notesInput', getState().app.recipePage.notes))
   dispatch(setState('recipePage.editableNotes', true))
 }
 

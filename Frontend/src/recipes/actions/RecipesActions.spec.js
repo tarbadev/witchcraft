@@ -1,14 +1,15 @@
 import {
+  filterRecipes,
   getAllRecipes,
   getAllRecipesSuccess,
   getFavoriteRecipes,
   getFavoriteRecipesSuccess,
   getLatestRecipes,
   getLatestRecipesSuccess,
-  filterRecipes,
 } from 'src/recipes/actions/RecipesActions'
 
 import { fetchAction } from 'src/WitchcraftMiddleware'
+import { setState } from 'src/RootReducer'
 
 import promisedRecipeList from 'test-resources/recipeList.json'
 
@@ -19,14 +20,11 @@ describe('RecipesActions', () => {
 
       getAllRecipes()(dispatchSpy)
 
-      expect(dispatchSpy).toHaveBeenCalledWith({
-        type: 'FETCH',
+      expect(dispatchSpy).toHaveBeenCalledWith(fetchAction({
         url: '/api/recipes',
         method: 'GET',
-        body: undefined,
         onSuccess: getAllRecipesSuccess,
-        onError: undefined,
-      })
+      }))
     })
   })
 
@@ -34,16 +32,8 @@ describe('RecipesActions', () => {
     it('success callback saves recipes in state', () => {
       const dispatchSpy = jest.fn()
       getAllRecipesSuccess(promisedRecipeList)(dispatchSpy)
-      expect(dispatchSpy).toHaveBeenCalledWith({
-        type: 'SET_STATE',
-        key: 'allRecipes',
-        payload: promisedRecipeList.recipes,
-      })
-      expect(dispatchSpy).toHaveBeenCalledWith({
-        type: 'SET_STATE',
-        key: 'recipes',
-        payload: promisedRecipeList.recipes,
-      })
+      expect(dispatchSpy).toHaveBeenCalledWith(setState('allRecipes', promisedRecipeList.recipes))
+      expect(dispatchSpy).toHaveBeenCalledWith(setState('recipes', promisedRecipeList.recipes))
     })
   })
 
@@ -71,11 +61,7 @@ describe('RecipesActions', () => {
 
       getFavoriteRecipesSuccess(recipes)(dispatchSpy)
 
-      expect(dispatchSpy).toHaveBeenCalledWith({
-        type: 'SET_STATE',
-        key: 'homePage.favoriteRecipes',
-        payload: recipes,
-      })
+      expect(dispatchSpy).toHaveBeenCalledWith(setState('homePage.favoriteRecipes', recipes))
     })
   })
 
@@ -103,11 +89,7 @@ describe('RecipesActions', () => {
 
       getLatestRecipesSuccess(recipes)(dispatchSpy)
 
-      expect(dispatchSpy).toHaveBeenCalledWith({
-        type: 'SET_STATE',
-        key: 'homePage.latestRecipes',
-        payload: recipes,
-      })
+      expect(dispatchSpy).toHaveBeenCalledWith(setState('homePage.latestRecipes', recipes))
     })
   })
 
@@ -122,13 +104,9 @@ describe('RecipesActions', () => {
         ],
       }
 
-      filterRecipes('test')(dispatchSpy, () => state)
+      filterRecipes('test')(dispatchSpy, () => ({ app: state }))
 
-      expect(dispatchSpy).toHaveBeenCalledWith({
-        type: 'SET_STATE',
-        key: 'recipes',
-        payload: [{ name: 'Recipe test' }],
-      })
+      expect(dispatchSpy).toHaveBeenCalledWith(setState('recipes', [{ name: 'Recipe test' }]))
     })
   })
 })

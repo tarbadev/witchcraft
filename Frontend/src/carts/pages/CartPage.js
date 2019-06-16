@@ -72,7 +72,7 @@ CartPage.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    cart: state.cart,
+    cart: state.app.cart,
   }
 }
 

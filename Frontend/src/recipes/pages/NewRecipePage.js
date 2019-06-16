@@ -176,10 +176,10 @@ NewRecipePage.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    autoUrl: state.newRecipePage.forms.autoUrl,
-    manualUrl: state.newRecipePage.forms.manualUrl,
-    redirect: state.newRecipePage.forms.recipeAdded,
-    supportedDomains: state.newRecipePage.supportedDomains,
+    autoUrl: state.app.newRecipePage.forms.autoUrl,
+    manualUrl: state.app.newRecipePage.forms.manualUrl,
+    redirect: state.app.newRecipePage.forms.recipeAdded,
+    supportedDomains: state.app.newRecipePage.supportedDomains,
   }
 }
 

@@ -141,8 +141,8 @@ WeekPage.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    week: state.week,
-    showSuccessMessage: state.weekPage.showSuccessMessage,
+    week: state.app.week,
+    showSuccessMessage: state.app.weekPage.showSuccessMessage,
   }
 }
 

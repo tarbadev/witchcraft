@@ -6,7 +6,8 @@ import {
   getRecipeNotes,
   getRecipesNotesError,
   getRecipesNotesSuccess,
-  getRecipeSuccess, hideEditableNotes,
+  getRecipeSuccess,
+  hideEditableNotes,
   setFavorite,
   setFavoriteSuccess,
   showEditableNotes,
@@ -27,14 +28,12 @@ describe('RecipeActions', () => {
 
       getRecipe(1)(dispatchSpy)
 
-      expect(dispatchSpy).toHaveBeenCalledWith({
-        type: 'FETCH',
+      expect(dispatchSpy).toHaveBeenCalledWith(fetchAction({
         url: '/api/recipes/1',
         method: 'GET',
-        body: undefined,
         onSuccess: getRecipeSuccess,
         onError: getRecipeError,
-      })
+      }))
     })
   })
 
@@ -42,11 +41,7 @@ describe('RecipeActions', () => {
     it('success callback saves recipes in state', () => {
       const dispatchSpy = jest.fn()
       getRecipeSuccess(promisedRecipeList.recipes[0])(dispatchSpy)
-      expect(dispatchSpy).toHaveBeenCalledWith({
-        type: 'SET_STATE',
-        key: 'recipe',
-        payload: promisedRecipeList.recipes[0],
-      })
+      expect(dispatchSpy).toHaveBeenCalledWith(setState('recipe', promisedRecipeList.recipes[0]))
 
       const form = {
         id: promisedRecipeList.recipes[0].id,
@@ -56,11 +51,7 @@ describe('RecipeActions', () => {
         ingredients: promisedRecipeList.recipes[0].ingredients,
         steps: promisedRecipeList.recipes[0].steps,
       }
-      expect(dispatchSpy).toHaveBeenCalledWith({
-        type: 'SET_STATE',
-        key: 'editRecipe.form',
-        payload: form,
-      })
+      expect(dispatchSpy).toHaveBeenCalledWith(setState('editRecipe.form', form))
     })
   })
 
@@ -79,14 +70,12 @@ describe('RecipeActions', () => {
     it('success callback saves recipes in state', () => {
       const dispatchSpy = jest.fn()
       setFavorite(2, true)(dispatchSpy)
-      expect(dispatchSpy).toHaveBeenCalledWith({
-        type: 'FETCH',
+      expect(dispatchSpy).toHaveBeenCalledWith(fetchAction({
         url: '/api/recipes/2',
         method: 'PATCH',
         body: { favorite: true },
         onSuccess: setFavoriteSuccess,
-        onError: undefined,
-      })
+      }))
     })
   })
 
@@ -94,11 +83,7 @@ describe('RecipeActions', () => {
     it('success callback saves recipes in state', () => {
       const dispatchSpy = jest.fn()
       setFavoriteSuccess(promisedRecipeList.recipes[0])(dispatchSpy)
-      expect(dispatchSpy).toHaveBeenCalledWith({
-        type: 'SET_STATE',
-        key: 'recipe',
-        payload: promisedRecipeList.recipes[0],
-      })
+      expect(dispatchSpy).toHaveBeenCalledWith(setState('recipe', promisedRecipeList.recipes[0]))
     })
   })
 
@@ -127,14 +112,12 @@ describe('RecipeActions', () => {
       }
 
       updateRecipe(form)(dispatchSpy)
-      expect(dispatchSpy).toHaveBeenCalledWith({
-        type: 'FETCH',
+      expect(dispatchSpy).toHaveBeenCalledWith(fetchAction({
         url: `/api/recipes/${form.id}/update`,
         method: 'PUT',
         body: form,
         onSuccess: updateRecipeSuccess,
-        onError: undefined,
-      })
+      }))
     })
   })
 
@@ -153,14 +136,12 @@ describe('RecipeActions', () => {
     it('success callback saves recipes in state', () => {
       const dispatchSpy = jest.fn()
       deleteRecipe(2)(dispatchSpy)
-      expect(dispatchSpy).toHaveBeenCalledWith({
-        type: 'FETCH',
+      expect(dispatchSpy).toHaveBeenCalledWith(fetchAction({
         url: '/api/recipes/2',
         method: 'DELETE',
-        body: undefined,
         onSuccess: deleteRecipeCallback,
         onError: deleteRecipeCallback,
-      })
+      }))
     })
   })
 
@@ -168,11 +149,7 @@ describe('RecipeActions', () => {
     it('success callback saves recipes in state', () => {
       const dispatchSpy = jest.fn()
       deleteRecipeCallback()(dispatchSpy)
-      expect(dispatchSpy).toHaveBeenCalledWith({
-        type: 'SET_STATE',
-        key: 'recipePage.isDeleting',
-        payload: false,
-      })
+      expect(dispatchSpy).toHaveBeenCalledWith(setState('recipePage.isDeleting', false))
       expect(dispatchSpy).toHaveBeenCalledWith({
         type: '@@router/CALL_HISTORY_METHOD',
         payload: { method: 'push', args: ['/recipes'] },
@@ -202,10 +179,7 @@ describe('RecipeActions', () => {
 
       updateNotesSuccess({ recipeId: 14, notes: 'New Notes' })(dispatchSpy)
 
-      expect(dispatchSpy).toHaveBeenCalledWith(setState(
-        'recipePage.notes',
-        'New Notes',
-      ))
+      expect(dispatchSpy).toHaveBeenCalledWith(setState('recipePage.notes', 'New Notes'))
     })
   })
 
@@ -248,7 +222,7 @@ describe('RecipeActions', () => {
   describe('showEditableNotes', () => {
     it('saves the current value of notes into editableNotes and display form', () => {
       const dispatchSpy = jest.fn()
-      const getState = jest.fn(() => ({ recipePage: { notes: 'Some notes' } }))
+      const getState = jest.fn(() => ({ app: { recipePage: { notes: 'Some notes' } } }))
 
       showEditableNotes()(dispatchSpy, getState)
 

@@ -1,4 +1,4 @@
-import { getCartSuccess, getCart, toggleItem, toggleItemSuccess } from './CartActions'
+import { getCart, getCartSuccess, toggleItem, toggleItemSuccess } from './CartActions'
 import { fetchAction } from 'src/WitchcraftMiddleware'
 import { setState } from 'src/RootReducer'
 
@@ -45,12 +45,14 @@ describe('CartActions', () => {
   it('toggleItemSuccess saves the item in the state', () => {
     const dispatchSpy = jest.fn()
     const getStateSpy = jest.fn(() => ({
-      cart: {
-        items: [
-          { id: 1 },
-          { id: 3 },
-          { id: 6 },
-        ],
+      app: {
+        cart: {
+          items: [
+            { id: 1 },
+            { id: 3 },
+            { id: 6 },
+          ],
+        },
       },
     }))
     const data = {
