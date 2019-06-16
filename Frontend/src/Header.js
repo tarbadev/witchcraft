@@ -4,8 +4,10 @@ import Toolbar from '@material-ui/core/Toolbar'
 import Button from '@material-ui/core/Button'
 
 import './Header.css'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 
-export const Header = () => {
+export const Header = ({ currentPage }) => {
   const links = [
     {
       label: 'Home',
@@ -25,15 +27,7 @@ export const Header = () => {
     },
   ]
 
-  const currentUrl = window.location.pathname
-
-  const isCurrent = link => {
-    if (link.label === 'Home') {
-      return currentUrl === '' || currentUrl === '/'
-    }
-
-    return currentUrl.startsWith(link.url)
-  }
+  const isCurrent = label => label === currentPage
 
   return (
     <Toolbar disableGutters={true}>
@@ -42,7 +36,7 @@ export const Header = () => {
           <Button
             key={`header-link-${index}`}
             component={Link}
-            className={`header__link ${isCurrent(link) ? 'header__selected' : ''}`}
+            className={`header__link ${isCurrent(link.label) ? 'header__selected' : ''}`}
             color={'default'}
             href={link.url}
             to={link.url}>
@@ -53,3 +47,15 @@ export const Header = () => {
     </Toolbar>
   )
 }
+
+Header.propTypes = {
+  currentPage: PropTypes.string,
+}
+
+const mapStateToProps = state => {
+  return {
+    currentPage: state.app.currentPage,
+  }
+}
+
+export const HeaderContainer = connect(mapStateToProps)(Header)

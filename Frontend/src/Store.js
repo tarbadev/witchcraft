@@ -28,31 +28,51 @@ const pathRegexes = [
     callback: (id) => {
       store.dispatch(getRecipe(id))
       store.dispatch(getRecipeNotes(id))
+      store.dispatch(setState('currentPage', 'Recipes'))
     },
   }, {
     regex: /^\/recipes\/(\d+)\/edit$/,
-    callback: (id) => store.dispatch(getRecipe(id)),
+    callback: (id) => {
+      store.dispatch(getRecipe(id))
+      store.dispatch(setState('currentPage', 'Recipes'))
+    },
   }, {
     regex: /^\/recipes$/,
-    callback: () => store.dispatch(getAllRecipes()),
+    callback: () => {
+      store.dispatch(getAllRecipes())
+      store.dispatch(setState('currentPage', 'Recipes'))
+    },
   }, {
     regex: /^\/recipes\/new$/,
-    callback: () => store.dispatch(getSupportedDomains()),
+    callback: () => {
+      store.dispatch(getSupportedDomains())
+      store.dispatch(setState('currentPage', 'Recipes'))
+    },
   }, {
     regex: /^\/carts$/,
-    callback: () => store.dispatch(getAllCarts()),
+    callback: () => {
+      store.dispatch(getAllCarts())
+      store.dispatch(setState('currentPage', 'Carts'))
+    },
   }, {
     regex: /^\/carts\/(\d+)$/,
-    callback: (id) => store.dispatch(getCart(id)),
+    callback: (id) => {
+      store.dispatch(getCart(id))
+      store.dispatch(setState('currentPage', 'Carts'))
+    },
   }, {
     regex: /^\/carts\/new$/,
-    callback: () => store.dispatch(getAllRecipes()),
+    callback: () => {
+      store.dispatch(getAllRecipes())
+      store.dispatch(setState('currentPage', 'Carts'))
+    },
   }, {
     regex: /^\/weeks\/(\d+)\/(\d+)$/,
     callback: ([year, week]) => {
       store.dispatch(getAllRecipes())
       store.dispatch(getWeek(year, week))
       store.dispatch(setState('weekPage.showSuccessMessage', false))
+      store.dispatch(setState('currentPage', 'Weeks'))
     },
   }, {
     regex: /^\/$/,
@@ -61,6 +81,7 @@ const pathRegexes = [
       store.dispatch(getWeek(year, week))
       store.dispatch(getFavoriteRecipes())
       store.dispatch(getLatestRecipes())
+      store.dispatch(setState('currentPage', 'Home'))
     },
   },
 ]
