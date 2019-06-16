@@ -13,8 +13,8 @@ import java.util.ArrayList
 
 abstract class RecipeHtmlParser(
     private val supportedUrl: String,
-    private val ingredientFromStringUseCase: IngredientFromStringUseCase,
-    private val convertAndAddSameIngredientUseCase: ConvertAndAddSameIngredientUseCase
+    internal val ingredientFromStringUseCase: IngredientFromStringUseCase,
+    internal val convertAndAddSameIngredientUseCase: ConvertAndAddSameIngredientUseCase
 ) {
   abstract val recipeNameSelector: String
   abstract val imgUrlSelector: String
@@ -42,7 +42,7 @@ abstract class RecipeHtmlParser(
 
   fun isUrlSupported(url: String): Boolean = URI(url).host == supportedUrl
 
-  private fun getIngredientsFromHtml(html: Document): List<Ingredient> {
+  protected open fun getIngredientsFromHtml(html: Document): List<Ingredient> {
     val ingredients = ArrayList<Ingredient>()
 
     val htmlIngredients = html.select(ingredientSelector)

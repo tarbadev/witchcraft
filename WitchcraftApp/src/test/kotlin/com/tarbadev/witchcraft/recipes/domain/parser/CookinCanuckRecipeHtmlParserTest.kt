@@ -125,26 +125,6 @@ class CookinCanuckRecipeHtmlParserTest {
         assertEquals(steps, steps1)
     }
 
-    @Test
-    fun parse_importStepsFromBigParagraph() {
-        val steps1 = subject.parse("https://www.cookincanuck.com/baked-tortellini-with-turkey-butternut-squash-chard-recipe/").steps
-
-        val steps = asList(
-                Step(name = "Preheat the oven to 350 degrees F."),
-                Step(name = "Bring a large saucepan of salted water to a boil over high heat. Add the butternut squash cubes and cook until tender when pierced with a fork, about 10 minutes. Using a slotted spoon, transfer the squash to a bowl and mash with the back of a fork. Set aside."),
-                Step(name = "Add the tortellini to the boiling water and cook for 2 minutes less than directed by package instructions. Drain the tortellini and transfer to a large bowl."),
-                Step(name = "To the tortellini, add 1 cup tomato sauce, mashed butternut squash, turkey (or chicken) and chard. Stir to combine."),
-                Step(name = "Spread ¾ cup tomato sauce on the bottom of a 9- by 12-inch (or 9- by 13 inch) baking dish."),
-                Step(name = "Transfer half or the tortellini mixture to the baking dish and spread evenly. Top with ¾ cup tomato sauce."),
-                Step(name = "Transfer the remaining tortellini mixture to the baking dish, spreading evenly. Spread remaining ¾ cup tomato sauce over top."),
-                Step(name = "Sprinkle the topping evenly on top of the tortellini. Bake, uncovered, until the cheese is melted and the casserole is heated through, about 30 minutes. Serve."),
-                Step(name = "The topping:"),
-                Step(name = "In a medium bowl, stir together the Parmesan cheese, sage and pecans.")
-        )
-
-        assertEquals(steps, steps1)
-    }
-
     private fun mockParsingOfIngredients() {
         whenever(ingredientFromStringUseCase.execute(any()))
             .thenReturn(ingredient1)

@@ -84,12 +84,12 @@ class RecipesRestController(
     }
 
     @GetMapping("/favorites")
-    fun favorites(): List<Recipe> {
-        return getFavoriteRecipesUseCase.execute()
+    fun favorites(): List<RecipeResponse> {
+        return getFavoriteRecipesUseCase.execute().map { RecipeResponse.fromRecipe(it) }
     }
 
     @GetMapping("/latest")
-    fun latest(): List<Recipe> {
-        return lastAddedRecipesUseCase.execute()
+    fun latest(): List<RecipeResponse> {
+        return lastAddedRecipesUseCase.execute().map { RecipeResponse.fromRecipe(it) }
     }
 }
