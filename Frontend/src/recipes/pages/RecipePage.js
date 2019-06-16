@@ -116,8 +116,11 @@ export const RecipePage = ({
               <EditIcon className="editIcon" />
               Modify
             </Button>
-            <Button className="deleteButton" variant='contained' onClick={() => deleteRecipe(recipe.id)}
-                    disabled={isDeleting}>
+            <Button
+              className="deleteButton"
+              variant='contained'
+              onClick={() => deleteRecipe(recipe.id)}
+              disabled={isDeleting}>
               <DeleteIcon className="deleteIcon" />
               Delete
             </Button>

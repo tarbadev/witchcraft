@@ -15,10 +15,3 @@ export const PageTitle = ({ title }) => {
 PageTitle.propTypes = {
   title: PropTypes.string,
 }
-
-export const withTitle = ({ component: Component, title }) => () => (
-  <div>
-    <PageTitle title={title} />
-    <Component />
-  </div>
-)

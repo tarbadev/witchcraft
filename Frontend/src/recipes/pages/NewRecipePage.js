@@ -122,8 +122,11 @@ export const NewRecipePage = ({
                   type='text' />
               </Grid>
               <Grid item xs={12}>
-                <Button variant='contained' className='manual__submit-button' color='primary'
-                        onClick={onManualUrlFormSubmit}>
+                <Button
+                  variant='contained'
+                  className='manual__submit-button'
+                  color='primary'
+                  onClick={onManualUrlFormSubmit}>
                   Submit
                 </Button>
               </Grid>
