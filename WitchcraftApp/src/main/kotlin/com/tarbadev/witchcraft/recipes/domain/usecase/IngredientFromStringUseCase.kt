@@ -71,7 +71,7 @@ class IngredientFromStringUseCase {
 
       return Ingredient(
           name = name,
-          quantity = getQuantity(unit, quantity)
+          quantity = getQuantity(quantity, unit)
       )
     } else {
       System.err.println("Ingredient not supported: $newText")

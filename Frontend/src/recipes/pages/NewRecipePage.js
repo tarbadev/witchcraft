@@ -88,7 +88,7 @@ export const NewRecipePage = ({
                   type='text' />
                 <TextField
                   label='Image Url'
-                  className='manual__imageUrl'
+                  className='manual__image-url'
                   fullWidth
                   onChange={(e) => {
                     changeFormInput('manualUrl.imageUrl', e.target.value)

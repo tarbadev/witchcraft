@@ -20,7 +20,8 @@ data class RecipeEntity(
     @JoinColumn(name = "recipe_id")
     var steps: Set<StepEntity> = emptySet(),
     @Column(name = "archived", nullable = false)
-    var isArchived: Boolean = false
+    var isArchived: Boolean = false,
+    var portions: Int? = null
 ) {
   companion object {
     fun fromRecipe(recipe: Recipe): RecipeEntity {
@@ -44,9 +45,10 @@ data class RecipeEntity(
         originUrl = originUrl,
         imgUrl = imgUrl,
         favorite = favorite,
-        ingredients = ingredients.map { it.ingredient() },
-        steps = steps.map { it.step() },
-        isArchived = isArchived
+        ingredients = ingredients.map { it.toIngredient() },
+        steps = steps.map { it.toStep() },
+        isArchived = isArchived,
+        portions = portions
     )
   }
 }

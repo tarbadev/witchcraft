@@ -1,7 +1,7 @@
-insert into recipe (id, name, origin_url, img_url, favorite) VALUES
-  (1, 'Lasagna alla bolognese', 'http://recipes.com/lasagna', 'http://recipes.com/lasagna.png', true),
-  (2, 'Tartiflette', 'http://recipes.com/tartiflette', 'http://recipes.com/tartiflette.png', false),
-  (3, 'Thai Chicken Salad', 'https://www.cookincanuck.com/thai-chicken-salad-recipe/', 'https://www.cookincanuck.com/wp-content/uploads/2017/09/Thai-Chicken-Salad-Recipe-Cookin-Canuck-3.jpg', false);
+insert into recipe (id, name, origin_url, img_url, favorite, portions) VALUES
+  (1, 'Lasagna alla bolognese', 'http://recipes.com/lasagna', 'http://recipes.com/lasagna.png', true, 2),
+  (2, 'Tartiflette', 'http://recipes.com/tartiflette', 'http://recipes.com/tartiflette.png', false, 2),
+  (3, 'Thai Chicken Salad', 'https://www.cookincanuck.com/thai-chicken-salad-recipe/', 'https://www.cookincanuck.com/wp-content/uploads/2017/09/Thai-Chicken-Salad-Recipe-Cookin-Canuck-3.jpg', false, 4);
 
 INSERT INTO ingredient (id, name, quantity, unit, recipe_id) VALUES
   (1, 'napa cabbage, thinly sliced (about 4 cups)', 0.5, '', 3),

@@ -9,7 +9,7 @@ import com.tarbadev.witchcraft.recipes.domain.usecase.IngredientFromStringUseCas
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import java.net.URI
-import java.util.ArrayList
+import java.util.*
 
 abstract class RecipeHtmlParser(
     private val supportedUrl: String,
@@ -30,13 +30,15 @@ abstract class RecipeHtmlParser(
     val imgUrl = getAttributeValueFromSelector(html, imgUrlSelector, imgUrlAttribute)
     val ingredients = getIngredientsFromHtml(html)
     val steps = getStepsFromHtml(html)
+    val portions = null
 
     return Recipe(
         name = name,
         originUrl = originUrl,
         imgUrl = imgUrl,
         ingredients = ingredients,
-        steps = steps
+        steps = steps,
+        portions = portions
     )
   }
 

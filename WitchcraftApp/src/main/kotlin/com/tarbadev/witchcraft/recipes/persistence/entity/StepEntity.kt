@@ -18,7 +18,7 @@ data class StepEntity(
         name = step.name
     )
 
-    fun step(): Step {
+    fun toStep(): Step {
         return Step(
             id = id,
             name = name

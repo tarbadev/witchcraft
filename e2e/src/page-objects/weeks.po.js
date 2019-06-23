@@ -1,4 +1,4 @@
-import { goToUrl } from './helpers.po'
+import { getTextByCssSelector, goToUrl } from './helpers.po'
 
 export const clickOnCreateCart = async () => {
   await global.page.click('.week-page__create-cart-button')
@@ -9,10 +9,7 @@ export const getMeal = async (meal, day) => {
 
   await global.page.waitForSelector(selector)
 
-  return await global.page.$eval(
-    selector,
-    element => element.textContent,
-  )
+  return await getTextByCssSelector(selector)
 }
 
 export const clickOnMeal = async (meal, day) => {

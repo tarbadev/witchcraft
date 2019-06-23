@@ -4,7 +4,7 @@ import com.tarbadev.witchcraft.converter.pound
 import com.tarbadev.witchcraft.recipes.domain.entity.Ingredient
 import com.tarbadev.witchcraft.recipes.domain.entity.Recipe
 import com.tarbadev.witchcraft.recipes.domain.entity.Step
-import org.junit.jupiter.api.Assertions.*
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class RecipeResponseTest {
@@ -20,14 +20,15 @@ class RecipeResponseTest {
         name = "Make the cheese melt and east, it's good!"
     )
     val recipe = Recipe(
-            id = 1,
-            originUrl = "http://origin",
-            imgUrl = "http://imgurl",
-            name = "raclette",
-            favorite = true,
-            ingredients = listOf(ingredient),
-            steps = listOf(step),
-            isArchived = false
+        id = 1,
+        originUrl = "http://origin",
+        imgUrl = "http://imgurl",
+        name = "raclette",
+        favorite = true,
+        ingredients = listOf(ingredient),
+        steps = listOf(step),
+        isArchived = false,
+        portions = 2
     )
 
     val expectedRecipeResponse = RecipeResponse(
@@ -38,9 +39,10 @@ class RecipeResponseTest {
         favorite = true,
         ingredients = listOf(IngredientResponse.fromIngredient(ingredient)),
         steps = listOf(StepResponse.fromStep(step)),
-        isArchived = false
+        isArchived = false,
+        portions = 2
     )
 
-    assertEquals(expectedRecipeResponse, RecipeResponse.fromRecipe(recipe))
+    assertThat(RecipeResponse.fromRecipe(recipe)).isEqualTo(expectedRecipeResponse)
   }
 }

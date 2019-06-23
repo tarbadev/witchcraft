@@ -1,4 +1,4 @@
-import { updateIn, constant } from 'updeep'
+import { constant, updateIn } from 'updeep'
 
 export const SET_STATE = 'SET_STATE'
 
@@ -31,6 +31,7 @@ const initialState = {
     ingredients: [],
     steps: [],
     favorite: false,
+    portions: 0,
   },
   recipes: [],
   allRecipes: [],

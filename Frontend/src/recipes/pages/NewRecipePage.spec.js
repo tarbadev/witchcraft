@@ -6,7 +6,13 @@ import { NewRecipePage } from './NewRecipePage'
 describe('NewRecipePage', function () {
   it('calls the callback when input value changes', () => {
     const changeFormInputSpy = jest.fn()
-    const newRecipe = shallow(<NewRecipePage changeFormInput={changeFormInputSpy} classes={{}} autoUrl={{}} manualUrl={{}} />)
+    const newRecipe = shallow(<NewRecipePage
+      changeFormInput={changeFormInputSpy}
+      classes={{}}
+      autoUrl={{}}
+      manualUrl={{}} />
+    )
+
     const url = 'fakeUrl'
     const name = 'name'
     const imageUrl = 'imageUrl'
@@ -16,7 +22,7 @@ describe('NewRecipePage', function () {
     newRecipe.find('.auto__url').simulate('change', { target: { value: url } })
     newRecipe.find('.manual__name').simulate('change', { target: { value: name } })
     newRecipe.find('.manual__url').simulate('change', { target: { value: url } })
-    newRecipe.find('.manual__imageUrl').simulate('change', { target: { value: imageUrl } })
+    newRecipe.find('.manual__image-url').simulate('change', { target: { value: imageUrl } })
     newRecipe.find('.manual__ingredients').simulate('change', { target: { value: ingredients } })
     newRecipe.find('.manual__steps').simulate('change', { target: { value: steps } })
 

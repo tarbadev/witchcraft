@@ -10,7 +10,8 @@ data class RecipeResponse(
     val favorite: Boolean,
     val ingredients: List<IngredientResponse>,
     val steps: List<StepResponse>,
-    val isArchived: Boolean
+    val isArchived: Boolean,
+    val portions: Int?
 ) {
   companion object {
     fun fromRecipe(recipe: Recipe): RecipeResponse =
@@ -22,7 +23,8 @@ data class RecipeResponse(
             favorite = recipe.favorite,
             ingredients = recipe.ingredients.map { IngredientResponse.fromIngredient(it) },
             steps = recipe.steps.map { StepResponse.fromStep(it) },
-            isArchived = recipe.isArchived
+            isArchived = recipe.isArchived,
+            portions = recipe.portions
         )
   }
 }

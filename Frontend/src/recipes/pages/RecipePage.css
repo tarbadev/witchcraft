@@ -16,6 +16,7 @@
 .deleteButton {
     background-color: #db2828 !important;
     color: #fff !important;
+    margin-right: 10px !important;
 }
 
 .deleteButtonhover {
@@ -24,10 +25,6 @@
 
 .deleteButtondisabled {
     background-color: rgba(0, 0, 0, .5) !important;
-}
-
-.deleteIcon {
-    margin-right: .5em;
 }
 
 .modifyButton {

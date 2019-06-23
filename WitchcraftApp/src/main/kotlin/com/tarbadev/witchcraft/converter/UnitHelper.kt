@@ -22,7 +22,7 @@ object UnitHelper {
       UnitMapping(AbstractUnit.ONE, "", "getUnit")
   )
 
-  fun getQuantity(unit: String, quantity: Double): ComparableQuantity<*> {
+  fun getQuantity(quantity: Double, unit: String): ComparableQuantity<*> {
     if (unit.isEmpty()) {
       return quantity.unit
     }

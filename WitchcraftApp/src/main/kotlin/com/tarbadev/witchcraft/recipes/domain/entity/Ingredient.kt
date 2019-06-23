@@ -14,8 +14,8 @@ data class Ingredient(
   fun addQuantity(quantity: ComparableQuantity<*>): Ingredient {
     return this.copy(
         quantity = getQuantity(
-            getUnitShortName(this.quantity),
-            this.quantity.getValue().toDouble().plus(quantity.getValue().toDouble())
+            this.quantity.getValue().toDouble().plus(quantity.getValue().toDouble()),
+            getUnitShortName(this.quantity)
         )
     )
   }

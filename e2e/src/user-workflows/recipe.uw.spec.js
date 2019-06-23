@@ -40,6 +40,13 @@ describe('Recipe', () => {
     expect(steps).toEqual(expectedSteps)
   })
 
+  it('displays the number of portions', async () => {
+    await RecipePage.goTo(3)
+    await waitForTextByCss('.title', 'Thai Chicken Salad')
+
+    expect(await RecipePage.getPortions()).toEqual('4')
+  })
+
   describe('on heart button click', () => {
     it('adds the recipe as favourite', async () => {
       await RecipePage.goTo(3)

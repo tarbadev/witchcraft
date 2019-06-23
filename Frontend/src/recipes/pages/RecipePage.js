@@ -88,7 +88,7 @@ export const RecipePage = ({
 
   if (recipe.ingredients) {
     ingredients = recipe.ingredients.map((ingredient) => (
-      <Grid item key={ingredient.id} sm={12}>
+      <Grid item key={ingredient.id} xs={12}>
         <Ingredient ingredient={ingredient.name} unit={ingredient.unit} quantity={ingredient.quantity} />
       </Grid>
     ))
@@ -99,51 +99,44 @@ export const RecipePage = ({
   }
 
   return (
-    <Grid container spacing={3}>
+    <Grid container spacing={3} direction='row'>
       <PageTitle title={recipe.name} />
-      <Grid item sm={12} name='title'>
+      <Grid item xs={12} name='title'>
         <Grid container justify='space-between'>
-          <Grid item sm={8}>
-            <Typography variant='h5' className="title witchcraft-title">
+          <Grid item xs={8}>
+            <Typography variant='h5' className='title witchcraft-title'>
               {recipe.name}
             </Typography>
             <IconButton onClick={() => toggleFavorite(recipe.id, !recipe.favorite)} className={favoriteClassName}>
               <FavoriteIcon />
             </IconButton>
           </Grid>
-          <Grid item className="circularProgressContainer">
-            <Button className="modifyButton" variant='contained' onClick={onModifyButtonClick}>
-              <EditIcon className="editIcon" />
-              Modify
+          <Grid item className='circularProgressContainer'>
+            <Button className='modifyButton' variant='contained' onClick={onModifyButtonClick}>
+              <EditIcon className='editIcon' />
             </Button>
             <Button
-              className="deleteButton"
+              className='deleteButton'
               variant='contained'
               onClick={() => deleteRecipe(recipe.id)}
               disabled={isDeleting}>
-              <DeleteIcon className="deleteIcon" />
-              Delete
+              <DeleteIcon className='deleteIcon' />
             </Button>
-            {isDeleting && <CircularProgress size={24} className="circularProgress" />}
+            {isDeleting && <CircularProgress size={24} className='circularProgress' />}
+            <Button target='_blank' variant='contained' href={recipe.originUrl}>
+              <OpenInNewIcon className='leftIcon' />
+              Go to recipe
+            </Button>
           </Grid>
         </Grid>
       </Grid>
-      <Grid item sm={12} name='top-bar' container justify='space-between'>
-        <Grid item />
+      <Grid item container xs={3} direction='column' justify='flex-start' alignItems='stretch'>
         <Grid item>
-          <Button target='_blank' variant='contained' size='small' href={recipe.originUrl}>
-            <OpenInNewIcon className="leftIcon" />
-            Go to recipe
-          </Button>
+          <CardMedia image={recipe.imgUrl} component='img' className='image' onError={onRecipeImageNotFoundError} />
         </Grid>
-      </Grid>
-      <Grid item container sm={3} name='image' direction="column" justify="flex-start" alignItems="stretch">
         <Grid item>
-          <CardMedia image={recipe.imgUrl} component='img' className="image" onError={onRecipeImageNotFoundError} />
-        </Grid>
-        <Grid item container direction="column" justify="flex-start" alignItems="stretch">
           <Paper className='notes-container' square elevation={0}>
-            <Grid container direction="column" justify="flex-start" alignItems="stretch">
+            <Grid container direction='column' justify='flex-start' alignItems='stretch'>
               <Grid item>
                 <Typography variant='h6' className='notes-container__notes-title'>
                   Notes
@@ -154,10 +147,10 @@ export const RecipePage = ({
               </Grid>
             </Grid>
           </Paper>
-          <Grid item container direction="column" justify="flex-start" alignContent='center'>
+          <Grid item container direction='column' justify='flex-start' alignContent='center'>
             {editableNotes &&
             <Button
-              className="notes-container__update-notes-button"
+              className='notes-container__update-notes-button'
               color='primary'
               variant='outlined'
               onMouseDown={() => updateNotes(recipe.id, notesInput)}>
@@ -167,16 +160,23 @@ export const RecipePage = ({
           </Grid>
         </Grid>
       </Grid>
-      <Grid item xs={5} name='steps'>
-        <Typography variant='h6' gutterBottom className='witchcraft-title'>Steps</Typography>
-        <Grid container alignItems="baseline" spacing={1}>
-          {steps}
+      <Grid item xs={9} container spacing={3}>
+        <Grid item xs={12} container justify='flex-end'>
+          <Typography variant='h6' className='portions-title witchcraft-title'>
+            Portions: <span className='portions-value'>{recipe.portions}</span>
+          </Typography>
         </Grid>
-      </Grid>
-      <Grid item xs={4} name='ingredients'>
-        <Typography variant='h6' gutterBottom className='witchcraft-title'>Ingredients</Typography>
-        <Grid container alignItems='baseline' spacing={1}>
-          {ingredients}
+        <Grid item xs={7} name='steps'>
+          <Typography variant='h6' gutterBottom className='witchcraft-title'>Steps</Typography>
+          <Grid container alignItems='baseline' spacing={1}>
+            {steps}
+          </Grid>
+        </Grid>
+        <Grid item xs={5} name='ingredients'>
+          <Typography variant='h6' gutterBottom className='witchcraft-title'>Ingredients</Typography>
+          <Grid container alignItems='baseline' spacing={1}>
+            {ingredients}
+          </Grid>
         </Grid>
       </Grid>
     </Grid>

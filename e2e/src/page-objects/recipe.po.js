@@ -1,4 +1,4 @@
-import { fillInput, goToUrl, waitForTextByCss } from './helpers.po'
+import { fillInput, getTextByCssSelector, goToUrl, waitForTextByCss } from './helpers.po'
 
 export const goTo = async (id) => {
   await goToUrl(`/recipes/${id}`)
@@ -54,4 +54,8 @@ export const editNotes = async (notes) => {
 export const getNotes = async () => {
   await global.page.waitForSelector('.notes-container__notes-content')
   return await global.page.$eval('.notes-container__notes-content', element => element.textContent)
+}
+
+export const getPortions = () => {
+  return getTextByCssSelector('.portions-value')
 }

@@ -36,7 +36,7 @@ class IngredientConverter {
   }
 
   private fun getIngredientWithFluidOunceUnit(ingredient: Ingredient) =
-      ingredient.copy(quantity = getQuantity("fl oz", ingredient.quantity.getValue().toDouble()))
+      ingredient.copy(quantity = getQuantity(ingredient.quantity.getValue().toDouble(), "fl oz"))
 
   data class IncompatibleIngredientUnitException(val ingredient1: Ingredient, val ingredient2: Ingredient)
     : Exception("Cannot convert ${ingredient1.quantity.getUnit().getName()} and ${ingredient2.quantity.getUnit().getName()}, units are incompatible")

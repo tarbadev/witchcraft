@@ -24,11 +24,11 @@ data class IngredientEntity(
         unit = getUnitShortName(ingredient.quantity)
     )
 
-    fun ingredient(): Ingredient {
+    fun toIngredient(): Ingredient {
         return Ingredient(
             id = id,
             name = name,
-            quantity = getQuantity(unit, quantity)
+            quantity = getQuantity(quantity, unit)
         )
     }
 }

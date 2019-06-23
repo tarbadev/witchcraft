@@ -1,6 +1,6 @@
 package com.tarbadev.witchcraft.recipes.domain.entity
 
-data class Recipe (
+data class Recipe(
     val id: Int = 0,
     val originUrl: String = "",
     val name: String = "",
@@ -8,5 +8,6 @@ data class Recipe (
     val favorite: Boolean = false,
     val ingredients: List<Ingredient> = emptyList(),
     val steps: List<Step> = emptyList(),
-    val isArchived: Boolean = false
+    val isArchived: Boolean = false,
+    val portions: Int? = null
 )
