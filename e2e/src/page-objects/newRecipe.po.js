@@ -25,7 +25,7 @@ export const addFromForm = async ({
   await global.page.type('.manual__steps textarea[name=steps]', steps)
 
   await global.page.click('.manual__submit-button')
-  await RecipePage.waitForPageLoaded()
+  await RecipesPage.waitForPageLoaded()
 }
 
 export const getSupportedDomains = async () => {
