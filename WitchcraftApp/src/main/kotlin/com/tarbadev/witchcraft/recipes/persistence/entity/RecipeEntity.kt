@@ -33,7 +33,8 @@ data class RecipeEntity(
           recipe.favorite,
           recipe.ingredients.map { IngredientEntity(it) },
           recipe.steps.map { StepEntity(it) }.toSet(),
-          recipe.isArchived
+          recipe.isArchived,
+          recipe.portions
       )
     }
   }

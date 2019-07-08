@@ -1,5 +1,7 @@
 import * as NewRecipePage from '../page-objects/newRecipe.po'
 import * as RecipesPage from '../page-objects/recipes.po'
+import { waitForTextByCss } from '../page-objects/helpers.po'
+import * as RecipePage from '../page-objects/recipe.po'
 
 describe('New Recipe', () => {
   describe('add recipe from url', () => {
@@ -49,6 +51,7 @@ describe('New Recipe', () => {
           imageUrl: 'http://some/originUrl/of/recipe.png',
           ingredients: '10 tbsp sugar\n1/2 cup olive oil\n1 lemon',
           steps: 'Add ingredients and stir\nServe on each plate',
+          portions: '4'
         },
       )
       const recipes = await RecipesPage.getRecipes()
@@ -59,6 +62,26 @@ describe('New Recipe', () => {
         'thai chicken salad',
       ]
       expect(recipes).toEqual(expectedRecipes)
+
+      await RecipesPage.clickOnRecipe('some recipe name')
+      await waitForTextByCss('.title', 'Some Recipe Name')
+
+      const ingredients = await RecipePage.getIngredients()
+      const expectedIngredients = [
+        'sugar',
+        'olive oil',
+        'lemon',
+      ].sort()
+      expect(ingredients).toEqual(expectedIngredients)
+
+      const steps = await RecipePage.getSteps()
+      const expectedSteps = [
+        'Add ingredients and stir',
+        'Serve on each plate',
+      ]
+      expect(steps).toEqual(expectedSteps)
+
+      expect(await RecipePage.getPortions()).toEqual('4')
     })
   })
 

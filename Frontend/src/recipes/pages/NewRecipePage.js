@@ -66,16 +66,32 @@ export const NewRecipePage = ({
                 <Typography variant='h6'>Add manually</Typography>
               </Grid>
               <Grid item xs={12}>
-                <TextField
-                  label='Name'
-                  className='manual__name'
-                  fullWidth
-                  onChange={(e) => {
-                    changeFormInput('manualUrl.name', e.target.value)
-                  }}
-                  value={manualUrl.name}
-                  placeholder='Mini Goat Cheese Stuffed Potato Appetizers'
-                  type='text' />
+                <Grid container direction='row'>
+                  <Grid item xs={9}>
+                    <TextField
+                      label='Name'
+                      className='manual__name'
+                      fullWidth
+                      onChange={(e) => {
+                        changeFormInput('manualUrl.name', e.target.value)
+                      }}
+                      value={manualUrl.name}
+                      placeholder='Mini Goat Cheese Stuffed Potato Appetizers'
+                      type='text' />
+                  </Grid>
+                  <Grid item xs={3}>
+                    <TextField
+                      label='Portions'
+                      className='manual__portions'
+                      fullWidth
+                      onChange={(e) => {
+                        changeFormInput('manualUrl.portions', e.target.value)
+                      }}
+                      value={manualUrl.portions}
+                      placeholder='4'
+                      type='text' />
+                  </Grid>
+                </Grid>
                 <TextField
                   label='Url'
                   className='manual__url'

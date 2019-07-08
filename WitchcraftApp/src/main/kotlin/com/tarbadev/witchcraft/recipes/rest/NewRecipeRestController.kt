@@ -35,7 +35,8 @@ class NewRecipeRestController(
         recipeFormRequest.url,
         recipeFormRequest.ingredients,
         recipeFormRequest.steps,
-        recipeFormRequest.imageUrl
+        recipeFormRequest.imageUrl,
+        recipeFormRequest.portions
     )
 
     return RecipeResponse.fromRecipe(saveRecipeUseCase.execute(recipe))

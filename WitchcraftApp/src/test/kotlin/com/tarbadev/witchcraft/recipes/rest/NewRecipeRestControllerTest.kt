@@ -64,7 +64,8 @@ class NewRecipeRestControllerTest(
         url = "http://some/url/of/recipe",
         imageUrl = "http://some/url/of/recipe.png",
         ingredients = arrayOf("10 tbsp sugar", "1/2 cup olive oil", "1 lemon").joinToString("\n"),
-        steps = arrayOf("Add ingredients and stir", "Serve on each plate").joinToString("\n")
+        steps = arrayOf("Add ingredients and stir", "Serve on each plate").joinToString("\n"),
+        portions = 4
     )
     val recipe = Recipe(
         name = recipeFormRequest.name,
@@ -77,7 +78,8 @@ class NewRecipeRestControllerTest(
         steps = recipeFormRequest.steps
             .split("\n")
             .dropLastWhile { it.isEmpty() }
-            .map { step -> Step(name = step) }
+            .map { step -> Step(name = step) },
+        portions = 4
     )
 
     whenever(getRecipeDetailsFromFormUseCase.execute(
@@ -85,7 +87,8 @@ class NewRecipeRestControllerTest(
         recipeFormRequest.url,
         recipeFormRequest.ingredients,
         recipeFormRequest.steps,
-        recipeFormRequest.imageUrl
+        recipeFormRequest.imageUrl,
+        recipeFormRequest.portions
     )).thenReturn(recipe)
     whenever(saveRecipeUseCase.execute(recipe)).thenReturn(recipe)
 

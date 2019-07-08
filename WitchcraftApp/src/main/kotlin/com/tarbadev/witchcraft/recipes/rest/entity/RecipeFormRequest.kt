@@ -5,5 +5,6 @@ data class RecipeFormRequest(
     var url: String = "",
     var imageUrl: String = "",
     var ingredients: String = "",
-    var steps: String = ""
+    var steps: String = "",
+    var portions: Int = 0
 )

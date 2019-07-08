@@ -18,6 +18,7 @@ describe('NewRecipePage', function () {
     const imageUrl = 'imageUrl'
     const ingredients = 'ingredients'
     const steps = 'steps'
+    const portions = '4'
 
     newRecipe.find('.auto__url').simulate('change', { target: { value: url } })
     newRecipe.find('.manual__name').simulate('change', { target: { value: name } })
@@ -25,6 +26,7 @@ describe('NewRecipePage', function () {
     newRecipe.find('.manual__image-url').simulate('change', { target: { value: imageUrl } })
     newRecipe.find('.manual__ingredients').simulate('change', { target: { value: ingredients } })
     newRecipe.find('.manual__steps').simulate('change', { target: { value: steps } })
+    newRecipe.find('.manual__portions').simulate('change', { target: { value: portions } })
 
     expect(changeFormInputSpy).toHaveBeenCalledWith('autoUrl.url', url)
     expect(changeFormInputSpy).toHaveBeenCalledWith('manualUrl.name', name)
@@ -32,6 +34,7 @@ describe('NewRecipePage', function () {
     expect(changeFormInputSpy).toHaveBeenCalledWith('manualUrl.imageUrl', imageUrl)
     expect(changeFormInputSpy).toHaveBeenCalledWith('manualUrl.ingredients', ingredients)
     expect(changeFormInputSpy).toHaveBeenCalledWith('manualUrl.steps', steps)
+    expect(changeFormInputSpy).toHaveBeenCalledWith('manualUrl.portions', portions)
   })
 
   it('calls the callback when submit button is clicked on auto url', () => {

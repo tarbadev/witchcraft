@@ -11,7 +11,7 @@ class GetRecipeDetailsFromFormUseCase(
     private val convertAndAddSameIngredientUseCase: ConvertAndAddSameIngredientUseCase
 ) {
 
-  fun execute(name: String, url: String, ingredients: String, steps: String, imgUrl: String): Recipe {
+  fun execute(name: String, url: String, ingredients: String, steps: String, imgUrl: String, portions: Int): Recipe {
     return Recipe(
         name = name,
         originUrl = url,
@@ -21,7 +21,7 @@ class GetRecipeDetailsFromFormUseCase(
             .split("\n".toRegex())
             .dropLastWhile { it.isEmpty() }
             .map { Step(name = it) },
-        portions = null
+        portions = portions
     )
   }
 

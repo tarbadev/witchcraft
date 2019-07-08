@@ -14,7 +14,7 @@ export const addFromUrl = async (url) => {
 }
 
 export const addFromForm = async ({
-  name, originUrl, imageUrl, ingredients, steps,
+  name, originUrl, imageUrl, ingredients, steps, portions
 }) => {
   await goTo()
 
@@ -23,6 +23,7 @@ export const addFromForm = async ({
   await global.page.type('.manual__image-url input', imageUrl)
   await global.page.type('.manual__ingredients textarea[name=ingredients]', ingredients)
   await global.page.type('.manual__steps textarea[name=steps]', steps)
+  await global.page.type('.manual__portions input', portions)
 
   await global.page.click('.manual__submit-button')
   await RecipesPage.waitForPageLoaded()
