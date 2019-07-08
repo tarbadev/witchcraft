@@ -47,7 +47,7 @@ export const NewRecipePage = ({
   const supportedDomainList = supportedDomains.map((domain) => (
     <GridListTile key={domain.name}>
       <Button href={domain.url} rel='noopener noreferrer' target='_blank' className='supported-domains__domain'>
-        <img src={domain.imgUrl} title={domain.name} className='supported-domains__domain-image' />
+        <img src={domain.imgUrl} title={domain.name} className='supported-domains__domain-image' alt={domain.name} />
       </Button>
     </GridListTile>
   ))
@@ -142,6 +142,7 @@ export const NewRecipePage = ({
                   variant='contained'
                   className='manual__submit-button'
                   color='primary'
+                  href=''
                   onClick={onManualUrlFormSubmit}>
                   Submit
                 </Button>
@@ -169,7 +170,12 @@ export const NewRecipePage = ({
                   type='search' />
               </Grid>
               <Grid item xs={12}>
-                <Button variant='contained' className='auto__submit-button' color='primary' onClick={onUrlFormSubmit}>
+                <Button
+                  variant='contained'
+                  className='auto__submit-button'
+                  color='primary'
+                  href=''
+                  onClick={onUrlFormSubmit}>
                   Submit
                 </Button>
               </Grid>

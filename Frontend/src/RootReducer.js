@@ -103,10 +103,9 @@ const initialState = {
 }
 
 export const reducer = (state = initialState, action) => {
-  switch (action.type) {
-    case SET_STATE:
-      return updateIn(action.key, constant(action.payload), state)
-    default:
-      return state
+  if (action.type === SET_STATE) {
+    return updateIn(action.key, constant(action.payload), state)
+  } else {
+    return state
   }
 }
