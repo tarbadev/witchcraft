@@ -1,4 +1,10 @@
-import { formInputChange, getSupportedDomains, submitForm, submitFormSuccess, getSupportedDomainsSuccess } from './NewRecipeActions'
+import {
+  formInputChange,
+  getSupportedDomains,
+  getSupportedDomainsSuccess,
+  submitForm,
+  submitFormSuccess,
+} from './NewRecipeActions'
 import { setState } from '../../RootReducer'
 import { fetchAction } from '../../WitchcraftMiddleware'
 
@@ -10,7 +16,7 @@ describe('newRecipeActions', () => {
 
       formInputChange('url', url)(dispatchSpy)
 
-      expect(dispatchSpy).toHaveBeenCalledWith(setState('newRecipePage.forms.url', url))
+      expect(dispatchSpy).toHaveBeenCalledWith(setState('pages.newRecipePage.forms.url', url))
     })
   })
 
@@ -39,7 +45,7 @@ describe('newRecipeActions', () => {
 
       submitFormSuccess()(dispatchSpy)
 
-      expect(dispatchSpy).toHaveBeenCalledWith(setState('newRecipePage.forms.recipeAdded', true))
+      expect(dispatchSpy).toHaveBeenCalledWith(setState('pages.newRecipePage.forms.recipeAdded', true))
     })
   })
 
@@ -72,7 +78,7 @@ describe('newRecipeActions', () => {
       getSupportedDomainsSuccess(data)(dispatchSpy)
 
       expect(dispatchSpy).toHaveBeenCalledWith(setState(
-        'newRecipePage.supportedDomains',
+        'pages.newRecipePage.supportedDomains',
         data
       ))
     })

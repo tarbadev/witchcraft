@@ -2,10 +2,10 @@ import { fetchAction } from 'src/WitchcraftMiddleware'
 import { setState } from 'src/RootReducer'
 
 export const formInputChange = (key, value) => dispatch =>
-  dispatch(setState(`newRecipePage.forms.${key}`, value))
+  dispatch(setState(`pages.newRecipePage.forms.${key}`, value))
 
 export const submitFormSuccess = () => dispatch =>
-  dispatch(setState('newRecipePage.forms.recipeAdded', true))
+  dispatch(setState('pages.newRecipePage.forms.recipeAdded', true))
 
 export const submitForm = (url, form) => dispatch =>
   dispatch(fetchAction({
@@ -24,5 +24,5 @@ export const getSupportedDomains = () => dispatch => {
 }
 
 export const getSupportedDomainsSuccess = data => dispatch => {
-  dispatch(setState('newRecipePage.supportedDomains', data))
+  dispatch(setState('pages.newRecipePage.supportedDomains', data))
 }

@@ -7,20 +7,22 @@ export function setState(key, payload) {
 }
 
 const initialState = {
-  newRecipePage: {
-    forms: {
-      autoUrl: {
-        url: '',
+  pages: {
+    newRecipePage: {
+      forms: {
+        autoUrl: {
+          url: '',
+        },
+        manualUrl: {
+          name: '',
+          url: '',
+          imageUrl: '',
+          ingredients: '',
+          steps: '',
+        },
       },
-      manualUrl: {
-        name: '',
-        url: '',
-        imageUrl: '',
-        ingredients: '',
-        steps: '',
-      },
+      supportedDomains: [],
     },
-    supportedDomains: [],
   },
   recipe: {
     id: 0,

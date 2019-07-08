@@ -41,7 +41,7 @@ export const NewRecipePage = ({
 
   if (redirect) {
     history.push('/recipes')
-    setState('newRecipePage.forms', { recipeAdded: false, autoUrl: {}, manualUrl: {} })
+    setState('pages.newRecipePage.forms', { recipeAdded: false, autoUrl: {}, manualUrl: {} })
   }
 
   const supportedDomainList = supportedDomains.map((domain) => (
@@ -198,10 +198,10 @@ NewRecipePage.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    autoUrl: state.app.newRecipePage.forms.autoUrl,
-    manualUrl: state.app.newRecipePage.forms.manualUrl,
-    redirect: state.app.newRecipePage.forms.recipeAdded,
-    supportedDomains: state.app.newRecipePage.supportedDomains,
+    autoUrl: state.app.pages.newRecipePage.forms.autoUrl,
+    manualUrl: state.app.pages.newRecipePage.forms.manualUrl,
+    redirect: state.app.pages.newRecipePage.forms.recipeAdded,
+    supportedDomains: state.app.pages.newRecipePage.supportedDomains,
   }
 }
 
