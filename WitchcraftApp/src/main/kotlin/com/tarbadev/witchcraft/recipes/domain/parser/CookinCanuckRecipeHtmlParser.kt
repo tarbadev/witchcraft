@@ -29,6 +29,7 @@ class CookinCanuckRecipeHtmlParser(
   override val imgUrlSelector = "div.wprm-recipe-image img"
   override val imgUrlAttribute = "data-lazy-src"
   override val ingredientSelector = "li.wprm-recipe-ingredient"
+  override val portionsSelector = "span.wprm-recipe-servings"
 
   override fun getIngredientsFromHtml(html: Document): List<Ingredient> {
     val ingredients = ArrayList<Ingredient>()

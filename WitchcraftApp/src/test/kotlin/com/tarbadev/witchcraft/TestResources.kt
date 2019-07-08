@@ -56,7 +56,8 @@ class TestResources {
               Step(name = "Using a small, sharp knife, cut a small slice off of the bottom of each potato so that they sit flat. Cut a small circle out of the top of each potato, then scoop out some of the flesh with a ¼ teaspoon measuring spoon. Reserve the flesh and top for another use (mix into mashed potatoes!)"),
               Step(name = "Scoop about 1 teaspoon of the savory filling into half of the potatoes (you could choose one color of potato) and garnish with parsley. Scoop the sweet filling into the remaining half of the potatoes and garnish with the remaining pistachios."),
               Step(name = "Arrange on a serving plate. Serve.")
-          )
+          ),
+          portions = 24
       )
       val helloFresh = Recipe(
           name = "Baja Chicken Quesadillas",
@@ -127,7 +128,8 @@ class TestResources {
               Step(name = "In a small bowl, combine sour cream, lime zest (to taste), and juice from 1 lime wedge (2 lime wedges for 4 servings). Add water, 1 tsp at a time, until mixture reaches drizzling consistency. Season with salt and pepper."),
               Step(name = "Place tortillas on a work surface. Evenly sprinkle mozzarella and Mexican cheese onto one side of each tortilla. Top cheese with filling, then fold tortillas in half to create quesadillas. Heat a drizzle of oil and 1 TBSP butter (2 TBSP for 4 servings) in pan used for chicken over medium-high heat. Working in batches, add quesadillas and cook until golden brown on the first side, 1-2 minutes. Flip and cook 1 minute more. Transfer to a paper-towel-lined plate."),
               Step(name = "Transfer quesadillas to a cutting board; slice into thirds and divide between plates. Serve with salsa, lime crema, and hot sauce (to taste). Serve with any remaining lime wedges on the side.")
-          )
+          ),
+          portions = 2
       )
 
       val marmiton = Recipe(
@@ -170,7 +172,8 @@ class TestResources {
               Step(name = "Mélanger délicatement avec un fouet en ajoutant au fur et à mesure le lait. La pâte ainsi obtenue doit avoir une consistance d'un liquide légèrement épais."),
               Step(name = "Parfumer de rhum."),
               Step(name = "Faire chauffer une poêle antiadhésive et la huiler très légèrement. Y verser une louche de pâte, la répartir dans la poêle puis attendre qu'elle soit cuite d'un côté avant de la retourner. Cuire ainsi toutes les crêpes à feu doux.")
-          )
+          ),
+          portions = 15
       )
     }
   }

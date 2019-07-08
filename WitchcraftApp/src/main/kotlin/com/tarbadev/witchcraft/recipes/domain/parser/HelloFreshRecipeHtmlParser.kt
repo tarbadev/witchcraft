@@ -28,6 +28,7 @@ class HelloFreshRecipeHtmlParser(
   override val imgUrlSelector = "div > img"
   override val imgUrlAttribute = "src"
   override val ingredientSelector = "div.fela-1qz307e"
+  override val portionsSelector = "div.fela-txm046 button"
 
   override fun getStepsFromHtml(html: Document): List<Step> {
     val steps = ArrayList<Step>()

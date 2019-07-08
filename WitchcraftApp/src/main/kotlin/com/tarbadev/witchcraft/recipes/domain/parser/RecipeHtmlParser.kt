@@ -20,6 +20,7 @@ abstract class RecipeHtmlParser(
   abstract val imgUrlSelector: String
   abstract val imgUrlAttribute: String
   abstract val ingredientSelector: String
+  abstract val portionsSelector: String
 
   abstract val supportedDomain: SupportedDomain
   abstract fun getStepsFromHtml(html: Document): List<Step>
@@ -30,7 +31,7 @@ abstract class RecipeHtmlParser(
     val imgUrl = getAttributeValueFromSelector(html, imgUrlSelector, imgUrlAttribute)
     val ingredients = getIngredientsFromHtml(html)
     val steps = getStepsFromHtml(html)
-    val portions = null
+    val portions = getPortionsFromHtml(html)
 
     return Recipe(
         name = name,
@@ -55,8 +56,12 @@ abstract class RecipeHtmlParser(
     return convertAndAddSameIngredientUseCase.execute(ingredients)
   }
 
+  protected open fun getPortionsFromHtml(html: Document): Int {
+    return getTextFromSelector(html, portionsSelector).toInt()
+  }
+
   private fun getTextFromSelector(html: Document, selector: String): String {
-    return html.select(selector).text()
+    return html.select(selector)[0].text()
   }
 
   private fun getAttributeValueFromSelector(html: Document, selector: String, attribute: String): String {

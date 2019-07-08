@@ -117,10 +117,10 @@ class IngredientFromStringUseCaseTest {
   @Test
   fun execute_acceptsParenthesesInName() {
     val expectedIngredient = Ingredient(
-        name = "(something)",
+        name = "ingredient (something)",
         quantity = 1.cup
     )
-    assertThat(subject.execute("1 cup (something)")).isEqualTo(expectedIngredient)
+    assertThat(subject.execute("1 cup ingredient (something)")).isEqualTo(expectedIngredient)
   }
 
   @Test
@@ -135,10 +135,10 @@ class IngredientFromStringUseCaseTest {
   @Test
   fun execute_changesUnitToLowerButNotName() {
     val expectedIngredient = Ingredient(
-        name = "Something",
+        name = "diced roasted red pepper",
         quantity = 1.cup
     )
-    assertThat(subject.execute("1 Cup Something")).isEqualTo(expectedIngredient)
+    assertThat(subject.execute("1 Cup diced roasted red pepper")).isEqualTo(expectedIngredient)
   }
 
   @Test
@@ -208,5 +208,50 @@ class IngredientFromStringUseCaseTest {
         quantity = 0.5.verre
     )
     assertThat(subject.execute("1/2 verre de bière")).isEqualTo(expectedIngredient)
+  }
+
+  @Test
+  fun execute_trimsSpacesFromName() {
+    val expectedIngredient = Ingredient(
+        name = "honey",
+        quantity = 3.teaspoon
+    )
+    assertThat(subject.execute("3 tsp honey")).isEqualTo(expectedIngredient)
+  }
+
+  @Test
+  fun execute_canDetectWhenNoUnit() {
+    val expectedIngredient = Ingredient(
+        name = "oeufs entiers",
+        quantity = 3.unit
+    )
+    assertThat(subject.execute("3 oeufs entiers")).isEqualTo(expectedIngredient)
+  }
+
+  @Test
+  fun execute_removesContainsMilk() {
+    val expectedIngredient = Ingredient(
+        name = "mozzarella",
+        quantity = 0.5.teaspoon
+    )
+    assertThat(subject.execute("1/2 tsp mozzarella(ContainsMilk)")).isEqualTo(expectedIngredient)
+  }
+
+  @Test
+  fun execute_removesContainsWheat() {
+    val expectedIngredient = Ingredient(
+        name = "mozzarella",
+        quantity = 0.5.teaspoon
+    )
+    assertThat(subject.execute("1/2 tsp mozzarella(ContainsWheat)")).isEqualTo(expectedIngredient)
+  }
+
+  @Test
+  fun execute_acceptsTheWordUnitAsAUnit() {
+    val expectedIngredient = Ingredient(
+        name = "Flour Tortilla",
+        quantity = 1.unit
+    )
+    assertThat(subject.execute("1 unit Flour Tortilla")).isEqualTo(expectedIngredient)
   }
 }

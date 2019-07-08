@@ -10,20 +10,20 @@ describe('Recipe', () => {
 
     const ingredients = await RecipePage.getIngredients()
     const expectedIngredients = [
-      'napa cabbage, thinly sliced (about 4 cups)',
-      'small red cabbage, thinly sliced (about 2 cups)',
-      'medium carrots, grated (about 1 cup)',
-      'green onion, thinly sliced',
-      'minced cilantro',
-      'cooked, shredded chicken breast',
-      'slivered almonds, toasted',
-      'lime, juiced',
-      'natural peanut butter',
-      'low-sodium soy sauce',
-      'agave nectar (or honey)',
-      'fish sauce',
-      'rice vinegar',
-      'chili garlic sauce',
+      'Napa cabbage, thinly sliced (about 4 cups)',
+      'Small red cabbage, thinly sliced (about 2 cups)',
+      'Medium carrots, grated (about 1 cup)',
+      'Green onion, thinly sliced',
+      'Minced cilantro',
+      'Cooked, shredded chicken breast',
+      'Slivered almonds, toasted',
+      'Lime, juiced',
+      'Natural peanut butter',
+      'Low-sodium soy sauce',
+      'Agave nectar (or honey)',
+      'Fish sauce',
+      'Rice vinegar',
+      'Chili garlic sauce',
     ].sort()
     expect(ingredients).toEqual(expectedIngredients)
   })

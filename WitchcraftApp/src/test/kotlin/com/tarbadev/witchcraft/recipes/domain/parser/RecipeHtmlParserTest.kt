@@ -22,7 +22,8 @@ class RecipeHtmlParserTest {
       override val recipeNameSelector: String = "",
       override val imgUrlSelector: String = "",
       override val imgUrlAttribute: String = "",
-      override val ingredientSelector: String = ""
+      override val ingredientSelector: String = "",
+      override val portionsSelector: String = ""
   ) : RecipeHtmlParser(supportedUrl, mock(), mock()) {
     override val supportedDomain: SupportedDomain = mock()
 

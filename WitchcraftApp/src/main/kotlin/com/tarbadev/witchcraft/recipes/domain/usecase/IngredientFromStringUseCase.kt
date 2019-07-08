@@ -24,10 +24,12 @@ class IngredientFromStringUseCase {
         .replace("tablespoon", "tbsp")
         .replace("cuillère à soupe", "tbsp")
         .replace("cuillères à soupe", "tbsp")
+        .replace("(ContainsMilk)", "")
+        .replace("(ContainsWheat)", "")
     var quantity = 0.0
     var unit = ""
     var name = ""
-    val pattern = Pattern.compile("([\\d ]*\\d+[[\\⁄\\/]\\d]*|\\d+|)([\\s]|)(([A-Za-z]+?|[A-Za-z]+?)(s\\b|\\b)|)([ .,de]*)([()\\w[À-ÿ] ,-\\.\\/&\\'!\\+]+)")
+    val pattern = Pattern.compile("([\\d ]*\\d+[[\\⁄\\/]\\d]*|\\d+|)([\\s]|)(([A-Za-z]+?|[A-Za-z]+?)(s\\b|\\b)|)([ .,]*)((\\bde\\b)*)([()\\w[À-ÿ] ,-\\.\\/&\\'!\\+]+)")
     val matcher = pattern.matcher(newText)
     if (matcher.find()) {
       val quantityStr = matcher.group(1)
@@ -67,10 +69,10 @@ class IngredientFromStringUseCase {
         }
       }
 
-      name += matcher.group(7)
+      name += matcher.group(9)
 
       return Ingredient(
-          name = name,
+          name = name.trim(),
           quantity = getQuantity(quantity, unit)
       )
     } else {

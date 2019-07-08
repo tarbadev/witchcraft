@@ -10,7 +10,7 @@ class IngredientResponseTest {
   fun `constructor initiates object from an Ingredient`() {
     val ingredient = Ingredient(
         id = 10,
-        name = "Raclette cheese",
+        name = "raclette cheese",
         quantity = 2.pound
     )
 

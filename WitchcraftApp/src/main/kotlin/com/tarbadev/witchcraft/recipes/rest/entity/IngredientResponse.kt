@@ -13,7 +13,7 @@ data class IngredientResponse(
     fun fromIngredient(ingredient: Ingredient): IngredientResponse =
         IngredientResponse(
             id = ingredient.id,
-            name = ingredient.name,
+            name = ingredient.name.capitalize(),
             quantity = "%.3f".format(ingredient.quantity.getValue().toDouble()).toDouble(),
             unit = getUnitShortName(ingredient.quantity)
         )
