@@ -23,6 +23,12 @@ const initialState = {
       },
       supportedDomains: [],
     },
+    recipePage: {
+      isDeleting: false,
+      editableNotes: false,
+      notes: '',
+      notesInput: '',
+    },
   },
   recipe: {
     id: 0,
@@ -37,12 +43,6 @@ const initialState = {
   },
   recipes: [],
   allRecipes: [],
-  recipePage: {
-    isDeleting: false,
-    editableNotes: false,
-    notes: '',
-    notesInput: '',
-  },
   editRecipe: {
     form: {
       id: 0,

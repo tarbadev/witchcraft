@@ -105,7 +105,7 @@ describe('RecipePage', function () {
 
       recipePage.find('.notes-container__editable-notes').simulate('change', { target: { value: 'The cheese is good' } })
 
-      expect(editNotesSpy).toHaveBeenCalledWith('recipePage.notesInput', 'The cheese is good')
+      expect(editNotesSpy).toHaveBeenCalledWith('pages.recipePage.notesInput', 'The cheese is good')
     })
 
     it('Calls updateNotes when update notes button clicked', () => {

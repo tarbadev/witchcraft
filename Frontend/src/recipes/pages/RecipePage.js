@@ -60,7 +60,7 @@ export const RecipePage = ({
         multiline={true}
         className='notes-container__editable-notes'
         value={notesInput}
-        onChange={(event) => editNotes('recipePage.notesInput', event.target.value)}
+        onChange={(event) => editNotes('pages.recipePage.notesInput', event.target.value)}
         onBlur={hideEditableNotes} />
   } else if (notes) {
     notesComponent =
@@ -107,18 +107,19 @@ export const RecipePage = ({
             <Typography variant='h5' className='title witchcraft-title'>
               {recipe.name}
             </Typography>
-            <IconButton onClick={() => toggleFavorite(recipe.id, !recipe.favorite)} className={favoriteClassName}>
+            <IconButton href='' onClick={() => toggleFavorite(recipe.id, !recipe.favorite)} className={favoriteClassName}>
               <FavoriteIcon />
             </IconButton>
           </Grid>
           <Grid item className='circularProgressContainer'>
-            <Button className='modifyButton' variant='contained' onClick={onModifyButtonClick}>
+            <Button className='modifyButton' variant='contained' href='' onClick={onModifyButtonClick}>
               <EditIcon className='editIcon' />
             </Button>
             <Button
               className='deleteButton'
               variant='contained'
               onClick={() => deleteRecipe(recipe.id)}
+              href=''
               disabled={isDeleting}>
               <DeleteIcon className='deleteIcon' />
             </Button>
@@ -152,6 +153,7 @@ export const RecipePage = ({
             <Button
               className='notes-container__update-notes-button'
               color='primary'
+              href=''
               variant='outlined'
               onMouseDown={() => updateNotes(recipe.id, notesInput)}>
               Update Notes
@@ -201,9 +203,9 @@ RecipePage.propTypes = {
 const mapStateToProps = state => {
   return {
     recipe: state.app.recipe,
-    notes: state.app.recipePage.notes,
-    editableNotes: state.app.recipePage.editableNotes,
-    notesInput: state.app.recipePage.notesInput,
+    notes: state.app.pages.recipePage.notes,
+    editableNotes: state.app.pages.recipePage.editableNotes,
+    notesInput: state.app.pages.recipePage.notesInput,
   }
 }
 

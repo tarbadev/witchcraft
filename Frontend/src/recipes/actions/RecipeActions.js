@@ -45,7 +45,7 @@ export const setFavorite = (id, isFavorite) => dispatch => {
 }
 
 export const deleteRecipeCallback = () => dispatch => {
-  dispatch(setState('recipePage.isDeleting', false))
+  dispatch(setState('pages.recipePage.isDeleting', false))
   dispatch(push('/recipes'))
 }
 
@@ -81,7 +81,7 @@ export const updateNotes = (id, notes) => dispatch => {
 }
 
 export const updateNotesSuccess = data => dispatch => {
-  dispatch(setState('recipePage.notes', data.notes))
+  dispatch(setState('pages.recipePage.notes', data.notes))
 }
 
 export const getRecipeNotes = id => dispatch => {
@@ -94,21 +94,21 @@ export const getRecipeNotes = id => dispatch => {
 }
 
 export const getRecipesNotesSuccess = data => dispatch => {
-  dispatch(setState('recipePage.notes', data.notes))
-  dispatch(setState('recipePage.notesInput', ''))
+  dispatch(setState('pages.recipePage.notes', data.notes))
+  dispatch(setState('pages.recipePage.notesInput', ''))
 }
 
 export const getRecipesNotesError = () => dispatch => {
-  dispatch(setState('recipePage.notes', ''))
-  dispatch(setState('recipePage.notesInput', ''))
+  dispatch(setState('pages.recipePage.notes', ''))
+  dispatch(setState('pages.recipePage.notesInput', ''))
 }
 
 export const showEditableNotes = () => (dispatch, getState) => {
-  dispatch(setState('recipePage.notesInput', getState().app.recipePage.notes))
-  dispatch(setState('recipePage.editableNotes', true))
+  dispatch(setState('pages.recipePage.notesInput', getState().app.pages.recipePage.notes))
+  dispatch(setState('pages.recipePage.editableNotes', true))
 }
 
 export const hideEditableNotes = () => (dispatch) => {
-  dispatch(setState('recipePage.notesInput', ''))
-  dispatch(setState('recipePage.editableNotes', false))
+  dispatch(setState('pages.recipePage.notesInput', ''))
+  dispatch(setState('pages.recipePage.editableNotes', false))
 }

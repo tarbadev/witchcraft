@@ -149,7 +149,7 @@ describe('RecipeActions', () => {
     it('success callback saves recipes in state', () => {
       const dispatchSpy = jest.fn()
       deleteRecipeCallback()(dispatchSpy)
-      expect(dispatchSpy).toHaveBeenCalledWith(setState('recipePage.isDeleting', false))
+      expect(dispatchSpy).toHaveBeenCalledWith(setState('pages.recipePage.isDeleting', false))
       expect(dispatchSpy).toHaveBeenCalledWith({
         type: '@@router/CALL_HISTORY_METHOD',
         payload: { method: 'push', args: ['/recipes'] },
@@ -179,7 +179,7 @@ describe('RecipeActions', () => {
 
       updateNotesSuccess({ recipeId: 14, notes: 'New Notes' })(dispatchSpy)
 
-      expect(dispatchSpy).toHaveBeenCalledWith(setState('recipePage.notes', 'New Notes'))
+      expect(dispatchSpy).toHaveBeenCalledWith(setState('pages.recipePage.notes', 'New Notes'))
     })
   })
 
@@ -205,7 +205,7 @@ describe('RecipeActions', () => {
 
       getRecipesNotesSuccess({ notes: newNotes })(dispatchSpy)
 
-      expect(dispatchSpy).toHaveBeenCalledWith(setState('recipePage.notes', newNotes))
+      expect(dispatchSpy).toHaveBeenCalledWith(setState('pages.recipePage.notes', newNotes))
     })
   })
 
@@ -215,19 +215,19 @@ describe('RecipeActions', () => {
 
       getRecipesNotesError({ message: 'Notes not found' })(dispatchSpy)
 
-      expect(dispatchSpy).toHaveBeenCalledWith(setState('recipePage.notes', ''))
+      expect(dispatchSpy).toHaveBeenCalledWith(setState('pages.recipePage.notes', ''))
     })
   })
 
   describe('showEditableNotes', () => {
     it('saves the current value of notes into editableNotes and display form', () => {
       const dispatchSpy = jest.fn()
-      const getState = jest.fn(() => ({ app: { recipePage: { notes: 'Some notes' } } }))
+      const getState = jest.fn(() => ({ app: { pages: { recipePage: { notes: 'Some notes' } } } }))
 
       showEditableNotes()(dispatchSpy, getState)
 
-      expect(dispatchSpy).toHaveBeenCalledWith(setState('recipePage.notesInput', 'Some notes'))
-      expect(dispatchSpy).toHaveBeenCalledWith(setState('recipePage.editableNotes', true))
+      expect(dispatchSpy).toHaveBeenCalledWith(setState('pages.recipePage.notesInput', 'Some notes'))
+      expect(dispatchSpy).toHaveBeenCalledWith(setState('pages.recipePage.editableNotes', true))
     })
   })
 
@@ -237,8 +237,8 @@ describe('RecipeActions', () => {
 
       hideEditableNotes()(dispatchSpy)
 
-      expect(dispatchSpy).toHaveBeenCalledWith(setState('recipePage.notesInput', ''))
-      expect(dispatchSpy).toHaveBeenCalledWith(setState('recipePage.editableNotes', false))
+      expect(dispatchSpy).toHaveBeenCalledWith(setState('pages.recipePage.notesInput', ''))
+      expect(dispatchSpy).toHaveBeenCalledWith(setState('pages.recipePage.editableNotes', false))
     })
   })
 })
