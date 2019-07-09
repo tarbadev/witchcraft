@@ -8,9 +8,7 @@ export function setState(key, payload) {
 
 const pages = {
   newRecipePage: {
-    forms: {
-      recipeAdded: false,
-    },
+    recipeAdded: false,
     supportedDomains: [],
   },
   recipePage: {

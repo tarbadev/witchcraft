@@ -53,7 +53,7 @@ export const NewRecipePage = ({
 
   if (redirect) {
     history.push('/recipes')
-    setState('pages.newRecipePage.forms', { recipeAdded: false })
+    setState('pages.newRecipePage.recipeAdded', false)
   }
 
   const supportedDomainList = supportedDomains.map((domain) => (
@@ -198,7 +198,7 @@ NewRecipePage.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  redirect: state.app.pages.newRecipePage.forms.recipeAdded,
+  redirect: state.app.pages.newRecipePage.recipeAdded,
   supportedDomains: state.app.pages.newRecipePage.supportedDomains,
 })
 

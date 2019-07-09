@@ -28,7 +28,7 @@ describe('newRecipeActions', () => {
 
       submitFormSuccess()(dispatchSpy)
 
-      expect(dispatchSpy).toHaveBeenCalledWith(setState('pages.newRecipePage.forms.recipeAdded', true))
+      expect(dispatchSpy).toHaveBeenCalledWith(setState('pages.newRecipePage.recipeAdded', true))
     })
   })
 
