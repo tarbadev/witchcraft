@@ -29,6 +29,9 @@ const initialState = {
       notes: '',
       notesInput: '',
     },
+    newCartPage: {
+      form: [],
+    },
   },
   recipe: {
     id: 0,
@@ -65,9 +68,6 @@ const initialState = {
       ],
       favorite: false,
     },
-  },
-  newCartPage: {
-    form: [],
   },
   expressRecipeForm: {
     recipeName: '',

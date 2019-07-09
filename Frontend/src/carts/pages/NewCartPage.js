@@ -23,7 +23,7 @@ export const NewCartPage = ({
       control={
         <Switch
           className={`new-cart-page__switch-recipe-${index}`}
-          onChange={() => toggleRecipeSwitch(`newCartPage.form.${index}.selected`, !recipe.selected)}
+          onChange={() => toggleRecipeSwitch(`pages.newCartPage.form.${index}.selected`, !recipe.selected)}
           value={`${recipe.id}`}
           checked={recipe.selected}
           color='primary'
@@ -50,6 +50,7 @@ export const NewCartPage = ({
         <Button
           variant='contained'
           color='primary'
+          href=''
           className='new-cart-page__generate-button'
           onClick={onGenerateCartClick}>
           Generate
@@ -67,7 +68,7 @@ NewCartPage.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    form: state.app.newCartPage.form,
+    form: state.app.pages.newCartPage.form,
   }
 }
 
