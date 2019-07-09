@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -7,36 +7,30 @@ import Button from '@material-ui/core/Button'
 import Switch from '@material-ui/core/Switch'
 import FormGroup from '@material-ui/core/FormGroup'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
-
-import { setState } from 'src/RootReducer'
 import { createCart } from 'src/carts/actions/NewCartActions'
 import { PageTitle } from '../../PageTitle'
 
 export const NewCartPage = ({
-  form,
-  toggleRecipeSwitch,
+  recipes,
   generateCart,
 }) => {
-  const recipeList = form.map((recipe, index) => (
+  const [selectedRecipes, setSelectedRecipes] = useState([])
+
+  const recipeList = recipes.map((recipe, index) => (
     <FormControlLabel
       key={recipe.id}
       control={
         <Switch
           className={`new-cart-page__switch-recipe-${index}`}
-          onChange={() => toggleRecipeSwitch(`pages.newCartPage.form.${index}.selected`, !recipe.selected)}
+          onChange={() => setSelectedRecipes([...selectedRecipes, recipe.id])}
           value={`${recipe.id}`}
-          checked={recipe.selected}
+          checked={selectedRecipes.indexOf(recipe.id) >= 0}
           color='primary'
         />
       }
       label={recipe.name}
     />
   ))
-
-  const onGenerateCartClick = () => {
-    const recipeIds = form.filter(recipe => recipe.selected).map(recipe => ({ id: recipe.id }))
-    generateCart(recipeIds)
-  }
 
   return (
     <Grid container spacing={3}>
@@ -52,7 +46,7 @@ export const NewCartPage = ({
           color='primary'
           href=''
           className='new-cart-page__generate-button'
-          onClick={onGenerateCartClick}>
+          onClick={() => generateCart(selectedRecipes)}>
           Generate
         </Button>
       </Grid>
@@ -61,22 +55,11 @@ export const NewCartPage = ({
 }
 
 NewCartPage.propTypes = {
-  form: PropTypes.array,
-  toggleRecipeSwitch: PropTypes.func,
+  recipes: PropTypes.array,
   generateCart: PropTypes.func,
 }
 
-const mapStateToProps = state => {
-  return {
-    form: state.app.pages.newCartPage.form,
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({
-    toggleRecipeSwitch: setState,
-    generateCart: createCart,
-  }, dispatch)
-}
+const mapStateToProps = state => ({ recipes: state.app.allRecipes })
+const mapDispatchToProps = (dispatch) => bindActionCreators({ generateCart: createCart }, dispatch)
 
 export const NewCartPageContainer = connect(mapStateToProps, mapDispatchToProps)(NewCartPage)

@@ -53,9 +53,9 @@ export const WeekPage = ({
 
   const onCreateCartClick = () => {
     const recipeIds = week.days
-      .map(day => [{ id: day.lunch?.id }, { id: day.diner?.id }])
+      .map(day => [day.lunch?.id, day.diner?.id])
       .reduce((prev, curr) => prev.concat(curr))
-      .filter(recipeId => recipeId.id > 0)
+      .filter(recipeId => recipeId > 0)
 
     saveWeek(week)
     createCart(recipeIds)

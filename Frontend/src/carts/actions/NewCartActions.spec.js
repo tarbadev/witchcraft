@@ -4,7 +4,8 @@ import { createCart, createCartSuccess } from './NewCartActions'
 describe('NewCartActions', () => {
   it('createCart sends a request to create the cart', () => {
     const dispatchSpy = jest.fn()
-    const recipeIds = [
+    const recipeIds = [1, 2]
+    const recipeIdsForm = [
       { id: 1 },
       { id: 2 },
     ]
@@ -14,7 +15,7 @@ describe('NewCartActions', () => {
     expect(dispatchSpy).toHaveBeenCalledWith(fetchAction({
       url: '/api/carts',
       method: 'POST',
-      body: recipeIds,
+      body: recipeIdsForm,
       onSuccess: createCartSuccess,
     }))
   })

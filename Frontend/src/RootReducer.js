@@ -17,9 +17,6 @@ const pages = {
     notes: '',
     notesInput: '',
   },
-  newCartPage: {
-    form: [],
-  },
   weekPage: {
     modal: {
       isModalOpen: false,

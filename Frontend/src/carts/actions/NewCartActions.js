@@ -9,7 +9,7 @@ export const createCart = recipeIds => dispatch => {
   dispatch(fetchAction({
     url: '/api/carts',
     method: 'POST',
-    body: recipeIds,
+    body: recipeIds.map(id => ({ id })),
     onSuccess: createCartSuccess,
   }))
 }
