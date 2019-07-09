@@ -32,6 +32,15 @@ const initialState = {
     newCartPage: {
       form: [],
     },
+    weekPage: {
+      modal: {
+        isModalOpen: false,
+        day: '',
+        meal: '',
+        displayExpressRecipeForm: false,
+      },
+      showSuccessMessage: false,
+    },
   },
   recipe: {
     id: 0,
@@ -71,15 +80,6 @@ const initialState = {
   },
   expressRecipeForm: {
     recipeName: '',
-  },
-  weekPage: {
-    modal: {
-      isModalOpen: false,
-      day: '',
-      meal: '',
-      displayExpressRecipeForm: false,
-    },
-    showSuccessMessage: false,
   },
   carts: [],
   cart: {

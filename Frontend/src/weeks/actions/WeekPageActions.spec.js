@@ -1,4 +1,4 @@
-import { toggleModal, saveWeek, saveWeekSuccess } from './WeekPageActions'
+import { saveWeek, saveWeekSuccess, toggleModal } from './WeekPageActions'
 import { setState } from 'src/RootReducer'
 import { fetchAction } from 'src/WitchcraftMiddleware'
 
@@ -18,7 +18,7 @@ describe('WeekPageActions', () => {
 
     toggleModal(true, day, meal, recipeId)(dispatchSpy)
 
-    expect(dispatchSpy).toHaveBeenCalledWith(setState('weekPage.modal', newModal))
+    expect(dispatchSpy).toHaveBeenCalledWith(setState('pages.weekPage.modal', newModal))
   })
 
   describe('saveWeek', () => {
@@ -97,7 +97,7 @@ describe('WeekPageActions', () => {
     it('dispatches a state action to display the success message', () => {
       const dispatchSpy = jest.fn()
       saveWeekSuccess()(dispatchSpy)
-      expect(dispatchSpy).toHaveBeenCalledWith(setState('weekPage.showSuccessMessage', true))
+      expect(dispatchSpy).toHaveBeenCalledWith(setState('pages.weekPage.showSuccessMessage', true))
     })
   })
 })

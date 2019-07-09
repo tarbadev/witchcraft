@@ -9,12 +9,12 @@ export const toggleModal = (isModalOpen, day = '', meal = '', currentRecipeId) =
     currentRecipeId: currentRecipeId,
     displayExpressRecipeForm: false,
   }
-  dispatch(setState('weekPage.modal', newModal))
+  dispatch(setState('pages.weekPage.modal', newModal))
 }
 
 export const saveWeekSuccess = week => dispatch => {
   dispatch(setState('week', week))
-  dispatch(setState('weekPage.showSuccessMessage', true))
+  dispatch(setState('pages.weekPage.showSuccessMessage', true))
 }
 
 export const saveWeek = week => dispatch => {

@@ -13,7 +13,7 @@ import { getRecipe, getRecipeNotes } from 'src/recipes/actions/RecipeActions'
 import { getSupportedDomains } from 'src/recipes/actions/NewRecipeActions'
 import { getAllCarts } from 'src/carts/actions/CartsActions'
 import { getCart } from 'src/carts/actions/CartActions'
-import { getWeek, getCurrentWeek } from 'src/weeks/actions/WeekActions'
+import { getCurrentWeek, getWeek } from 'src/weeks/actions/WeekActions'
 
 export const history = createBrowserHistory()
 const rootReducer = combineReducers({
@@ -71,7 +71,7 @@ const pathRegexes = [
     callback: ([year, week]) => {
       store.dispatch(getAllRecipes())
       store.dispatch(getWeek(year, week))
-      store.dispatch(setState('weekPage.showSuccessMessage', false))
+      store.dispatch(setState('pages.weekPage.showSuccessMessage', false))
       store.dispatch(setState('currentPage', 'Weeks'))
     },
   }, {

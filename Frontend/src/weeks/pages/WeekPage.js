@@ -2,20 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import {
-  Snackbar,
-  Button,
-  Grid,
-  Typography,
-  SnackbarContent,
-  IconButton,
-  withStyles,
-} from '@material-ui/core'
+import { Button, Grid, IconButton, Snackbar, SnackbarContent, Typography, withStyles } from '@material-ui/core'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 import CloseIcon from '@material-ui/icons/Close'
 
-import { toggleModal, saveWeek } from 'src/weeks/actions/WeekPageActions'
+import { saveWeek, toggleModal } from 'src/weeks/actions/WeekPageActions'
 import { createCart } from 'src/carts/actions/NewCartActions'
 import { WeekPane } from 'src/weeks/components/WeekPane'
 import { RecipeListModalContainer } from 'src/weeks/components/RecipeListModal'
@@ -87,6 +79,7 @@ export const WeekPage = ({
               key="close"
               aria-label="Close"
               color="inherit"
+              href=''
               onClick={onSuccessButtonClose}
               className={'week-page__success-message-close'}>
               <CloseIcon />
@@ -111,6 +104,7 @@ export const WeekPage = ({
             className='week-page__save-button'
             variant='contained'
             color='primary'
+            href=''
             onClick={() => saveWeek(week)}>
             Save
           </Button>
@@ -120,6 +114,7 @@ export const WeekPage = ({
             className='week-page__create-cart-button'
             variant='contained'
             color='primary'
+            href=''
             onClick={onCreateCartClick}>
             Create Cart
           </Button>
@@ -146,7 +141,7 @@ WeekPage.propTypes = {
 const mapStateToProps = state => {
   return {
     week: state.app.week,
-    showSuccessMessage: state.app.weekPage.showSuccessMessage,
+    showSuccessMessage: state.app.pages.weekPage.showSuccessMessage,
   }
 }
 
@@ -155,7 +150,7 @@ const mapDispatchToProps = (dispatch) => {
     openModal: (day, meal, currentRecipeId) => toggleModal(true, day, meal, currentRecipeId),
     saveWeek: saveWeek,
     createCart: createCart,
-    onSuccessButtonClose: () => setState('weekPage.showSuccessMessage', false),
+    onSuccessButtonClose: () => setState('pages.weekPage.showSuccessMessage', false),
   }, dispatch)
 }
 

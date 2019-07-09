@@ -20,7 +20,7 @@ describe('RecipeListModalActions', () => {
       setRecipe(recipe, day, meal)(dispatchSpy)
 
       expect(dispatchSpy).toHaveBeenCalledWith(setState('week.days.0.lunch', recipe))
-      expect(dispatchSpy).toHaveBeenCalledWith(setState('weekPage.modal', newModal))
+      expect(dispatchSpy).toHaveBeenCalledWith(setState('pages.weekPage.modal', newModal))
     })
   })
 

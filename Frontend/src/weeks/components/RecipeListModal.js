@@ -3,21 +3,21 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import PropTypes from 'prop-types'
 import {
-  Modal,
-  Paper,
-  Grid,
-  GridList,
-  GridListTileBar,
-  GridListTile,
-  ListSubheader,
   Button,
   CardMedia,
+  Grid,
+  GridList,
+  GridListTile,
+  GridListTileBar,
+  ListSubheader,
+  Modal,
+  Paper,
   Typography,
 } from '@material-ui/core'
 import CheckCircleIcon from '@material-ui/icons/CheckCircle'
 
 import { toggleModal } from 'src/weeks/actions/WeekPageActions'
-import { setRecipe, addExpressRecipe } from 'src/weeks/actions/RecipeListModalActions'
+import { addExpressRecipe, setRecipe } from 'src/weeks/actions/RecipeListModalActions'
 import { setState } from 'src/RootReducer'
 import './RecipeListModal.css'
 import { ExpressRecipeFormModal } from './ExpressRecipeFormModal'
@@ -77,6 +77,7 @@ export const RecipeListModal = ({
                       className='week-page__add-express-recipe__button'
                       onClick={displayExpressRecipeForm}
                       variant='contained'
+                      href=''
                       color='primary'>
                       Add express recipe
                     </Button>
@@ -117,12 +118,12 @@ RecipeListModal.propTypes = {
 const mapStateToProps = state => {
   return {
     recipes: state.app.recipes,
-    isModalOpen: state.app.weekPage.modal.isModalOpen,
-    day: state.app.weekPage.modal.day,
-    meal: state.app.weekPage.modal.meal,
-    currentRecipeId: state.app.weekPage.modal.currentRecipeId,
+    isModalOpen: state.app.pages.weekPage.modal.isModalOpen,
+    day: state.app.pages.weekPage.modal.day,
+    meal: state.app.pages.weekPage.modal.meal,
+    currentRecipeId: state.app.pages.weekPage.modal.currentRecipeId,
     expressRecipeName: state.app.expressRecipeForm.recipeName,
-    isDisplayExpressRecipeForm: state.app.weekPage.modal.displayExpressRecipeForm,
+    isDisplayExpressRecipeForm: state.app.pages.weekPage.modal.displayExpressRecipeForm,
   }
 }
 
@@ -130,8 +131,8 @@ const mapDispatchToProps = dispatch => {
   return bindActionCreators({
     closeModal: () => toggleModal(false),
     onRecipeClick: setRecipe,
-    displayExpressRecipeForm: () => setState('weekPage.modal.displayExpressRecipeForm', true),
-    closeAddExpressRecipeForm: () => setState('weekPage.modal.displayExpressRecipeForm', false),
+    displayExpressRecipeForm: () => setState('pages.weekPage.modal.displayExpressRecipeForm', true),
+    closeAddExpressRecipeForm: () => setState('pages.weekPage.modal.displayExpressRecipeForm', false),
     setExpressRecipeName: recipeName => setState('expressRecipeForm.recipeName', recipeName),
     addExpressRecipe: addExpressRecipe,
   }, dispatch)

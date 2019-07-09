@@ -21,7 +21,7 @@ export const setRecipe = (recipe, day, meal) => dispatch => {
   }
   const dayIndex = days.indexOf(day.toLowerCase())
   dispatch(setState(`week.days.${dayIndex}.${meal.toLowerCase()}`, recipe))
-  dispatch(setState('weekPage.modal', modal))
+  dispatch(setState('pages.weekPage.modal', modal))
 }
 
 export const addExpressRecipe = (recipeName, day, meal) => dispatch => {

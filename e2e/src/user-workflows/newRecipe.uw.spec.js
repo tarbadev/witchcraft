@@ -173,7 +173,7 @@ describe('New Recipe', () => {
       expect(steps).toEqual(expectedSteps)
 
       expect(await RecipePage.getPortions()).toEqual('4')
-    })
+    }, 10000)
   })
 
   it('displays the list of supported domains', async () => {
