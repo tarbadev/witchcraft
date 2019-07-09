@@ -9,13 +9,7 @@ export function setState(key, payload) {
 const pages = {
   newRecipePage: {
     forms: {
-      manualUrl: {
-        name: '',
-        url: '',
-        imageUrl: '',
-        ingredients: '',
-        steps: '',
-      },
+      recipeAdded: false,
     },
     supportedDomains: [],
   },

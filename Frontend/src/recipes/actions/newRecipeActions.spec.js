@@ -1,25 +1,8 @@
-import {
-  formInputChange,
-  getSupportedDomains,
-  getSupportedDomainsSuccess,
-  submitForm,
-  submitFormSuccess,
-} from './NewRecipeActions'
-import { setState } from '../../RootReducer'
-import { fetchAction } from '../../WitchcraftMiddleware'
+import { getSupportedDomains, getSupportedDomainsSuccess, submitForm, submitFormSuccess } from './NewRecipeActions'
+import { setState } from 'src/RootReducer'
+import { fetchAction } from 'src/WitchcraftMiddleware'
 
 describe('newRecipeActions', () => {
-  describe('formInputChange', function () {
-    it('updates the state when called', () => {
-      const dispatchSpy = jest.fn()
-      const url = 'fakeUrl'
-
-      formInputChange('url', url)(dispatchSpy)
-
-      expect(dispatchSpy).toHaveBeenCalledWith(setState('pages.newRecipePage.forms.url', url))
-    })
-  })
-
   describe('submitForm', function () {
     it('submits the form when called', () => {
       const dispatchSpy = jest.fn()
@@ -72,14 +55,14 @@ describe('newRecipeActions', () => {
           name: 'Some Vendor',
           url: 'www.some.vendor.example.com/recipes',
           imgUrl: 'www.some.vendor.example.com/logo.png',
-        }
+        },
       ]
 
       getSupportedDomainsSuccess(data)(dispatchSpy)
 
       expect(dispatchSpy).toHaveBeenCalledWith(setState(
         'pages.newRecipePage.supportedDomains',
-        data
+        data,
       ))
     })
   })

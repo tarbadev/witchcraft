@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Button, Grid, makeStyles, Paper, TextField, Typography } from '@material-ui/core'
 import { setState } from 'src/RootReducer'
-import { formInputChange, submitForm } from 'src/recipes/actions/NewRecipeActions'
+import { submitForm } from 'src/recipes/actions/NewRecipeActions'
 
 import './NewRecipePage.css'
 import GridList from '@material-ui/core/GridList'
@@ -21,27 +21,39 @@ const useStyles = makeStyles({
 })
 
 export const NewRecipePage = ({
-  changeFormInput,
   submitForm,
-  manualUrl = {},
   redirect,
   history,
   setState,
   supportedDomains = [],
 }) => {
   const [urlFormValue, setUrlFormValue] = useState('')
+  const [manualFormName, setManualFormName] = useState('')
+  const [manualFormUrl, setManualFormUrl] = useState('')
+  const [manualFormImageUrl, setManualFormImageUrl] = useState('')
+  const [manualFormIngredients, setManualFormIngredients] = useState('')
+  const [manualFormSteps, setManualFormSteps] = useState('')
+  const [manualFormPortions, setManualFormPortions] = useState('')
   const classes = useStyles()
   const onUrlFormSubmit = () => {
     submitForm('/api/recipes/import-from-url', { url: urlFormValue })
   }
 
   const onManualUrlFormSubmit = () => {
-    submitForm('/api/recipes/import-from-form', manualUrl)
+    const manualForm = {
+      name: manualFormName,
+      url: manualFormUrl,
+      imageUrl: manualFormImageUrl,
+      ingredients: manualFormIngredients,
+      steps: manualFormSteps,
+      portions: manualFormPortions,
+    }
+    submitForm('/api/recipes/import-from-form', manualForm)
   }
 
   if (redirect) {
     history.push('/recipes')
-    setState('pages.newRecipePage.forms', { recipeAdded: false, manualUrl: {} })
+    setState('pages.newRecipePage.forms', { recipeAdded: false })
   }
 
   const supportedDomainList = supportedDomains.map((domain) => (
@@ -72,10 +84,8 @@ export const NewRecipePage = ({
                       label='Name'
                       className='manual__name'
                       fullWidth
-                      onChange={(e) => {
-                        changeFormInput('manualUrl.name', e.target.value)
-                      }}
-                      value={manualUrl.name}
+                      onChange={(e) => setManualFormName(e.target.value)}
+                      value={manualFormName}
                       placeholder='Mini Goat Cheese Stuffed Potato Appetizers'
                       type='text' />
                   </Grid>
@@ -84,10 +94,8 @@ export const NewRecipePage = ({
                       label='Portions'
                       className='manual__portions'
                       fullWidth
-                      onChange={(e) => {
-                        changeFormInput('manualUrl.portions', e.target.value)
-                      }}
-                      value={manualUrl.portions}
+                      onChange={(e) => setManualFormPortions(e.target.value)}
+                      value={manualFormPortions}
                       placeholder='4'
                       type='text' />
                   </Grid>
@@ -96,20 +104,16 @@ export const NewRecipePage = ({
                   label='Url'
                   className='manual__url'
                   fullWidth
-                  onChange={(e) => {
-                    changeFormInput('manualUrl.url', e.target.value)
-                  }}
-                  value={manualUrl.url}
+                  onChange={(e) => setManualFormUrl(e.target.value)}
+                  value={manualFormUrl}
                   placeholder='http://example.com/recipe/32434'
                   type='text' />
                 <TextField
                   label='Image Url'
                   className='manual__image-url'
                   fullWidth
-                  onChange={(e) => {
-                    changeFormInput('manualUrl.imageUrl', e.target.value)
-                  }}
-                  value={manualUrl.imageUrl}
+                  onChange={(e) => setManualFormImageUrl(e.target.value)}
+                  value={manualFormImageUrl}
                   placeholder='http://example.com/recipe/32434.png'
                   type='text' />
                 <TextField
@@ -118,10 +122,8 @@ export const NewRecipePage = ({
                   name='ingredients'
                   multiline
                   fullWidth
-                  onChange={(e) => {
-                    changeFormInput('manualUrl.ingredients', e.target.value)
-                  }}
-                  value={manualUrl.ingredients}
+                  onChange={(e) => setManualFormIngredients(e.target.value)}
+                  value={manualFormIngredients}
                   placeholder='2 oz. soft goat cheese'
                   type='text' />
                 <TextField
@@ -130,11 +132,9 @@ export const NewRecipePage = ({
                   name='steps'
                   multiline
                   fullWidth
-                  onChange={(e) => {
-                    changeFormInput('manualUrl.steps', e.target.value)
-                  }}
-                  value={manualUrl.steps}
-                  placeholder='Test\nTest'
+                  onChange={(e) => setManualFormSteps(e.target.value)}
+                  value={manualFormSteps}
+                  placeholder='Add ingredients and stir\nServe on each plate'
                   type='text' />
               </Grid>
               <Grid item xs={12}>
@@ -190,9 +190,7 @@ export const NewRecipePage = ({
 
 NewRecipePage.propTypes = {
   classes: PropTypes.object,
-  changeFormInput: PropTypes.func,
   submitForm: PropTypes.func,
-  manualUrl: PropTypes.object,
   redirect: PropTypes.bool,
   history: PropTypes.object,
   setState: PropTypes.func,
@@ -200,7 +198,6 @@ NewRecipePage.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  manualUrl: state.app.pages.newRecipePage.forms.manualUrl,
   redirect: state.app.pages.newRecipePage.forms.recipeAdded,
   supportedDomains: state.app.pages.newRecipePage.supportedDomains,
 })
@@ -208,7 +205,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
-      changeFormInput: formInputChange,
       submitForm: submitForm,
       setState: setState,
     },
