@@ -1,5 +1,5 @@
 import React from 'react'
-import { shallow } from 'enzyme'
+import { mount, shallow } from 'enzyme'
 
 import { NewRecipePage } from './NewRecipePage'
 
@@ -20,7 +20,6 @@ describe('NewRecipePage', function () {
     const steps = 'steps'
     const portions = '4'
 
-    newRecipe.find('.auto__url').simulate('change', { target: { value: url } })
     newRecipe.find('.manual__name').simulate('change', { target: { value: name } })
     newRecipe.find('.manual__url').simulate('change', { target: { value: url } })
     newRecipe.find('.manual__image-url').simulate('change', { target: { value: imageUrl } })
@@ -28,7 +27,6 @@ describe('NewRecipePage', function () {
     newRecipe.find('.manual__steps').simulate('change', { target: { value: steps } })
     newRecipe.find('.manual__portions').simulate('change', { target: { value: portions } })
 
-    expect(changeFormInputSpy).toHaveBeenCalledWith('autoUrl.url', url)
     expect(changeFormInputSpy).toHaveBeenCalledWith('manualUrl.name', name)
     expect(changeFormInputSpy).toHaveBeenCalledWith('manualUrl.url', url)
     expect(changeFormInputSpy).toHaveBeenCalledWith('manualUrl.imageUrl', imageUrl)
@@ -37,12 +35,13 @@ describe('NewRecipePage', function () {
     expect(changeFormInputSpy).toHaveBeenCalledWith('manualUrl.portions', portions)
   })
 
-  it('calls the callback when submit button is clicked on auto url', () => {
+  it('calls submitForm when submit button is clicked on auto url', () => {
     const submitFormSpy = jest.fn()
     const url = 'fakeUrl'
-    const newRecipe = shallow(<NewRecipePage submitForm={submitFormSpy} classes={{}} autoUrl={{ url: url }} />)
+    const newRecipe = mount(<NewRecipePage submitForm={submitFormSpy} classes={{}} />)
 
-    newRecipe.find('.auto__submit-button').simulate('click', {})
+    newRecipe.find('.auto__url input').simulate('change', { target: { value: url } })
+    newRecipe.find('.auto__submit-button button').simulate('click', {})
 
     expect(submitFormSpy).toHaveBeenCalledWith('/api/recipes/import-from-url', { url: url })
   })
@@ -70,6 +69,6 @@ describe('NewRecipePage', function () {
     shallow(<NewRecipePage setState={setStateSpy} history={{ push: pushSpy }} redirect classes={{}} />)
 
     expect(pushSpy).toHaveBeenCalledWith('/recipes')
-    expect(setStateSpy).toHaveBeenCalledWith('pages.newRecipePage.forms', { recipeAdded: false, autoUrl: {}, manualUrl: {} })
+    expect(setStateSpy).toHaveBeenCalledWith('pages.newRecipePage.forms', { recipeAdded: false, manualUrl: {} })
   })
 })

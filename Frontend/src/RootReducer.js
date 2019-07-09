@@ -9,9 +9,6 @@ export function setState(key, payload) {
 const pages = {
   newRecipePage: {
     forms: {
-      autoUrl: {
-        url: '',
-      },
       manualUrl: {
         name: '',
         url: '',

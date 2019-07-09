@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -23,16 +23,16 @@ const useStyles = makeStyles({
 export const NewRecipePage = ({
   changeFormInput,
   submitForm,
-  autoUrl = {},
   manualUrl = {},
   redirect,
   history,
   setState,
   supportedDomains = [],
 }) => {
+  const [urlFormValue, setUrlFormValue] = useState('')
   const classes = useStyles()
   const onUrlFormSubmit = () => {
-    submitForm('/api/recipes/import-from-url', autoUrl)
+    submitForm('/api/recipes/import-from-url', { url: urlFormValue })
   }
 
   const onManualUrlFormSubmit = () => {
@@ -41,7 +41,7 @@ export const NewRecipePage = ({
 
   if (redirect) {
     history.push('/recipes')
-    setState('pages.newRecipePage.forms', { recipeAdded: false, autoUrl: {}, manualUrl: {} })
+    setState('pages.newRecipePage.forms', { recipeAdded: false, manualUrl: {} })
   }
 
   const supportedDomainList = supportedDomains.map((domain) => (
@@ -162,10 +162,8 @@ export const NewRecipePage = ({
                 <TextField
                   fullWidth
                   className='auto__url'
-                  onChange={(e) => {
-                    changeFormInput('autoUrl.url', e.target.value)
-                  }}
-                  value={autoUrl.url}
+                  onChange={(e) => setUrlFormValue(e.target.value)}
+                  value={urlFormValue}
                   label='http://example.com/recipe/32434'
                   type='search' />
               </Grid>
@@ -194,7 +192,6 @@ NewRecipePage.propTypes = {
   classes: PropTypes.object,
   changeFormInput: PropTypes.func,
   submitForm: PropTypes.func,
-  autoUrl: PropTypes.object,
   manualUrl: PropTypes.object,
   redirect: PropTypes.bool,
   history: PropTypes.object,
@@ -202,17 +199,14 @@ NewRecipePage.propTypes = {
   supportedDomains: PropTypes.array,
 }
 
-const mapStateToProps = state => {
-  return {
-    autoUrl: state.app.pages.newRecipePage.forms.autoUrl,
-    manualUrl: state.app.pages.newRecipePage.forms.manualUrl,
-    redirect: state.app.pages.newRecipePage.forms.recipeAdded,
-    supportedDomains: state.app.pages.newRecipePage.supportedDomains,
-  }
-}
+const mapStateToProps = state => ({
+  manualUrl: state.app.pages.newRecipePage.forms.manualUrl,
+  redirect: state.app.pages.newRecipePage.forms.recipeAdded,
+  supportedDomains: state.app.pages.newRecipePage.supportedDomains,
+})
 
-const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators(
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
     {
       changeFormInput: formInputChange,
       submitForm: submitForm,
@@ -220,7 +214,6 @@ const mapDispatchToProps = (dispatch) => {
     },
     dispatch,
   )
-}
 
 export const NewRecipePageContainer = connect(
   mapStateToProps,
