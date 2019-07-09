@@ -42,16 +42,7 @@ describe('RecipeActions', () => {
       const dispatchSpy = jest.fn()
       getRecipeSuccess(promisedRecipeList.recipes[0])(dispatchSpy)
       expect(dispatchSpy).toHaveBeenCalledWith(setState('recipe', promisedRecipeList.recipes[0]))
-
-      const form = {
-        id: promisedRecipeList.recipes[0].id,
-        name: promisedRecipeList.recipes[0].name,
-        url: promisedRecipeList.recipes[0].originUrl,
-        imgUrl: promisedRecipeList.recipes[0].imgUrl,
-        ingredients: promisedRecipeList.recipes[0].ingredients,
-        steps: promisedRecipeList.recipes[0].steps,
-      }
-      expect(dispatchSpy).toHaveBeenCalledWith(setState('editRecipe.form', form))
+      expect(dispatchSpy).toHaveBeenCalledWith(setState('editRecipe.form', promisedRecipeList.recipes[0]))
     })
   })
 
@@ -105,7 +96,7 @@ describe('RecipeActions', () => {
           quantity: 4,
         }],
         steps: [{
-          unit: 'Add sugar',
+          name: 'Add sugar',
         }, {
           name: 'Mix with flour',
         }],

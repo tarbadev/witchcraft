@@ -4,16 +4,7 @@ import { push } from 'connected-react-router'
 
 export const getRecipeSuccess = data => dispatch => {
   dispatch(setState('recipe', data))
-
-  const form = {
-    id: data.id,
-    name: data.name,
-    url: data.originUrl,
-    imgUrl: data.imgUrl,
-    ingredients: data.ingredients,
-    steps: data.steps,
-  }
-  dispatch(setState('editRecipe.form', form))
+  dispatch(setState('editRecipe.form', data))
 }
 
 export const getRecipeError = () => dispatch => {
