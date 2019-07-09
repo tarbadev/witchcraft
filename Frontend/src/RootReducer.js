@@ -6,42 +6,48 @@ export function setState(key, payload) {
   return { type: SET_STATE, key, payload }
 }
 
-const initialState = {
-  pages: {
-    newRecipePage: {
-      forms: {
-        autoUrl: {
-          url: '',
-        },
-        manualUrl: {
-          name: '',
-          url: '',
-          imageUrl: '',
-          ingredients: '',
-          steps: '',
-        },
+const pages = {
+  newRecipePage: {
+    forms: {
+      autoUrl: {
+        url: '',
       },
-      supportedDomains: [],
-    },
-    recipePage: {
-      isDeleting: false,
-      editableNotes: false,
-      notes: '',
-      notesInput: '',
-    },
-    newCartPage: {
-      form: [],
-    },
-    weekPage: {
-      modal: {
-        isModalOpen: false,
-        day: '',
-        meal: '',
-        displayExpressRecipeForm: false,
+      manualUrl: {
+        name: '',
+        url: '',
+        imageUrl: '',
+        ingredients: '',
+        steps: '',
       },
-      showSuccessMessage: false,
     },
+    supportedDomains: [],
   },
+  recipePage: {
+    isDeleting: false,
+    editableNotes: false,
+    notes: '',
+    notesInput: '',
+  },
+  newCartPage: {
+    form: [],
+  },
+  weekPage: {
+    modal: {
+      isModalOpen: false,
+      day: '',
+      meal: '',
+      displayExpressRecipeForm: false,
+    },
+    showSuccessMessage: false,
+  },
+  homePage: {
+    favoriteRecipes: [],
+    lastRecipes: [],
+  },
+}
+
+const initialState = {
+  pages,
   recipe: {
     id: 0,
     name: '',
@@ -95,10 +101,6 @@ const initialState = {
         diner: {},
       },
     ],
-  },
-  homePage: {
-    favoriteRecipes: [],
-    lastRecipes: [],
   },
 }
 

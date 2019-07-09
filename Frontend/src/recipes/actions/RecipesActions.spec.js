@@ -61,7 +61,7 @@ describe('RecipesActions', () => {
 
       getFavoriteRecipesSuccess(recipes)(dispatchSpy)
 
-      expect(dispatchSpy).toHaveBeenCalledWith(setState('homePage.favoriteRecipes', recipes))
+      expect(dispatchSpy).toHaveBeenCalledWith(setState('pages.homepage.favoriteRecipes', recipes))
     })
   })
 
@@ -89,7 +89,7 @@ describe('RecipesActions', () => {
 
       getLatestRecipesSuccess(recipes)(dispatchSpy)
 
-      expect(dispatchSpy).toHaveBeenCalledWith(setState('homePage.latestRecipes', recipes))
+      expect(dispatchSpy).toHaveBeenCalledWith(setState('pages.homepage.latestRecipes', recipes))
     })
   })
 

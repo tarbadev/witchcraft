@@ -2,7 +2,7 @@ import { setState } from 'src/RootReducer'
 import { fetchAction } from 'src/WitchcraftMiddleware'
 
 export const getFavoriteRecipesSuccess = favorites => dispatch => {
-  dispatch(setState('homePage.favoriteRecipes', favorites))
+  dispatch(setState('pages.homepage.favoriteRecipes', favorites))
 }
 
 export const getFavoriteRecipes = () => (dispatch) => {
@@ -22,7 +22,7 @@ export const getLatestRecipes = () => (dispatch) => {
 }
 
 export const getLatestRecipesSuccess = latest => dispatch => {
-  dispatch(setState('homePage.latestRecipes', latest))
+  dispatch(setState('pages.homepage.latestRecipes', latest))
 }
 
 export const getAllRecipesSuccess = data => dispatch => {

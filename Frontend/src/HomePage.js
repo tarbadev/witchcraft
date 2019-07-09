@@ -42,8 +42,8 @@ HomePage.propTypes = {
 const mapStateToProps = state => {
   return {
     week: state.app.week,
-    favoriteRecipes: state.app.homePage.favoriteRecipes,
-    latestRecipes: state.app.homePage.latestRecipes,
+    favoriteRecipes: state.app.pages.homepage.favoriteRecipes,
+    latestRecipes: state.app.pages.homepage.latestRecipes,
   }
 }
 
