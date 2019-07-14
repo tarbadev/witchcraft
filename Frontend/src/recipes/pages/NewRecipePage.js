@@ -1,15 +1,13 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 import { Button, Grid, makeStyles, Paper, TextField, Typography } from '@material-ui/core'
-import { setState } from 'src/RootReducer'
-import { submitForm } from 'src/recipes/actions/NewRecipeActions'
+import { getSupportedDomains, submitForm } from 'src/recipes/actions/NewRecipeActions'
 
 import './NewRecipePage.css'
 import GridList from '@material-ui/core/GridList'
 import GridListTile from '@material-ui/core/GridListTile'
-import { PageTitle } from '../../PageTitle'
+import { PageTitle } from 'src/PageTitle'
+import { useAppContext } from 'src/StoreProvider'
 
 const useStyles = makeStyles({
   root: {
@@ -20,11 +18,33 @@ const useStyles = makeStyles({
   },
 })
 
+export const NewRecipePageContainer = ({
+  history,
+}) => {
+  const { state, dispatch } = useAppContext()
+  const useSupportedDomains = () => {
+    const [supportedDomains, setSupportedDomains] = useState(state.pages.newRecipePage.supportedDomains)
+
+    useEffect(() => {
+      dispatch(getSupportedDomains(newSupportedDomains => setSupportedDomains(newSupportedDomains)))
+    }, [])
+
+    return supportedDomains
+  }
+
+  const submitFormWithCallback = (url, body) => {
+    return dispatch(submitForm(url, body, () => history.push('/recipes')))
+  }
+
+  return <NewRecipePage supportedDomains={useSupportedDomains()} submitForm={submitFormWithCallback} />
+}
+
+NewRecipePageContainer.propTypes = {
+  history: PropTypes.object,
+}
+
 export const NewRecipePage = ({
   submitForm,
-  redirect,
-  history,
-  setState,
   supportedDomains = [],
 }) => {
   const [urlFormValue, setUrlFormValue] = useState('')
@@ -35,9 +55,7 @@ export const NewRecipePage = ({
   const [manualFormSteps, setManualFormSteps] = useState('')
   const [manualFormPortions, setManualFormPortions] = useState('')
   const classes = useStyles()
-  const onUrlFormSubmit = () => {
-    submitForm('/api/recipes/import-from-url', { url: urlFormValue })
-  }
+  const onUrlFormSubmit = () => submitForm('/api/recipes/import-from-url', { url: urlFormValue })
 
   const onManualUrlFormSubmit = () => {
     const manualForm = {
@@ -49,11 +67,6 @@ export const NewRecipePage = ({
       portions: manualFormPortions,
     }
     submitForm('/api/recipes/import-from-form', manualForm)
-  }
-
-  if (redirect) {
-    history.push('/recipes')
-    setState('pages.newRecipePage.recipeAdded', false)
   }
 
   const supportedDomainList = supportedDomains.map((domain) => (
@@ -191,27 +204,6 @@ export const NewRecipePage = ({
 NewRecipePage.propTypes = {
   classes: PropTypes.object,
   submitForm: PropTypes.func,
-  redirect: PropTypes.bool,
   history: PropTypes.object,
-  setState: PropTypes.func,
   supportedDomains: PropTypes.array,
 }
-
-const mapStateToProps = state => ({
-  redirect: state.app.pages.newRecipePage.recipeAdded,
-  supportedDomains: state.app.pages.newRecipePage.supportedDomains,
-})
-
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators(
-    {
-      submitForm: submitForm,
-      setState: setState,
-    },
-    dispatch,
-  )
-
-export const NewRecipePageContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(NewRecipePage)

@@ -1,7 +1,10 @@
 import React from 'react'
-import { mount, shallow } from 'enzyme'
+import { mount } from 'enzyme'
 
-import { NewRecipePage } from './NewRecipePage'
+import { NewRecipePage, NewRecipePageContainer } from './NewRecipePage'
+import { initialState } from '../../RootReducer'
+import * as StoreProvider from '../../StoreProvider'
+import { getSupportedDomains } from '../actions/NewRecipeActions'
 
 describe('NewRecipePage', function () {
   it('calls submitForm when submit button is clicked on auto url', () => {
@@ -12,7 +15,7 @@ describe('NewRecipePage', function () {
     newRecipe.find('.auto__url input').simulate('change', { target: { value: url } })
     newRecipe.find('.auto__submit-button button').simulate('click', {})
 
-    expect(submitFormSpy).toHaveBeenCalledWith('/api/recipes/import-from-url', { url: url })
+    expect(submitFormSpy).toHaveBeenCalledWith('/api/recipes/import-from-url', { url: url }, expect.any(Function))
   })
 
   it('calls submitForm when submit button is clicked on manual url', () => {
@@ -35,16 +38,18 @@ describe('NewRecipePage', function () {
     newRecipe.find('.manual__portions input').simulate('change', { target: { value: manualForm.portions } })
     newRecipe.find('.manual__submit-button button').simulate('click', {})
 
-    expect(submitFormSpy).toHaveBeenCalledWith('/api/recipes/import-from-form', manualForm)
+    expect(submitFormSpy).toHaveBeenCalledWith('/api/recipes/import-from-form', manualForm, expect.any(Function))
   })
 
-  it('redirects to /recipes when redirect set to true', () => {
-    const setStateSpy = jest.fn()
-    const pushSpy = jest.fn()
+  it('loads the supported domains', () => {
+    const context = { state: initialState, dispatch: jest.fn() }
 
-    shallow(<NewRecipePage setState={setStateSpy} history={{ push: pushSpy }} redirect classes={{}} />)
+    jest
+      .spyOn(StoreProvider, 'useAppContext')
+      .mockImplementation(() => context)
 
-    expect(pushSpy).toHaveBeenCalledWith('/recipes')
-    expect(setStateSpy).toHaveBeenCalledWith('pages.newRecipePage.recipeAdded', false)
+    mount(<NewRecipePageContainer />)
+
+    expect(context.dispatch).toHaveBeenNthCalledWith(1, getSupportedDomains(expect.any(Function)))
   })
 })

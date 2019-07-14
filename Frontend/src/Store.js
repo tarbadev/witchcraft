@@ -48,7 +48,6 @@ const pathRegexes = [
   }, {
     regex: /^\/recipes\/new$/,
     callback: () => {
-      store.dispatch(getSupportedDomains())
       store.dispatch(setState('currentPage', 'Recipes'))
     },
   }, {
