@@ -8,19 +8,23 @@ import { reducer, setState } from './RootReducer'
 import { createHistoryObserver } from './HistoryObserver'
 import { WitchcraftMiddleware } from './WitchcraftMiddleware'
 
-import { getAllRecipes, getFavoriteRecipes, getLatestRecipes } from 'src/recipes/actions/RecipesActions'
+import { getAllRecipes } from 'src/recipes/actions/RecipesActions'
 import { getRecipe, getRecipeNotes } from 'src/recipes/actions/RecipeActions'
 import { getSupportedDomains } from 'src/recipes/actions/NewRecipeActions'
 import { getAllCarts } from 'src/carts/actions/CartsActions'
 import { getCart } from 'src/carts/actions/CartActions'
-import { getCurrentWeek, getWeek } from 'src/weeks/actions/WeekActions'
+import { getWeek } from 'src/weeks/actions/WeekActions'
 
 export const history = createBrowserHistory()
 const rootReducer = combineReducers({
   app: reducer,
   router: connectRouter(history),
 })
-export const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(routerMiddleware(history), thunk, WitchcraftMiddleware)))
+export const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(
+  routerMiddleware(history),
+  thunk,
+  WitchcraftMiddleware,
+)))
 
 const pathRegexes = [
   {
@@ -70,17 +74,13 @@ const pathRegexes = [
     regex: /^\/weeks\/(\d+)\/(\d+)$/,
     callback: ([year, week]) => {
       store.dispatch(getAllRecipes())
-      store.dispatch(getWeek(year, week))
+      store.dispatch(getWeek(year, week, data => store.dispatch(setState('week', data))))
       store.dispatch(setState('pages.weekPage.showSuccessMessage', false))
       store.dispatch(setState('currentPage', 'Weeks'))
     },
   }, {
     regex: /^\/$/,
     callback: () => {
-      const { year, week } = getCurrentWeek()
-      store.dispatch(getWeek(year, week))
-      store.dispatch(getFavoriteRecipes())
-      store.dispatch(getLatestRecipes())
       store.dispatch(setState('currentPage', 'Home'))
     },
   },

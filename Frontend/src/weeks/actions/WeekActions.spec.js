@@ -1,36 +1,17 @@
-import { getWeekSuccess, getWeek, getCurrentWeek } from './WeekActions'
+import { getCurrentWeek, getWeek } from './WeekActions'
 import { weekNumber } from 'weeknumber'
+import { fetchAction } from 'src/WitchcraftMiddleware'
 
 describe('WeekActions', () => {
   describe('getWeek', () => {
     it('getWeek sends a request to retrieve a week', () => {
-      const dispatchSpy = jest.fn()
+      const onSuccessSpy = jest.fn()
 
-      getWeek(2018, 33)(dispatchSpy)
-
-      expect(dispatchSpy).toHaveBeenCalledWith({
-        type: 'FETCH',
+      expect(getWeek(2018, 33, onSuccessSpy)).toEqual(fetchAction({
         url: '/api/weeks/2018/33',
         method: 'GET',
-        body: undefined,
-        onSuccess: getWeekSuccess,
-        onError: undefined,
-      })
-    })
-  })
-
-  describe('getWeekSuccess', () => {
-    it('getWeekSuccess sends a request to retrieve a week', () => {
-      const dispatchSpy = jest.fn()
-      const week = { id: 1, recipes: [] }
-
-      getWeekSuccess(week)(dispatchSpy)
-
-      expect(dispatchSpy).toHaveBeenCalledWith({
-        type: 'SET_STATE',
-        key: 'week',
-        payload: week,
-      })
+        onSuccess: onSuccessSpy,
+      }))
     })
   })
 

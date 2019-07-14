@@ -3,9 +3,7 @@ import {
   getAllRecipes,
   getAllRecipesSuccess,
   getFavoriteRecipes,
-  getFavoriteRecipesSuccess,
   getLatestRecipes,
-  getLatestRecipesSuccess,
 } from 'src/recipes/actions/RecipesActions'
 
 import { fetchAction } from 'src/WitchcraftMiddleware'
@@ -39,57 +37,25 @@ describe('RecipesActions', () => {
 
   describe('getFavoriteRecipes', () => {
     it('calls the witchcraft API and sets the state with the list of recipes', () => {
-      const dispatchSpy = jest.fn()
+      const onSuccessSpy = jest.fn()
 
-      getFavoriteRecipes()(dispatchSpy)
-
-      expect(dispatchSpy).toHaveBeenCalledWith(fetchAction({
+      expect(getFavoriteRecipes(onSuccessSpy)).toEqual(fetchAction({
         url: '/api/recipes/favorites',
         method: 'GET',
-        onSuccess: getFavoriteRecipesSuccess,
+        onSuccess: onSuccessSpy,
       }))
-    })
-  })
-
-  describe('getFavoriteRecipesSuccess', () => {
-    it('success callback saves recipes in state', () => {
-      const dispatchSpy = jest.fn()
-      const recipes = [
-        { id: 1 },
-        { id: 2 },
-      ]
-
-      getFavoriteRecipesSuccess(recipes)(dispatchSpy)
-
-      expect(dispatchSpy).toHaveBeenCalledWith(setState('pages.homepage.favoriteRecipes', recipes))
     })
   })
 
   describe('getLatestRecipes', () => {
     it('calls the witchcraft API and sets the state with the list of recipes', () => {
-      const dispatchSpy = jest.fn()
+      const onSuccessSpy = jest.fn()
 
-      getLatestRecipes()(dispatchSpy)
-
-      expect(dispatchSpy).toHaveBeenCalledWith(fetchAction({
+      expect(getLatestRecipes(onSuccessSpy)).toEqual(fetchAction({
         url: '/api/recipes/latest',
         method: 'GET',
-        onSuccess: getLatestRecipesSuccess,
+        onSuccess: onSuccessSpy,
       }))
-    })
-  })
-
-  describe('getLatestRecipesSuccess', () => {
-    it('success callback saves recipes in state', () => {
-      const dispatchSpy = jest.fn()
-      const recipes = [
-        { id: 1 },
-        { id: 2 },
-      ]
-
-      getLatestRecipesSuccess(recipes)(dispatchSpy)
-
-      expect(dispatchSpy).toHaveBeenCalledWith(setState('pages.homepage.latestRecipes', recipes))
     })
   })
 

@@ -1,19 +1,18 @@
 import { fetchAction } from 'src/WitchcraftMiddleware'
-import { setState } from 'src/RootReducer'
 import { weekNumber } from 'weeknumber'
+import { setState } from '../../RootReducer'
 
-export const getWeekSuccess = week => dispatch => {
-  dispatch(setState('week', week))
+export const getWeekSuccess = week => {
+  setState('week', week)
 }
 
-export const getWeek = (year, week) => dispatch => {
-  dispatch(fetchAction({
+export const getWeek = (year, week, onSuccess = getWeekSuccess) =>
+  fetchAction({
     type: 'FETCH',
     url: `/api/weeks/${year}/${week}`,
     method: 'GET',
-    onSuccess: getWeekSuccess,
-  }))
-}
+    onSuccess: onSuccess,
+  })
 
 export const getCurrentWeek = () => {
   const week = weekNumber()

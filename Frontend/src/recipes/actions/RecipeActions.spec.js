@@ -1,3 +1,4 @@
+import { push } from 'connected-react-router'
 import {
   deleteRecipe,
   deleteRecipeCallback,
@@ -18,8 +19,8 @@ import {
 } from './RecipeActions'
 
 import promisedRecipeList from 'test-resources/recipeList.json'
-import { setState } from '../../RootReducer'
-import { fetchAction } from '../../WitchcraftMiddleware'
+import { setState } from 'src/RootReducer'
+import { fetchAction } from 'src/WitchcraftMiddleware'
 
 describe('RecipeActions', () => {
   describe('getRecipe', () => {
@@ -50,10 +51,7 @@ describe('RecipeActions', () => {
     it('error callback redirects to recipes', () => {
       const dispatchSpy = jest.fn()
       getRecipeError()(dispatchSpy)
-      expect(dispatchSpy).toHaveBeenCalledWith({
-        type: '@@router/CALL_HISTORY_METHOD',
-        payload: { method: 'push', args: ['/recipes'] },
-      })
+      expect(dispatchSpy).toHaveBeenCalledWith(push('/recipes'))
     })
   })
 
@@ -116,10 +114,7 @@ describe('RecipeActions', () => {
     it('success callback saves recipes in state', () => {
       const dispatchSpy = jest.fn()
       updateRecipeSuccess(promisedRecipeList.recipes[0])(dispatchSpy)
-      expect(dispatchSpy).toHaveBeenCalledWith({
-        type: '@@router/CALL_HISTORY_METHOD',
-        payload: { method: 'push', args: [`/recipes/${promisedRecipeList.recipes[0].id}`] },
-      })
+      expect(dispatchSpy).toHaveBeenCalledWith(push(`/recipes/${promisedRecipeList.recipes[0].id}`))
     })
   })
 
@@ -141,10 +136,7 @@ describe('RecipeActions', () => {
       const dispatchSpy = jest.fn()
       deleteRecipeCallback()(dispatchSpy)
       expect(dispatchSpy).toHaveBeenCalledWith(setState('pages.recipePage.isDeleting', false))
-      expect(dispatchSpy).toHaveBeenCalledWith({
-        type: '@@router/CALL_HISTORY_METHOD',
-        payload: { method: 'push', args: ['/recipes'] },
-      })
+      expect(dispatchSpy).toHaveBeenCalledWith(push('/recipes'))
     })
   })
 

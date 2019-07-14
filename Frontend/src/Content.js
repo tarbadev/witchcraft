@@ -1,7 +1,7 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 
-import { HomePageContainer } from './HomePage'
+import { HomePage } from './HomePage'
 import { RecipesPageContainer } from 'src/recipes/pages/RecipesPage'
 import { RecipePageContainer } from 'src/recipes/pages/RecipePage'
 import { NewRecipePageContainer } from 'src/recipes/pages/NewRecipePage'
@@ -16,7 +16,7 @@ export const Content = () => {
   return (
     <div>
       <Switch>
-        <Route exact path="/" component={HomePageContainer} />
+        <Route exact path="/" component={HomePage} />
         <Route exact path="/recipes" component={RecipesPageContainer} />
         <Route exact path="/recipes/new" component={NewRecipePageContainer} />
         <Route exact path="/recipes/:id" component={RecipePageContainer} />
@@ -25,7 +25,7 @@ export const Content = () => {
         <Route exact path="/carts/new" component={NewCartPageContainer} />
         <Route exact path="/carts/:id" component={CartPageContainer} />
         <Route exact path="/weeks" component={WeeksPage} />
-        <Route exact path="/weeks/:year/:week" component={WeekPageContainer} />
+        <Route exact path="/weeks/:year/:weekNumber" component={WeekPageContainer} />
       </Switch>
     </div>
   )

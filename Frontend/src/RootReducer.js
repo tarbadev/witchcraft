@@ -32,7 +32,7 @@ const pages = {
   },
 }
 
-const initialState = {
+export const initialState = {
   pages,
   recipe: {
     id: 0,
