@@ -1,7 +1,5 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 import { Link } from 'react-router-dom'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
@@ -9,14 +7,44 @@ import Typography from '@material-ui/core/Typography'
 import { Ingredient } from 'src/recipes/components/Ingredient'
 import { getCartTitle } from './CartHelper'
 import { RecipeCard } from 'src/recipes/components/RecipeCard'
-import { toggleItem } from 'src/carts/actions/CartActions'
+import { findWithAttr, getCart, toggleItem } from 'src/carts/actions/CartActions'
 
 import './CartPage.css'
 import { PageTitle } from 'src/PageTitle'
+import { useAppContext } from '../../StoreProvider'
+
+export const CartPageContainer = ({ match }) => {
+  const { state, dispatch } = useAppContext()
+
+  const [cart, setCart] = useState(state.cart)
+
+  useEffect(() => {
+    dispatch(getCart(match.params.id, data => setCart(data)))
+  }, [])
+
+  const onToggleItemSuccess = newItem => {
+    const newCart = {
+      ...cart,
+    }
+
+    newCart.items[findWithAttr(cart.items, 'id', newItem.id)] = newItem
+
+    setCart(newCart)
+  }
+
+  const onItemClick = (cartId, itemId, enabled) =>
+    dispatch(toggleItem(cartId, itemId, enabled, onToggleItemSuccess))
+
+  return <CartPage cart={cart} onItemClick={onItemClick} />
+}
+
+CartPageContainer.propTypes = {
+  match: PropTypes.object,
+}
 
 export const CartPage = ({
-  cart,
   onItemClick,
+  cart,
 }) => {
   const ingredients = cart.items
     ? cart.items.map(ingredient => (
@@ -70,20 +98,6 @@ export const CartPage = ({
 }
 
 CartPage.propTypes = {
-  cart: PropTypes.object,
   onItemClick: PropTypes.func,
+  cart: PropTypes.object,
 }
-
-const mapStateToProps = state => {
-  return {
-    cart: state.app.cart,
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({
-    onItemClick: toggleItem,
-  }, dispatch)
-}
-
-export const CartPageContainer = connect(mapStateToProps, mapDispatchToProps)(CartPage)

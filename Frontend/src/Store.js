@@ -12,7 +12,6 @@ import { getAllRecipes } from 'src/recipes/actions/RecipesActions'
 import { getRecipe, getRecipeNotes } from 'src/recipes/actions/RecipeActions'
 import { getSupportedDomains } from 'src/recipes/actions/NewRecipeActions'
 import { getAllCarts } from 'src/carts/actions/CartsActions'
-import { getCart } from 'src/carts/actions/CartActions'
 import { getWeek } from 'src/weeks/actions/WeekActions'
 
 export const history = createBrowserHistory()
@@ -60,8 +59,7 @@ const pathRegexes = [
     },
   }, {
     regex: /^\/carts\/(\d+)$/,
-    callback: (id) => {
-      store.dispatch(getCart(id))
+    callback: () => {
       store.dispatch(setState('currentPage', 'Carts'))
     },
   }, {
