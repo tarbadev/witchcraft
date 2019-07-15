@@ -29,14 +29,13 @@ const pathRegexes = [
   {
     regex: /^\/recipes\/(\d+)$/,
     callback: (id) => {
-      store.dispatch(getRecipe(id))
+      store.dispatch(getRecipe(id, data => store.dispatch(setState('recipe', data))))
       store.dispatch(getRecipeNotes(id))
       store.dispatch(setState('currentPage', 'Recipes'))
     },
   }, {
     regex: /^\/recipes\/(\d+)\/edit$/,
-    callback: (id) => {
-      store.dispatch(getRecipe(id))
+    callback: () => {
       store.dispatch(setState('currentPage', 'Recipes'))
     },
   }, {

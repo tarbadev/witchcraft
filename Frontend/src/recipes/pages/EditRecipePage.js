@@ -1,15 +1,35 @@
-import React, { useReducer } from 'react'
+import React, { useEffect, useReducer, useState } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 import Grid from '@material-ui/core/Grid'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 
-import { updateRecipe } from 'src/recipes/actions/RecipeActions'
-import { PageTitle } from '../../PageTitle'
+import { getRecipe, updateRecipe } from 'src/recipes/actions/RecipeActions'
+import { PageTitle } from 'src/PageTitle'
 import { reducer, setState } from 'src/RootReducer'
+import { useAppContext } from 'src/StoreProvider'
+
+export const EditRecipePageContainer = ({ match, history }) => {
+  const { state, dispatch } = useAppContext()
+  const [recipe, setRecipe] = useState(state.recipe)
+
+  useEffect(() =>
+    dispatch(getRecipe(
+      match.params.id,
+      recipeToEdit => setRecipe(recipeToEdit),
+      () => history.push('/recipes'),
+    )), [])
+
+  return <EditRecipePage
+    recipe={recipe}
+    submitForm={form => dispatch(updateRecipe(form, newRecipe => history.push(`/recipes/${newRecipe.id}`)))} />
+}
+
+EditRecipePageContainer.propTypes = {
+  match: PropTypes.object,
+  history: PropTypes.object,
+}
 
 export const EditRecipePage = ({ recipe, submitForm }) => {
   if (recipe.id <= 0) return null
@@ -103,7 +123,7 @@ export const EditRecipePage = ({ recipe, submitForm }) => {
           onChange={(e) => {
             dispatch(setState('originUrl', e.target.value))
           }}
-          value={form.url}
+          value={form.originUrl}
           placeholder='http://example.com/recipes/32434'
           type='text' />
       </Grid>
@@ -136,14 +156,6 @@ export const EditRecipePage = ({ recipe, submitForm }) => {
 }
 
 EditRecipePage.propTypes = {
-  changeFormInput: PropTypes.func,
   recipe: PropTypes.object,
   submitForm: PropTypes.func,
 }
-
-const mapStateToProps = state => ({ recipe: state.app.editRecipe.form })
-
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({ submitForm: updateRecipe }, dispatch)
-
-export const EditRecipePageContainer = connect(mapStateToProps, mapDispatchToProps)(EditRecipePage)

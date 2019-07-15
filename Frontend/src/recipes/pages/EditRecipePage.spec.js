@@ -1,9 +1,12 @@
 import React from 'react'
 import { mount } from 'enzyme'
 
-import { EditRecipePage } from './EditRecipePage'
+import { EditRecipePage, EditRecipePageContainer } from './EditRecipePage'
 
 import promisedRecipeList from 'test-resources/recipeList.json'
+import { initialState } from 'src/RootReducer'
+import * as StoreProvider from 'src/StoreProvider'
+import { getRecipe } from '../actions/RecipeActions'
 
 describe('EditRecipePage', () => {
   it('calls the callback when input value changes', () => {
@@ -66,5 +69,18 @@ describe('EditRecipePage', () => {
     }
 
     expect(submitFormSpy).toHaveBeenCalledWith(form)
+  })
+
+  it('loads the recipe when mounting', () => {
+    const context = { state: initialState, dispatch: jest.fn() }
+    const id = 45
+
+    jest
+      .spyOn(StoreProvider, 'useAppContext')
+      .mockImplementation(() => context)
+
+    mount(<EditRecipePageContainer match={{ params: { id } }} />)
+
+    expect(context.dispatch).toHaveBeenNthCalledWith(1, getRecipe(id, expect.any(Function), expect.any(Function)))
   })
 })

@@ -3,11 +3,9 @@ import {
   deleteRecipe,
   deleteRecipeCallback,
   getRecipe,
-  getRecipeError,
   getRecipeNotes,
   getRecipesNotesError,
   getRecipesNotesSuccess,
-  getRecipeSuccess,
   hideEditableNotes,
   setFavorite,
   setFavoriteSuccess,
@@ -15,7 +13,6 @@ import {
   updateNotes,
   updateNotesSuccess,
   updateRecipe,
-  updateRecipeSuccess,
 } from './RecipeActions'
 
 import promisedRecipeList from 'test-resources/recipeList.json'
@@ -24,34 +21,16 @@ import { fetchAction } from 'src/WitchcraftMiddleware'
 
 describe('RecipeActions', () => {
   describe('getRecipe', () => {
-    it('calls the witchcraft API and sets the state with the recipe', () => {
-      const dispatchSpy = jest.fn()
+    it('calls the witchcraft API', () => {
+      const onSuccessSpy = jest.fn()
+      const onErrorSpy = jest.fn()
 
-      getRecipe(1)(dispatchSpy)
-
-      expect(dispatchSpy).toHaveBeenCalledWith(fetchAction({
+      expect(getRecipe(1, onSuccessSpy, onErrorSpy)).toEqual(fetchAction({
         url: '/api/recipes/1',
         method: 'GET',
-        onSuccess: getRecipeSuccess,
-        onError: getRecipeError,
+        onSuccess: onSuccessSpy,
+        onError: onErrorSpy,
       }))
-    })
-  })
-
-  describe('getRecipeSuccess', () => {
-    it('success callback saves recipes in state', () => {
-      const dispatchSpy = jest.fn()
-      getRecipeSuccess(promisedRecipeList.recipes[0])(dispatchSpy)
-      expect(dispatchSpy).toHaveBeenCalledWith(setState('recipe', promisedRecipeList.recipes[0]))
-      expect(dispatchSpy).toHaveBeenCalledWith(setState('editRecipe.form', promisedRecipeList.recipes[0]))
-    })
-  })
-
-  describe('getRecipeError', () => {
-    it('error callback redirects to recipes', () => {
-      const dispatchSpy = jest.fn()
-      getRecipeError()(dispatchSpy)
-      expect(dispatchSpy).toHaveBeenCalledWith(push('/recipes'))
     })
   })
 
@@ -77,8 +56,8 @@ describe('RecipeActions', () => {
   })
 
   describe('updateRecipe', () => {
-    it('success callback updates the recipe on the backend', () => {
-      const dispatchSpy = jest.fn()
+    it('calls the api with the body', () => {
+      const onSuccessSpy = jest.fn()
       const form = {
         id: 12,
         name: 'Mini Goat Cheese Stuffed Potato Appetizers',
@@ -100,21 +79,12 @@ describe('RecipeActions', () => {
         }],
       }
 
-      updateRecipe(form)(dispatchSpy)
-      expect(dispatchSpy).toHaveBeenCalledWith(fetchAction({
+      expect(updateRecipe(form, onSuccessSpy)).toEqual(fetchAction({
         url: `/api/recipes/${form.id}/update`,
         method: 'PUT',
         body: form,
-        onSuccess: updateRecipeSuccess,
+        onSuccess: onSuccessSpy,
       }))
-    })
-  })
-
-  describe('updateRecipeSuccess', () => {
-    it('success callback saves recipes in state', () => {
-      const dispatchSpy = jest.fn()
-      updateRecipeSuccess(promisedRecipeList.recipes[0])(dispatchSpy)
-      expect(dispatchSpy).toHaveBeenCalledWith(push(`/recipes/${promisedRecipeList.recipes[0].id}`))
     })
   })
 

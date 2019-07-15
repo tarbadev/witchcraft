@@ -1,16 +1,16 @@
 import React from 'react'
 import { mount } from 'enzyme'
 
-import { NewRecipePage, NewRecipePageContainer } from './NewRecipePage'
-import { initialState } from '../../RootReducer'
-import * as StoreProvider from '../../StoreProvider'
+import { NewRecipePageContainer } from './NewRecipePage'
+import { initialState } from 'src/RootReducer'
+import * as StoreProvider from 'src/StoreProvider'
 import { getSupportedDomains } from '../actions/NewRecipeActions'
 
-describe('NewRecipePage', function () {
+describe('NewRecipePageContainer', function () {
   it('calls submitForm when submit button is clicked on auto url', () => {
     const submitFormSpy = jest.fn()
     const url = 'fakeUrl'
-    const newRecipe = mount(<NewRecipePage submitForm={submitFormSpy} classes={{}} />)
+    const newRecipe = mount(<NewRecipePageContainer submitForm={submitFormSpy} classes={{}} />)
 
     newRecipe.find('.auto__url input').simulate('change', { target: { value: url } })
     newRecipe.find('.auto__submit-button button').simulate('click', {})
@@ -28,7 +28,7 @@ describe('NewRecipePage', function () {
       steps: 'Test\nTest',
       portions: '4'
     }
-    const newRecipe = mount(<NewRecipePage submitForm={submitFormSpy} classes={{}} />)
+    const newRecipe = mount(<NewRecipePageContainer submitForm={submitFormSpy} classes={{}} />)
 
     newRecipe.find('.manual__name input').simulate('change', { target: { value: manualForm.name } })
     newRecipe.find('.manual__url input').simulate('change', { target: { value: manualForm.url } })

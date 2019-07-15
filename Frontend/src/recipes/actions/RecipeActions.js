@@ -2,23 +2,13 @@ import { setState } from 'src/RootReducer'
 import { fetchAction } from 'src/WitchcraftMiddleware'
 import { push } from 'connected-react-router'
 
-export const getRecipeSuccess = data => dispatch => {
-  dispatch(setState('recipe', data))
-  dispatch(setState('editRecipe.form', data))
-}
-
-export const getRecipeError = () => dispatch => {
-  dispatch(push('/recipes'))
-}
-
-export const getRecipe = id => dispatch => {
-  dispatch(fetchAction({
+export const getRecipe = (id, onSuccess, onError) =>
+  fetchAction({
     url: `/api/recipes/${id}`,
     method: 'GET',
-    onSuccess: getRecipeSuccess,
-    onError: getRecipeError,
-  }))
-}
+    onSuccess,
+    onError,
+  })
 
 export const setFavoriteSuccess = data => dispatch => {
   dispatch(setState('recipe', data))
@@ -49,18 +39,13 @@ export const deleteRecipe = id => dispatch => {
   }))
 }
 
-export const updateRecipeSuccess = data => dispatch => {
-  dispatch(push(`/recipes/${data.id}`))
-}
-
-export const updateRecipe = (form) => dispatch => {
-  dispatch(fetchAction({
+export const updateRecipe = (form, onSuccess) =>
+  fetchAction({
     url: `/api/recipes/${form.id}/update`,
     method: 'PUT',
     body: form,
-    onSuccess: updateRecipeSuccess,
-  }))
-}
+    onSuccess: onSuccess,
+  })
 
 export const updateNotes = (id, notes) => dispatch => {
   dispatch(fetchAction({
