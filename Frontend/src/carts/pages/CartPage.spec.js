@@ -1,9 +1,8 @@
 import React from 'react'
 import { mount, shallow } from 'enzyme'
 import { CartPage, CartPageContainer } from './CartPage'
-import { initialState } from '../../RootReducer'
-import * as StoreProvider from '../../StoreProvider'
 import { getCart } from '../actions/CartActions'
+import { mockAppContext } from 'src/testUtils'
 
 describe('CartPage', () => {
   it('calls the onItemClick callback when clicking on it', () => {
@@ -26,12 +25,8 @@ describe('CartPage', () => {
 
 describe('CartPageContainer', function () {
   it('renders without crashing and loads the cart', () => {
-    const context = { state: initialState, dispatch: jest.fn() }
+    const context = mockAppContext()
     const id = 2
-
-    jest
-      .spyOn(StoreProvider, 'useAppContext')
-      .mockImplementation(() => context)
 
     const home = mount(<CartPageContainer match={{ params: { id } }} />)
 

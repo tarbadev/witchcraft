@@ -1,14 +1,8 @@
 import { fetchAction } from 'src/WitchcraftMiddleware'
-import { setState } from 'src/RootReducer'
 
-export const getAllCartsSuccess = data => dispatch => {
-  dispatch(setState('carts', data))
-}
-
-export const getAllCarts = () => dispatch => {
-  dispatch(fetchAction({
+export const getAllCarts = onSuccess =>
+  fetchAction({
     url: '/api/carts',
     method: 'GET',
-    onSuccess: getAllCartsSuccess,
-  }))
-}
+    onSuccess: onSuccess,
+  })

@@ -1,7 +1,5 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 import { Link } from 'react-router-dom'
@@ -9,15 +7,26 @@ import { Link } from 'react-router-dom'
 import './CartsPage.css'
 import { Paper, Typography } from '@material-ui/core'
 import { getCartTitle } from './CartHelper'
+import { useAppContext } from 'src/StoreProvider'
+import { getAllCarts } from '../actions/CartsActions'
+
+export const CartsPageContainer = ({ history }) => {
+  const { state, dispatch } = useAppContext()
+  const [carts, setCarts] = useState(state.carts)
+
+  useEffect(() => dispatch(getAllCarts(allCarts => setCarts(allCarts))))
+
+  return <CartsPage carts={carts} onNewCartClick={() => history.push('/carts/new')} />
+}
+
+CartsPageContainer.propTypes = {
+  history: PropTypes.object,
+}
 
 export const CartsPage = ({
-  history,
+  onNewCartClick,
   carts,
 }) => {
-  const onNewCartClick = () => {
-    history.push('/carts/new')
-  }
-
   const cartList = carts.map(cart => (
     <Grid item xs={12} key={cart.id}>
       <Link to={`/carts/${cart.id}`}>
@@ -33,7 +42,7 @@ export const CartsPage = ({
   return (
     <Grid container spacing={1}>
       <Grid item xs={12}>
-        <Button variant='contained' className='cart-page__new-cart-button' color='primary' onClick={onNewCartClick}>
+        <Button variant='contained' href='' className='cart-page__new-cart-button' color='primary' onClick={onNewCartClick}>
           New Cart
         </Button>
       </Grid>
@@ -45,18 +54,6 @@ export const CartsPage = ({
 }
 
 CartsPage.propTypes = {
-  history: PropTypes.object,
+  onNewCartClick: PropTypes.func,
   carts: PropTypes.array,
 }
-
-const mapStateToProps = state => {
-  return {
-    carts: state.app.carts,
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({}, dispatch)
-}
-
-export const CartsPageContainer = connect(mapStateToProps, mapDispatchToProps)(CartsPage)

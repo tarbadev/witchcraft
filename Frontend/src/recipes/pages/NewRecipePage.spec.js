@@ -2,24 +2,23 @@ import React from 'react'
 import { mount } from 'enzyme'
 
 import { NewRecipePageContainer } from './NewRecipePage'
-import { initialState } from 'src/RootReducer'
-import * as StoreProvider from 'src/StoreProvider'
-import { getSupportedDomains } from '../actions/NewRecipeActions'
+import { getSupportedDomains, submitForm } from '../actions/NewRecipeActions'
+import { mockAppContext } from 'src/testUtils'
 
-describe('NewRecipePageContainer', function () {
+describe('NewRecipePageContainer', () => {
   it('calls submitForm when submit button is clicked on auto url', () => {
-    const submitFormSpy = jest.fn()
+    const context = mockAppContext()
     const url = 'fakeUrl'
-    const newRecipe = mount(<NewRecipePageContainer submitForm={submitFormSpy} classes={{}} />)
+    const newRecipe = mount(<NewRecipePageContainer />)
 
     newRecipe.find('.auto__url input').simulate('change', { target: { value: url } })
     newRecipe.find('.auto__submit-button button').simulate('click', {})
 
-    expect(submitFormSpy).toHaveBeenCalledWith('/api/recipes/import-from-url', { url: url }, expect.any(Function))
+    expect(context.dispatch).toHaveBeenCalledWith(submitForm('/api/recipes/import-from-url', { url: url }, expect.any(Function)))
   })
 
   it('calls submitForm when submit button is clicked on manual url', () => {
-    const submitFormSpy = jest.fn()
+    const context = mockAppContext()
     const manualForm = {
       name: 'Mini Goat Cheese Stuffed Potato Appetizers',
       url: 'http://example.com/recipe/32434',
@@ -28,7 +27,7 @@ describe('NewRecipePageContainer', function () {
       steps: 'Test\nTest',
       portions: '4'
     }
-    const newRecipe = mount(<NewRecipePageContainer submitForm={submitFormSpy} classes={{}} />)
+    const newRecipe = mount(<NewRecipePageContainer />)
 
     newRecipe.find('.manual__name input').simulate('change', { target: { value: manualForm.name } })
     newRecipe.find('.manual__url input').simulate('change', { target: { value: manualForm.url } })
@@ -38,15 +37,11 @@ describe('NewRecipePageContainer', function () {
     newRecipe.find('.manual__portions input').simulate('change', { target: { value: manualForm.portions } })
     newRecipe.find('.manual__submit-button button').simulate('click', {})
 
-    expect(submitFormSpy).toHaveBeenCalledWith('/api/recipes/import-from-form', manualForm, expect.any(Function))
+    expect(context.dispatch).toHaveBeenCalledWith(submitForm('/api/recipes/import-from-form', manualForm, expect.any(Function)))
   })
 
   it('loads the supported domains', () => {
-    const context = { state: initialState, dispatch: jest.fn() }
-
-    jest
-      .spyOn(StoreProvider, 'useAppContext')
-      .mockImplementation(() => context)
+    const context = mockAppContext()
 
     mount(<NewRecipePageContainer />)
 

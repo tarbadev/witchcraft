@@ -4,9 +4,8 @@ import { mount } from 'enzyme'
 import { EditRecipePage, EditRecipePageContainer } from './EditRecipePage'
 
 import promisedRecipeList from 'test-resources/recipeList.json'
-import { initialState } from 'src/RootReducer'
-import * as StoreProvider from 'src/StoreProvider'
 import { getRecipe } from '../actions/RecipeActions'
+import { mockAppContext } from 'src/testUtils'
 
 describe('EditRecipePage', () => {
   it('calls the callback when input value changes', () => {
@@ -72,12 +71,8 @@ describe('EditRecipePage', () => {
   })
 
   it('loads the recipe when mounting', () => {
-    const context = { state: initialState, dispatch: jest.fn() }
+    const context = mockAppContext()
     const id = 45
-
-    jest
-      .spyOn(StoreProvider, 'useAppContext')
-      .mockImplementation(() => context)
 
     mount(<EditRecipePageContainer match={{ params: { id } }} />)
 

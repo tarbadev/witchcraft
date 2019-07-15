@@ -2,20 +2,15 @@ import React from 'react'
 import { mount } from 'enzyme'
 
 import { HomePage } from './HomePage'
-import * as StoreProvider from './StoreProvider'
 import * as WeekActions from './weeks/actions/WeekActions'
-import { initialState } from './RootReducer'
 import { getFavoriteRecipes, getLatestRecipes } from './recipes/actions/RecipesActions'
+import { mockAppContext } from './testUtils'
 
 describe('HomePage', function () {
   it('renders without crashing', () => {
-    const context = { state: initialState, dispatch: jest.fn() }
+    const context = mockAppContext()
     const year = 2019
     const week = 34
-
-    jest
-      .spyOn(StoreProvider, 'useAppContext')
-      .mockImplementation(() => context)
 
     jest
       .spyOn(WeekActions, 'getCurrentWeek')

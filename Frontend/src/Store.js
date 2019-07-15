@@ -10,8 +10,6 @@ import { WitchcraftMiddleware } from './WitchcraftMiddleware'
 
 import { getAllRecipes } from 'src/recipes/actions/RecipesActions'
 import { getRecipe, getRecipeNotes } from 'src/recipes/actions/RecipeActions'
-import { getSupportedDomains } from 'src/recipes/actions/NewRecipeActions'
-import { getAllCarts } from 'src/carts/actions/CartsActions'
 import { getWeek } from 'src/weeks/actions/WeekActions'
 
 export const history = createBrowserHistory()
@@ -52,7 +50,6 @@ const pathRegexes = [
   }, {
     regex: /^\/carts$/,
     callback: () => {
-      store.dispatch(getAllCarts())
       store.dispatch(setState('currentPage', 'Carts'))
     },
   }, {
