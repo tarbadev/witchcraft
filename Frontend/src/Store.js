@@ -39,7 +39,10 @@ const pathRegexes = [
   }, {
     regex: /^\/recipes$/,
     callback: () => {
-      store.dispatch(getAllRecipes())
+      store.dispatch(getAllRecipes(data => {
+        store.dispatch(setState('allRecipes', data.recipes))
+        store.dispatch(setState('recipes', data.recipes))
+      }))
       store.dispatch(setState('currentPage', 'Recipes'))
     },
   }, {
@@ -60,13 +63,19 @@ const pathRegexes = [
   }, {
     regex: /^\/carts\/new$/,
     callback: () => {
-      store.dispatch(getAllRecipes())
+      store.dispatch(getAllRecipes(data => {
+        store.dispatch(setState('allRecipes', data.recipes))
+        store.dispatch(setState('recipes', data.recipes))
+      }))
       store.dispatch(setState('currentPage', 'Carts'))
     },
   }, {
     regex: /^\/weeks\/(\d+)\/(\d+)$/,
     callback: ([year, week]) => {
-      store.dispatch(getAllRecipes())
+      store.dispatch(getAllRecipes(data => {
+        store.dispatch(setState('allRecipes', data.recipes))
+        store.dispatch(setState('recipes', data.recipes))
+      }))
       store.dispatch(getWeek(year, week, data => store.dispatch(setState('week', data))))
       store.dispatch(setState('pages.weekPage.showSuccessMessage', false))
       store.dispatch(setState('currentPage', 'Weeks'))

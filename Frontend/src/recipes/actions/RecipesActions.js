@@ -15,18 +15,12 @@ export const getLatestRecipes = onSuccess =>
     onSuccess: onSuccess,
   })
 
-export const getAllRecipesSuccess = data => dispatch => {
-  dispatch(setState('allRecipes', data.recipes))
-  dispatch(setState('recipes', data.recipes))
-}
-
-export const getAllRecipes = () => dispatch => {
-  dispatch(fetchAction({
+export const getAllRecipes = onSuccess =>
+  fetchAction({
     url: '/api/recipes',
     method: 'GET',
-    onSuccess: getAllRecipesSuccess,
-  }))
-}
+    onSuccess,
+  })
 
 export const filterRecipes = (search) => {
   return (dispatch, getState) => {

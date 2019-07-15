@@ -1,7 +1,6 @@
 import {
   filterRecipes,
   getAllRecipes,
-  getAllRecipesSuccess,
   getFavoriteRecipes,
   getLatestRecipes,
 } from 'src/recipes/actions/RecipesActions'
@@ -9,29 +8,16 @@ import {
 import { fetchAction } from 'src/WitchcraftMiddleware'
 import { setState } from 'src/RootReducer'
 
-import promisedRecipeList from 'test-resources/recipeList.json'
-
 describe('RecipesActions', () => {
   describe('getAllRecipes', () => {
-    it('calls the witchcraft API and sets the state with the list of recipes', () => {
-      const dispatchSpy = jest.fn()
+    it('calls the witchcraft API', () => {
+      const onSuccessSpy = jest.fn()
 
-      getAllRecipes()(dispatchSpy)
-
-      expect(dispatchSpy).toHaveBeenCalledWith(fetchAction({
+      expect(getAllRecipes(onSuccessSpy)).toEqual(fetchAction({
         url: '/api/recipes',
         method: 'GET',
-        onSuccess: getAllRecipesSuccess,
+        onSuccess: onSuccessSpy,
       }))
-    })
-  })
-
-  describe('getAllRecipesSuccess', () => {
-    it('success callback saves recipes in state', () => {
-      const dispatchSpy = jest.fn()
-      getAllRecipesSuccess(promisedRecipeList)(dispatchSpy)
-      expect(dispatchSpy).toHaveBeenCalledWith(setState('allRecipes', promisedRecipeList.recipes))
-      expect(dispatchSpy).toHaveBeenCalledWith(setState('recipes', promisedRecipeList.recipes))
     })
   })
 
