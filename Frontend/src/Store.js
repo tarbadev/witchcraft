@@ -59,10 +59,6 @@ const pathRegexes = [
   }, {
     regex: /^\/carts\/new$/,
     callback: () => {
-      store.dispatch(getAllRecipes(data => {
-        store.dispatch(setState('allRecipes', data.recipes))
-        store.dispatch(setState('recipes', data.recipes))
-      }))
       store.dispatch(setState('currentPage', 'Carts'))
     },
   }, {

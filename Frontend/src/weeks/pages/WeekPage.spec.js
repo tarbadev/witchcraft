@@ -86,7 +86,7 @@ describe('WeekPage', () => {
 
       weekPage.find('.week-page__create-cart-button').simulate('click')
 
-      expect(createCartFromWeek).toHaveBeenCalledWith(recipeIds)
+      expect(createCartFromWeek).toHaveBeenCalledWith(recipeIds, expect.any(Function))
     })
 
     it('calls saveWeek', () => {

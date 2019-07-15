@@ -58,7 +58,7 @@ export const WeekPage = ({
       .filter(recipeId => recipeId > 0)
 
     saveWeek(week)
-    createCart(recipeIds)
+    createCart(recipeIds, cart => history.push(`/carts/${cart.id}`))
   }
 
   const title = `Year ${week.year}, week ${week.weekNumber}`

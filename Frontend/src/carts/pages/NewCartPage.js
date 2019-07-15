@@ -1,14 +1,29 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 import Switch from '@material-ui/core/Switch'
 import FormGroup from '@material-ui/core/FormGroup'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import { createCart } from 'src/carts/actions/NewCartActions'
-import { PageTitle } from '../../PageTitle'
+import { PageTitle } from 'src/PageTitle'
+import { useAppContext } from '../../StoreProvider'
+import { getAllRecipes } from '../../recipes/actions/RecipesActions'
+
+export const NewCartPageContainer = ({ history }) => {
+  const { state, dispatch } = useAppContext()
+  const [recipes, setRecipes] = useState(state.recipes)
+
+  useEffect(() => dispatch(getAllRecipes(data => setRecipes(data.recipes))), [])
+
+  return <NewCartPage
+    recipes={recipes}
+    generateCart={recipeIds => dispatch(createCart(recipeIds, cart => history.push(`/carts/${cart.id}`)))} />
+}
+
+NewCartPageContainer.propTypes = {
+  history: PropTypes.object,
+}
 
 export const NewCartPage = ({
   recipes,
@@ -58,8 +73,3 @@ NewCartPage.propTypes = {
   recipes: PropTypes.array,
   generateCart: PropTypes.func,
 }
-
-const mapStateToProps = state => ({ recipes: state.app.allRecipes })
-const mapDispatchToProps = (dispatch) => bindActionCreators({ generateCart: createCart }, dispatch)
-
-export const NewCartPageContainer = connect(mapStateToProps, mapDispatchToProps)(NewCartPage)
