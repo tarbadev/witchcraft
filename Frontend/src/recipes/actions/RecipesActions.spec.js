@@ -1,12 +1,6 @@
-import {
-  filterRecipes,
-  getAllRecipes,
-  getFavoriteRecipes,
-  getLatestRecipes,
-} from 'src/recipes/actions/RecipesActions'
+import { filterRecipes, getAllRecipes, getFavoriteRecipes, getLatestRecipes } from 'src/recipes/actions/RecipesActions'
 
 import { fetchAction } from 'src/WitchcraftMiddleware'
-import { setState } from 'src/RootReducer'
 
 describe('RecipesActions', () => {
   describe('getAllRecipes', () => {
@@ -47,18 +41,15 @@ describe('RecipesActions', () => {
 
   describe('filterRecipes', () => {
     it('filters the list of recipes based on the input', () => {
-      const dispatchSpy = jest.fn()
-      const state = {
-        allRecipes: [
-          { name: 'Recipe test' },
-          { name: 'Recipe Two' },
-          { name: 'Recipe Three' },
-        ],
-      }
+      const allRecipes = [
+        { name: 'Recipe test' },
+        { name: 'Recipe Two' },
+        { name: 'Recipe Three' },
+      ]
 
-      filterRecipes('test')(dispatchSpy, () => ({ app: state }))
+      filterRecipes(allRecipes, 'test')
 
-      expect(dispatchSpy).toHaveBeenCalledWith(setState('recipes', [{ name: 'Recipe test' }]))
+      expect(filterRecipes(allRecipes, 'test')).toEqual([{ name: 'Recipe test' }])
     })
   })
 })

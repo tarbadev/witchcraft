@@ -7,5 +7,6 @@ export const mockAppContext = () => {
   jest
     .spyOn(StoreProvider, 'useAppContext')
     .mockImplementation(() => context)
+
   return context
 }

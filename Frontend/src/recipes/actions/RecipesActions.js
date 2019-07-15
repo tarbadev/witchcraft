@@ -1,4 +1,3 @@
-import { setState } from 'src/RootReducer'
 import { fetchAction } from 'src/WitchcraftMiddleware'
 
 export const getFavoriteRecipes = onSuccess =>
@@ -22,11 +21,7 @@ export const getAllRecipes = onSuccess =>
     onSuccess,
   })
 
-export const filterRecipes = (search) => {
-  return (dispatch, getState) => {
-    const filteredRecipes = getState().app.allRecipes.filter((recipe) => {
-      return recipe.name.toLowerCase().includes(search.toLowerCase())
-    })
-    dispatch(setState('recipes', filteredRecipes))
-  }
-}
+export const filterRecipes = (allRecipes, search) =>
+  allRecipes.filter((recipe) => {
+    return recipe.name.toLowerCase().includes(search.toLowerCase())
+  })

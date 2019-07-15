@@ -39,10 +39,6 @@ const pathRegexes = [
   }, {
     regex: /^\/recipes$/,
     callback: () => {
-      store.dispatch(getAllRecipes(data => {
-        store.dispatch(setState('allRecipes', data.recipes))
-        store.dispatch(setState('recipes', data.recipes))
-      }))
       store.dispatch(setState('currentPage', 'Recipes'))
     },
   }, {

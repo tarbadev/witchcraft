@@ -1,7 +1,5 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 import Paper from '@material-ui/core/Paper'
@@ -9,9 +7,10 @@ import TextField from '@material-ui/core/TextField'
 
 import { RecipeList } from 'src/recipes/components/RecipeList'
 
-import { filterRecipes } from 'src/recipes/actions/RecipesActions'
+import { filterRecipes, getAllRecipes } from 'src/recipes/actions/RecipesActions'
 import { makeStyles } from '@material-ui/core'
-import { PageTitle } from '../../PageTitle'
+import { PageTitle } from 'src/PageTitle'
+import { useAppContext } from 'src/StoreProvider'
 
 const useStyles = makeStyles({
   paper: {
@@ -19,11 +18,31 @@ const useStyles = makeStyles({
   },
 })
 
-export const RecipesPage = ({ recipes, searchRecipe, history }) => {
+export const RecipesPageContainer = ({ history }) => {
+  const { state, dispatch } = useAppContext()
+  const [recipes, setRecipes] = useState(state.recipes)
+  const [filteredRecipes, setFilteredRecipes] = useState(recipes)
+
+  useEffect(
+    () => dispatch(getAllRecipes(data => {
+      setRecipes(data.recipes)
+      setFilteredRecipes(data.recipes)
+    })),
+    [],
+  )
+
+  return <RecipesPage
+    recipes={filteredRecipes}
+    onNewRecipeClick={() => history.push('/recipes/new')}
+    searchRecipe={(search) => setFilteredRecipes(filterRecipes(recipes, search))} />
+}
+
+RecipesPageContainer.propTypes = {
+  history: PropTypes.object,
+}
+
+export const RecipesPage = ({ recipes, searchRecipe, onNewRecipeClick }) => {
   const classes = useStyles()
-  const onNewRecipeClick = () => {
-    history.push('/recipes/new')
-  }
 
   return (
     <Grid container spacing={3}>
@@ -39,7 +58,7 @@ export const RecipesPage = ({ recipes, searchRecipe, history }) => {
         </Paper>
       </Grid>
       <Grid item xs={12}>
-        <Button variant='contained' color='primary' onClick={onNewRecipeClick}>
+        <Button variant='contained' href='' color='primary' data-name='new-recipe-button' onClick={onNewRecipeClick}>
           New Recipe
         </Button>
       </Grid>
@@ -53,20 +72,5 @@ export const RecipesPage = ({ recipes, searchRecipe, history }) => {
 RecipesPage.propTypes = {
   recipes: PropTypes.array,
   searchRecipe: PropTypes.func,
-  classes: PropTypes.object,
-  history: PropTypes.object,
+  onNewRecipeClick: PropTypes.func,
 }
-
-const mapStateToProps = state => {
-  return {
-    recipes: state.app.recipes,
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({
-    searchRecipe: filterRecipes,
-  }, dispatch)
-}
-
-export const RecipesPageContainer = connect(mapStateToProps, mapDispatchToProps)(RecipesPage)
