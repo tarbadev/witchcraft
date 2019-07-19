@@ -112,7 +112,7 @@ describe('New Recipe', () => {
         'Farine',
         'Oeufs entiers',
         'Sucre',
-        'Huile',
+        'D\'huile',
         'Beurre fondu',
         'Lait',
         'Rhum',

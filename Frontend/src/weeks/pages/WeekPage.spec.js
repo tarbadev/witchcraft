@@ -1,119 +1,304 @@
 import React from 'react'
-import { shallow } from 'enzyme'
+import { mount } from 'enzyme'
 
-import { WeekPage, WEEKS_IN_A_YEAR } from './WeekPage'
+import { WeekPageContainer, WEEKS_IN_A_YEAR } from './WeekPage'
+import { mockAppContext } from 'src/testUtils'
+import * as WeekActions from 'src/weeks/actions/WeekActions'
+import * as NewCartActions from 'src/carts/actions/NewCartActions'
+import { saveWeek } from '../actions/WeekPageActions'
 
-describe('WeekPage', () => {
+describe('WeekPageContainer', () => {
+  it('loads the week when mounting the component', () => {
+    const context = mockAppContext()
+    const year = 2019
+    const week = 34
+
+    mount(<WeekPageContainer match={{ params: { year, week } }} />)
+
+    expect(context.dispatch).toHaveBeenCalledWith(WeekActions.getWeek(year, week, expect.any(Function)))
+  })
+
+  it('calls saveWeek on save button click', () => {
+    const context = mockAppContext()
+    const year = 2019
+    const week = 34
+    const currentWeek = {
+      year,
+      weekNumber: week,
+      days: [
+        {
+          lunch: { id: 1 },
+          diner: { id: 3 },
+        },
+      ],
+    }
+
+    jest
+      .spyOn(WeekActions, 'getWeek')
+      .mockImplementation((year, week, onSuccess) => onSuccess(currentWeek))
+
+    const weekPage = mount(<WeekPageContainer match={{ params: { year, week } }} />)
+
+    weekPage.find('.week-page__save-button button').simulate('click')
+
+    expect(context.dispatch).toHaveBeenCalledWith(saveWeek(currentWeek, expect.any(Function)))
+  })
+
+  it('calls saveWeek on create cart button click', () => {
+    const context = mockAppContext()
+    const year = 2019
+    const week = 34
+    const currentWeek = {
+      year,
+      weekNumber: week,
+      days: [
+        {
+          lunch: { id: 1 },
+          diner: { id: 3 },
+        },
+        {
+          lunch: null,
+          diner: null,
+        },
+      ],
+    }
+
+    jest
+      .spyOn(WeekActions, 'getWeek')
+      .mockImplementation((year, week, onSuccess) => onSuccess(currentWeek))
+
+    const weekPage = mount(<WeekPageContainer match={{ params: { year, week } }} />)
+
+    weekPage.find('.week-page__create-cart-button button').simulate('click')
+
+    expect(context.dispatch).toHaveBeenNthCalledWith(3, saveWeek(currentWeek, expect.any(Function)))
+  })
+
+  it('calls createCartFromWeek on create cart button click', () => {
+    const context = mockAppContext()
+    const year = 2019
+    const week = 34
+    const currentWeek = {
+      year,
+      weekNumber: week,
+      days: [
+        {
+          lunch: { id: 1 },
+          diner: { id: 3 },
+        },
+        {
+          lunch: null,
+          diner: null,
+        },
+      ],
+    }
+    const recipeIds = [1, 3]
+
+    jest
+      .spyOn(WeekActions, 'getWeek')
+      .mockImplementation((year, week, onSuccess) => onSuccess(currentWeek))
+
+    const weekPage = mount(<WeekPageContainer match={{ params: { year, week } }} />)
+
+    weekPage.find('.week-page__create-cart-button button').simulate('click')
+
+    expect(context.dispatch).toHaveBeenNthCalledWith(4, NewCartActions.createCart(recipeIds, expect.any(Function)))
+  })
+
+  it('redirects to the new cart on create cart button click', () => {
+    mockAppContext()
+    const year = 2019
+    const week = 34
+    const currentWeek = {
+      year,
+      weekNumber: week,
+      days: [
+        {
+          lunch: { id: 1 },
+          diner: { id: 3 },
+        },
+        {
+          lunch: null,
+          diner: null,
+        },
+      ],
+    }
+    const pushSpy = jest.fn()
+
+    jest
+      .spyOn(WeekActions, 'getWeek')
+      .mockImplementation((year, week, onSuccess) => onSuccess(currentWeek))
+
+    jest
+      .spyOn(NewCartActions, 'createCart')
+      .mockImplementation((recipeIds, onSuccess) => onSuccess({ id: 34 }))
+
+    const weekPage = mount(<WeekPageContainer match={{ params: { year, week } }} history={{ push: pushSpy }} />)
+
+    weekPage.find('.week-page__create-cart-button button').simulate('click')
+
+    expect(pushSpy).toHaveBeenCalledWith('/carts/34')
+  })
+
   describe('when previous button clicked', () => {
     it('calls history.push', () => {
+      mockAppContext()
+      const year = 2019
+      const week = 34
+      const currentWeek = {
+        year,
+        weekNumber: week,
+        days: [
+          {
+            lunch: { id: 1 },
+            diner: { id: 3 },
+          },
+          {
+            lunch: null,
+            diner: null,
+          },
+        ],
+      }
       const pushSpy = jest.fn()
-      const week = { year: 2018, weekNumber: 45, days: [] }
-      const weekPage = shallow(<WeekPage history={{ push: pushSpy }} week={week} />)
 
-      weekPage.find('.week-page__previous-week').simulate('click')
+      jest
+        .spyOn(WeekActions, 'getWeek')
+        .mockImplementation((year, week, onSuccess) => onSuccess(currentWeek))
 
-      expect(pushSpy).toHaveBeenCalledWith(`/weeks/${week.year}/${week.weekNumber - 1}`)
+      const weekPage = mount(<WeekPageContainer history={{ push: pushSpy }} match={{ params: { year, week } }} />)
+
+      weekPage.find('.week-page__previous-week').at(0).simulate('click')
+
+      expect(pushSpy).toHaveBeenCalledWith(`/weeks/${currentWeek.year}/${currentWeek.weekNumber - 1}`)
     })
 
     it('calculates the previous year if weekNumber = 1', () => {
+      mockAppContext()
+      const year = 2019
+      const week = 1
+      const currentWeek = {
+        year,
+        weekNumber: week,
+        days: [
+          {
+            lunch: { id: 1 },
+            diner: { id: 3 },
+          },
+          {
+            lunch: null,
+            diner: null,
+          },
+        ],
+      }
       const pushSpy = jest.fn()
-      const week = { year: 2018, weekNumber: 1, days: [] }
-      const weekPage = shallow(<WeekPage history={{ push: pushSpy }} week={week} />)
 
-      weekPage.find('.week-page__previous-week').simulate('click')
+      jest
+        .spyOn(WeekActions, 'getWeek')
+        .mockImplementation((year, week, onSuccess) => onSuccess(currentWeek))
 
-      expect(pushSpy).toHaveBeenCalledWith(`/weeks/${week.year - 1}/${WEEKS_IN_A_YEAR}`)
+      const weekPage = mount(<WeekPageContainer history={{ push: pushSpy }} match={{ params: { year, week } }} />)
+
+      weekPage.find('.week-page__previous-week').at(0).simulate('click')
+
+      expect(pushSpy).toHaveBeenCalledWith(`/weeks/${currentWeek.year - 1}/${WEEKS_IN_A_YEAR}`)
     })
   })
 
   describe('when next button clicked', () => {
     it('calls history.push', () => {
+      mockAppContext()
+      const year = 2019
+      const week = 45
+      const currentWeek = {
+        year,
+        weekNumber: week,
+        days: [
+          {
+            lunch: { id: 1 },
+            diner: { id: 3 },
+          },
+          {
+            lunch: null,
+            diner: null,
+          },
+        ],
+      }
       const pushSpy = jest.fn()
-      const week = { year: 2018, weekNumber: 45, days: [] }
-      const weekPage = shallow(<WeekPage history={{ push: pushSpy }} week={week} />)
 
-      weekPage.find('.week-page__next-week').simulate('click')
+      jest
+        .spyOn(WeekActions, 'getWeek')
+        .mockImplementation((year, week, onSuccess) => onSuccess(currentWeek))
 
-      expect(pushSpy).toHaveBeenCalledWith(`/weeks/${week.year}/${week.weekNumber + 1}`)
+      const weekPage = mount(<WeekPageContainer history={{ push: pushSpy }} match={{ params: { year, week } }} />)
+
+      weekPage.find('.week-page__next-week').at(0).simulate('click')
+
+      expect(pushSpy).toHaveBeenCalledWith(`/weeks/${currentWeek.year}/${currentWeek.weekNumber + 1}`)
     })
 
     it('calculates the next year if weekNumber = MAX_WEEK', () => {
+      mockAppContext()
+      const year = 2019
+      const week = WEEKS_IN_A_YEAR
+      const currentWeek = {
+        year,
+        weekNumber: week,
+        days: [
+          {
+            lunch: { id: 1 },
+            diner: { id: 3 },
+          },
+          {
+            lunch: null,
+            diner: null,
+          },
+        ],
+      }
       const pushSpy = jest.fn()
-      const week = { year: 2018, weekNumber: WEEKS_IN_A_YEAR, days: [] }
-      const weekPage = shallow(<WeekPage history={{ push: pushSpy }} week={week} />)
 
-      weekPage.find('.week-page__next-week').simulate('click')
+      jest
+        .spyOn(WeekActions, 'getWeek')
+        .mockImplementation((year, week, onSuccess) => onSuccess(currentWeek))
 
-      expect(pushSpy).toHaveBeenCalledWith(`/weeks/${week.year + 1}/1`)
+      const weekPage = mount(<WeekPageContainer history={{ push: pushSpy }} match={{ params: { year, week } }} />)
+
+      weekPage.find('.week-page__next-week').at(0).simulate('click')
+
+      expect(pushSpy).toHaveBeenCalledWith(`/weeks/${currentWeek.year + 1}/1`)
     })
   })
 
-  describe('when save button clicked', () => {
-    it('calls saveWeek', () => {
-      const saveWeek = jest.fn()
-      const week = { year: 2018, weekNumber: 45, days: [] }
-      const weekPage = shallow(<WeekPage saveWeek={saveWeek} week={week} />)
+  it('show a modal on meal click', () => {
+    const context = mockAppContext()
+    const year = 2019
+    const week = 34
+    const currentWeek = {
+      year,
+      weekNumber: week,
+      days: [
+        {
+          name: 'MONDAY',
+          lunch: { id: 0,  },
+          diner: { id: 0,  },
+        },
+        {
+          name: 'TUESDAY',
+          lunch: null,
+          diner: null,
+        },
+      ],
+    }
 
-      weekPage.find('.week-page__save-button').simulate('click')
+    jest
+      .spyOn(WeekActions, 'getWeek')
+      .mockImplementation((year, week, onSuccess) => onSuccess(currentWeek))
 
-      expect(saveWeek).toHaveBeenCalled()
-    })
-  })
+    const weekPage = mount(<WeekPageContainer match={{ params: { year, week } }} />)
 
-  describe('when create Cart button clicked', () => {
-    it('calls createCartFromWeek', () => {
-      const createCartFromWeek = jest.fn()
-      const week = {
-        year: 2018,
-        weekNumber: 45,
-        days: [
-          {
-            lunch: { id: 1 },
-            diner: { id: 3 },
-          },
-          {
-            lunch: { id: 9 },
-            diner: { id: 0 },
-          },
-          {
-            lunch: null,
-            diner: null,
-          },
-        ],
-      }
-      const recipeIds = [1, 3, 9]
-      const weekPage = shallow(<WeekPage createCart={createCartFromWeek} saveWeek={jest.fn()} week={week} />)
+    expect(weekPage.find('Modal').props().open).toBeFalsy()
 
-      weekPage.find('.week-page__create-cart-button').simulate('click')
+    weekPage.find('[data-meal="lunch-MONDAY"]').at(0).simulate('click')
 
-      expect(createCartFromWeek).toHaveBeenCalledWith(recipeIds, expect.any(Function))
-    })
-
-    it('calls saveWeek', () => {
-      const saveWeekSpy = jest.fn()
-      const week = {
-        year: 2018,
-        weekNumber: 45,
-        days: [
-          {
-            lunch: { id: 1 },
-            diner: { id: 3 },
-          },
-          {
-            lunch: { id: 9 },
-            diner: { id: 0 },
-          },
-          {
-            lunch: null,
-            diner: null,
-          },
-        ],
-      }
-      const weekPage = shallow(<WeekPage saveWeek={saveWeekSpy} createCart={jest.fn()} week={week} />)
-
-      weekPage.find('.week-page__create-cart-button').simulate('click')
-
-      expect(saveWeekSpy).toHaveBeenCalled()
-    })
+    expect(weekPage.find('Modal').at(0).props().open).toBeTruthy()
   })
 })

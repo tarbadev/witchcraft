@@ -25,7 +25,7 @@ export const Content = () => {
         <Route exact path="/carts/new" component={NewCartPageContainer} />
         <Route exact path="/carts/:id" component={CartPageContainer} />
         <Route exact path="/weeks" component={WeeksPage} />
-        <Route exact path="/weeks/:year/:weekNumber" component={WeekPageContainer} />
+        <Route exact path="/weeks/:year/:week" component={WeekPageContainer} />
       </Switch>
     </div>
   )

@@ -1,20 +1,19 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 import { Button, Grid, IconButton, Snackbar, SnackbarContent, Typography, withStyles } from '@material-ui/core'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 import CloseIcon from '@material-ui/icons/Close'
 
-import { saveWeek, toggleModal } from 'src/weeks/actions/WeekPageActions'
+import { saveWeek, toggleModal, setRecipeToWeek } from 'src/weeks/actions/WeekPageActions'
 import { createCart } from 'src/carts/actions/NewCartActions'
 import { WeekPane } from 'src/weeks/components/WeekPane'
-import { RecipeListModalContainer } from 'src/weeks/components/RecipeListModal'
-import { setState } from 'src/RootReducer'
 
 import './WeekPage.css'
-import { PageTitle } from '../../PageTitle'
+import { PageTitle } from 'src/PageTitle'
+import { useAppContext } from 'src/StoreProvider'
+import { getWeek } from '../actions/WeekActions'
+import { RecipeListModalContainer } from '../components/RecipeListModal'
 
 export const WEEKS_IN_A_YEAR = 52
 
@@ -30,15 +29,14 @@ const IconButtonStyled = withStyles({
   },
 })(IconButton)
 
-export const WeekPage = ({
-  week,
-  history,
-  openModal,
-  saveWeek,
-  createCart,
-  showSuccessMessage,
-  onSuccessButtonClose,
-}) => {
+export const WeekPageContainer = ({ history, match }) => {
+  const { state, dispatch } = useAppContext()
+  const [week, setWeek] = useState(state.week)
+  const [modal, setModal] = useState(state.pages.weekPage.modal)
+  const [showSuccessMessage, setShowSuccessMessage] = useState(state.pages.weekPage.showSuccessMessage)
+
+  useEffect(() => dispatch(getWeek(match.params.year, match.params.week, data => setWeek(data))), [])
+
   const onPreviousWeekClick = () => {
     const previousWeekNumber = week.weekNumber <= 1 ? WEEKS_IN_A_YEAR : (week.weekNumber - 1)
     const previousYear = week.weekNumber <= 1 ? (week.year - 1) : week.year
@@ -51,14 +49,57 @@ export const WeekPage = ({
     history.push(`/weeks/${nextYear}/${nextWeekNumber}`)
   }
 
+  const onSaveWeekSuccess = savedWeek => {
+    setWeek(savedWeek)
+    setShowSuccessMessage(true)
+  }
+
+  const closeModal = () => setModal(toggleModal(false))
+  const setRecipeAndCloseModal = (recipe, day, meal) => {
+    setWeek(setRecipeToWeek(week, recipe, day, meal))
+    closeModal()
+  }
+  return <WeekPage
+    week={week}
+    saveWeek={() => dispatch(saveWeek(week, onSaveWeekSuccess))}
+    createCart={recipeIds => dispatch(createCart(recipeIds, cart => history.push(`/carts/${cart.id}`)))}
+    onPreviousWeekClick={onPreviousWeekClick}
+    onNextWeekClick={onNextWeekClick}
+    showSuccessMessage={showSuccessMessage}
+    onSuccessButtonClose={() => setShowSuccessMessage(false)}
+    modal={modal}
+    openModal={(day, meal, currentRecipeId) => setModal(toggleModal(true, day, meal, currentRecipeId))}
+    closeModal={closeModal}
+    setRecipe={setRecipeAndCloseModal}
+  />
+}
+
+WeekPageContainer.propTypes = {
+  history: PropTypes.object,
+  match: PropTypes.object,
+}
+
+export const WeekPage = ({
+  week,
+  saveWeek,
+  createCart,
+  showSuccessMessage,
+  onSuccessButtonClose,
+  onPreviousWeekClick,
+  onNextWeekClick,
+  modal,
+  openModal,
+  closeModal,
+  setRecipe,
+}) => {
   const onCreateCartClick = () => {
     const recipeIds = week.days
       .map(day => [day.lunch?.id, day.diner?.id])
       .reduce((prev, curr) => prev.concat(curr))
       .filter(recipeId => recipeId > 0)
 
-    saveWeek(week)
-    createCart(recipeIds, cart => history.push(`/carts/${cart.id}`))
+    saveWeek()
+    createCart(recipeIds)
   }
 
   const title = `Year ${week.year}, week ${week.weekNumber}`
@@ -81,7 +122,7 @@ export const WeekPage = ({
               color="inherit"
               href=''
               onClick={onSuccessButtonClose}
-              className={'week-page__success-message-close'}>
+              className='week-page__success-message-close'>
               <CloseIcon />
             </IconButton>,
           ]}
@@ -105,7 +146,7 @@ export const WeekPage = ({
             variant='contained'
             color='primary'
             href=''
-            onClick={() => saveWeek(week)}>
+            onClick={saveWeek}>
             Save
           </Button>
         </Grid>
@@ -123,35 +164,21 @@ export const WeekPage = ({
       <Grid item xs={12}>
         <WeekPane week={week} onMealClick={openModal} />
       </Grid>
-      <RecipeListModalContainer />
+      <RecipeListModalContainer config={modal} closeModal={closeModal} setRecipe={setRecipe} />
     </Grid>
   )
 }
 
 WeekPage.propTypes = {
   week: PropTypes.object,
-  history: PropTypes.object,
-  openModal: PropTypes.func,
   saveWeek: PropTypes.func,
   createCart: PropTypes.func,
   showSuccessMessage: PropTypes.bool,
+  modal: PropTypes.object,
+  openModal: PropTypes.func,
+  closeModal: PropTypes.func,
   onSuccessButtonClose: PropTypes.func,
+  onPreviousWeekClick: PropTypes.func,
+  onNextWeekClick: PropTypes.func,
+  setRecipe: PropTypes.func,
 }
-
-const mapStateToProps = state => {
-  return {
-    week: state.app.week,
-    showSuccessMessage: state.app.pages.weekPage.showSuccessMessage,
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({
-    openModal: (day, meal, currentRecipeId) => toggleModal(true, day, meal, currentRecipeId),
-    saveWeek: saveWeek,
-    createCart: createCart,
-    onSuccessButtonClose: () => setState('pages.weekPage.showSuccessMessage', false),
-  }, dispatch)
-}
-
-export const WeekPageContainer = connect(mapStateToProps, mapDispatchToProps)(WeekPage)

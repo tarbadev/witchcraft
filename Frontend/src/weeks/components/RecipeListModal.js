@@ -1,6 +1,4 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import {
   Button,
@@ -15,13 +13,39 @@ import {
   Typography,
 } from '@material-ui/core'
 import CheckCircleIcon from '@material-ui/icons/CheckCircle'
-
-import { toggleModal } from 'src/weeks/actions/WeekPageActions'
-import { addExpressRecipe, setRecipe } from 'src/weeks/actions/RecipeListModalActions'
-import { setState } from 'src/RootReducer'
+import { addExpressRecipe } from 'src/weeks/actions/RecipeListModalActions'
 import './RecipeListModal.css'
-import { ExpressRecipeFormModal } from './ExpressRecipeFormModal'
+import { ExpressRecipeFormModalContainer } from './ExpressRecipeFormModal'
 import { onRecipeImageNotFoundError } from 'src/App'
+import { useAppContext } from 'src/StoreProvider'
+import { getAllRecipes } from 'src/recipes/actions/RecipesActions'
+
+export const RecipeListModalContainer = ({ config, closeModal, setRecipe }) => {
+  const { state, dispatch } = useAppContext()
+  const [recipes, setRecipes] = useState(state.recipes)
+  const [isExpressRecipeModalOpen, openExpressRecipeModal] = useState(state.pages.weekPage.modal.displayExpressRecipeForm)
+
+  useEffect(() => dispatch(getAllRecipes(data => setRecipes(data.recipes))), [])
+
+  return <RecipeListModal
+    recipes={recipes}
+    isModalOpen={config.isModalOpen}
+    closeModal={closeModal}
+    day={config.day}
+    meal={config.meal}
+    currentRecipeId={config.currentRecipeId}
+    setRecipe={setRecipe}
+    addExpressRecipe={recipeName => dispatch(addExpressRecipe(recipeName, recipe => setRecipe(recipe, config.day, config.meal)))}
+    displayExpressRecipeForm={() => openExpressRecipeModal(true)}
+    closeAddExpressRecipeForm={() => openExpressRecipeModal(false)}
+    isDisplayExpressRecipeForm={isExpressRecipeModalOpen} />
+}
+
+RecipeListModalContainer.propTypes = {
+  config: PropTypes.object,
+  closeModal: PropTypes.func,
+  setRecipe: PropTypes.func,
+}
 
 export const RecipeListModal = ({
   recipes = [],
@@ -29,19 +53,19 @@ export const RecipeListModal = ({
   closeModal,
   day,
   meal,
-  onRecipeClick,
   currentRecipeId,
   displayExpressRecipeForm,
+  closeAddExpressRecipeForm,
   isDisplayExpressRecipeForm,
   setExpressRecipeName,
   expressRecipeName,
+  setRecipe,
   addExpressRecipe,
-  closeAddExpressRecipeForm,
 }) => {
   const recipeCards = recipes.map(recipe => {
     const onClick = () => {
-      if (recipe?.id === currentRecipeId) return onRecipeClick({}, day, meal)
-      else return onRecipeClick(recipe, day, meal)
+      if (recipe?.id === currentRecipeId) return setRecipe({}, day, meal)
+      else return setRecipe(recipe, day, meal)
     }
     const className = recipe?.id === currentRecipeId
       ? 'current-recipe'
@@ -51,7 +75,8 @@ export const RecipeListModal = ({
       : undefined
     return (
       <GridListTile key={recipe.imgUrl} className={'recipe-card'} onClick={onClick}>
-        {recipe.imgUrl && <CardMedia component='img' image={recipe.imgUrl} alt={recipe.name} onError={onRecipeImageNotFoundError} />}
+        {recipe.imgUrl &&
+        <CardMedia component='img' image={recipe.imgUrl} alt={recipe.name} onError={onRecipeImageNotFoundError} />}
         <GridListTileBar title={recipe.name} className={'recipe-card-title'} />
         {currentRecipeIcon && currentRecipeIcon}
       </GridListTile>
@@ -88,11 +113,11 @@ export const RecipeListModal = ({
             </GridList>
           </Paper>
         </Grid>
-        <ExpressRecipeFormModal
+        <ExpressRecipeFormModalContainer
           recipeName={expressRecipeName}
           onRecipeNameChange={setExpressRecipeName}
           isModalOpen={isDisplayExpressRecipeForm}
-          onAddRecipeClick={recipeName => addExpressRecipe(recipeName, day, meal)}
+          onAddRecipeClick={addExpressRecipe}
           onClose={closeAddExpressRecipeForm} />
       </Grid>
     </Modal>
@@ -105,7 +130,6 @@ RecipeListModal.propTypes = {
   closeModal: PropTypes.func,
   day: PropTypes.string,
   meal: PropTypes.string,
-  onRecipeClick: PropTypes.func,
   currentRecipeId: PropTypes.number,
   displayExpressRecipeForm: PropTypes.func,
   isDisplayExpressRecipeForm: PropTypes.bool,
@@ -113,29 +137,5 @@ RecipeListModal.propTypes = {
   setExpressRecipeName: PropTypes.func,
   addExpressRecipe: PropTypes.func,
   closeAddExpressRecipeForm: PropTypes.func,
+  setRecipe: PropTypes.func,
 }
-
-const mapStateToProps = state => {
-  return {
-    recipes: state.app.recipes,
-    isModalOpen: state.app.pages.weekPage.modal.isModalOpen,
-    day: state.app.pages.weekPage.modal.day,
-    meal: state.app.pages.weekPage.modal.meal,
-    currentRecipeId: state.app.pages.weekPage.modal.currentRecipeId,
-    expressRecipeName: state.app.expressRecipeForm.recipeName,
-    isDisplayExpressRecipeForm: state.app.pages.weekPage.modal.displayExpressRecipeForm,
-  }
-}
-
-const mapDispatchToProps = dispatch => {
-  return bindActionCreators({
-    closeModal: () => toggleModal(false),
-    onRecipeClick: setRecipe,
-    displayExpressRecipeForm: () => setState('pages.weekPage.modal.displayExpressRecipeForm', true),
-    closeAddExpressRecipeForm: () => setState('pages.weekPage.modal.displayExpressRecipeForm', false),
-    setExpressRecipeName: recipeName => setState('expressRecipeForm.recipeName', recipeName),
-    addExpressRecipe: addExpressRecipe,
-  }, dispatch)
-}
-
-export const RecipeListModalContainer = connect(mapStateToProps, mapDispatchToProps)(RecipeListModal)

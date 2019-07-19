@@ -24,6 +24,9 @@ const pages = {
       meal: '',
       displayExpressRecipeForm: false,
     },
+    expressRecipeForm: {
+      recipeName: '',
+    },
     showSuccessMessage: false,
   },
   homePage: {
@@ -69,9 +72,6 @@ export const initialState = {
       ],
       favorite: false,
     },
-  },
-  expressRecipeForm: {
-    recipeName: '',
   },
   carts: [],
   cart: {
