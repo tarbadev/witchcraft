@@ -1,7 +1,5 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
@@ -17,26 +15,68 @@ import './RecipePage.css'
 import { Step } from 'src/recipes/components/Step'
 import { Ingredient } from 'src/recipes/components/Ingredient'
 
-import {
-  deleteRecipe,
-  hideEditableNotes,
-  setFavorite,
-  showEditableNotes,
-  updateNotes,
-} from 'src/recipes/actions/RecipeActions'
-import { setState } from 'src/RootReducer'
+import { deleteRecipe, getRecipe, getRecipeNotes, setFavorite, updateNotes } from 'src/recipes/actions/RecipeActions'
 import Paper from '@material-ui/core/Paper'
 import { onRecipeImageNotFoundError } from 'src/App'
 import CardMedia from '@material-ui/core/CardMedia'
-import { PageTitle } from '../../PageTitle'
+import { PageTitle } from 'src/PageTitle'
+import { useAppContext } from 'src/StoreProvider'
+
+export const RecipePageContainer = ({ match, history }) => {
+  const { state, dispatch } = useAppContext()
+  const [recipe, setRecipe] = useState(state.recipe)
+  const [notes, setNotes] = useState(state.pages.recipePage.notes)
+  const [notesInput, setNotesInput] = useState(notes)
+  const [isEditableNotes, setEditableNotes] = useState(state.pages.recipePage.editableNotes)
+  const [isDeleting, setIsDeleting] = useState(state.pages.recipePage.isDeleting)
+
+  const getRecipeSuccess = data => setNotes(data.notes)
+
+  useEffect(() => dispatch(getRecipe(match.params.id, data => setRecipe(data))), [])
+  useEffect(() => dispatch(getRecipeNotes(match.params.id, getRecipeSuccess)), [])
+
+  const showEditableNotes = () => {
+    setNotesInput(notes)
+    setEditableNotes(true)
+  }
+
+  const deleteRecipeAndDisplayInProgress = () => {
+    setIsDeleting(true)
+
+    const deleteCallback = () => {
+      setIsDeleting(false)
+      history.push('/recipes')
+    }
+    dispatch(deleteRecipe(recipe.id, deleteCallback, deleteCallback))
+  }
+
+  return <RecipePage
+    recipe={recipe}
+    toggleFavorite={() => dispatch(setFavorite(recipe.id, !recipe.favorite, newRecipe => setRecipe(newRecipe)))}
+    editRecipe={() => history.push(`/recipes/${recipe.id}/edit`)}
+    deleteRecipe={deleteRecipeAndDisplayInProgress}
+    notes={notes}
+    editableNotes={isEditableNotes}
+    showEditableNotes={showEditableNotes}
+    hideEditableNotes={() => setEditableNotes(false)}
+    updateNotes={() => dispatch(updateNotes(recipe.id, notesInput, getRecipeSuccess))}
+    notesInput={notesInput}
+    editNotes={newNotes => setNotesInput(newNotes)}
+    isDeleting={isDeleting} />
+}
+
+RecipePageContainer.propTypes = {
+  match: PropTypes.object,
+  history: PropTypes.object,
+}
 
 export const RecipePage = ({
   recipe,
-  history,
+  editRecipe,
   toggleFavorite,
-  isDeleting,
   deleteRecipe,
   notes,
+  isDeleting,
   editNotes,
   updateNotes,
   editableNotes,
@@ -44,10 +84,6 @@ export const RecipePage = ({
   hideEditableNotes,
   notesInput,
 }) => {
-  const onModifyButtonClick = () => {
-    history.push(`/recipes/${recipe.id}/edit`)
-  }
-
   let steps
   let ingredients
   let favoriteClassName = 'favoriteButton'
@@ -60,7 +96,7 @@ export const RecipePage = ({
         multiline={true}
         className='notes-container__editable-notes'
         value={notesInput}
-        onChange={(event) => editNotes('pages.recipePage.notesInput', event.target.value)}
+        onChange={(event) => editNotes(event.target.value)}
         onBlur={hideEditableNotes} />
   } else if (notes) {
     notesComponent =
@@ -107,18 +143,21 @@ export const RecipePage = ({
             <Typography variant='h5' className='title witchcraft-title'>
               {recipe.name}
             </Typography>
-            <IconButton href='' onClick={() => toggleFavorite(recipe.id, !recipe.favorite)} className={favoriteClassName}>
+            <IconButton
+              href=''
+              onClick={toggleFavorite}
+              className={favoriteClassName}>
               <FavoriteIcon />
             </IconButton>
           </Grid>
           <Grid item className='circularProgressContainer'>
-            <Button className='modifyButton' variant='contained' href='' onClick={onModifyButtonClick}>
+            <Button className='modifyButton' variant='contained' href='' onClick={editRecipe}>
               <EditIcon className='editIcon' />
             </Button>
             <Button
               className='deleteButton'
               variant='contained'
-              onClick={() => deleteRecipe(recipe.id)}
+              onClick={deleteRecipe}
               href=''
               disabled={isDeleting}>
               <DeleteIcon className='deleteIcon' />
@@ -155,7 +194,7 @@ export const RecipePage = ({
               color='primary'
               href=''
               variant='outlined'
-              onMouseDown={() => updateNotes(recipe.id, notesInput)}>
+              onMouseDown={updateNotes}>
               Update Notes
             </Button>
             }
@@ -187,7 +226,7 @@ export const RecipePage = ({
 
 RecipePage.propTypes = {
   recipe: PropTypes.object,
-  history: PropTypes.object,
+  editRecipe: PropTypes.func,
   toggleFavorite: PropTypes.func,
   isDeleting: PropTypes.bool,
   deleteRecipe: PropTypes.func,
@@ -199,28 +238,3 @@ RecipePage.propTypes = {
   hideEditableNotes: PropTypes.func,
   notesInput: PropTypes.string,
 }
-
-const mapStateToProps = state => {
-  return {
-    recipe: state.app.recipe,
-    notes: state.app.pages.recipePage.notes,
-    editableNotes: state.app.pages.recipePage.editableNotes,
-    notesInput: state.app.pages.recipePage.notesInput,
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators(
-    {
-      toggleFavorite: setFavorite,
-      deleteRecipe: deleteRecipe,
-      editNotes: setState,
-      updateNotes: updateNotes,
-      showEditableNotes: showEditableNotes,
-      hideEditableNotes: hideEditableNotes,
-    },
-    dispatch,
-  )
-}
-
-export const RecipePageContainer = connect(mapStateToProps, mapDispatchToProps)(RecipePage)

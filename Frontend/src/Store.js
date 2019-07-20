@@ -8,8 +8,6 @@ import { reducer, setState } from './RootReducer'
 import { createHistoryObserver } from './HistoryObserver'
 import { WitchcraftMiddleware } from './WitchcraftMiddleware'
 
-import { getRecipe, getRecipeNotes } from 'src/recipes/actions/RecipeActions'
-
 export const history = createBrowserHistory()
 const rootReducer = combineReducers({
   app: reducer,
@@ -24,9 +22,7 @@ export const store = createStore(rootReducer, composeWithDevTools(applyMiddlewar
 const pathRegexes = [
   {
     regex: /^\/recipes\/(\d+)$/,
-    callback: (id) => {
-      store.dispatch(getRecipe(id, data => store.dispatch(setState('recipe', data))))
-      store.dispatch(getRecipeNotes(id))
+    callback: () => {
       store.dispatch(setState('currentPage', 'Recipes'))
     },
   }, {
@@ -62,7 +58,6 @@ const pathRegexes = [
   }, {
     regex: /^\/weeks\/(\d+)\/(\d+)$/,
     callback: () => {
-      store.dispatch(setState('pages.weekPage.showSuccessMessage', false))
       store.dispatch(setState('currentPage', 'Weeks'))
     },
   }, {

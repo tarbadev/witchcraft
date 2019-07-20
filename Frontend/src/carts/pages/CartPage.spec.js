@@ -28,9 +28,9 @@ describe('CartPageContainer', function () {
     const context = mockAppContext()
     const id = 2
 
-    const home = mount(<CartPageContainer match={{ params: { id } }} />)
+    const cartPageContainer = mount(<CartPageContainer match={{ params: { id } }} />)
 
-    expect(home).toBeDefined()
+    expect(cartPageContainer).toBeDefined()
     expect(context.dispatch).toHaveBeenNthCalledWith(1, getCart(id, expect.any(Function)))
   })
 })

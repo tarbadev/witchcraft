@@ -1,121 +1,251 @@
 import React from 'react'
-import { shallow } from 'enzyme'
+import { mount } from 'enzyme'
 
-import { RecipePage } from './RecipePage'
+import { RecipePageContainer } from './RecipePage'
 
 import promisedRecipeList from 'test-resources/recipeList.json'
+import { mockAppContext } from 'src/testUtils'
+import * as RecipeActions from '../actions/RecipeActions'
 
 const promisedRecipe = promisedRecipeList.recipes[0]
 
-describe('RecipePage', function () {
-  const toggleFavoriteSpy = jest.fn()
-  describe('setFavorite', () => {
-    it('calls setFavorite on FavoriteIcon click', () => {
-      const recipePage = shallow(<RecipePage toggleFavorite={toggleFavoriteSpy} recipe={promisedRecipe} />)
-      recipePage.find('.favoriteButton').simulate('click')
+describe('RecipePageContainer', () => {
+  it('renders without crashing and loads the recipe', () => {
+    const context = mockAppContext()
+    const id = 2
 
-      expect(toggleFavoriteSpy).toHaveBeenCalledWith(promisedRecipe.id, !promisedRecipe.favorite)
-    })
+    const recipePageContainer = mount(<RecipePageContainer match={{ params: { id } }} />)
+
+    expect(recipePageContainer).toBeDefined()
+    expect(context.dispatch).toHaveBeenNthCalledWith(1, RecipeActions.getRecipe(id, expect.any(Function)))
   })
 
-  describe('onModifyButtonClick', () => {
-    it('calls history.push when Modify button clicked', () => {
-      const pushSpy = jest.fn()
-      const recipePage = shallow(
-        <RecipePage toggleFavorite={toggleFavoriteSpy} history={{ push: pushSpy }} recipe={promisedRecipe} />,
-      )
+  it('dispatches setFavorite on FavoriteIcon click', () => {
+    const context = mockAppContext()
+    const id = promisedRecipe.id
 
-      recipePage.find('.modifyButton').simulate('click')
+    jest
+      .spyOn(RecipeActions, 'getRecipe')
+      .mockImplementation((id, onSuccess) => onSuccess(promisedRecipe))
 
-      expect(pushSpy).toHaveBeenCalledWith(`/recipes/${promisedRecipe.id}/edit`)
-    })
+    const recipePageContainer = mount(<RecipePageContainer match={{ params: { id } }} />)
+    recipePageContainer.find('.favoriteButton button').simulate('click')
+
+    expect(context.dispatch).toHaveBeenLastCalledWith(RecipeActions.setFavorite(id, !promisedRecipe.favorite, expect.any(Function)))
   })
 
-  describe('deleteRecipe', () => {
-    it('calls deleteRecipe when Delete button clicked', () => {
-      const deleteRecipeSpy = jest.fn()
-      const recipePage = shallow(
-        <RecipePage toggleFavorite={toggleFavoriteSpy} deleteRecipe={deleteRecipeSpy} recipe={promisedRecipe} />,
-      )
+  it('dispatches history.push when Modify button clicked', () => {
+    mockAppContext()
+    const pushSpy = jest.fn()
+    const id = promisedRecipe.id
 
-      recipePage.find('.deleteButton').simulate('click')
+    jest
+      .spyOn(RecipeActions, 'getRecipe')
+      .mockImplementation((id, onSuccess) => onSuccess(promisedRecipe))
 
-      expect(deleteRecipeSpy).toHaveBeenCalledWith(promisedRecipe.id)
-    })
+    const recipePageContainer = mount(<RecipePageContainer match={{ params: { id } }} history={{ push: pushSpy }} />)
+    recipePageContainer.find('.modifyButton button').simulate('click')
+
+    expect(pushSpy).toHaveBeenCalledWith(`/recipes/${promisedRecipe.id}/edit`)
+  })
+
+  it('dispatches deleteRecipe when Delete button clicked', () => {
+    const context = mockAppContext()
+    const id = promisedRecipe.id
+
+    jest
+      .spyOn(RecipeActions, 'getRecipe')
+      .mockImplementation((id, onSuccess) => onSuccess(promisedRecipe))
+
+    const recipePageContainer = mount(<RecipePageContainer match={{ params: { id } }} />)
+    recipePageContainer.find('.deleteButton button').simulate('click')
+
+    expect(context.dispatch).toHaveBeenLastCalledWith(RecipeActions.deleteRecipe(id, expect.any(Function)))
+  })
+
+  it('displays when delete button is clicked', () => {
+    mockAppContext()
+    const id = promisedRecipe.id
+
+    jest
+      .spyOn(RecipeActions, 'getRecipe')
+      .mockImplementation((id, onSuccess) => onSuccess(promisedRecipe))
+
+    const recipePageContainer = mount(<RecipePageContainer match={{ params: { id } }} />)
+
+    expect(recipePageContainer.find('.circularProgress')).toHaveLength(0)
+
+    recipePageContainer.find('.deleteButton button').simulate('click')
+
+    expect(recipePageContainer.find('.circularProgress')).toHaveLength(3)
+  })
+
+  it('Hides CircularProgress call is successful', () => {
+    mockAppContext()
+    const id = promisedRecipe.id
+
+    jest
+      .spyOn(RecipeActions, 'getRecipe')
+      .mockImplementation((id, onSuccess) => onSuccess(promisedRecipe))
+
+    const recipePageContainer = mount(<RecipePageContainer match={{ params: { id } }} history={{ push: jest.fn() }} />)
+
+    expect(recipePageContainer.find('.circularProgress')).toHaveLength(0)
+
+    jest
+      .spyOn(RecipeActions, 'deleteRecipe')
+      .mockImplementation((id, onSuccess) => onSuccess())
+
+    recipePageContainer.find('.deleteButton button').simulate('click')
+    expect(recipePageContainer.find('.circularProgress')).toHaveLength(0)
+  })
+
+  it('redirects to recipes page when delete succeeds', () => {
+    mockAppContext()
+    const id = promisedRecipe.id
+    const pushSpy = jest.fn()
+
+    jest
+      .spyOn(RecipeActions, 'getRecipe')
+      .mockImplementation((id, onSuccess) => onSuccess(promisedRecipe))
+
+    jest
+      .spyOn(RecipeActions, 'deleteRecipe')
+      .mockImplementation((id, onSuccess) => onSuccess())
+
+    const recipePageContainer = mount(<RecipePageContainer match={{ params: { id } }} history={{ push: pushSpy }} />)
+    recipePageContainer.find('.deleteButton button').simulate('click')
+
+    expect(pushSpy).toHaveBeenLastCalledWith('/recipes')
   })
 
   describe('Notes', () => {
-    describe('when editableNotes is false', () => {
-      it('notes is a Typography', () => {
-        const recipePage = shallow(<RecipePage recipe={promisedRecipe} notes={'Some Notes'} editableNotes={false} />)
+    it('loads the notes when mounting the object', () => {
+      const context = mockAppContext()
 
-        expect(recipePage.find('.notes-container__notes').length).toBe(1)
-      })
+      jest
+        .spyOn(RecipeActions, 'getRecipe')
+        .mockImplementation((id, onSuccess) => onSuccess(promisedRecipe))
 
-      it('and notes are empty, displays a message', () => {
-        const recipePage = shallow(<RecipePage recipe={promisedRecipe} editableNotes={false} />)
+      mount(<RecipePageContainer match={{ params: { id: promisedRecipe.id } }} />)
 
-        expect(recipePage.find('.notes-container__notes').length).toBe(1)
-        expect(recipePage.find('.notes-container__notes').render().text()).toBe('Add a note')
-      })
-
-      it('does not display update button', () => {
-        const recipePage = shallow(<RecipePage recipe={promisedRecipe} editableNotes={false} />)
-
-        expect(recipePage.find('.notes-container__update-notes-button').length).toBe(0)
-      })
-    })
-    it('when editableNotes is true, notes is a TextField', () => {
-      const recipePage = shallow(<RecipePage recipe={promisedRecipe} editableNotes={true} />)
-
-      expect(recipePage.find('.notes-container__editable-notes').length).toBe(1)
+      expect(context.dispatch).toHaveBeenLastCalledWith(RecipeActions.getRecipeNotes(promisedRecipe.id, expect.any(Function)))
     })
 
-    it('Shows editing of notes when we click on notes', () => {
-      const showEditableNotesSpy = jest.fn()
-      const recipePage = shallow(<RecipePage
-        recipe={promisedRecipe}
-        showEditableNotes={showEditableNotesSpy}
-        editableNotes={false}
-        notes={'Some notes'}
-      />)
+    it('displays a message when notes are empty', () => {
+      mockAppContext()
 
-      recipePage.find('.notes-container__notes-content').simulate('click')
+      jest
+        .spyOn(RecipeActions, 'getRecipe')
+        .mockImplementation((id, onSuccess) => onSuccess(promisedRecipe))
 
-      expect(showEditableNotesSpy).toHaveBeenCalled()
+      const recipePageContainer = mount(<RecipePageContainer match={{ params: { id: promisedRecipe.id } }} />)
+
+      expect(recipePageContainer.find('.notes-container__empty-notes').at(0).text()).toEqual('Add a note')
     })
 
-    it('Hides editing of notes when we click outside of it', () => {
-      const hideEditableNotesSpy = jest.fn()
-      const recipePage = shallow(<RecipePage
-        recipe={promisedRecipe}
-        hideEditableNotes={hideEditableNotesSpy}
-        editableNotes={true}
-        notes={'Some notes'}
-      />)
+    it('displays the notes editable mode on click', () => {
+      mockAppContext()
+      const notes = 'Some notes about it'
 
-      recipePage.find('.notes-container__editable-notes').simulate('blur')
+      jest
+        .spyOn(RecipeActions, 'getRecipe')
+        .mockImplementation((id, onSuccess) => onSuccess(promisedRecipe))
 
-      expect(hideEditableNotesSpy).toHaveBeenCalled()
+      jest
+        .spyOn(RecipeActions, 'getRecipeNotes')
+        .mockImplementation((id, onSuccess) => onSuccess({ notes }))
+
+      const recipePageContainer = mount(<RecipePageContainer match={{ params: { id: promisedRecipe.id } }} />)
+
+      expect(recipePageContainer.find('.notes-container__editable-notes')).toHaveLength(0)
+      expect(recipePageContainer.find('.notes-container__update-notes-button button')).toHaveLength(0)
+
+      recipePageContainer.find('.notes-container__notes-content').at(0).simulate('click')
+
+      expect(recipePageContainer.find('.notes-container__editable-notes textarea')).toHaveLength(2)
+      expect(recipePageContainer.find('.notes-container__editable-notes textarea').at(0).text()).toEqual(notes)
+      expect(recipePageContainer.find('.notes-container__update-notes-button button')).toHaveLength(1)
     })
 
-    it('Persists current note in state', () => {
-      const editNotesSpy = jest.fn()
-      const recipePage = shallow(<RecipePage recipe={promisedRecipe} editNotes={editNotesSpy} editableNotes={true} />)
+    it('Hides the editable notes on click away', () => {
+      mockAppContext()
 
-      recipePage.find('.notes-container__editable-notes').simulate('change', { target: { value: 'The cheese is good' } })
+      jest
+        .spyOn(RecipeActions, 'getRecipe')
+        .mockImplementation((id, onSuccess) => onSuccess(promisedRecipe))
 
-      expect(editNotesSpy).toHaveBeenCalledWith('pages.recipePage.notesInput', 'The cheese is good')
+      const recipePageContainer = mount(<RecipePageContainer match={{ params: { id: promisedRecipe.id } }} />)
+
+      recipePageContainer.find('.notes-container__empty-notes').at(0).simulate('click')
+      expect(recipePageContainer.find('.notes-container__editable-notes textarea')).toHaveLength(2)
+
+      recipePageContainer.find('.notes-container__editable-notes textarea').at(0).simulate('blur')
+      expect(recipePageContainer.find('.notes-container__editable-notes')).toHaveLength(0)
     })
 
-    it('Calls updateNotes when update notes button clicked', () => {
-      const updateNotesSpy = jest.fn()
-      const notesInput = 'Some new notes'
-      const recipePage = shallow(<RecipePage recipe={promisedRecipe} editableNotes={true} notesInput={notesInput} updateNotes={updateNotesSpy} />)
+    it('Dispatches an update notes call', () => {
+      const context = mockAppContext()
+      const notes = 'The cheese is good'
 
-      recipePage.find('.notes-container__update-notes-button').simulate('mousedown')
+      jest
+        .spyOn(RecipeActions, 'getRecipe')
+        .mockImplementation((id, onSuccess) => onSuccess(promisedRecipe))
 
-      expect(updateNotesSpy).toHaveBeenCalledWith(promisedRecipe.id, notesInput)
+      jest
+        .spyOn(RecipeActions, 'getRecipeNotes')
+        .mockImplementation((id, onSuccess) => onSuccess({ notes }))
+
+      const recipePageContainer = mount(<RecipePageContainer match={{ params: { id: promisedRecipe.id } }} />)
+
+      recipePageContainer.find('.notes-container__notes-content').at(0).simulate('click')
+      recipePageContainer.find('.notes-container__update-notes-button button').simulate('mousedown')
+
+      expect(context.dispatch).toHaveBeenLastCalledWith(RecipeActions.updateNotes(promisedRecipe.id, notes, expect.any(Function)))
+    })
+
+    it('Updates the notes when an update notes call is successful', () => {
+      mockAppContext()
+      const newNotes = 'Some new notes'
+
+      jest
+        .spyOn(RecipeActions, 'getRecipe')
+        .mockImplementation((id, onSuccess) => onSuccess(promisedRecipe))
+
+      jest
+        .spyOn(RecipeActions, 'updateNotes')
+        .mockImplementation((id, notes, onSuccess) => onSuccess({ notes: newNotes }))
+
+      const recipePageContainer = mount(<RecipePageContainer match={{ params: { id: promisedRecipe.id } }} />)
+
+      recipePageContainer.find('.notes-container__empty-notes').at(0).simulate('click')
+      recipePageContainer.find('.notes-container__update-notes-button button').simulate('mousedown')
+      recipePageContainer.find('.notes-container__editable-notes textarea').at(0).simulate('blur')
+
+      expect(recipePageContainer.find('.notes-container__notes-content').at(0).text()).toEqual(newNotes)
+    })
+
+    it('Updates the notes text on change', () => {
+      mockAppContext()
+      const notes = 'The cheese is good'
+      const newNotes = 'The cheese is better when grated'
+
+      jest
+        .spyOn(RecipeActions, 'getRecipe')
+        .mockImplementation((id, onSuccess) => onSuccess(promisedRecipe))
+
+      jest
+        .spyOn(RecipeActions, 'getRecipeNotes')
+        .mockImplementation((id, onSuccess) => onSuccess({ notes }))
+
+      const recipePageContainer = mount(<RecipePageContainer match={{ params: { id: promisedRecipe.id } }} />)
+
+      recipePageContainer.find('.notes-container__notes-content').at(0).simulate('click')
+      expect(recipePageContainer.find('.notes-container__editable-notes textarea').at(0).text()).toEqual(notes)
+
+      recipePageContainer.find('.notes-container__editable-notes textarea').at(0).simulate('change', { target: { value: newNotes } })
+
+      expect(recipePageContainer.find('.notes-container__editable-notes textarea').at(0).text()).toEqual(newNotes)
     })
   })
 })
