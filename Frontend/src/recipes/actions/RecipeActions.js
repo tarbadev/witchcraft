@@ -1,4 +1,3 @@
-import { setState } from 'src/RootReducer'
 import { fetchAction } from 'src/WitchcraftMiddleware'
 
 export const getRecipe = (id, onSuccess, onError) =>
@@ -47,5 +46,5 @@ export const getRecipeNotes = (id, onSuccess) =>
   fetchAction({
     url: `/api/recipes/${id}/notes`,
     method: 'GET',
-    onSuccess
+    onSuccess,
   })

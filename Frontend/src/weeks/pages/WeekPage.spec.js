@@ -269,7 +269,7 @@ describe('WeekPageContainer', () => {
   })
 
   it('show a modal on meal click', () => {
-    const context = mockAppContext()
+    mockAppContext()
     const year = 2019
     const week = 34
     const currentWeek = {
