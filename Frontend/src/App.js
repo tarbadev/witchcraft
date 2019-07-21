@@ -9,8 +9,8 @@ import { Content } from './Content'
 import DefaultRecipePicture from 'src/recipes/images/recipe-default.png'
 export const onRecipeImageNotFoundError = (e) => e.target.src = DefaultRecipePicture
 
-export const App = () => {
-  return (
+export const App = () =>
+  (
     <Grid container justify='center'>
       <CssBaseline />
       <Grid item xs={10} className='header'>
@@ -21,4 +21,3 @@ export const App = () => {
       </Grid>
     </Grid>
   )
-}

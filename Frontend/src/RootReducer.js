@@ -37,6 +37,7 @@ const pages = {
 
 export const initialState = {
   pages,
+  currentPage: 'Home',
   recipe: {
     id: 0,
     name: '',

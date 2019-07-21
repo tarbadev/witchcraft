@@ -1,7 +1,7 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 
-import { HomePage } from './HomePage'
+import { HomePageContainer } from './HomePage'
 import { RecipesPageContainer } from 'src/recipes/pages/RecipesPage'
 import { RecipePageContainer } from 'src/recipes/pages/RecipePage'
 import { NewRecipePageContainer } from 'src/recipes/pages/NewRecipePage'
@@ -12,11 +12,11 @@ import { NewCartPageContainer } from 'src/carts/pages/NewCartPage'
 import { WeekPageContainer } from 'src/weeks/pages/WeekPage'
 import { WeeksPage } from 'src/weeks/pages/WeeksPage'
 
-export const Content = () => {
-  return (
+export const Content = () =>
+  (
     <div>
       <Switch>
-        <Route exact path="/" component={HomePage} />
+        <Route exact path="/" component={HomePageContainer} />
         <Route exact path="/recipes" component={RecipesPageContainer} />
         <Route exact path="/recipes/new" component={NewRecipePageContainer} />
         <Route exact path="/recipes/:id" component={RecipePageContainer} />
@@ -29,4 +29,3 @@ export const Content = () => {
       </Switch>
     </div>
   )
-}

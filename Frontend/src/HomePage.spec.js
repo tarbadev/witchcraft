@@ -1,12 +1,12 @@
 import React from 'react'
 import { mount } from 'enzyme'
 
-import { HomePage } from './HomePage'
+import { HomePageContainer } from './HomePage'
 import * as WeekActions from './weeks/actions/WeekActions'
 import { getFavoriteRecipes, getLatestRecipes } from './recipes/actions/RecipesActions'
 import { mockAppContext } from './testUtils'
 
-describe('HomePage', function () {
+describe('HomePageContainer', function () {
   it('renders without crashing', () => {
     const context = mockAppContext()
     const year = 2019
@@ -16,7 +16,7 @@ describe('HomePage', function () {
       .spyOn(WeekActions, 'getCurrentWeek')
       .mockImplementation(() => ({ year, week }))
 
-    const home = mount(<HomePage />)
+    const home = mount(<HomePageContainer />)
 
     expect(home).toBeDefined()
     expect(context.dispatch).toHaveBeenNthCalledWith(1, getFavoriteRecipes(expect.any(Function)))

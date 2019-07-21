@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 
@@ -8,45 +9,34 @@ import { PageTitle } from './PageTitle'
 import { getFavoriteRecipes, getLatestRecipes } from './recipes/actions/RecipesActions'
 import { getCurrentWeek, getWeek } from './weeks/actions/WeekActions'
 import { useAppContext } from './StoreProvider'
+import { HOME } from './Header'
 
-const useFavoriteRecipes = () => {
-  const { state, dispatch } = useAppContext()
+export const HomePageContainer = () => {
+  const { state, dispatch, setCurrentHeader } = useAppContext()
+  setCurrentHeader(HOME)
+
+  const [week, setWeek] = useState(state.week)
+  const [latestRecipes, setLatestRecipes] = useState(state.pages.homePage.lastRecipes)
   const [favoriteRecipes, setFavoriteRecipes] = useState(state.pages.homePage.favoriteRecipes)
 
   useEffect(() => {
-    dispatch(getFavoriteRecipes(data => setFavoriteRecipes(data)))
-  }, [])
-
-  return favoriteRecipes
-}
-
-const useLatestRecipes = () => {
-  const { state, dispatch } = useAppContext()
-  const [latestRecipes, setLatestRecipes] = useState(state.pages.homePage.lastRecipes)
-
-  useEffect(() => {
-    dispatch(getLatestRecipes(data => setLatestRecipes(data)))
-  }, [])
-
-  return latestRecipes
-}
-
-const useWeek = () => {
-  const { state, dispatch } = useAppContext()
-  const [week, setWeek] = useState(state.week)
-
-  useEffect(() => {
     const { year, week } = getCurrentWeek()
+    dispatch(getFavoriteRecipes(data => setFavoriteRecipes(data)))
+    dispatch(getLatestRecipes(data => setLatestRecipes(data)))
     dispatch(getWeek(year, week, data => setWeek(data)))
   }, [])
 
-  return week
+  return <HomePage
+    favoriteRecipes={favoriteRecipes}
+    latestRecipes={latestRecipes}
+    week={week} />
 }
 
-export const HomePage = () => {
-  const favoriteRecipes = useFavoriteRecipes()
-  const latestRecipes = useLatestRecipes()
-  const week = useWeek()
+export const HomePage = ({
+  favoriteRecipes,
+  latestRecipes,
+  week,
+}) => {
 
   return (
     <Grid container spacing={3}>
@@ -65,4 +55,10 @@ export const HomePage = () => {
       </Grid>
     </Grid>
   )
+}
+
+HomePage.propTypes = {
+  favoriteRecipes: PropTypes.array,
+  latestRecipes: PropTypes.array,
+  week: PropTypes.object,
 }

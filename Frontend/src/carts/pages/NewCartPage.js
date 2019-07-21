@@ -7,11 +7,14 @@ import FormGroup from '@material-ui/core/FormGroup'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import { createCart } from 'src/carts/actions/NewCartActions'
 import { PageTitle } from 'src/PageTitle'
-import { useAppContext } from '../../StoreProvider'
-import { getAllRecipes } from '../../recipes/actions/RecipesActions'
+import { useAppContext } from 'src/StoreProvider'
+import { getAllRecipes } from 'src/recipes/actions/RecipesActions'
+import { CARTS } from 'src/Header'
 
 export const NewCartPageContainer = ({ history }) => {
-  const { state, dispatch } = useAppContext()
+  const { state, dispatch, setCurrentHeader } = useAppContext()
+  setCurrentHeader(CARTS)
+
   const [recipes, setRecipes] = useState(state.recipes)
 
   useEffect(() => dispatch(getAllRecipes(data => setRecipes(data.recipes))), [])

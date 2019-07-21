@@ -60,7 +60,7 @@ describe('RecipePageContainer', () => {
     const recipePageContainer = mount(<RecipePageContainer match={{ params: { id } }} />)
     recipePageContainer.find('.deleteButton button').simulate('click')
 
-    expect(context.dispatch).toHaveBeenLastCalledWith(RecipeActions.deleteRecipe(id, expect.any(Function)))
+    expect(context.dispatch).toHaveBeenLastCalledWith(RecipeActions.deleteRecipe(id, expect.any(Function), expect.any(Function)))
   })
 
   it('displays when delete button is clicked', () => {

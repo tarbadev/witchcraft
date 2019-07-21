@@ -11,10 +11,12 @@ import { findWithAttr, getCart, toggleItem } from 'src/carts/actions/CartActions
 
 import './CartPage.css'
 import { PageTitle } from 'src/PageTitle'
-import { useAppContext } from '../../StoreProvider'
+import { useAppContext } from 'src/StoreProvider'
+import { CARTS } from 'src/Header'
 
 export const CartPageContainer = ({ match }) => {
-  const { state, dispatch } = useAppContext()
+  const { state, dispatch, setCurrentHeader } = useAppContext()
+  setCurrentHeader(CARTS)
 
   const [cart, setCart] = useState(state.cart)
 

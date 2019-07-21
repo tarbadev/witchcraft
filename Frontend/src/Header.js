@@ -5,24 +5,34 @@ import Button from '@material-ui/core/Button'
 
 import './Header.css'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import { useAppContext } from './StoreProvider'
+
+export const HOME = 'Home'
+export const RECIPES = 'Recipes'
+export const WEEKS = 'Weeks'
+export const CARTS = 'Carts'
+
+export const HeaderContainer = () => {
+  const { currentHeader } = useAppContext()
+  return <Header currentPage={currentHeader} />
+}
 
 export const Header = ({ currentPage }) => {
   const links = [
     {
-      label: 'Home',
+      label: HOME,
       url: '/',
     },
     {
-      label: 'Recipes',
+      label: RECIPES,
       url: '/recipes',
     },
     {
-      label: 'Weeks',
+      label: WEEKS,
       url: '/weeks',
     },
     {
-      label: 'Carts',
+      label: CARTS,
       url: '/carts',
     },
   ]
@@ -51,11 +61,3 @@ export const Header = ({ currentPage }) => {
 Header.propTypes = {
   currentPage: PropTypes.string,
 }
-
-const mapStateToProps = state => {
-  return {
-    currentPage: state.app.currentPage,
-  }
-}
-
-export const HeaderContainer = connect(mapStateToProps)(Header)

@@ -8,6 +8,7 @@ import GridList from '@material-ui/core/GridList'
 import GridListTile from '@material-ui/core/GridListTile'
 import { PageTitle } from 'src/PageTitle'
 import { useAppContext } from 'src/StoreProvider'
+import { RECIPES } from 'src/Header'
 
 const useStyles = makeStyles({
   root: {
@@ -21,7 +22,9 @@ const useStyles = makeStyles({
 export const NewRecipePageContainer = ({
   history,
 }) => {
-  const { state, dispatch } = useAppContext()
+  const { state, dispatch, setCurrentHeader } = useAppContext()
+  setCurrentHeader(RECIPES)
+
   const useSupportedDomains = () => {
     const [supportedDomains, setSupportedDomains] = useState(state.pages.newRecipePage.supportedDomains)
 

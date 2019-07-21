@@ -21,9 +21,12 @@ import { onRecipeImageNotFoundError } from 'src/App'
 import CardMedia from '@material-ui/core/CardMedia'
 import { PageTitle } from 'src/PageTitle'
 import { useAppContext } from 'src/StoreProvider'
+import { RECIPES } from 'src/Header'
 
 export const RecipePageContainer = ({ match, history }) => {
-  const { state, dispatch } = useAppContext()
+  const { state, dispatch, setCurrentHeader } = useAppContext()
+  setCurrentHeader(RECIPES)
+
   const [recipe, setRecipe] = useState(state.recipe)
   const [notes, setNotes] = useState(state.pages.recipePage.notes)
   const [notesInput, setNotesInput] = useState(notes)
