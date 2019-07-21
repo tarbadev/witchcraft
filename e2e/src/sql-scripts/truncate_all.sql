@@ -5,5 +5,6 @@ truncate table ingredient;
 truncate table item;
 truncate table notes;
 truncate table recipe;
+truncate table step_note;
 truncate table step;
 truncate table week;

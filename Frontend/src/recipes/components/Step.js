@@ -7,17 +7,19 @@ import ModeCommentIcon from '@material-ui/icons/ModeComment'
 import AddCommentIcon from '@material-ui/icons/AddComment'
 
 import 'src/recipes/components/Step.css'
-// import { withStyles } from '@material-ui/core'
-
-// const ModeCommentIcon = withStyles({
-//   root: {
-//     // backgroundColor: '#FF0000',
-//   }
-// })(ModeComment)
+import { withStyles } from '@material-ui/core'
 
 export const Step = ({ number, step, note }) => {
   const [displayNote, setDisplayNote] = useState(false)
   const NoteIcon = note ? ModeCommentIcon : AddCommentIcon
+
+  const StyledNoteIcon = withStyles(
+    {
+      root: {
+        cursor: 'pointer',
+      }
+    }
+  )(NoteIcon)
 
   return (
     <Paper elevation={1} className='paper'>
@@ -29,7 +31,7 @@ export const Step = ({ number, step, note }) => {
             </Typography>
           </Grid>
           <Grid item>
-            <NoteIcon
+            <StyledNoteIcon
               color='action'
               className={`step-note-${number}`}
               data-step-note-icon

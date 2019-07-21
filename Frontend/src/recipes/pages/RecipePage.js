@@ -120,10 +120,12 @@ export const RecipePage = ({
   }
 
   if (recipe.steps) {
-    steps = recipe.steps.map((step, index) => (
-      <Grid item key={step.id} xs={12}>
-        <Step number={index + 1} step={step.name} note={step.note} />
-      </Grid>))
+    steps = recipe.steps
+      .sort((a, b) => a.id > b.id ? 1 : -1)
+      .map((step, index) => (
+        <Grid item key={step.id} xs={12}>
+          <Step number={index + 1} step={step.name} note={step.note} />
+        </Grid>))
   }
 
   if (recipe.ingredients) {

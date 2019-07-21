@@ -15,7 +15,11 @@ class RecipeEntityTest {
     )
     val stepEntity = StepEntity(
         id = 65,
-        name = "Some Step"
+        name = "Some Step",
+        note = StepNoteEntity(
+            id = 34,
+            comment = "Some step comment"
+        )
     )
 
     val recipeEntity = RecipeEntity(
@@ -53,7 +57,11 @@ class RecipeEntityTest {
     )
     val stepEntity = StepEntity(
         id = 65,
-        name = "Some Step"
+        name = "Some Step",
+        note = StepNoteEntity(
+            id = 34,
+            comment = "Some step comment"
+        )
     )
 
     val recipeEntity = RecipeEntity(

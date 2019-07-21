@@ -4,13 +4,15 @@ import com.tarbadev.witchcraft.recipes.domain.entity.Step
 
 data class StepResponse(
     val id: Int,
-    val name: String
+    val name: String,
+    val note: String
 ) {
   companion object {
     fun fromStep(step: Step): StepResponse =
         StepResponse(
             id = step.id,
-            name = step.name
+            name = step.name,
+            note = step.note.comment
         )
   }
 }

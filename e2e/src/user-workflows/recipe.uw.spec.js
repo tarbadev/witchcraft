@@ -104,4 +104,13 @@ describe('Recipe', () => {
       expect(await RecipePage.getNotes()).toBe('Cover the plate with the cheese')
     })
   })
+
+  describe('Step Note', () => {
+    it('can see a step\'s notes', async () => {
+      await RecipePage.goTo(3)
+      await waitForTextByCss('.title', 'Thai Chicken Salad')
+
+      expect(await RecipePage.getStepNote(1)).toBe('Careful not to break the almonds')
+    }, 10000)
+  })
 })

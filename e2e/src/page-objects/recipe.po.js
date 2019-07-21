@@ -59,3 +59,14 @@ export const getNotes = async () => {
 export const getPortions = () => {
   return getTextByCssSelector('.portions-value')
 }
+
+export const getStepNote = async number => {
+  const stepNoteIconClassName = `.step-note-${number}`
+  const stepNoteContentClassName = `.step-note-content-${number}`
+
+  await global.page.waitForSelector(stepNoteIconClassName)
+  await global.page.click(stepNoteIconClassName)
+
+  await global.page.waitForSelector(stepNoteContentClassName)
+  return await global.page.$eval(stepNoteContentClassName, element => element.textContent)
+}
