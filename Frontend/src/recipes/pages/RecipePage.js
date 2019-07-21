@@ -120,9 +120,10 @@ export const RecipePage = ({
   }
 
   if (recipe.steps) {
-    steps = recipe.steps.map((step, index) => (<Grid item key={step.id} xs={12}>
-      <Step number={index + 1} step={step.name} />
-    </Grid>))
+    steps = recipe.steps.map((step, index) => (
+      <Grid item key={step.id} xs={12}>
+        <Step number={index + 1} step={step.name} note={step.note} />
+      </Grid>))
   }
 
   if (recipe.ingredients) {

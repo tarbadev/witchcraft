@@ -1,58 +1,31 @@
 import React from 'react'
-import { shallow } from 'enzyme'
-
-import Paper from '@material-ui/core/Paper'
-import Typography from '@material-ui/core/Typography'
+import { mount } from 'enzyme'
 
 import { Step } from 'src/recipes/components/Step'
 
 describe('Step', function () {
-  it('renders without crashing', () => {
-    const step = shallow(<Step />)
-    expect(step).toBeDefined()
+  it('displays a note when clicking on the note button', () => {
+    const step = mount(<Step />)
+
+    expect(step.find('[data-step-note]')).toHaveLength(0)
+    step.find('[data-step-note-icon]').at(0).simulate('click')
+    expect(step.find('[data-step-note]')).toHaveLength(3)
   })
 
-  describe('Content', function () {
-    let number = 12
-    let step = 'This a sample step'
+  it('hides a note when clicking on the note button if it\'s already displayed', () => {
+    const step = mount(<Step />)
 
-    beforeEach(() => {
-      this.instance = shallow(<Step number={number} step={step} />)
-    })
+    step.find('[data-step-note-icon]').at(0).simulate('click')
+    expect(step.find('[data-step-note]')).toHaveLength(3)
+    step.find('[data-step-note-icon]').at(0).simulate('click')
+    expect(step.find('[data-step-note]')).toHaveLength(0)
+  })
 
-    it('is a Paper', () => {
-      expect(this.instance.is(Paper)).toBeTruthy()
-      expect(this.instance.props().elevation).toBe(1)
-      expect(this.instance.props().className).toBe('paper')
-    })
+  it('hides a note when clicking on the note button if it\'s already displayed', () => {
+    const note = 'Some note'
+    const step = mount(<Step note={note} />)
 
-    it('contains a Grid container', () => {
-      let grid = this.instance.findWhere(node => node.props().container).at(0)
-      expect(grid).toBeDefined()
-    })
-
-    it('contains a Typography in a Grid item to display the step number', () => {
-      let gridContainer = this.instance.findWhere(node => node.props().container).at(0)
-      let grid = gridContainer.findWhere(node => node.props().item).at(0)
-      expect(grid).toBeDefined()
-      expect(grid.props().sm).toBe(1)
-
-      let typography = grid.find(Typography).at(0)
-      expect(typography.props().variant).toBe('body2')
-      expect(typography.props().align).toBe('center')
-      expect(typography.props().className).toBe('numberedList')
-      expect(typography.children().text()).toBe(number.toString())
-    })
-
-    it('contains a Typography in a Grid item to display the step', () => {
-      let gridContainer = this.instance.findWhere(node => node.props().container).at(0)
-      let grid = gridContainer.findWhere(node => node.props().item).at(1)
-      expect(grid).toBeDefined()
-      expect(grid.props().sm).toBe(11)
-
-      let typography = grid.find(Typography).at(0)
-      expect(typography.props().variant).toBe('body2')
-      expect(typography.children().text()).toBe(step)
-    })
+    step.find('[data-step-note-icon]').at(0).simulate('click')
+    expect(step.find('[data-step-note]').at(0).text()).toEqual(note)
   })
 })
