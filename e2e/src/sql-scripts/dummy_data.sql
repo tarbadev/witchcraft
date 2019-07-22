@@ -19,12 +19,12 @@ INSERT INTO ingredient (id, name, quantity, unit, recipe_id) VALUES
   (13, 'rice vinegar', 2, 'tsp', 3),
   (14, 'chili garlic sauce', 1, 'tsp', 3);
 
-INSERT INTO step_note(id, comment) VALUES
-(1, 'Careful not to break the almonds');
+INSERT INTO step (id, name, recipe_id) VALUES
+  (1, 'In a large bowl, combine the Napa cabbage, red cabbage, carrot, green onion, cilantro and chicken breast. Toss with the dressing. Garnish with the toasted almonds. Serve.', 3),
+  (2, 'In a small glass bowl, combine the lime juice, peanut butter, soy sauce, agave nectar, fish sauce, rice vinegar and chili garlic sauce. Whisk until smooth.', 3);
 
-INSERT INTO step (id, name, recipe_id, note_id) VALUES
-  (1, 'In a large bowl, combine the Napa cabbage, red cabbage, carrot, green onion, cilantro and chicken breast. Toss with the dressing. Garnish with the toasted almonds. Serve.', 3, 1),
-  (2, 'In a small glass bowl, combine the lime juice, peanut butter, soy sauce, agave nectar, fish sauce, rice vinegar and chili garlic sauce. Whisk until smooth.', 3, null);
-
-INSERT INTO notes(id, comment, recipe_id) VALUES
+INSERT INTO notes (id, comment, recipe_id) VALUES
   (1, 'Please add more cheese if needed', 2);
+
+INSERT INTO step_note (id, comment, step_id) VALUES
+(1, 'Careful not to break the almonds', 1);

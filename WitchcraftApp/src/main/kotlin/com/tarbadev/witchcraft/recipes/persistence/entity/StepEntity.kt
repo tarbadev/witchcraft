@@ -13,22 +13,25 @@ data class StepEntity(
     @Column(length = 1000)
     val name: String = "",
 
-    @OneToOne
-    @JoinColumn(name = "note_id")
-    val note: StepNoteEntity? = null
+    @OneToMany(cascade = [CascadeType.ALL])
+    @JoinColumn(name = "step_id")
+    val notes: List<StepNoteEntity> = emptyList()
 ) {
 
-    constructor(step: Step) : this(
-        id = step.id,
-        name = step.name,
-        note = StepNoteEntity(step.note)
-    )
+  constructor(step: Step) : this(
+      id = step.id,
+      name = step.name,
+      notes = if (step.note.comment.isNotEmpty())
+        listOf(StepNoteEntity(step.note))
+      else
+        emptyList()
+  )
 
-    fun toStep(): Step {
-        return Step(
-            id = id,
-            name = name,
-            note = note?.toStepNote() ?: StepNote()
-        )
-    }
+  fun toStep(): Step {
+    return Step(
+        id = id,
+        name = name,
+        note = notes.map { it.toStepNote() }.firstOrNull() ?: StepNote()
+    )
+  }
 }

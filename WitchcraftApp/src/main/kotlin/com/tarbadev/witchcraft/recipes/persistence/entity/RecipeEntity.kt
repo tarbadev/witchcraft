@@ -18,6 +18,7 @@ data class RecipeEntity(
     var ingredients: List<IngredientEntity> = emptyList(),
     @OneToMany(cascade = [CascadeType.ALL])
     @JoinColumn(name = "recipe_id")
+    @OrderBy("id ASC")
     var steps: Set<StepEntity> = emptySet(),
     @Column(name = "archived", nullable = false)
     var isArchived: Boolean = false,

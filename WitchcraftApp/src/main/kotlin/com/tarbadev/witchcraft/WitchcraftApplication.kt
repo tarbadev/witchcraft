@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 class WitchcraftApplication
 
 fun main(args: Array<String>) {
-    runApplication<WitchcraftApplication>(*args)
+  runApplication<WitchcraftApplication>(*args)
 }

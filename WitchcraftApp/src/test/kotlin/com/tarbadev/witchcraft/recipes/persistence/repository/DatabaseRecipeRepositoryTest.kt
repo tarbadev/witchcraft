@@ -5,9 +5,11 @@ import com.tarbadev.witchcraft.converter.unit
 import com.tarbadev.witchcraft.recipes.domain.entity.Ingredient
 import com.tarbadev.witchcraft.recipes.domain.entity.Recipe
 import com.tarbadev.witchcraft.recipes.domain.entity.Step
+import com.tarbadev.witchcraft.recipes.domain.entity.StepNote
 import com.tarbadev.witchcraft.recipes.persistence.entity.IngredientEntity
 import com.tarbadev.witchcraft.recipes.persistence.entity.RecipeEntity
 import com.tarbadev.witchcraft.recipes.persistence.entity.StepEntity
+import com.tarbadev.witchcraft.recipes.persistence.entity.StepNoteEntity
 import org.hibernate.validator.internal.util.CollectionHelper.asSet
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
@@ -47,15 +49,19 @@ class DatabaseRecipeRepositoryTest(
             name = "Lasagna",
             originUrl = recipeUrl,
             ingredients = emptyList(),
-            steps = emptyList()
+            steps = listOf(Step(name = "Add pasta", note = StepNote(comment = "Some note comment")))
         )
     )
+    val savedStep = recipe.steps[0]
     val expectedRecipe = Recipe(
         id = recipe.id,
         name = "lasagna",
         originUrl = recipeUrl,
         ingredients = emptyList(),
-        steps = emptyList()
+        steps = listOf(Step(
+            id = savedStep.id,
+            name = "Add pasta",
+            note = StepNote(id = savedStep.note.id, comment = "Some note comment")))
     )
 
     assertEquals(expectedRecipe, recipe)
@@ -208,12 +214,10 @@ class DatabaseRecipeRepositoryTest(
   @Test
   fun findById() {
     val recipe = toDomain(
-        entityManager.persist(RecipeEntity(
+        entityManager.persistAndFlush(RecipeEntity(
             name = "Recipe 1",
             ingredients = emptyList(),
-            steps = asSet(
-                StepEntity(name = "First step")
-            ),
+            steps = asSet(StepEntity(name = "First step", notes = listOf(StepNoteEntity(comment = "Some comment")))),
             originUrl = "URL"
         ))
     )
@@ -386,27 +390,27 @@ class DatabaseRecipeRepositoryTest(
     assertFalse(databaseRecipeRepository.existsById(32))
   }
 
-  private fun toDomain(recipeEntity: RecipeEntity): Recipe {
-    return Recipe(
-        id = recipeEntity.id,
-        name = recipeEntity.name.toLowerCase(),
-        originUrl = recipeEntity.originUrl,
-        imgUrl = recipeEntity.imgUrl,
-        ingredients = recipeEntity.ingredients
-            .map { ingredientEntity ->
-              Ingredient(
-                  id = ingredientEntity.id,
-                  name = ingredientEntity.name,
-                  quantity = ingredientEntity.quantity.liter
-              )
-            },
-        steps = recipeEntity.steps
-            .map { stepEntity ->
-              Step(
-                  id = stepEntity.id,
-                  name = stepEntity.name
-              )
-            }
-    )
-  }
+  private fun toDomain(recipeEntity: RecipeEntity) =
+      Recipe(
+          id = recipeEntity.id,
+          name = recipeEntity.name.toLowerCase(),
+          originUrl = recipeEntity.originUrl,
+          imgUrl = recipeEntity.imgUrl,
+          ingredients = recipeEntity.ingredients
+              .map { ingredientEntity ->
+                Ingredient(
+                    id = ingredientEntity.id,
+                    name = ingredientEntity.name,
+                    quantity = ingredientEntity.quantity.liter
+                )
+              },
+          steps = recipeEntity.steps
+              .map { stepEntity ->
+                Step(
+                    id = stepEntity.id,
+                    name = stepEntity.name,
+                    note = stepEntity.notes.elementAtOrNull(0)?.toStepNote() ?: StepNote()
+                )
+              }
+      )
 }
