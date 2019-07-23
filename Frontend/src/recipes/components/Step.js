@@ -17,14 +17,22 @@ export const Step = ({ number, step, note }) => {
     {
       root: {
         cursor: 'pointer',
-      }
-    }
+      },
+    },
   )(NoteIcon)
 
+  const StepGrid = withStyles(
+    {
+      root: {
+        padding: '.5em',
+      },
+    },
+  )(Grid)
+
   return (
-    <Paper elevation={1} className='paper'>
+    <Paper elevation={1}>
       <Grid container>
-        <Grid item container sm={1} alignItems='flex-start' justify='space-between' direction='column'>
+        <StepGrid item container sm={1} alignItems='flex-start' justify='space-between' direction='column'>
           <Grid item>
             <Typography variant="body2" className={'numberedList'}>
               {number}
@@ -37,18 +45,18 @@ export const Step = ({ number, step, note }) => {
               data-step-note-icon
               onClick={() => setDisplayNote(!displayNote)} />
           </Grid>
-        </Grid>
-        <Grid item sm={11}>
+        </StepGrid>
+        <StepGrid item sm={11}>
           <Typography variant="body2" data-step>
             {step}
           </Typography>
-        </Grid>
+        </StepGrid>
         {displayNote &&
-        <Grid item sm={11}>
-          <Typography variant="body2" className={`step-note-content-${number}`} data-step-note>
+        <StepGrid item sm={12} container justify='flex-start' className='notes-container-color'>
+          <Typography variant="body2" className={`step-note-content-${number} notes-container__notes-content`} data-step-note>
             {note}
           </Typography>
-        </Grid>}
+        </StepGrid>}
       </Grid>
     </Paper>
   )

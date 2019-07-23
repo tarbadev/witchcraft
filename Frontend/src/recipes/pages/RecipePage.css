@@ -68,8 +68,11 @@
 
 .notes-container {
     margin-top: 10px !important;
-    background-color: #ffdb20 !important;
     padding: 5px 10px;
+}
+
+.notes-container-color {
+    background-color: #ffdb20 !important;
 }
 
 .notes-container__notes {
@@ -78,6 +81,10 @@
 
 .notes-container__notes > * {
     margin: 5px 0 0 0 !important;
+    font-family: 'Indie Flower', cursive !important;
+}
+
+.notes-container__notes-content {
     font-family: 'Indie Flower', cursive !important;
 }
 
