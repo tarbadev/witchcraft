@@ -1,4 +1,4 @@
-import { fetchAction } from 'src/WitchcraftMiddleware'
+import { fetchAction } from 'src/app/WitchcraftMiddleware'
 
 export const getRecipe = (id, onSuccess, onError) =>
   fetchAction({

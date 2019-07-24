@@ -6,10 +6,10 @@ import Switch from '@material-ui/core/Switch'
 import FormGroup from '@material-ui/core/FormGroup'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import { createCart } from 'src/carts/actions/NewCartActions'
-import { PageTitle } from 'src/PageTitle'
-import { useAppContext } from 'src/StoreProvider'
+import { PageTitle } from 'src/app/components/PageTitle'
+import { useAppContext } from 'src/app/components/StoreProvider'
 import { getAllRecipes } from 'src/recipes/actions/RecipesActions'
-import { CARTS } from 'src/Header'
+import { CARTS } from 'src/app/components/Header'
 
 export const NewCartPageContainer = ({ history }) => {
   const { state, dispatch, setCurrentHeader } = useAppContext()

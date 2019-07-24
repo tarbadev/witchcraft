@@ -1,6 +1,6 @@
-import { fetchAction } from 'src/WitchcraftMiddleware'
+import { fetchAction } from 'src/app/WitchcraftMiddleware'
 import { weekNumber } from 'weeknumber'
-import { setState } from 'src/RootReducer'
+import { setState } from 'src/app/RootReducer'
 
 export const getWeekSuccess = week => {
   setState('week', week)

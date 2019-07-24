@@ -9,9 +9,9 @@ import { RecipeList } from 'src/recipes/components/RecipeList'
 
 import { filterRecipes, getAllRecipes } from 'src/recipes/actions/RecipesActions'
 import { makeStyles } from '@material-ui/core'
-import { PageTitle } from 'src/PageTitle'
-import { useAppContext } from 'src/StoreProvider'
-import { RECIPES } from 'src/Header'
+import { PageTitle } from 'src/app/components/PageTitle'
+import { useAppContext } from 'src/app/components/StoreProvider'
+import { RECIPES } from 'src/app/components/Header'
 
 const useStyles = makeStyles({
   paper: {

@@ -1,6 +1,6 @@
 import { filterRecipes, getAllRecipes, getFavoriteRecipes, getLatestRecipes } from 'src/recipes/actions/RecipesActions'
 
-import { fetchAction } from 'src/WitchcraftMiddleware'
+import { fetchAction } from 'src/app/WitchcraftMiddleware'
 
 describe('RecipesActions', () => {
   describe('getAllRecipes', () => {

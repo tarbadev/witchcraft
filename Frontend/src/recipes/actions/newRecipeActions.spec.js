@@ -1,5 +1,5 @@
 import { getSupportedDomains, submitForm } from './NewRecipeActions'
-import { fetchAction } from 'src/WitchcraftMiddleware'
+import { fetchAction } from 'src/app/WitchcraftMiddleware'
 
 describe('newRecipeActions', () => {
   describe('submitForm', function () {

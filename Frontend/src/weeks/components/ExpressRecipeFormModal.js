@@ -6,7 +6,7 @@ import * as PropTypes from 'prop-types'
 import { Button, TextField } from '@material-ui/core'
 
 import './ExpressRecipeFormModal.css'
-import { useAppContext } from 'src/StoreProvider'
+import { useAppContext } from 'src/app/components/StoreProvider'
 
 export const ExpressRecipeFormModalContainer = ({
   isModalOpen,

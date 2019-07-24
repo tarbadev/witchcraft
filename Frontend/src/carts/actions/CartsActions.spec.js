@@ -1,5 +1,5 @@
 import { getAllCarts } from './CartsActions'
-import { fetchAction } from '../../WitchcraftMiddleware'
+import { fetchAction } from '../../app/WitchcraftMiddleware'
 
 describe('CartsActions', () => {
   it('getAllCarts calls the getAllCarts API endpoint', () => {

@@ -1,4 +1,4 @@
-import { fetchAction } from '../../WitchcraftMiddleware'
+import { fetchAction } from '../../app/WitchcraftMiddleware'
 
 export const addExpressRecipe = (recipeName, onSuccess) =>
   fetchAction({

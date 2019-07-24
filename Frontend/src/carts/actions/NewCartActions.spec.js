@@ -1,4 +1,4 @@
-import { fetchAction } from 'src/WitchcraftMiddleware'
+import { fetchAction } from 'src/app/WitchcraftMiddleware'
 import { createCart } from './NewCartActions'
 
 describe('NewCartActions', () => {

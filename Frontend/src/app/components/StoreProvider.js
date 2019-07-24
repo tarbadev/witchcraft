@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useReducer, useState } from 'react'
-import { initialState, reducer } from './RootReducer'
-import { applyMiddleware, fetchAction } from './WitchcraftMiddleware'
+import { initialState, reducer } from '../RootReducer'
+import { applyMiddleware, fetchAction } from '../WitchcraftMiddleware'
 import PropTypes from 'prop-types'
 
 export const useActions = (state, dispatch)  => ({

@@ -16,8 +16,8 @@ import CheckCircleIcon from '@material-ui/icons/CheckCircle'
 import { addExpressRecipe } from 'src/weeks/actions/RecipeListModalActions'
 import './RecipeListModal.css'
 import { ExpressRecipeFormModalContainer } from './ExpressRecipeFormModal'
-import { onRecipeImageNotFoundError } from 'src/App'
-import { useAppContext } from 'src/StoreProvider'
+import { onRecipeImageNotFoundError } from 'src/app/components/App'
+import { useAppContext } from 'src/app/components/StoreProvider'
 import { getAllRecipes } from 'src/recipes/actions/RecipesActions'
 
 export const RecipeListModalContainer = ({ config, closeModal, setRecipe }) => {

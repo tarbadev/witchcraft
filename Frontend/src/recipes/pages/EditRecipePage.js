@@ -6,10 +6,10 @@ import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 
 import { getRecipe, updateRecipe } from 'src/recipes/actions/RecipeActions'
-import { PageTitle } from 'src/PageTitle'
-import { reducer, setState } from 'src/RootReducer'
-import { useAppContext } from 'src/StoreProvider'
-import { RECIPES } from 'src/Header'
+import { PageTitle } from 'src/app/components/PageTitle'
+import { reducer, setState } from 'src/app/RootReducer'
+import { useAppContext } from 'src/app/components/StoreProvider'
+import { RECIPES } from 'src/app/components/Header'
 
 export const EditRecipePageContainer = ({ match, history }) => {
   const { state, dispatch, setCurrentHeader } = useAppContext()

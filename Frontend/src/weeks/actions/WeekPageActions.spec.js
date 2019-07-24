@@ -1,5 +1,5 @@
 import { saveWeek, setRecipeToWeek, toggleModal } from './WeekPageActions'
-import { fetchAction } from 'src/WitchcraftMiddleware'
+import { fetchAction } from 'src/app/WitchcraftMiddleware'
 
 describe('WeekPageActions', () => {
   it('toggleModal returns the new modal object', () => {

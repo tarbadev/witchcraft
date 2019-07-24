@@ -5,7 +5,6 @@ import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import IconButton from '@material-ui/core/IconButton'
 import CircularProgress from '@material-ui/core/CircularProgress'
-import TextField from '@material-ui/core/TextField'
 import FavoriteIcon from '@material-ui/icons/Favorite'
 import DeleteIcon from '@material-ui/icons/Delete'
 import EditIcon from '@material-ui/icons/Edit'
@@ -17,11 +16,12 @@ import { Ingredient } from 'src/recipes/components/Ingredient'
 
 import { deleteRecipe, getRecipe, getRecipeNotes, setFavorite, updateNotes } from 'src/recipes/actions/RecipeActions'
 import Paper from '@material-ui/core/Paper'
-import { onRecipeImageNotFoundError } from 'src/App'
+import { onRecipeImageNotFoundError } from 'src/app/components/App'
 import CardMedia from '@material-ui/core/CardMedia'
-import { PageTitle } from 'src/PageTitle'
-import { useAppContext } from 'src/StoreProvider'
-import { RECIPES } from 'src/Header'
+import { PageTitle } from 'src/app/components/PageTitle'
+import { useAppContext } from 'src/app/components/StoreProvider'
+import { RECIPES } from 'src/app/components/Header'
+import { OneLineEditableFieldContainer } from 'src/app/components/OneLineEditableField'
 
 export const RecipePageContainer = ({ match, history }) => {
   const { state, dispatch, setCurrentHeader } = useAppContext()
@@ -29,8 +29,6 @@ export const RecipePageContainer = ({ match, history }) => {
 
   const [recipe, setRecipe] = useState(state.recipe)
   const [notes, setNotes] = useState(state.pages.recipePage.notes)
-  const [notesInput, setNotesInput] = useState(notes)
-  const [isEditableNotes, setEditableNotes] = useState(state.pages.recipePage.editableNotes)
   const [isDeleting, setIsDeleting] = useState(state.pages.recipePage.isDeleting)
 
   const getRecipeSuccess = data => setNotes(data.notes)
@@ -38,10 +36,6 @@ export const RecipePageContainer = ({ match, history }) => {
   useEffect(() => dispatch(getRecipe(match.params.id, data => setRecipe(data))), [])
   useEffect(() => dispatch(getRecipeNotes(match.params.id, getRecipeSuccess)), [])
 
-  const showEditableNotes = () => {
-    setNotesInput(notes)
-    setEditableNotes(true)
-  }
 
   const deleteRecipeAndDisplayInProgress = () => {
     setIsDeleting(true)
@@ -59,12 +53,7 @@ export const RecipePageContainer = ({ match, history }) => {
     editRecipe={() => history.push(`/recipes/${recipe.id}/edit`)}
     deleteRecipe={deleteRecipeAndDisplayInProgress}
     notes={notes}
-    editableNotes={isEditableNotes}
-    showEditableNotes={showEditableNotes}
-    hideEditableNotes={() => setEditableNotes(false)}
-    updateNotes={() => dispatch(updateNotes(recipe.id, notesInput, getRecipeSuccess))}
-    notesInput={notesInput}
-    editNotes={newNotes => setNotesInput(newNotes)}
+    updateNotes={newNotes => dispatch(updateNotes(recipe.id, newNotes, getRecipeSuccess))}
     isDeleting={isDeleting} />
 }
 
@@ -80,44 +69,12 @@ export const RecipePage = ({
   deleteRecipe,
   notes,
   isDeleting,
-  editNotes,
   updateNotes,
-  editableNotes,
-  showEditableNotes,
-  hideEditableNotes,
-  notesInput,
 }) => {
   let steps
   let ingredients
-  let favoriteClassName = 'favoriteButton'
-  let notesComponent
 
-  if (editableNotes) {
-    notesComponent =
-      <TextField
-        autoFocus
-        multiline={true}
-        className='notes-container__editable-notes'
-        value={notesInput}
-        onChange={(event) => editNotes(event.target.value)}
-        onBlur={hideEditableNotes} />
-  } else if (notes) {
-    notesComponent =
-      <Typography
-        variant='body2'
-        className='notes-container__notes-content'
-        onClick={showEditableNotes}>
-        {notes}
-      </Typography>
-  } else {
-    notesComponent =
-      <Typography
-        variant='body2'
-        className='notes-container__empty-notes'
-        onClick={showEditableNotes}>
-        Add a note
-      </Typography>
-  }
+  let favoriteClassName = 'favoriteButton'
 
   if (recipe.steps) {
     steps = recipe.steps
@@ -191,22 +148,10 @@ export const RecipePage = ({
               </Typography>
             </Grid>
             <Grid item className='notes-container__notes'>
-              {notesComponent}
+              <OneLineEditableFieldContainer initialValue={notes} onSaveClick={updateNotes} />
             </Grid>
           </Grid>
         </Paper>
-        <Grid item container direction='column' justify='flex-start' alignContent='center'>
-          {editableNotes &&
-          <Button
-            className='notes-container__update-notes-button'
-            color='primary'
-            href=''
-            variant='outlined'
-            onMouseDown={updateNotes}>
-            Update Notes
-          </Button>
-          }
-        </Grid>
       </Grid>
     </Grid>
     <Grid item xs={9} container spacing={3}>
@@ -238,10 +183,5 @@ RecipePage.propTypes = {
   isDeleting: PropTypes.bool,
   deleteRecipe: PropTypes.func,
   notes: PropTypes.string,
-  editNotes: PropTypes.func,
   updateNotes: PropTypes.func,
-  editableNotes: PropTypes.bool,
-  showEditableNotes: PropTypes.func,
-  hideEditableNotes: PropTypes.func,
-  notesInput: PropTypes.string,
 }

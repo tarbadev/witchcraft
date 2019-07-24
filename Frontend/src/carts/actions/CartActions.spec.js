@@ -1,5 +1,5 @@
 import { getCart, toggleItem } from './CartActions'
-import { fetchAction } from 'src/WitchcraftMiddleware'
+import { fetchAction } from 'src/app/WitchcraftMiddleware'
 
 describe('CartActions', () => {
   it('getCart sends a request to retrieve a cart', () => {

@@ -7,9 +7,9 @@ import { Link } from 'react-router-dom'
 import './CartsPage.css'
 import { Paper, Typography } from '@material-ui/core'
 import { getCartTitle } from './CartHelper'
-import { useAppContext } from 'src/StoreProvider'
+import { useAppContext } from 'src/app/components/StoreProvider'
 import { getAllCarts } from '../actions/CartsActions'
-import { CARTS } from 'src/Header'
+import { CARTS } from 'src/app/components/Header'
 
 export const CartsPageContainer = ({ history }) => {
   const { state, dispatch, setCurrentHeader } = useAppContext()

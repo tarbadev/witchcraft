@@ -2,9 +2,9 @@ import React from 'react'
 import { mount } from 'enzyme'
 
 import { HomePageContainer } from './HomePage'
-import * as WeekActions from './weeks/actions/WeekActions'
-import { getFavoriteRecipes, getLatestRecipes } from './recipes/actions/RecipesActions'
-import { mockAppContext } from './testUtils'
+import * as WeekActions from '../../weeks/actions/WeekActions'
+import { getFavoriteRecipes, getLatestRecipes } from '../../recipes/actions/RecipesActions'
+import { mockAppContext } from '../../testUtils'
 
 describe('HomePageContainer', function () {
   it('renders without crashing', () => {

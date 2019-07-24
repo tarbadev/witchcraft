@@ -1,5 +1,5 @@
 import { deleteRecipe, getRecipe, getRecipeNotes, setFavorite, updateNotes, updateRecipe } from './RecipeActions'
-import { fetchAction } from 'src/WitchcraftMiddleware'
+import { fetchAction } from 'src/app/WitchcraftMiddleware'
 
 describe('RecipeActions', () => {
   describe('getRecipe', () => {

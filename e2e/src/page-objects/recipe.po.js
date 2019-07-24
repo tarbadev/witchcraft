@@ -39,7 +39,7 @@ export const getIngredients = async () => {
 
 export const getSteps = async () => {
   return await global.page.$$eval(
-    'div.paper p[data-step]',
+    'p[data-step]',
     elements => elements.map(el => el.textContent),
   )
 }

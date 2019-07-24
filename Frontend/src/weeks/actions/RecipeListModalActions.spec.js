@@ -1,5 +1,5 @@
 import { addExpressRecipe } from './RecipeListModalActions'
-import { fetchAction } from 'src/WitchcraftMiddleware'
+import { fetchAction } from 'src/app/WitchcraftMiddleware'
 
 describe('RecipeListModalActions', () => {
   describe('addExpressRecipe', () => {

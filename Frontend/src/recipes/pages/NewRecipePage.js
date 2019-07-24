@@ -6,9 +6,9 @@ import { getSupportedDomains, submitForm } from 'src/recipes/actions/NewRecipeAc
 import './NewRecipePage.css'
 import GridList from '@material-ui/core/GridList'
 import GridListTile from '@material-ui/core/GridListTile'
-import { PageTitle } from 'src/PageTitle'
-import { useAppContext } from 'src/StoreProvider'
-import { RECIPES } from 'src/Header'
+import { PageTitle } from 'src/app/components/PageTitle'
+import { useAppContext } from 'src/app/components/StoreProvider'
+import { RECIPES } from 'src/app/components/Header'
 
 const useStyles = makeStyles({
   root: {

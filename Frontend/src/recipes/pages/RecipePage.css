@@ -63,7 +63,8 @@
 }
 
 .notes-container__update-notes-button {
-    margin-top: 10px !important;
+    /*margin-top: 10px !important;*/
+    text-align: right !important;
 }
 
 .notes-container {

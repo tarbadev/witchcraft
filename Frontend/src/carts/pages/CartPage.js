@@ -10,9 +10,9 @@ import { RecipeCard } from 'src/recipes/components/RecipeCard'
 import { findWithAttr, getCart, toggleItem } from 'src/carts/actions/CartActions'
 
 import './CartPage.css'
-import { PageTitle } from 'src/PageTitle'
-import { useAppContext } from 'src/StoreProvider'
-import { CARTS } from 'src/Header'
+import { PageTitle } from 'src/app/components/PageTitle'
+import { useAppContext } from 'src/app/components/StoreProvider'
+import { CARTS } from 'src/app/components/Header'
 
 export const CartPageContainer = ({ match }) => {
   const { state, dispatch, setCurrentHeader } = useAppContext()

@@ -1,5 +1,5 @@
-import { initialState } from './RootReducer'
-import * as StoreProvider from './StoreProvider'
+import { initialState } from './app/RootReducer'
+import * as StoreProvider from './app/components/StoreProvider'
 
 export const mockAppContext = () => {
   const context = { state: initialState, dispatch: jest.fn(), setCurrentHeader: jest.fn() }

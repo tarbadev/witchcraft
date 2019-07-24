@@ -1,6 +1,6 @@
 import { getCurrentWeek, getWeek } from './WeekActions'
 import { weekNumber } from 'weeknumber'
-import { fetchAction } from 'src/WitchcraftMiddleware'
+import { fetchAction } from 'src/app/WitchcraftMiddleware'
 
 describe('WeekActions', () => {
   describe('getWeek', () => {

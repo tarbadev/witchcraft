@@ -10,11 +10,11 @@ import { createCart } from 'src/carts/actions/NewCartActions'
 import { WeekPane } from 'src/weeks/components/WeekPane'
 
 import './WeekPage.css'
-import { PageTitle } from 'src/PageTitle'
-import { useAppContext } from 'src/StoreProvider'
+import { PageTitle } from 'src/app/components/PageTitle'
+import { useAppContext } from 'src/app/components/StoreProvider'
 import { getWeek } from '../actions/WeekActions'
 import { RecipeListModalContainer } from '../components/RecipeListModal'
-import { WEEKS } from 'src/Header'
+import { WEEKS } from 'src/app/components/Header'
 
 export const WEEKS_IN_A_YEAR = 52
 
