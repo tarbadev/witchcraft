@@ -141,7 +141,7 @@ describe('RecipePageContainer', () => {
 
       const recipePageContainer = mount(<RecipePageContainer match={{ params: { id: promisedRecipe.id } }} />)
 
-      expect(recipePageContainer.find('.notes-container__empty-notes').at(0).text()).toEqual('Add a note')
+      expect(recipePageContainer.find('.notes-container__empty-value').at(0).text()).toEqual('Add a note')
     })
 
     it('displays the notes editable mode on click', () => {
@@ -158,14 +158,14 @@ describe('RecipePageContainer', () => {
 
       const recipePageContainer = mount(<RecipePageContainer match={{ params: { id: promisedRecipe.id } }} />)
 
-      expect(recipePageContainer.find('.notes-container__editable-notes')).toHaveLength(0)
-      expect(recipePageContainer.find('.notes-container__update-notes-button button')).toHaveLength(0)
+      expect(recipePageContainer.find('.notes-container__editable-value')).toHaveLength(0)
+      expect(recipePageContainer.find('.notes-container__update-value-button button')).toHaveLength(0)
 
-      recipePageContainer.find('.notes-container__notes-content').at(0).simulate('click')
+      recipePageContainer.find('.notes-container__value-content').at(0).simulate('click')
 
-      expect(recipePageContainer.find('.notes-container__editable-notes textarea')).toHaveLength(2)
-      expect(recipePageContainer.find('.notes-container__editable-notes textarea').at(0).text()).toEqual(notes)
-      expect(recipePageContainer.find('.notes-container__update-notes-button button')).toHaveLength(1)
+      expect(recipePageContainer.find('.notes-container__editable-value textarea')).toHaveLength(2)
+      expect(recipePageContainer.find('.notes-container__editable-value textarea').at(0).text()).toEqual(notes)
+      expect(recipePageContainer.find('.notes-container__update-value-button button')).toHaveLength(1)
     })
 
     it('Hides the editable notes on click away', () => {
@@ -177,11 +177,11 @@ describe('RecipePageContainer', () => {
 
       const recipePageContainer = mount(<RecipePageContainer match={{ params: { id: promisedRecipe.id } }} />)
 
-      recipePageContainer.find('.notes-container__empty-notes').at(0).simulate('click')
-      expect(recipePageContainer.find('.notes-container__editable-notes textarea')).toHaveLength(2)
+      recipePageContainer.find('.notes-container__empty-value').at(0).simulate('click')
+      expect(recipePageContainer.find('.notes-container__editable-value textarea')).toHaveLength(2)
 
-      recipePageContainer.find('.notes-container__editable-notes textarea').at(0).simulate('blur')
-      expect(recipePageContainer.find('.notes-container__editable-notes')).toHaveLength(0)
+      recipePageContainer.find('.notes-container__editable-value textarea').at(0).simulate('blur')
+      expect(recipePageContainer.find('.notes-container__editable-value')).toHaveLength(0)
     })
 
     it('Dispatches an update notes call', () => {
@@ -198,8 +198,8 @@ describe('RecipePageContainer', () => {
 
       const recipePageContainer = mount(<RecipePageContainer match={{ params: { id: promisedRecipe.id } }} />)
 
-      recipePageContainer.find('.notes-container__notes-content').at(0).simulate('click')
-      recipePageContainer.find('.notes-container__update-notes-button button').simulate('mousedown')
+      recipePageContainer.find('.notes-container__value-content').at(0).simulate('click')
+      recipePageContainer.find('.notes-container__update-value-button button').simulate('mousedown')
 
       expect(context.dispatch).toHaveBeenLastCalledWith(RecipeActions.updateNotes(promisedRecipe.id, notes, expect.any(Function)))
     })
@@ -218,11 +218,11 @@ describe('RecipePageContainer', () => {
 
       const recipePageContainer = mount(<RecipePageContainer match={{ params: { id: promisedRecipe.id } }} />)
 
-      recipePageContainer.find('.notes-container__empty-notes').at(0).simulate('click')
-      recipePageContainer.find('.notes-container__update-notes-button button').simulate('mousedown')
-      recipePageContainer.find('.notes-container__editable-notes textarea').at(0).simulate('blur')
+      recipePageContainer.find('.notes-container__empty-value').at(0).simulate('click')
+      recipePageContainer.find('.notes-container__update-value-button button').simulate('mousedown')
+      recipePageContainer.find('.notes-container__editable-value textarea').at(0).simulate('blur')
 
-      expect(recipePageContainer.find('.notes-container__notes-content').at(0).text()).toEqual(newNotes)
+      expect(recipePageContainer.find('.notes-container__value-content').at(0).text()).toEqual(newNotes)
     })
 
     it('Updates the notes text on change', () => {
@@ -240,12 +240,12 @@ describe('RecipePageContainer', () => {
 
       const recipePageContainer = mount(<RecipePageContainer match={{ params: { id: promisedRecipe.id } }} />)
 
-      recipePageContainer.find('.notes-container__notes-content').at(0).simulate('click')
-      expect(recipePageContainer.find('.notes-container__editable-notes textarea').at(0).text()).toEqual(notes)
+      recipePageContainer.find('.notes-container__value-content').at(0).simulate('click')
+      expect(recipePageContainer.find('.notes-container__editable-value textarea').at(0).text()).toEqual(notes)
 
-      recipePageContainer.find('.notes-container__editable-notes textarea').at(0).simulate('change', { target: { value: newNotes } })
+      recipePageContainer.find('.notes-container__editable-value textarea').at(0).simulate('change', { target: { value: newNotes } })
 
-      expect(recipePageContainer.find('.notes-container__editable-notes textarea').at(0).text()).toEqual(newNotes)
+      expect(recipePageContainer.find('.notes-container__editable-value textarea').at(0).text()).toEqual(newNotes)
     })
   })
 })

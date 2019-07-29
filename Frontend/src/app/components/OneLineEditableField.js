@@ -44,14 +44,14 @@ const OneLineEditableField = ({
         <TextField
           autoFocus
           multiline={true}
-          className='notes-container__editable-notes'
+          className='notes-container__editable-value'
           value={editableValue}
           onChange={(event) => onEditableValueChange(event.target.value)}
           onBlur={hideEditableMode} />
       </Grid>
       <Grid item sm={2}>
         <Button
-          className='notes-container__update-notes-button'
+          className='notes-container__update-value-button'
           color='primary'
           href=''
           onMouseDown={onSaveClick}>Save</Button>
@@ -60,14 +60,14 @@ const OneLineEditableField = ({
   } else if (initialValue) {
     return <Typography
       variant='body2'
-      className='notes-container__notes-content'
+      className='notes-container__value-content'
       onClick={showEditableMode}>
       {initialValue}
     </Typography>
   } else {
     return <Typography
       variant='body2'
-      className='notes-container__empty-notes'
+      className='notes-container__empty-value'
       onClick={showEditableMode}>
       Add a note
     </Typography>

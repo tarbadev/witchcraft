@@ -62,7 +62,7 @@
     color: #db2828 !important;
 }
 
-.notes-container__update-notes-button {
+.notes-container__update-value-button {
     /*margin-top: 10px !important;*/
     text-align: right !important;
 }
@@ -85,7 +85,7 @@
     font-family: 'Indie Flower', cursive !important;
 }
 
-.notes-container__notes-content {
+.notes-container__value-content {
     font-family: 'Indie Flower', cursive !important;
 }
 
@@ -93,12 +93,12 @@
     font-family: 'Indie Flower', cursive !important;
 }
 
-.notes-container__empty-notes {
+.notes-container__empty-value {
     font-style: italic;
     color: rgba(0, 0, 0, 0.70) !important;
 }
 
-.notes-container__editable-notes {
+.notes-container__editable-value {
     width: 100%;
     margin: 0 !important;
 }

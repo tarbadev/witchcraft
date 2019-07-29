@@ -8,6 +8,7 @@ import AddCommentIcon from '@material-ui/icons/AddComment'
 
 import 'src/recipes/components/Step.css'
 import { withStyles } from '@material-ui/core'
+import { OneLineEditableFieldContainer } from '../../app/components/OneLineEditableField'
 
 export const Step = ({ number, step, note }) => {
   const [displayNote, setDisplayNote] = useState(false)
@@ -53,9 +54,10 @@ export const Step = ({ number, step, note }) => {
         </StepGrid>
         {displayNote &&
         <StepGrid item sm={12} container justify='flex-start' className='notes-container-color'>
-          <Typography variant="body2" className={`step-note-content-${number} notes-container__notes-content`} data-step-note>
-            {note}
-          </Typography>
+          <OneLineEditableFieldContainer initialValue={note} />
+          {/*<Typography variant="body2" className={`step-note-content-${number} notes-container__notes-content`} data-step-note>*/}
+          {/*  {note}*/}
+          {/*</Typography>*/}
         </StepGrid>}
       </Grid>
     </Paper>
