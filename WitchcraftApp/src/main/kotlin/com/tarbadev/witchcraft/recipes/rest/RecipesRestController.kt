@@ -1,9 +1,7 @@
 package com.tarbadev.witchcraft.recipes.rest
 
 import com.tarbadev.witchcraft.recipes.domain.usecase.*
-import com.tarbadev.witchcraft.recipes.rest.entity.RecipeListResponse
-import com.tarbadev.witchcraft.recipes.rest.entity.RecipeModifyRequest
-import com.tarbadev.witchcraft.recipes.rest.entity.RecipeResponse
+import com.tarbadev.witchcraft.recipes.rest.entity.*
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -18,7 +16,8 @@ class RecipesRestController(
     private val setFavoriteRecipeUseCase: SetFavoriteRecipeUseCase,
     private val saveRecipeUseCase: SaveRecipeUseCase,
     private val getFavoriteRecipesUseCase: GetFavoriteRecipesUseCase,
-    private val lastAddedRecipesUseCase: LastAddedRecipesUseCase
+    private val lastAddedRecipesUseCase: LastAddedRecipesUseCase,
+    private val editStepNoteUseCase: EditStepNoteUseCase
 ) {
   @GetMapping
   fun list(): RecipeListResponse {
@@ -67,5 +66,10 @@ class RecipesRestController(
   @GetMapping("/latest")
   fun latest(): List<RecipeResponse> {
     return lastAddedRecipesUseCase.execute().map { RecipeResponse.fromRecipe(it) }
+  }
+
+  @PostMapping("/{id}/steps/{stepId}")
+  fun addStepNote(@PathVariable stepId: Int, @RequestBody editStepNoteRequest: EditStepNoteRequest): StepResponse{
+    return StepResponse.fromStep(editStepNoteUseCase.execute(stepId, editStepNoteRequest.note))
   }
 }

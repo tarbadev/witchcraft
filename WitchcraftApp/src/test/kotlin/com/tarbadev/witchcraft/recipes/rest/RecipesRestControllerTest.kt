@@ -4,11 +4,11 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.nhaarman.mockitokotlin2.never
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
-import com.tarbadev.witchcraft.converter.gram
 import com.tarbadev.witchcraft.converter.unit
 import com.tarbadev.witchcraft.recipes.domain.entity.Ingredient
 import com.tarbadev.witchcraft.recipes.domain.entity.Recipe
 import com.tarbadev.witchcraft.recipes.domain.entity.Step
+import com.tarbadev.witchcraft.recipes.domain.entity.StepNote
 import com.tarbadev.witchcraft.recipes.domain.usecase.*
 import com.tarbadev.witchcraft.recipes.rest.entity.*
 import org.junit.jupiter.api.Test
@@ -50,6 +50,8 @@ class RecipesRestControllerTest(
   private lateinit var getFavoriteRecipesUseCase: GetFavoriteRecipesUseCase
   @MockBean
   private lateinit var lastAddedRecipesUseCase: LastAddedRecipesUseCase
+  @MockBean
+  private lateinit var editStepNoteUseCase: EditStepNoteUseCase
 
   @Test
   fun list() {
@@ -222,5 +224,21 @@ class RecipesRestControllerTest(
         .andExpect(status().isOk)
         .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE))
         .andExpect(content().json(jacksonObjectMapper().writeValueAsString(recipesResponse)))
+  }
+
+  @Test
+  fun addStepNote() {
+    val editStepNoteRequest = EditStepNoteRequest("Some step note")
+    val newStep = Step(id = 78, name = "Some step name", note = StepNote(id = 98, comment = editStepNoteRequest.note))
+    val stepResponse = StepResponse.fromStep(newStep)
+
+    whenever(editStepNoteUseCase.execute(stepResponse.id, editStepNoteRequest.note)).thenReturn(newStep)
+
+    mockMvc.perform(post("/api/recipes/45/steps/78")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(jacksonObjectMapper().writeValueAsString(editStepNoteRequest))
+    )
+        .andExpect(status().isOk)
+        .andExpect(content().json(jacksonObjectMapper().writeValueAsString(stepResponse)))
   }
 }
