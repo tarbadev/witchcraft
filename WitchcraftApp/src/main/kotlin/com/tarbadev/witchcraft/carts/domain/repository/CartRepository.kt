@@ -6,4 +6,5 @@ interface CartRepository {
     fun findAll(): List<Cart>
     fun save(cart: Cart): Cart
     fun findById(id: Int): Cart?
+    fun delete(id: Int)
 }

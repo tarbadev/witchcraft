@@ -7,18 +7,23 @@ import org.springframework.stereotype.Repository
 
 @Repository
 class DatabaseCartRepository(private val cartEntityRepository: CartEntityRepository) : CartRepository {
+  override fun findAll(): List<Cart> {
+    return cartEntityRepository.findAll().map { it.toCart() }
+  }
 
-    override fun findAll(): List<Cart> {
-        return cartEntityRepository.findAll().map { it.toCart() }
-    }
+  override fun save(cart: Cart): Cart {
+    return cartEntityRepository.saveAndFlush(CartEntity.fromCart(cart)).toCart()
+  }
 
-    override fun save(cart: Cart): Cart {
-        return cartEntityRepository.saveAndFlush(CartEntity.fromCart(cart)).toCart()
-    }
+  override fun findById(id: Int): Cart? {
+    return cartEntityRepository.findById(id)
+        .map { it.toCart() }
+        .orElse(null)
+  }
 
-    override fun findById(id: Int): Cart? {
-        return cartEntityRepository.findById(id)
-            .map { it.toCart() }
-            .orElse(null)
+  override fun delete(id: Int) {
+    if (cartEntityRepository.existsById(id)) {
+      cartEntityRepository.deleteById(id)
     }
+  }
 }

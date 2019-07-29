@@ -1,9 +1,6 @@
 package com.tarbadev.witchcraft.carts.rest
 
-import com.tarbadev.witchcraft.carts.domain.usecase.CartCatalogUseCase
-import com.tarbadev.witchcraft.carts.domain.usecase.CreateCartUseCase
-import com.tarbadev.witchcraft.carts.domain.usecase.GetCartUseCase
-import com.tarbadev.witchcraft.carts.domain.usecase.ToggleItemUseCase
+import com.tarbadev.witchcraft.carts.domain.usecase.*
 import com.tarbadev.witchcraft.carts.rest.entity.CartResponse
 import com.tarbadev.witchcraft.carts.rest.entity.CreateCartRequest
 import com.tarbadev.witchcraft.carts.rest.entity.ItemResponse
@@ -19,7 +16,8 @@ class CartsRestController(
     private val createCartUseCase: CreateCartUseCase,
     private val cartCatalogUseCase: CartCatalogUseCase,
     private val getCartUseCase: GetCartUseCase,
-    private val toggleItemUseCase: ToggleItemUseCase
+    private val toggleItemUseCase: ToggleItemUseCase,
+    private val deleteCartUseCase: DeleteCartUseCase
 ) {
 
   @GetMapping
@@ -46,5 +44,11 @@ class CartsRestController(
   ): ItemResponse {
     val item = toggleItemUseCase.execute(cartId, itemId, updateItemRequest.enabled)
     return ItemResponse.fromItem(item)
+  }
+
+  @DeleteMapping("/{id}")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  fun deleteCart(@PathVariable id: Int) {
+    deleteCartUseCase.execute(id)
   }
 }

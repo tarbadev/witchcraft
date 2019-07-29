@@ -1,13 +1,11 @@
 package com.tarbadev.witchcraft.carts.rest
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import com.tarbadev.witchcraft.carts.domain.entity.Cart
 import com.tarbadev.witchcraft.carts.domain.entity.Item
-import com.tarbadev.witchcraft.carts.domain.usecase.CartCatalogUseCase
-import com.tarbadev.witchcraft.carts.domain.usecase.CreateCartUseCase
-import com.tarbadev.witchcraft.carts.domain.usecase.GetCartUseCase
-import com.tarbadev.witchcraft.carts.domain.usecase.ToggleItemUseCase
+import com.tarbadev.witchcraft.carts.domain.usecase.*
 import com.tarbadev.witchcraft.carts.rest.entity.CartResponse
 import com.tarbadev.witchcraft.carts.rest.entity.CreateCartRequest
 import com.tarbadev.witchcraft.carts.rest.entity.ItemResponse
@@ -43,6 +41,8 @@ class CartsRestControllerTest(
   private lateinit var cartCatalogUseCase: CartCatalogUseCase
   @MockBean
   private lateinit var toggleItemUseCase: ToggleItemUseCase
+  @MockBean
+  private lateinit var deleteCartUseCase: DeleteCartUseCase
 
   @Test
   fun getCart() {
@@ -125,5 +125,12 @@ class CartsRestControllerTest(
         .andExpect(status().isOk)
         .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE))
         .andExpect(content().json(jacksonObjectMapper().writeValueAsString(itemResponse)))
+  }
+
+  @Test
+  fun deleteCart() {
+    mockMvc.perform(delete("/api/carts/2")).andExpect(status().isNoContent)
+
+    verify(deleteCartUseCase).execute(2)
   }
 }

@@ -17,7 +17,6 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager
 import org.springframework.test.context.junit.jupiter.SpringExtension
-import java.util.Arrays.asList
 
 @ExtendWith(SpringExtension::class)
 @DataJpaTest
@@ -26,119 +25,146 @@ class DatabaseCartRepositoryTest(
     @Autowired private val entityManager: TestEntityManager,
     @Autowired private val cartEntityRepository: CartEntityRepository
 ) {
-    private var databaseCartRepository: DatabaseCartRepository = DatabaseCartRepository(cartEntityRepository)
+  private var databaseCartRepository: DatabaseCartRepository = DatabaseCartRepository(cartEntityRepository)
 
-    @BeforeEach
-    fun setup() {
-        cartEntityRepository.deleteAll()
-    }
+  @BeforeEach
+  fun setup() {
+    cartEntityRepository.deleteAll()
+  }
 
-    @Test
-    fun findAll() {
-        entityManager.persist(CartEntity())
-        entityManager.persist(CartEntity())
-        entityManager.persist(CartEntity())
+  @Test
+  fun findAll() {
+    entityManager.persist(CartEntity())
+    entityManager.persist(CartEntity())
+    entityManager.persist(CartEntity())
 
-        entityManager.flush()
-        entityManager.clear()
+    entityManager.flush()
+    entityManager.clear()
 
-        assertEquals(3, databaseCartRepository.findAll().size)
-    }
+    assertEquals(3, databaseCartRepository.findAll().size)
+  }
 
-    @Test
-    fun save() {
-        val recipes = listOf(entityManager.persistAndFlush(
-            RecipeEntity(
-                name = "Lasagna",
-                ingredients = asList(
-                    IngredientEntity(
-                        name = "Ingredient 3",
-                        unit = "cup",
-                        quantity = 2.0
-                    ),
-                    IngredientEntity(
-                        name = "Ingredient 1",
-                        unit = "lb",
-                        quantity = 2.0
-                    ),
-                    IngredientEntity(
-                        name = "Ingredient 2",
-                        unit = "oz",
-                        quantity = 8.0
-                    )
+  @Test
+  fun save() {
+    val recipes = listOf(entityManager.persistAndFlush(
+        RecipeEntity(
+            name = "Lasagna",
+            ingredients = listOf(
+                IngredientEntity(
+                    name = "Ingredient 3",
+                    unit = "cup",
+                    quantity = 2.0
                 ),
-                steps = emptySet()
-            )
-        )
-            .toRecipe())
-
-        entityManager.clear()
-
-        val items = asList(
-            Item(
-                name = "Ingredient 1",
-                unit = "lb",
-                quantity = 2.0,
-                enabled = true
-            ),
-            Item(
-                name = "Ingredient 2",
-                unit = "oz",
-                quantity = 8.0,
-                enabled = true
-            ),
-            Item(
-                name = "Ingredient 3",
-                unit = "cup",
-                quantity = 2.0,
-                enabled = true
-            )
-        )
-        val (id) = databaseCartRepository.save(Cart(
-            recipes = recipes,
-            items = items
-        ))
-
-        entityManager.clear()
-
-        val savedCart = entityManager.find(CartEntity::class.java, id)
-
-        assertEquals(3, savedCart.items.size)
-        assertEquals(1, savedCart.recipes.size)
-    }
-
-    @Test
-    fun findById() {
-        val cart = entityManager.persistAndFlush(CartEntity()).toCart()
-
-        entityManager.clear()
-
-        assertEquals(cart, databaseCartRepository.findById(cart.id))
-    }
-
-    @Test
-    fun findById_returnsItemsOrderedAlphabetically() {
-        val cart = entityManager.persistAndFlush(
-            CartEntity(
-                items = listOf(
-                    ItemEntity(name = "Parsley"),
-                    ItemEntity(name = "Onions"),
-                    ItemEntity(name = "Beef")
+                IngredientEntity(
+                    name = "Ingredient 1",
+                    unit = "lb",
+                    quantity = 2.0
+                ),
+                IngredientEntity(
+                    name = "Ingredient 2",
+                    unit = "oz",
+                    quantity = 8.0
                 )
+            ),
+            steps = emptySet()
+        )
+    )
+        .toRecipe())
+
+    entityManager.clear()
+
+    val items = listOf(
+        Item(
+            name = "Ingredient 1",
+            unit = "lb",
+            quantity = 2.0,
+            enabled = true
+        ),
+        Item(
+            name = "Ingredient 2",
+            unit = "oz",
+            quantity = 8.0,
+            enabled = true
+        ),
+        Item(
+            name = "Ingredient 3",
+            unit = "cup",
+            quantity = 2.0,
+            enabled = true
+        )
+    )
+    val (id) = databaseCartRepository.save(Cart(
+        recipes = recipes,
+        items = items
+    ))
+
+    entityManager.clear()
+
+    val savedCart = entityManager.find(CartEntity::class.java, id)
+
+    assertEquals(3, savedCart.items.size)
+    assertEquals(1, savedCart.recipes.size)
+  }
+
+  @Test
+  fun findById() {
+    val cart = entityManager.persistAndFlush(CartEntity()).toCart()
+
+    entityManager.clear()
+
+    assertEquals(cart, databaseCartRepository.findById(cart.id))
+  }
+
+  @Test
+  fun findById_returnsItemsOrderedAlphabetically() {
+    val cart = entityManager.persistAndFlush(
+        CartEntity(
+            items = listOf(
+                ItemEntity(name = "Parsley"),
+                ItemEntity(name = "Onions"),
+                ItemEntity(name = "Beef")
             )
         )
+    )
 
-        entityManager.clear()
+    entityManager.clear()
 
-        val items = cart.items
-            .map { itemEntity -> itemEntity.toItem() }
-            .sortedBy { it.name }
+    val items = cart.items
+        .map { itemEntity -> itemEntity.toItem() }
+        .sortedBy { it.name }
 
-        assertIterableEquals(items, databaseCartRepository.findById(cart.id)!!.items)
-    }
+    assertIterableEquals(items, databaseCartRepository.findById(cart.id)!!.items)
+  }
 
-    @Test
-    fun findById_returnsNullIfNotFound() {
-        assertNull(databaseCartRepository.findById(1))
-    }
+  @Test
+  fun findById_returnsNullIfNotFound() {
+    assertNull(databaseCartRepository.findById(1))
+  }
+
+  @Test
+  fun delete_whenCartExists() {
+    val cartEntity = entityManager.persistAndFlush(CartEntity(items = listOf(
+        ItemEntity(name = "Item 1"),
+        ItemEntity(name = "Item 2"),
+        ItemEntity(name = "Item 3")
+    )))
+
+    entityManager.clear()
+
+    databaseCartRepository.delete(cartEntity.id)
+
+    assertNull(entityManager.find(CartEntity::class.java, cartEntity.id))
+    assertNull(entityManager.find(ItemEntity::class.java, cartEntity.items[0].id))
+    assertNull(entityManager.find(ItemEntity::class.java, cartEntity.items[1].id))
+    assertNull(entityManager.find(ItemEntity::class.java, cartEntity.items[2].id))
+  }
+
+  @Test
+  fun delete_whenCartDoesNotExists() {
+    val cartId = 45
+
+    assertNull(entityManager.find(CartEntity::class.java, cartId))
+
+    databaseCartRepository.delete(cartId)
+  }
 }
