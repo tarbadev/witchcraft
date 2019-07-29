@@ -45,28 +45,37 @@ export const getSteps = async () => {
 }
 
 export const editNotes = async (notes) => {
-  await global.page.click('.notes-container__notes-content')
-  await fillInput('.notes-container__editable-notes', notes)
-  await global.page.click('.notes-container__update-notes-button')
-  await waitForTextByCss('.notes-container__notes-content', notes)
+  await global.page.click('.notes-container__notes [data-display-value]')
+  await fillInput('.notes-container__notes [data-edit-value]', notes)
+  await global.page.click('.notes-container__notes .notes-container__update-value-button')
+  await waitForTextByCss('.notes-container__notes [data-display-value]', notes)
 }
 
 export const getNotes = async () => {
-  await global.page.waitForSelector('.notes-container__notes-content')
-  return await global.page.$eval('.notes-container__notes-content', element => element.textContent)
+  await global.page.waitForSelector('.notes-container__notes [data-display-value]')
+  return await global.page.$eval('.notes-container__notes [data-display-value]', element => element.textContent)
 }
 
 export const getPortions = () => {
   return getTextByCssSelector('.portions-value')
 }
 
-export const getStepNote = async number => {
+export const displayStepNote = async number => {
   const stepNoteIconClassName = `.step-note-${number}`
-  const stepNoteContentClassName = `.step-note-content-${number}`
 
   await global.page.waitForSelector(stepNoteIconClassName)
   await global.page.click(stepNoteIconClassName)
+}
+
+export const getStepNote = async () => {
+  const stepNoteContentClassName = '[data-step-note] [data-display-value]'
 
   await global.page.waitForSelector(stepNoteContentClassName)
   return await global.page.$eval(stepNoteContentClassName, element => element.textContent)
+}
+
+export const editStepNote = async (note) => {
+  await global.page.click('[data-step-note] [data-display-value]')
+  await fillInput('[data-step-note] [data-edit-value]', note)
+  await global.page.click('[data-step-note] .notes-container__update-value-button')
 }

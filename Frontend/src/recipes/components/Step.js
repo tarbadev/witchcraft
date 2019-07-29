@@ -8,9 +8,9 @@ import AddCommentIcon from '@material-ui/icons/AddComment'
 
 import 'src/recipes/components/Step.css'
 import { withStyles } from '@material-ui/core'
-import { OneLineEditableFieldContainer } from '../../app/components/OneLineEditableField'
+import { OneLineEditableFieldContainer } from 'src/app/components/OneLineEditableField'
 
-export const Step = ({ number, step, note }) => {
+export const Step = ({ number, step, note, onSaveNote }) => {
   const [displayNote, setDisplayNote] = useState(false)
   const NoteIcon = note ? ModeCommentIcon : AddCommentIcon
 
@@ -53,11 +53,8 @@ export const Step = ({ number, step, note }) => {
           </Typography>
         </StepGrid>
         {displayNote &&
-        <StepGrid item sm={12} container justify='flex-start' className='notes-container-color'>
-          <OneLineEditableFieldContainer initialValue={note} />
-          {/*<Typography variant="body2" className={`step-note-content-${number} notes-container__notes-content`} data-step-note>*/}
-          {/*  {note}*/}
-          {/*</Typography>*/}
+        <StepGrid item sm={12} container justify='flex-start' data-step-note className='notes-container-color'>
+          <OneLineEditableFieldContainer initialValue={note} onSaveClick={newNotes => onSaveNote(newNotes)} />
         </StepGrid>}
       </Grid>
     </Paper>
@@ -68,4 +65,5 @@ Step.propTypes = {
   number: PropTypes.number,
   step: PropTypes.string,
   note: PropTypes.string,
+  onSaveNote: PropTypes.func,
 }

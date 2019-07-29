@@ -2,6 +2,7 @@ import * as RecipePage from '../page-objects/recipe.po'
 import * as RecipesPage from '../page-objects/recipes.po'
 import * as EditRecipePage from '../page-objects/editRecipe.po'
 import { waitForTextByCss } from '../page-objects/helpers.po'
+import { displayStepNote } from '../page-objects/recipe.po'
 
 describe('Recipe', () => {
   it('displays the ingredients', async () => {
@@ -93,7 +94,7 @@ describe('Recipe', () => {
   })
 
   describe('Notes', () => {
-    it('can see the recipe\'s notes', async () => {
+    it('can see and edit the recipe\'s notes', async () => {
       await RecipePage.goTo(2)
       await waitForTextByCss('.title', 'Tartiflette')
 
@@ -110,7 +111,18 @@ describe('Recipe', () => {
       await RecipePage.goTo(3)
       await waitForTextByCss('.title', 'Thai Chicken Salad')
 
+      await displayStepNote(1)
       expect(await RecipePage.getStepNote(1)).toBe('Careful not to break the almonds')
-    }, 10000)
+    })
+
+    xit('can edit a step\'s notes', async () => {
+      await RecipePage.goTo(3)
+      await waitForTextByCss('.title', 'Thai Chicken Salad')
+
+      await displayStepNote(1)
+      await RecipePage.editStepNote(1, 'Careful not to break the almonds when slicing them')
+
+      expect(await RecipePage.getStepNote(1)).toBe('Careful not to break the almonds when slicing them')
+    })
   })
 })

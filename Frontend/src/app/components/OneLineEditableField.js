@@ -46,7 +46,8 @@ const OneLineEditableField = ({
           multiline={true}
           className='notes-container__editable-value'
           value={editableValue}
-          onChange={(event) => onEditableValueChange(event.target.value)}
+          data-edit-value
+          onChange={({ target }) => onEditableValueChange(target.value)}
           onBlur={hideEditableMode} />
       </Grid>
       <Grid item sm={2}>
@@ -61,12 +62,14 @@ const OneLineEditableField = ({
     return <Typography
       variant='body2'
       className='notes-container__value-content'
+      data-display-value
       onClick={showEditableMode}>
       {initialValue}
     </Typography>
   } else {
     return <Typography
       variant='body2'
+      data-display-value
       className='notes-container__empty-value'
       onClick={showEditableMode}>
       Add a note

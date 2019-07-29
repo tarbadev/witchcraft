@@ -22,6 +22,7 @@ import { PageTitle } from 'src/app/components/PageTitle'
 import { useAppContext } from 'src/app/components/StoreProvider'
 import { RECIPES } from 'src/app/components/Header'
 import { OneLineEditableFieldContainer } from 'src/app/components/OneLineEditableField'
+import { saveStepNote } from '../actions/StepActions'
 
 export const RecipePageContainer = ({ match, history }) => {
   const { state, dispatch, setCurrentHeader } = useAppContext()
@@ -35,7 +36,6 @@ export const RecipePageContainer = ({ match, history }) => {
 
   useEffect(() => dispatch(getRecipe(match.params.id, data => setRecipe(data))), [])
   useEffect(() => dispatch(getRecipeNotes(match.params.id, getRecipeSuccess)), [])
-
 
   const deleteRecipeAndDisplayInProgress = () => {
     setIsDeleting(true)
@@ -54,7 +54,8 @@ export const RecipePageContainer = ({ match, history }) => {
     deleteRecipe={deleteRecipeAndDisplayInProgress}
     notes={notes}
     updateNotes={newNotes => dispatch(updateNotes(recipe.id, newNotes, getRecipeSuccess))}
-    isDeleting={isDeleting} />
+    isDeleting={isDeleting}
+    onStepNoteSaveButtonClick={(stepId, newNote) => dispatch(saveStepNote(recipe.id, stepId, newNote))} />
 }
 
 RecipePageContainer.propTypes = {
@@ -70,6 +71,7 @@ export const RecipePage = ({
   notes,
   isDeleting,
   updateNotes,
+  onStepNoteSaveButtonClick,
 }) => {
   let steps
   let ingredients
@@ -81,7 +83,11 @@ export const RecipePage = ({
       .sort((a, b) => a.id > b.id ? 1 : -1)
       .map((step, index) => (
         <Grid item key={step.id} xs={12}>
-          <Step number={index + 1} step={step.name} note={step.note} />
+          <Step
+            number={index + 1}
+            step={step.name}
+            note={step.note}
+            onSaveNote={newNote => onStepNoteSaveButtonClick(step.id, newNote)} />
         </Grid>))
   }
 
@@ -184,4 +190,5 @@ RecipePage.propTypes = {
   deleteRecipe: PropTypes.func,
   notes: PropTypes.string,
   updateNotes: PropTypes.func,
+  onStepNoteSaveButtonClick: PropTypes.func,
 }
