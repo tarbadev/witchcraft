@@ -32,10 +32,10 @@ export const RecipePageContainer = ({ match, history }) => {
   const [notes, setNotes] = useState(state.pages.recipePage.notes)
   const [isDeleting, setIsDeleting] = useState(state.pages.recipePage.isDeleting)
 
-  const getRecipeSuccess = data => setNotes(data.notes)
+  const getRecipeNoteSuccess = data => setNotes(data.notes)
 
   useEffect(() => dispatch(getRecipe(match.params.id, data => setRecipe(data))), [])
-  useEffect(() => dispatch(getRecipeNotes(match.params.id, getRecipeSuccess)), [])
+  useEffect(() => dispatch(getRecipeNotes(match.params.id, getRecipeNoteSuccess)), [])
 
   const deleteRecipeAndDisplayInProgress = () => {
     setIsDeleting(true)
@@ -47,15 +47,24 @@ export const RecipePageContainer = ({ match, history }) => {
     dispatch(deleteRecipe(recipe.id, deleteCallback, deleteCallback))
   }
 
+  const updateRecipeWithUpdatedStep = newStep => {
+    const index = recipe.steps.findIndex(step => step.id === newStep.id)
+    const newRecipe = { ...recipe }
+
+    newRecipe.steps[index] = newStep
+
+    setRecipe(newRecipe)
+  }
+
   return <RecipePage
     recipe={recipe}
     toggleFavorite={() => dispatch(setFavorite(recipe.id, !recipe.favorite, newRecipe => setRecipe(newRecipe)))}
     editRecipe={() => history.push(`/recipes/${recipe.id}/edit`)}
     deleteRecipe={deleteRecipeAndDisplayInProgress}
     notes={notes}
-    updateNotes={newNotes => dispatch(updateNotes(recipe.id, newNotes, getRecipeSuccess))}
+    updateNotes={newNotes => dispatch(updateNotes(recipe.id, newNotes, getRecipeNoteSuccess))}
     isDeleting={isDeleting}
-    onStepNoteSaveButtonClick={(stepId, newNote) => dispatch(saveStepNote(recipe.id, stepId, newNote))} />
+    onStepNoteSaveButtonClick={(stepId, newNote) => dispatch(saveStepNote(recipe.id, stepId, newNote, updateRecipeWithUpdatedStep))} />
 }
 
 RecipePageContainer.propTypes = {

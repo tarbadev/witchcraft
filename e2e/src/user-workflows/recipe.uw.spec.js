@@ -115,12 +115,12 @@ describe('Recipe', () => {
       expect(await RecipePage.getStepNote(1)).toBe('Careful not to break the almonds')
     })
 
-    xit('can edit a step\'s notes', async () => {
+    it('can edit a step\'s notes', async () => {
       await RecipePage.goTo(3)
       await waitForTextByCss('.title', 'Thai Chicken Salad')
 
       await displayStepNote(1)
-      await RecipePage.editStepNote(1, 'Careful not to break the almonds when slicing them')
+      await RecipePage.editStepNote('Careful not to break the almonds when slicing them')
 
       expect(await RecipePage.getStepNote(1)).toBe('Careful not to break the almonds when slicing them')
     })
