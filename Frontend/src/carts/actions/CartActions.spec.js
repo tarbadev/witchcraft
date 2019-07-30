@@ -1,4 +1,4 @@
-import { getCart, toggleItem } from './CartActions'
+import { deleteCart, getCart, toggleItem } from './CartActions'
 import { fetchAction } from 'src/app/WitchcraftMiddleware'
 
 describe('CartActions', () => {
@@ -21,6 +21,18 @@ describe('CartActions', () => {
       method: 'PUT',
       body: { enabled: true },
       onSuccess: onSuccessSpy,
+    }))
+  })
+
+  it('deleteCart sends a request to delete the given cart', () => {
+    const onSuccessSpy = jest.fn()
+    const onErrorSpy = jest.fn()
+
+    expect(deleteCart(2, onSuccessSpy, onErrorSpy)).toEqual(fetchAction({
+      url: '/api/carts/2',
+      method: 'DELETE',
+      onSuccess: onSuccessSpy,
+      onError: onErrorSpy,
     }))
   })
 })

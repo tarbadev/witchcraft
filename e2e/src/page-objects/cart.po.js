@@ -33,3 +33,7 @@ export const tapOnIngredient = async ingredient => {
 export const numberOfDisabledItems = async () => {
   return await (await global.page.$$('.cart-page__ingredient-disabled')).length
 }
+
+export const clickOnDelete = async () => {
+  await global.page.click('.cart-page__delete-button')
+}

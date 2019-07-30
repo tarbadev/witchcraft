@@ -49,74 +49,79 @@ describe('RecipePageContainer', () => {
     expect(pushSpy).toHaveBeenCalledWith(`/recipes/${promisedRecipe.id}/edit`)
   })
 
-  it('dispatches deleteRecipe when Delete button clicked', () => {
-    const context = mockAppContext()
-    const id = promisedRecipe.id
+  describe('delete', () => {
+    it('dispatches deleteRecipe when Delete button clicked', () => {
+      const context = mockAppContext()
+      const id = promisedRecipe.id
 
-    jest
-      .spyOn(RecipeActions, 'getRecipe')
-      .mockImplementation((id, onSuccess) => onSuccess(promisedRecipe))
+      jest
+        .spyOn(RecipeActions, 'getRecipe')
+        .mockImplementation((id, onSuccess) => onSuccess(promisedRecipe))
 
-    const recipePageContainer = mount(<RecipePageContainer match={{ params: { id } }} />)
-    recipePageContainer.find('.deleteButton button').simulate('click')
+      const recipePageContainer = mount(<RecipePageContainer match={{ params: { id } }} />)
+      recipePageContainer.find('.deleteButton button').simulate('click')
 
-    expect(context.dispatch).toHaveBeenLastCalledWith(RecipeActions.deleteRecipe(id, expect.any(Function), expect.any(Function)))
-  })
+      expect(context.dispatch).toHaveBeenLastCalledWith(RecipeActions.deleteRecipe(id, expect.any(Function), expect.any(Function)))
+    })
 
-  it('displays when delete button is clicked', () => {
-    mockAppContext()
-    const id = promisedRecipe.id
+    it('displays circular progress when delete button is clicked', () => {
+      mockAppContext()
+      const id = promisedRecipe.id
 
-    jest
-      .spyOn(RecipeActions, 'getRecipe')
-      .mockImplementation((id, onSuccess) => onSuccess(promisedRecipe))
+      jest
+        .spyOn(RecipeActions, 'getRecipe')
+        .mockImplementation((id, onSuccess) => onSuccess(promisedRecipe))
 
-    const recipePageContainer = mount(<RecipePageContainer match={{ params: { id } }} />)
+      const recipePageContainer = mount(<RecipePageContainer match={{ params: { id } }} />)
 
-    expect(recipePageContainer.find('.circularProgress')).toHaveLength(0)
+      expect(recipePageContainer.find('.circularProgress')).toHaveLength(0)
 
-    recipePageContainer.find('.deleteButton button').simulate('click')
+      recipePageContainer.find('.deleteButton button').simulate('click')
 
-    expect(recipePageContainer.find('.circularProgress')).toHaveLength(3)
-  })
+      expect(recipePageContainer.find('.circularProgress')).toHaveLength(3)
+    })
 
-  it('Hides CircularProgress call is successful', () => {
-    mockAppContext()
-    const id = promisedRecipe.id
+    it('Hides CircularProgress call is successful', () => {
+      mockAppContext()
+      const id = promisedRecipe.id
 
-    jest
-      .spyOn(RecipeActions, 'getRecipe')
-      .mockImplementation((id, onSuccess) => onSuccess(promisedRecipe))
+      jest
+        .spyOn(RecipeActions, 'getRecipe')
+        .mockImplementation((id, onSuccess) => onSuccess(promisedRecipe))
 
-    const recipePageContainer = mount(<RecipePageContainer match={{ params: { id } }} history={{ push: jest.fn() }} />)
+      const recipePageContainer = mount(
+        <RecipePageContainer
+          match={{ params: { id } }}
+          history={{ push: jest.fn() }} />)
 
-    expect(recipePageContainer.find('.circularProgress')).toHaveLength(0)
+      expect(recipePageContainer.find('.circularProgress')).toHaveLength(0)
 
-    jest
-      .spyOn(RecipeActions, 'deleteRecipe')
-      .mockImplementation((id, onSuccess) => onSuccess())
+      jest
+        .spyOn(RecipeActions, 'deleteRecipe')
+        .mockImplementation((id, onSuccess) => onSuccess())
 
-    recipePageContainer.find('.deleteButton button').simulate('click')
-    expect(recipePageContainer.find('.circularProgress')).toHaveLength(0)
-  })
+      recipePageContainer.find('.deleteButton button').simulate('click')
+      expect(recipePageContainer.find('.circularProgress')).toHaveLength(0)
+    })
 
-  it('redirects to recipes page when delete succeeds', () => {
-    mockAppContext()
-    const id = promisedRecipe.id
-    const pushSpy = jest.fn()
+    it('redirects to recipes page when delete succeeds', () => {
+      mockAppContext()
+      const id = promisedRecipe.id
+      const pushSpy = jest.fn()
 
-    jest
-      .spyOn(RecipeActions, 'getRecipe')
-      .mockImplementation((id, onSuccess) => onSuccess(promisedRecipe))
+      jest
+        .spyOn(RecipeActions, 'getRecipe')
+        .mockImplementation((id, onSuccess) => onSuccess(promisedRecipe))
 
-    jest
-      .spyOn(RecipeActions, 'deleteRecipe')
-      .mockImplementation((id, onSuccess) => onSuccess())
+      jest
+        .spyOn(RecipeActions, 'deleteRecipe')
+        .mockImplementation((id, onSuccess) => onSuccess())
 
-    const recipePageContainer = mount(<RecipePageContainer match={{ params: { id } }} history={{ push: pushSpy }} />)
-    recipePageContainer.find('.deleteButton button').simulate('click')
+      const recipePageContainer = mount(<RecipePageContainer match={{ params: { id } }} history={{ push: pushSpy }} />)
+      recipePageContainer.find('.deleteButton button').simulate('click')
 
-    expect(pushSpy).toHaveBeenLastCalledWith('/recipes')
+      expect(pushSpy).toHaveBeenLastCalledWith('/recipes')
+    })
   })
 
   describe('Notes', () => {

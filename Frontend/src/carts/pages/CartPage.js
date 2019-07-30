@@ -7,22 +7,25 @@ import Typography from '@material-ui/core/Typography'
 import { Ingredient } from 'src/recipes/components/Ingredient'
 import { getCartTitle } from './CartHelper'
 import { RecipeCard } from 'src/recipes/components/RecipeCard'
-import { findWithAttr, getCart, toggleItem } from 'src/carts/actions/CartActions'
+import { findWithAttr, getCart, toggleItem, deleteCart } from 'src/carts/actions/CartActions'
 
 import './CartPage.css'
 import { PageTitle } from 'src/app/components/PageTitle'
 import { useAppContext } from 'src/app/components/StoreProvider'
 import { CARTS } from 'src/app/components/Header'
+import Button from '@material-ui/core/Button'
+import DeleteIcon from '@material-ui/icons/Delete'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
-export const CartPageContainer = ({ match }) => {
+export const CartPageContainer = ({ match, history }) => {
   const { state, dispatch, setCurrentHeader } = useAppContext()
   setCurrentHeader(CARTS)
 
+  const cartId = match.params.id
   const [cart, setCart] = useState(state.cart)
+  const [isDeleting, setIsDeleting] = useState(false)
 
-  useEffect(() => {
-    dispatch(getCart(match.params.id, data => setCart(data)))
-  }, [])
+  useEffect(() => dispatch(getCart(cartId, data => setCart(data))), [])
 
   const onToggleItemSuccess = newItem => {
     const newCart = {
@@ -37,16 +40,29 @@ export const CartPageContainer = ({ match }) => {
   const onItemClick = (cartId, itemId, enabled) =>
     dispatch(toggleItem(cartId, itemId, enabled, onToggleItemSuccess))
 
-  return <CartPage cart={cart} onItemClick={onItemClick} />
+  const onDeleteComplete = () => {
+    setIsDeleting(false)
+    history.push('/carts')
+  }
+
+  const deleteCurrentCart = () => {
+    setIsDeleting(true)
+    dispatch(deleteCart(cartId, onDeleteComplete, onDeleteComplete))
+  }
+
+  return <CartPage cart={cart} onItemClick={onItemClick} deleteCart={deleteCurrentCart} isDeleting={isDeleting} />
 }
 
 CartPageContainer.propTypes = {
   match: PropTypes.object,
+  history: PropTypes.object,
 }
 
 export const CartPage = ({
   onItemClick,
   cart,
+  deleteCart,
+  isDeleting,
 }) => {
   const ingredients = cart.items
     ? cart.items.map(ingredient => (
@@ -84,6 +100,15 @@ export const CartPage = ({
         <Typography variant='h5' className='witchcraft-title'>
           {title}
         </Typography>
+        <Button
+          className='cart-page__delete-button'
+          variant='contained'
+          onClick={deleteCart}
+          href=''
+          disabled={isDeleting}>
+          <DeleteIcon className='deleteIcon' />
+        </Button>
+        {isDeleting && <CircularProgress size={24} className='circularProgress' />}
       </Grid>
       <Grid item xs={6} container spacing={1}>
         <Typography variant='h6' className='witchcraft-title' gutterBottom>Ingredients</Typography>
@@ -102,4 +127,6 @@ export const CartPage = ({
 CartPage.propTypes = {
   onItemClick: PropTypes.func,
   cart: PropTypes.object,
+  deleteCart: PropTypes.func,
+  isDeleting: PropTypes.bool,
 }

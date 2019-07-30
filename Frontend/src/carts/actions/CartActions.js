@@ -25,3 +25,10 @@ export const findWithAttr = (array, attr, value) => {
   }
   return -1
 }
+
+export const deleteCart = (id, onSuccess, onError) => fetchAction({
+  url: `/api/carts/${id}`,
+  method: 'DELETE',
+  onSuccess,
+  onError,
+})
