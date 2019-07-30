@@ -100,7 +100,7 @@
     "usePathForSuiteName": "true"
   },
   "engines": {
-    "node": "12.3.1",
+    "node": "12.6.0",
     "npm": "6.9.0"
   }
 }
