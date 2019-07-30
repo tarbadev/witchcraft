@@ -90,7 +90,7 @@ jobs:
   run_integration_tests:
     working_directory: ~/witchcraft
     docker:
-      - image: circleci/node:12.7.0-browsers-legacy
+      - image: circleci/node:12.3.1-browsers-legacy
     steps:
       - checkout
       - run:
