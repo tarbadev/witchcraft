@@ -19,14 +19,6 @@
     margin-right: 10px !important;
 }
 
-.deleteButtonhover {
-    background-color: #d01919 !important;
-}
-
-.deleteButtondisabled {
-    background-color: rgba(0, 0, 0, .5) !important;
-}
-
 .modifyButton {
     background-color: #fbbd08 !important;
     color: #fff !important;

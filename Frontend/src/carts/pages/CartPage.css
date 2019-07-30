@@ -11,3 +11,8 @@
     background-color: #bdbdbd;
     font-style: italic;
 }
+
+.cart-page__delete-button {
+    background-color: #db2828 !important;
+    color: #fff !important;
+}

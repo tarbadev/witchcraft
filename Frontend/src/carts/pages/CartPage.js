@@ -96,7 +96,7 @@ export const CartPage = ({
   return (
     <Grid container spacing={3}>
       <PageTitle title={title} />
-      <Grid item xs={12} name='title'>
+      <Grid item container direction='row' justify='space-between' xs={12} name='title'>
         <Typography variant='h5' className='witchcraft-title'>
           {title}
         </Typography>
