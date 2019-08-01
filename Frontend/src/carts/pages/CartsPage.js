@@ -17,7 +17,7 @@ export const CartsPageContainer = ({ history }) => {
 
   const [carts, setCarts] = useState(state.carts)
 
-  useEffect(() => dispatch(getAllCarts(allCarts => setCarts(allCarts))))
+  useEffect(() => dispatch(getAllCarts(allCarts => setCarts(allCarts))), [])
 
   return <CartsPage carts={carts} onNewCartClick={() => history.push('/carts/new')} />
 }
