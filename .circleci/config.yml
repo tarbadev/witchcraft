@@ -94,8 +94,21 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Setup CF cli
+          command: |
+            curl -v -L -o cf-cli_amd64.deb 'https://cli.run.pivotal.io/stable?release=debian64&source=github'
+            sudo dpkg -i cf-cli_amd64.deb
+            cf -v
+            cf api https://api.run.pivotal.io
+            cf auth "$CF_USER" "$CF_PASSWORD"
+            cf target -o "$CF_ORG" -s "$CF_SPACE_DEVELOPMENT"
+      - run:
           name: Run Integration Tests
-          command: APP_URL=https://witchcraft-frontend-dev.cfapps.io BACKEND_URL=https://witchcraft-backend-dev.cfapps.io ./gradlew e2e:test
+          command: |
+            DB_CREDENTIALS=$(cf service-key witchcraft-mysql-dev e2e_key) \
+            APP_URL=https://witchcraft-frontend-dev.cfapps.io \
+            BACKEND_URL=https://witchcraft-backend-dev.cfapps.io \
+            ./gradlew e2e:test
       - store_test_results:
           path: e2e/build/test-results
 

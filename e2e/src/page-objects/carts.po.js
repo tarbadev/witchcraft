@@ -7,7 +7,6 @@ export const goTo = async () => {
 
 export const waitForPageLoaded = async () => {
   await global.page.waitForSelector('.cart-page__new-cart-button')
-  await waitForTextNotEmptyByCss('.cart-page__new-cart-button')
 }
 
 export const getCarts = async () => {

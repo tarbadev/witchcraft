@@ -79,5 +79,5 @@ export const editStepNote = async (note) => {
   await global.page.click(stepNoteContentClassName)
   await fillInput('[data-step-note] [data-edit-value]', note)
   await global.page.click('[data-step-note] .notes-container__update-value-button')
-  await global.page.waitForSelector(stepNoteContentClassName)
+  await waitForTextByCss(stepNoteContentClassName, note)
 }
