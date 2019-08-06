@@ -24,7 +24,7 @@
 .recipe-card {
     cursor: pointer;
     transition: transform .1s ease;
-    width: inherit;
+    width: 100%;
 }
 
 .recipe-card:hover {
