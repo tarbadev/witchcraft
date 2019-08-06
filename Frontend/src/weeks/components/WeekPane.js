@@ -37,7 +37,7 @@ export const WeekPane = ({
   })(TableRow)
 
   const header = week.days.map((day, index) => (
-    <DayCell key={`header-${index}`}>
+    <DayCell key={`header-${index}`} align='center'>
       <Typography variant='button'>{day.name}</Typography>
     </DayCell>
   ))
