@@ -1,6 +1,6 @@
 insert into recipe (id, name, origin_url, img_url, favorite, portions) VALUES
-  (1, 'Lasagna alla bolognese', 'http://recipes.com/lasagna', 'http://recipes.com/lasagna.png', true, 2),
-  (2, 'Tartiflette', 'http://recipes.com/tartiflette', 'http://recipes.com/tartiflette.png', false, 2),
+  (1, 'Lasagna alla bolognese', 'https://recipes.com/lasagna', 'https://recipes.com/lasagna.png', true, 2),
+  (2, 'Tartiflette', 'https://recipes.com/tartiflette', 'https://recipes.com/tartiflette.png', false, 2),
   (3, 'Thai Chicken Salad', 'https://www.cookincanuck.com/thai-chicken-salad-recipe/', 'https://www.cookincanuck.com/wp-content/uploads/2017/09/Thai-Chicken-Salad-Recipe-Cookin-Canuck-3.jpg', false, 4);
 
 INSERT INTO ingredient (id, name, quantity, unit, recipe_id) VALUES

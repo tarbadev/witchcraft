@@ -29,7 +29,7 @@ describe('Cart', () => {
     await CartsPage.goTo()
 
     expect(await CartsPage.getCarts()).toHaveLength(2)
-  })
+  }, 10000)
 
   it('can be deleted', async () => {
     await CartsPage.goTo()

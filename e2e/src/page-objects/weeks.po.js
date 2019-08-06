@@ -61,5 +61,5 @@ export const addExpressRecipe = async (recipeName) => {
   await global.page.click('.week-page__add-express-recipe__button')
   await global.page.type('.express-recipe-form__recipe-name input', recipeName)
   await global.page.click('.express-recipe-form__submit-button')
-  await global.page.waitFor(300)
+  await global.page.waitFor(500)
 }

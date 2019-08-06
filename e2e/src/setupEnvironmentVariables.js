@@ -2,7 +2,10 @@ global.appUrl = process.env.APP_URL ? process.env.APP_URL : 'http://localhost:50
 
 if (process.env.DB_CREDENTIALS) {
   const lines = process.env.DB_CREDENTIALS.split('\n')
-  lines.splice(0, 1)
+  if (!lines[0].includes('{')) {
+    lines.splice(0, 1)
+  }
+
   const credentials = JSON.parse(lines.join('\n'))
 
   global.dbCredentials = {
