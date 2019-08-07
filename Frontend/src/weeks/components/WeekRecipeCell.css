@@ -2,6 +2,7 @@
     padding: 5px !important;
     text-transform: capitalize;
     position: relative;
+    width: calc(100% / 7);
 }
 
 .table-cell > .recipe-card {

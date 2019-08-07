@@ -19,6 +19,7 @@ export const WeekPane = ({
   const DayCell = withStyles({
     root: {
       padding: '4px 0px',
+      width: 'calc(100% / 7)',
     },
   })(TableCell)
 
