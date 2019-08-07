@@ -3,7 +3,7 @@
 }
 
 .card-header-root {
-    padding: 1em;
+    padding: .7em !important;
 }
 
 .card-header-content {
@@ -24,7 +24,6 @@
 .recipe-card {
     cursor: pointer;
     transition: transform .1s ease;
-    width: 100%;
 }
 
 .recipe-card:hover {

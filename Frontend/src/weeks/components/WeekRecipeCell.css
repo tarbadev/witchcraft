@@ -1,8 +1,15 @@
 .table-cell {
-    width: calc(100% / 7);
-    padding: 4px 18px !important;
+    padding: 5px !important;
     text-transform: capitalize;
     position: relative;
+}
+
+.table-cell > .recipe-card {
+    cursor: inherit;
+}
+
+.table-cell > .recipe-card:hover {
+    transform: inherit;
 }
 
 .table-cell-clickable {

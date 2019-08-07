@@ -18,8 +18,7 @@ export const WeekPane = ({
 
   const DayCell = withStyles({
     root: {
-      width: 'calc(100% / 7)',
-      padding: '4px 18px',
+      padding: '4px 0px',
     },
   })(TableCell)
 
@@ -79,7 +78,7 @@ export const WeekPane = ({
       <Table>
         <TableHead>
           <TableRow>
-            <FirstColumnCell></FirstColumnCell>
+            <FirstColumnCell />
             {header}
           </TableRow>
         </TableHead>
