@@ -10,10 +10,10 @@ import { saveWeek } from '../actions/WeekPageActions'
 describe('WeekPageContainer', () => {
   it('loads the week when mounting the component', () => {
     const context = mockAppContext()
-    const year = 2019
-    const week = 34
+    const year = '2019'
+    const week = '34'
 
-    mount(<WeekPageContainer match={{ params: { year, week } }} />)
+    mount(<WeekPageContainer weekNumber={week} year={year} />)
 
     expect(context.dispatch).toHaveBeenCalledWith(WeekActions.getWeek(year, week, expect.any(Function)))
   })

@@ -25,7 +25,19 @@ export const Content = () =>
         <Route exact path="/carts/new" component={NewCartPageContainer} />
         <Route exact path="/carts/:id" component={CartPageContainer} />
         <Route exact path="/weeks" component={WeeksPage} />
-        <Route exact path="/weeks/:year/:week" component={WeekPageContainer} />
+        <Route exact path="/weeks/:year/:week" render={props => {
+          const {
+            match: {
+              params: { year, week }
+            }
+          } = props
+
+          return (<WeekPageContainer
+            key={`year=${year}&week=${week}`}
+            year={year}
+            weekNumber={week}
+            {...props} />)
+        }} />
       </Switch>
     </div>
   )

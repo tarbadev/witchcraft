@@ -30,7 +30,7 @@ const IconButtonStyled = withStyles({
   },
 })(IconButton)
 
-export const WeekPageContainer = ({ history, match }) => {
+export const WeekPageContainer = ({ history, weekNumber, year }) => {
   const { state, dispatch, setCurrentHeader } = useAppContext()
   setCurrentHeader(WEEKS)
 
@@ -38,7 +38,7 @@ export const WeekPageContainer = ({ history, match }) => {
   const [modal, setModal] = useState(state.pages.weekPage.modal)
   const [showSuccessMessage, setShowSuccessMessage] = useState(state.pages.weekPage.showSuccessMessage)
 
-  useEffect(() => dispatch(getWeek(match.params.year, match.params.week, data => setWeek(data))), [])
+  useEffect(() => dispatch(getWeek(year, weekNumber, data => setWeek(data))), [])
 
   const onPreviousWeekClick = () => {
     const previousWeekNumber = week.weekNumber <= 1 ? WEEKS_IN_A_YEAR : (week.weekNumber - 1)
@@ -80,6 +80,8 @@ export const WeekPageContainer = ({ history, match }) => {
 WeekPageContainer.propTypes = {
   history: PropTypes.object,
   match: PropTypes.object,
+  year: PropTypes.string,
+  weekNumber: PropTypes.string,
 }
 
 export const WeekPage = ({
