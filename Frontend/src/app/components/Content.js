@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Route, Switch } from 'react-router-dom'
 
 import { HomePageContainer } from './HomePage'
@@ -41,3 +42,7 @@ export const Content = () =>
       </Switch>
     </div>
   )
+
+Content.propTypes = {
+  match: PropTypes.object,
+}
