@@ -15,6 +15,7 @@ import { useAppContext } from 'src/app/components/StoreProvider'
 import { getWeek } from '../actions/WeekActions'
 import { RecipeListModalContainer } from '../components/RecipeListModal'
 import { WEEKS } from 'src/app/components/Header'
+import moment from 'moment'
 
 export const WEEKS_IN_A_YEAR = 52
 
@@ -107,7 +108,9 @@ export const WeekPage = ({
     createCart(recipeIds)
   }
 
-  const title = `Year ${week.year}, week ${week.weekNumber}`
+  const firstDayOfWeek = moment(`${week.year}-W${week.weekNumber}-0`, 'YYYY-Ww-e')
+  const lastDayOfWeek = firstDayOfWeek.clone().add(6, 'days')
+  const title = `From ${firstDayOfWeek.format('MMMM Do YYYY')} to ${lastDayOfWeek.format('MMMM Do YYYY')}`
 
   return (
     <Grid container spacing={3} justify='center'>
