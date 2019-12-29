@@ -63,11 +63,21 @@ describe('Recipe', () => {
   })
 
   describe('on delete button click', () => {
+    it('displays a confirmation popup', async () => {
+      await RecipePage.goTo(2)
+      await waitForTextByCss('.title', 'Tartiflette')
+
+      await RecipePage.clickOnDeleteButton()
+      const confirmationDeleteRecipe = await RecipePage.getConfirmationDeleteRecipe()
+      expect(confirmationDeleteRecipe).toBe('Delete recipe Tartiflette?')
+    })
+
     it('delete the recipe and redirect to recipe list', async () => {
       await RecipePage.goTo(2)
       await waitForTextByCss('.title', 'Tartiflette')
 
       await RecipePage.clickOnDeleteButton()
+      await RecipePage.clickOnConfirmDeleteButton()
       await RecipesPage.waitForPageLoaded()
 
       expect(global.page.url()).toBe(`${appUrl}/recipes`)

@@ -50,7 +50,24 @@ describe('RecipePageContainer', () => {
   })
 
   describe('delete', () => {
-    it('dispatches deleteRecipe when Delete button clicked', () => {
+    it('displays confirmation dialog when delete button is clicked', () => {
+      mockAppContext()
+      const id = promisedRecipe.id
+
+      jest
+        .spyOn(RecipeActions, 'getRecipe')
+        .mockImplementation((id, onSuccess) => onSuccess(promisedRecipe))
+
+      const recipePageContainer = mount(<RecipePageContainer match={{ params: { id } }} />)
+
+      expect(recipePageContainer.find('[data-confirm-delete]')).toHaveLength(0)
+
+      recipePageContainer.find('.deleteButton button').simulate('click')
+
+      expect(recipePageContainer.find('[data-confirm-delete-title]')).toHaveLength(3)
+    })
+
+    it('dispatches deleteRecipe when confirm Delete button clicked', () => {
       const context = mockAppContext()
       const id = promisedRecipe.id
 
@@ -60,11 +77,12 @@ describe('RecipePageContainer', () => {
 
       const recipePageContainer = mount(<RecipePageContainer match={{ params: { id } }} />)
       recipePageContainer.find('.deleteButton button').simulate('click')
+      recipePageContainer.find('[data-confirm-delete-button] button').simulate('click')
 
       expect(context.dispatch).toHaveBeenLastCalledWith(RecipeActions.deleteRecipe(id, expect.any(Function), expect.any(Function)))
     })
 
-    it('displays circular progress when delete button is clicked', () => {
+    it('displays circular progress when confirm delete button is clicked', () => {
       mockAppContext()
       const id = promisedRecipe.id
 
@@ -77,6 +95,7 @@ describe('RecipePageContainer', () => {
       expect(recipePageContainer.find('.circularProgress')).toHaveLength(0)
 
       recipePageContainer.find('.deleteButton button').simulate('click')
+      recipePageContainer.find('[data-confirm-delete-button] button').simulate('click')
 
       expect(recipePageContainer.find('.circularProgress')).toHaveLength(3)
     })
@@ -101,6 +120,7 @@ describe('RecipePageContainer', () => {
         .mockImplementation((id, onSuccess) => onSuccess())
 
       recipePageContainer.find('.deleteButton button').simulate('click')
+      recipePageContainer.find('[data-confirm-delete-button] button').simulate('click')
       expect(recipePageContainer.find('.circularProgress')).toHaveLength(0)
     })
 
@@ -119,6 +139,7 @@ describe('RecipePageContainer', () => {
 
       const recipePageContainer = mount(<RecipePageContainer match={{ params: { id } }} history={{ push: pushSpy }} />)
       recipePageContainer.find('.deleteButton button').simulate('click')
+      recipePageContainer.find('[data-confirm-delete-button] button').simulate('click')
 
       expect(pushSpy).toHaveBeenLastCalledWith('/recipes')
     })

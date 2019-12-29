@@ -23,6 +23,9 @@ import { useAppContext } from 'src/app/components/StoreProvider'
 import { RECIPES } from 'src/app/components/Header'
 import { OneLineEditableFieldContainer } from 'src/app/components/OneLineEditableField'
 import { saveStepNote } from '../actions/StepActions'
+import Dialog from '@material-ui/core/Dialog'
+import DialogTitle from '@material-ui/core/DialogTitle'
+import DialogActions from '@material-ui/core/DialogActions' 
 
 export const RecipePageContainer = ({ match, history }) => {
   const { state, dispatch, setCurrentHeader } = useAppContext()
@@ -31,6 +34,7 @@ export const RecipePageContainer = ({ match, history }) => {
   const [recipe, setRecipe] = useState(state.recipe)
   const [notes, setNotes] = useState(state.pages.recipePage.notes)
   const [isDeleting, setIsDeleting] = useState(state.pages.recipePage.isDeleting)
+  const [isConfirmDeleteDialogOpen, setIsConfirmDeleteDialogOpen] = useState(false)
 
   const getRecipeNoteSuccess = data => setNotes(data.notes)
 
@@ -60,7 +64,10 @@ export const RecipePageContainer = ({ match, history }) => {
     recipe={recipe}
     toggleFavorite={() => dispatch(setFavorite(recipe.id, !recipe.favorite, newRecipe => setRecipe(newRecipe)))}
     editRecipe={() => history.push(`/recipes/${recipe.id}/edit`)}
-    deleteRecipe={deleteRecipeAndDisplayInProgress}
+    deleteRecipe={() => setIsConfirmDeleteDialogOpen(true)}
+    closeConfirmDeleteDialogOpen={() => setIsConfirmDeleteDialogOpen(false)}
+    confirmDeleteRecipe={deleteRecipeAndDisplayInProgress}
+    isConfirmDeleteDialogOpen={isConfirmDeleteDialogOpen}
     notes={notes}
     updateNotes={newNotes => dispatch(updateNotes(recipe.id, newNotes, getRecipeNoteSuccess))}
     isDeleting={isDeleting}
@@ -77,6 +84,9 @@ export const RecipePage = ({
   editRecipe,
   toggleFavorite,
   deleteRecipe,
+  confirmDeleteRecipe,
+  closeConfirmDeleteDialogOpen,
+  isConfirmDeleteDialogOpen,
   notes,
   isDeleting,
   updateNotes,
@@ -112,6 +122,8 @@ export const RecipePage = ({
     favoriteClassName += ' ' + 'favorite'
   }
 
+  const capitalizedRecipeName = recipe.name.charAt(0).toUpperCase() + recipe.name.slice(1)
+
   return <Grid container spacing={3} direction='row'>
     <PageTitle title={recipe.name} />
     <Grid item xs={12} name='title'>
@@ -139,6 +151,24 @@ export const RecipePage = ({
             disabled={isDeleting}>
             <DeleteIcon className='deleteIcon' />
           </Button>
+          <Dialog
+            open={isConfirmDeleteDialogOpen}
+            onClose={closeConfirmDeleteDialogOpen}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle data-confirm-delete-title>
+              {`Delete recipe ${capitalizedRecipeName}?`}
+            </DialogTitle>
+            <DialogActions>
+              <Button onClick={closeConfirmDeleteDialogOpen} autoFocus>
+                Cancel
+              </Button>
+              <Button onClick={confirmDeleteRecipe} data-confirm-delete-button color='primary'>
+                Delete
+              </Button>
+            </DialogActions>
+          </Dialog>
           {isDeleting && <CircularProgress size={24} className='circularProgress' />}
           <Button target='_blank' variant='contained' href={recipe.originUrl}>
             <OpenInNewIcon className='leftIcon' />
@@ -197,6 +227,9 @@ RecipePage.propTypes = {
   toggleFavorite: PropTypes.func,
   isDeleting: PropTypes.bool,
   deleteRecipe: PropTypes.func,
+  confirmDeleteRecipe: PropTypes.func,
+  closeConfirmDeleteDialogOpen: PropTypes.func,
+  isConfirmDeleteDialogOpen: PropTypes.bool,
   notes: PropTypes.string,
   updateNotes: PropTypes.func,
   onStepNoteSaveButtonClick: PropTypes.func,

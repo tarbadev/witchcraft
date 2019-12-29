@@ -81,3 +81,10 @@ export const editStepNote = async (note) => {
   await global.page.click('[data-step-note] .notes-container__update-value-button')
   await waitForTextByCss(stepNoteContentClassName, note)
 }
+
+export const getConfirmationDeleteRecipe = async () => {
+  return getTextByCssSelector('[data-confirm-delete-title]')
+}
+export const clickOnConfirmDeleteButton = async () => {
+  await global.page.click('[data-confirm-delete-button]')
+}
