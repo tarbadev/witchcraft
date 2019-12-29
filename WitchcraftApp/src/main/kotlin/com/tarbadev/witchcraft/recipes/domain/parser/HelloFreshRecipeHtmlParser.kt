@@ -27,13 +27,13 @@ class HelloFreshRecipeHtmlParser(
   override val recipeNameSelector = "h1[data-test-id='recipeDetailFragment.recipe-name']"
   override val imgUrlSelector = "div > img"
   override val imgUrlAttribute = "src"
-  override val ingredientSelector = "div.fela-1qz307e"
-  override val portionsSelector = "div.fela-txm046 button"
+  override val ingredientSelector = "div.fela-_1qz307e"
+  override val portionsSelector = "div.fela-_txm046 button"
 
   override fun getStepsFromHtml(html: Document): List<Step> {
     val steps = ArrayList<Step>()
 
-    val htmlSteps = html.select("div.fela-1jua27u")
+    val htmlSteps = html.select("div.fela-_1qzip4i")
     for (htmlStep in htmlSteps) {
       steps.add(Step(name = htmlStep.text()))
     }

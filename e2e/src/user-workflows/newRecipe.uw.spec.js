@@ -70,7 +70,7 @@ describe('New Recipe', () => {
         'Chicken Breast Strips',
         'Lime',
         'Sour Cream',
-        'Shredded Mozzarella Cheese',
+        'Mozzarella Cheese',
         'Hot Sauce',
         'Vegetable Oil',
         'Butter',

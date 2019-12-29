@@ -62,7 +62,7 @@ class TestResources {
       val helloFresh = Recipe(
           name = "Baja Chicken Quesadillas",
           originUrl = "https://www.hellofresh.com/recipes/2019-w26-r14-baja-chicken-quesadilla-5cd9dfa0d5c2f800105388bc?locale=en-US",
-          imgUrl = "https://res.cloudinary.com/hellofresh/image/upload/f_auto,fl_lossy,q_auto,w_1200/v1/hellofresh_s3/image/2019-w26-r14-baja-chicken-quesadilla-e4f0ad1b.jpg",
+          imgUrl = "https://img.hellofresh.com/f_auto,fl_lossy,q_auto,w_1200/hellofresh_s3/image/2019-w26-r14-baja-chicken-quesadilla-e4f0ad1b.jpg",
           ingredients = Arrays.asList(
               Ingredient(
                   name = "Red Onion",
@@ -135,7 +135,7 @@ class TestResources {
       val marmiton = Recipe(
           name = "Pâte à crêpes",
           originUrl = "https://www.marmiton.org/recettes/recette_pate-a-crepes_12372.aspx",
-          imgUrl = "https://assets.afcdn.com/recipe/20130914/42772_w420h344c1cx175cy182.jpg",
+          imgUrl = "https://assets.afcdn.com/recipe/20180713/81162_w420h344c1cx1944cy2592cxt0cyt0cxb3888cyb5184.jpg",
           ingredients = Arrays.asList(
               Ingredient(
                   name = "Farine",
