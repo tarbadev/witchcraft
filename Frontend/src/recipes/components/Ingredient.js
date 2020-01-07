@@ -15,6 +15,7 @@ export const IngredientContainer = ({ ingredient, index, recipeId }) => {
   const [currentIngredient, setCurrentIngredient] = useState(ingredient)
   const [isEditable, setEditable] = useState(false)
   const [editedIngredientName, setEditedIngredientName] = useState(currentIngredient.name)
+  const [editedIngredientQuantity, setEditedIngredientQuantity] = useState(currentIngredient.quantity)
 
   return <Ingredient
     quantity={currentIngredient.quantity}
@@ -22,10 +23,12 @@ export const IngredientContainer = ({ ingredient, index, recipeId }) => {
     ingredient={currentIngredient.name}
     className={`ingredient_${index}`}
     editable={isEditable}
-    editedIngredientName={editedIngredientName}
     showEditableMode={() => setEditable(true)}
     hideEditableMode={() => setEditable(false)}
+    editedIngredientName={editedIngredientName}
     onIngredientNameChange={(newName) => setEditedIngredientName(newName)}
+    editedIngredientQuantity={editedIngredientQuantity}
+    onIngredientQuantityChange={(newQuantity) => setEditedIngredientQuantity(newQuantity)}
     onSaveClick={() => dispatch(updateIngredient(recipeId,
       { ...ingredient, name: editedIngredientName },
       (ingredient) => {
@@ -48,10 +51,12 @@ export const Ingredient = ({
   ingredient,
   className,
   editable,
-  editedIngredientName,
   showEditableMode,
-  onIngredientNameChange,
   hideEditableMode,
+  editedIngredientName,
+  onIngredientNameChange,
+  editedIngredientQuantity,
+  onIngredientQuantityChange,
   onSaveClick,
 }) => {
   let ingredientBody
@@ -63,7 +68,14 @@ export const Ingredient = ({
           <TextField
             value={editedIngredientName}
             data-edit-name
+            label='Name'
             onChange={({ target }) => onIngredientNameChange(target.value)}
+          />
+          <TextField
+            value={editedIngredientQuantity}
+            data-edit-quantity
+            label='Quantity'
+            onChange={({ target }) => onIngredientQuantityChange(target.value)}
           />
         </Grid>
         <Grid item sm={2}>
@@ -107,10 +119,12 @@ Ingredient.propTypes = {
   unit: PropTypes.string,
   ingredient: PropTypes.string,
   className: PropTypes.string,
-  editedIngredientName: PropTypes.string,
   editable: PropTypes.bool,
   showEditableMode: PropTypes.func,
+  editedIngredientName: PropTypes.string,
   onIngredientNameChange: PropTypes.func,
+  editedIngredientQuantity: PropTypes.number,
+  onIngredientQuantityChange: PropTypes.func,
   hideEditableMode: PropTypes.func,
   onSaveClick: PropTypes.func,
 }

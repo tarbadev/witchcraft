@@ -58,6 +58,29 @@ describe('Ingredient', () => {
       .toEqual(newIngredientName)
   })
 
+  it('Updates the ingredient quantity on change', () => {
+    mockAppContext()
+    const oldIngredientQuantity = 4.0
+    const newIngredientQuantity = 10.0
+
+    const ingredientContainer = mount(<IngredientContainer
+      ingredient={ingredient}
+      index={index}
+      recipeId={recipeId}
+    />)
+
+    ingredientContainer.find(`.ingredient_${index} [data-ingredient-container]`).at(0).simulate('click')
+    expect(ingredientContainer.find(`.ingredient_${index} [data-edit-quantity] input`).at(0).prop('value'))
+      .toEqual(oldIngredientQuantity)
+
+    ingredientContainer.find(`.ingredient_${index} [data-edit-quantity] input`)
+      .at(0)
+      .simulate('change', { target: { value: newIngredientQuantity } })
+
+    expect(ingredientContainer.find(`.ingredient_${index} [data-edit-quantity] input`).at(0).prop('value'))
+      .toEqual(newIngredientQuantity)
+  })
+
   it('Hides the editable ingredient on click away', () => {
     mockAppContext()
 
