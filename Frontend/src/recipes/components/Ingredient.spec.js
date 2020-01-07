@@ -1,60 +1,126 @@
 import React from 'react'
-import { shallow } from 'enzyme'
+import { mount } from 'enzyme'
 
-import Paper from '@material-ui/core/Paper'
-import Typography from '@material-ui/core/Typography'
+import { IngredientContainer } from 'src/recipes/components/Ingredient'
+import { mockAppContext } from 'src/testUtils'
+import * as RecipeActions from 'src/recipes/actions/RecipeActions'
 
-import { Ingredient } from 'src/recipes/components/Ingredient'
+describe('Ingredient', () => {
+  const index = 0
+  const recipeId = 34
+  const ingredient = {
+    name: 'shredded mozzarella cheese, divided',
+    quantity: 4.0,
+    unit: 'tbsp',
+  }
 
-describe('Ingredient', function () {
-  it('renders without crashing', () => {
-    const ingredient = shallow(<Ingredient />)
-    expect(ingredient).toBeDefined()
+  it('displays the ingredient editable mode on click', () => {
+    mockAppContext()
+    const oldIngredientName = 'shredded mozzarella cheese, divided'
+
+    const ingredientContainer = mount(<IngredientContainer
+      ingredient={ingredient}
+      index={index}
+      recipeId={recipeId}
+    />)
+
+    expect(ingredientContainer.find(`.ingredient_${index} [data-edit-name]`)).toHaveLength(0)
+    expect(ingredientContainer.find(`.ingredient_${index} [data-edit-save]`)).toHaveLength(0)
+
+    ingredientContainer.find(`.ingredient_${index} [data-ingredient-container]`).at(0).simulate('click')
+
+    expect(ingredientContainer.find(`.ingredient_${index} [data-edit-name] input`)).toHaveLength(1)
+    expect(ingredientContainer.find(`.ingredient_${index} [data-edit-name] input`).at(0).prop('value'))
+      .toEqual(oldIngredientName)
+    expect(ingredientContainer.find(`.ingredient_${index} [data-edit-save] button`)).toHaveLength(1)
   })
 
-  describe('Content', function () {
-    let quantity = 12
-    let unit = 'tbsp'
-    let ingredient = 'This a sample ingredient'
+  it('Updates the ingredient name on change', () => {
+    mockAppContext()
+    const oldIngredientName = 'shredded mozzarella cheese, divided'
+    const newIngredientName = 'shredded mozzarella cheese'
 
-    beforeEach(() => {
-      this.instance = shallow(<Ingredient ingredient={ingredient} quantity={quantity} unit={unit} />)
-    })
+    const ingredientContainer = mount(<IngredientContainer
+      ingredient={ingredient}
+      index={index}
+      recipeId={recipeId}
+    />)
 
-    it('is a Paper', () => {
-      expect(this.instance.is(Paper)).toBeTruthy()
-      expect(this.instance.props().elevation).toBe(1)
-      expect(this.instance.props().className).toBe('paper')
-    })
+    ingredientContainer.find(`.ingredient_${index} [data-ingredient-container]`).at(0).simulate('click')
+    expect(ingredientContainer.find(`.ingredient_${index} [data-edit-name] input`).at(0).prop('value'))
+      .toEqual(oldIngredientName)
 
-    it('contains a Grid container', () => {
-      let grid = this.instance.findWhere(node => node.props().container).at(0)
-      expect(grid).toBeDefined()
-    })
+    ingredientContainer.find(`.ingredient_${index} [data-edit-name] input`)
+      .at(0)
+      .simulate('change', { target: { value: newIngredientName } })
 
-    it('contains a Typography in a Grid item to display the unit and quantity', () => {
-      let gridContainer = this.instance.findWhere(node => node.props().container).at(0)
-      let grid = gridContainer.findWhere(node => node.props().item).at(1)
-      expect(grid).toBeDefined()
-      expect(grid.props().sm).toBe(2)
+    expect(ingredientContainer.find(`.ingredient_${index} [data-edit-name] input`).at(0).prop('value'))
+      .toEqual(newIngredientName)
+  })
 
-      let typography = grid.find(Typography).at(0)
-      expect(typography.props().variant).toBe('body2')
-      expect(typography.props().align).toBe('right')
-      expect(typography.props().className).toBe('unit')
-      expect(typography.children().text()).toBe(quantity + ' ' + unit)
-    })
+  it('Hides the editable ingredient on click away', () => {
+    mockAppContext()
 
-    it('contains a Typography in a Grid item to display the ingredient', () => {
-      let gridContainer = this.instance.findWhere(node => node.props().container).at(0)
-      let grid = gridContainer.findWhere(node => node.props().item).at(0)
-      expect(grid).toBeDefined()
-      expect(grid.props().sm).toBe(10)
+    const ingredientContainer = mount(<IngredientContainer
+      ingredient={ingredient}
+      index={index}
+      recipeId={recipeId}
+    />)
 
-      let typography = grid.find(Typography).at(0)
-      expect(typography.props().variant).toBe('body2')
-      expect(typography.props().className).toBe('ingredient')
-      expect(typography.children().text()).toBe(ingredient)
-    })
+    ingredientContainer.find(`.ingredient_${index} [data-ingredient-container]`).at(0).simulate('click')
+    expect(ingredientContainer.find(`.ingredient_${index} [data-edit-name] input`)).toHaveLength(1)
+
+    ingredientContainer.find(`.ingredient_${index} [data-ingredient-container]`).at(0).simulate('blur')
+    expect(ingredientContainer.find(`.ingredient_${index} [data-edit-name]`)).toHaveLength(0)
+  })
+
+  it('Dispatches an update ingredient call', () => {
+    const context = mockAppContext()
+
+    const ingredientContainer = mount(<IngredientContainer
+      ingredient={ingredient}
+      index={index}
+      recipeId={recipeId}
+    />)
+
+    ingredientContainer.find(`.ingredient_${index} [data-ingredient-container]`).at(0).simulate('click')
+    ingredientContainer.find(`.ingredient_${index} [data-edit-save] button`).simulate('mousedown')
+
+    expect(context.dispatch)
+      .toHaveBeenLastCalledWith(RecipeActions.updateIngredient(recipeId, ingredient, expect.any(Function)))
+  })
+
+  it('Updates the ingredient when an update ingredient call is successful', () => {
+    mockAppContext()
+    const newIngredient = {
+      name: 'shredded mozzarella cheese',
+      quantity: 2.0,
+      unit: 'oz',
+    }
+
+    jest
+      .spyOn(RecipeActions, 'updateIngredient')
+      .mockImplementation((id, ingredient, onSuccess) => onSuccess(newIngredient))
+
+    const ingredientContainer = mount(<IngredientContainer
+      ingredient={ingredient}
+      index={index}
+      recipeId={recipeId}
+    />)
+
+    const expectIngredientDisplayed = (expectedIngredient) => {
+      expect(ingredientContainer.find(`.ingredient_${index} [data-name]`).at(0).text()).toEqual(expectedIngredient.name)
+      expect(ingredientContainer.find(`.ingredient_${index} [data-quantity]`).at(0).text())
+        .toEqual(expectedIngredient.quantity.toString())
+      expect(ingredientContainer.find(`.ingredient_${index} [data-unit]`).at(0).text()).toEqual(expectedIngredient.unit)
+    }
+
+    expectIngredientDisplayed(ingredient)
+
+    ingredientContainer.find(`.ingredient_${index} [data-ingredient-container]`).at(0).simulate('click')
+    ingredientContainer.find(`.ingredient_${index} [data-edit-save] button`).simulate('mousedown')
+    ingredientContainer.find(`.ingredient_${index} [data-ingredient-container]`).at(0).simulate('blur')
+
+    expectIngredientDisplayed(newIngredient)
   })
 })

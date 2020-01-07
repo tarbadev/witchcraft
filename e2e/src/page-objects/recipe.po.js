@@ -32,8 +32,8 @@ export const waitForFavoriteState = async () => {
 
 export const getIngredients = async () => {
   return await global.page.$$eval(
-    'div.paper p.ingredient',
-    elements => elements.map(el => el.textContent),
+    '[data-ingredient-container] [data-name]',
+    elements => elements.map(el => el.textContent).sort(),
   )
 }
 
@@ -85,6 +85,13 @@ export const editStepNote = async (note) => {
 export const getConfirmationDeleteRecipe = async () => {
   return getTextByCssSelector('[data-confirm-delete-title]')
 }
+
 export const clickOnConfirmDeleteButton = async () => {
   await global.page.click('[data-confirm-delete-button]')
+}
+export const editIngredient = async (index, { name }) => {
+  await global.page.click(`.ingredient_${index}`)
+  await fillInput(`.ingredient_${index} [data-edit-name]`, name)
+  await global.page.click(`.ingredient_${index} [data-edit-save]`)
+  await waitForTextByCss(`.ingredient_${index} [data-name]`, name)
 }

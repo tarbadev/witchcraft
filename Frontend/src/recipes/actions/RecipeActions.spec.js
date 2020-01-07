@@ -1,4 +1,12 @@
-import { deleteRecipe, getRecipe, getRecipeNotes, setFavorite, updateNotes, updateRecipe } from './RecipeActions'
+import {
+  deleteRecipe,
+  getRecipe,
+  getRecipeNotes,
+  setFavorite,
+  updateIngredient,
+  updateNotes,
+  updateRecipe,
+} from './RecipeActions'
 import { fetchAction } from 'src/app/WitchcraftMiddleware'
 
 describe('RecipeActions', () => {
@@ -99,6 +107,25 @@ describe('RecipeActions', () => {
       expect(getRecipeNotes(id, onSuccessSpy)).toEqual(fetchAction({
         url: `/api/recipes/${id}/notes`,
         method: 'GET',
+        onSuccess: onSuccessSpy,
+      }))
+    })
+  })
+
+  describe('updateIngredient', () => {
+    it('calls API and calls onSuccess', () => {
+      const onSuccessSpy = jest.fn()
+      const ingredient = {
+        id: 45,
+        name: 'Ingredient 1',
+        unit: 'tbsp',
+        quantity: 12,
+      }
+
+      expect(updateIngredient(2, ingredient, onSuccessSpy)).toEqual(fetchAction({
+        url: '/api/recipes/2/ingredients/45',
+        method: 'PUT',
+        body: ingredient,
         onSuccess: onSuccessSpy,
       }))
     })

@@ -12,7 +12,7 @@ import OpenInNewIcon from '@material-ui/icons/OpenInNew'
 
 import './RecipePage.css'
 import { Step } from 'src/recipes/components/Step'
-import { Ingredient } from 'src/recipes/components/Ingredient'
+import { IngredientContainer } from 'src/recipes/components/Ingredient'
 
 import { deleteRecipe, getRecipe, getRecipeNotes, setFavorite, updateNotes } from 'src/recipes/actions/RecipeActions'
 import Paper from '@material-ui/core/Paper'
@@ -25,7 +25,7 @@ import { OneLineEditableFieldContainer } from 'src/app/components/OneLineEditabl
 import { saveStepNote } from '../actions/StepActions'
 import Dialog from '@material-ui/core/Dialog'
 import DialogTitle from '@material-ui/core/DialogTitle'
-import DialogActions from '@material-ui/core/DialogActions' 
+import DialogActions from '@material-ui/core/DialogActions'
 
 export const RecipePageContainer = ({ match, history }) => {
   const { state, dispatch, setCurrentHeader } = useAppContext()
@@ -71,7 +71,10 @@ export const RecipePageContainer = ({ match, history }) => {
     notes={notes}
     updateNotes={newNotes => dispatch(updateNotes(recipe.id, newNotes, getRecipeNoteSuccess))}
     isDeleting={isDeleting}
-    onStepNoteSaveButtonClick={(stepId, newNote) => dispatch(saveStepNote(recipe.id, stepId, newNote, updateRecipeWithUpdatedStep))} />
+    onStepNoteSaveButtonClick={(stepId, newNote) => dispatch(saveStepNote(recipe.id,
+      stepId,
+      newNote,
+      updateRecipeWithUpdatedStep))} />
 }
 
 RecipePageContainer.propTypes = {
@@ -111,9 +114,12 @@ export const RecipePage = ({
   }
 
   if (recipe.ingredients) {
-    ingredients = recipe.ingredients.map((ingredient) => (
+    ingredients = recipe.ingredients.map((ingredient, index) => (
       <Grid item key={ingredient.id} xs={12}>
-        <Ingredient ingredient={ingredient.name} unit={ingredient.unit} quantity={ingredient.quantity} />
+        <IngredientContainer
+          index={index}
+          ingredient={ingredient}
+          recipeId={recipe.id} />
       </Grid>
     ))
   }

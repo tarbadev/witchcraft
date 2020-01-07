@@ -48,3 +48,11 @@ export const getRecipeNotes = (id, onSuccess) =>
     method: 'GET',
     onSuccess,
   })
+
+export const updateIngredient = (id, ingredient, onSuccess) =>
+  fetchAction({
+    url: `/api/recipes/${id}/ingredients/${ingredient.id}`,
+    method: 'PUT',
+    body: ingredient,
+    onSuccess,
+  })

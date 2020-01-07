@@ -1,34 +1,10 @@
 import * as RecipePage from '../page-objects/recipe.po'
+import { displayStepNote } from '../page-objects/recipe.po'
 import * as RecipesPage from '../page-objects/recipes.po'
 import * as EditRecipePage from '../page-objects/editRecipe.po'
 import { waitForTextByCss } from '../page-objects/helpers.po'
-import { displayStepNote } from '../page-objects/recipe.po'
 
 describe('Recipe', () => {
-  it('displays the ingredients', async () => {
-    await RecipePage.goTo(3)
-    await waitForTextByCss('.title', 'Thai Chicken Salad')
-
-    const ingredients = await RecipePage.getIngredients()
-    const expectedIngredients = [
-      'Napa cabbage, thinly sliced (about 4 cups)',
-      'Small red cabbage, thinly sliced (about 2 cups)',
-      'Medium carrots, grated (about 1 cup)',
-      'Green onion, thinly sliced',
-      'Minced cilantro',
-      'Cooked, shredded chicken breast',
-      'Slivered almonds, toasted',
-      'Lime, juiced',
-      'Natural peanut butter',
-      'Low-sodium soy sauce',
-      'Agave nectar (or honey)',
-      'Fish sauce',
-      'Rice vinegar',
-      'Chili garlic sauce',
-    ].sort()
-    expect(ingredients).toEqual(expectedIngredients)
-  })
-
   it('displays the steps', async () => {
     await RecipePage.goTo(3)
     await waitForTextByCss('.title', 'Thai Chicken Salad')
@@ -100,6 +76,54 @@ describe('Recipe', () => {
       await EditRecipePage.waitForPageLoaded()
 
       expect(global.page.url()).toBe(`${appUrl}/recipes/3/edit`)
+    })
+  })
+
+  describe('on ingredient click', () => {
+    it('displays the modify ingredient form and stores new values', async () => {
+      await RecipePage.goTo(3)
+      await waitForTextByCss('.title', 'Thai Chicken Salad')
+
+      const ingredients = await RecipePage.getIngredients()
+      const expectedIngredients = [
+        'Napa cabbage, thinly sliced (about 4 cups)',
+        'Small red cabbage, thinly sliced (about 2 cups)',
+        'Medium carrots, grated (about 1 cup)',
+        'Green onion, thinly sliced',
+        'Minced cilantro',
+        'Cooked, shredded chicken breast',
+        'Slivered almonds, toasted',
+        'Lime, juiced',
+        'Natural peanut butter',
+        'Low-sodium soy sauce',
+        'Agave nectar (or honey)',
+        'Fish sauce',
+        'Rice vinegar',
+        'Chili garlic sauce',
+      ].sort()
+      expect(ingredients).toEqual(expectedIngredients)
+
+      await RecipePage.editIngredient(0, { name: 'New ingredient' })
+
+      const newIngredients = await RecipePage.getIngredients()
+
+      const expectedNewIngredients = [
+        'Napa cabbage, thinly sliced (about 4 cups)',
+        'Small red cabbage, thinly sliced (about 2 cups)',
+        'Medium carrots, grated (about 1 cup)',
+        'Green onion, thinly sliced',
+        'Minced cilantro',
+        'Cooked, shredded chicken breast',
+        'Slivered almonds, toasted',
+        'Lime, juiced',
+        'Natural peanut butter',
+        'Low-sodium soy sauce',
+        'New ingredient',
+        'Fish sauce',
+        'Rice vinegar',
+        'Chili garlic sauce',
+      ].sort()
+      expect(newIngredients).toEqual(expectedNewIngredients)
     })
   })
 
