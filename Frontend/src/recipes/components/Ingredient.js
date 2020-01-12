@@ -16,6 +16,7 @@ export const IngredientContainer = ({ ingredient, index, recipeId }) => {
   const [isEditable, setEditable] = useState(false)
   const [editedIngredientName, setEditedIngredientName] = useState(currentIngredient.name)
   const [editedIngredientQuantity, setEditedIngredientQuantity] = useState(currentIngredient.quantity)
+  const [editedIngredientUnit, setEditedIngredientUnit] = useState(currentIngredient.unit)
 
   return <Ingredient
     quantity={currentIngredient.quantity}
@@ -29,8 +30,10 @@ export const IngredientContainer = ({ ingredient, index, recipeId }) => {
     onIngredientNameChange={(newName) => setEditedIngredientName(newName)}
     editedIngredientQuantity={editedIngredientQuantity}
     onIngredientQuantityChange={(newQuantity) => setEditedIngredientQuantity(newQuantity)}
+    editedIngredientUnit={editedIngredientUnit}
+    onIngredientUnitChange={(newUnit) => setEditedIngredientUnit(newUnit)}
     onSaveClick={() => dispatch(updateIngredient(recipeId,
-      { ...ingredient, name: editedIngredientName },
+      { ...ingredient, name: editedIngredientName, quantity: editedIngredientQuantity, unit: editedIngredientUnit },
       (ingredient) => {
         setCurrentIngredient(ingredient)
         setEditable(false)
@@ -57,36 +60,53 @@ export const Ingredient = ({
   onIngredientNameChange,
   editedIngredientQuantity,
   onIngredientQuantityChange,
+  editedIngredientUnit,
+  onIngredientUnitChange,
   onSaveClick,
 }) => {
   let ingredientBody
 
   if (editable) {
     ingredientBody = (
-      <Grid container autoFocus data-ingredient-container onBlur={hideEditableMode}>
-        <Grid item sm={10}>
-          <TextField
-            value={editedIngredientName}
-            data-edit-name
-            label='Name'
-            onChange={({ target }) => onIngredientNameChange(target.value)}
-          />
-          <TextField
-            value={editedIngredientQuantity}
-            data-edit-quantity
-            label='Quantity'
-            onChange={({ target }) => onIngredientQuantityChange(target.value)}
-          />
-        </Grid>
-        <Grid item sm={2}>
-          <Button
-            color='primary'
-            href=''
-            data-edit-save
-            onMouseDown={onSaveClick}
-          >
-            Save
-          </Button>
+      <Grid container data-ingredient-container onBlur={hideEditableMode}>
+        <Grid item container sm={12} spacing={1} alignItems='center'>
+          <Grid item sm={6}>
+            <TextField
+              value={editedIngredientName}
+              data-edit-name
+              label='Name'
+              fullWidth
+              onChange={({ target }) => onIngredientNameChange(target.value)}
+            />
+          </Grid>
+          <Grid item sm>
+            <TextField
+              value={editedIngredientQuantity}
+              data-edit-quantity
+              label='Quantity'
+              fullWidth
+              onChange={({ target }) => onIngredientQuantityChange(target.value)}
+            />
+          </Grid>
+          <Grid item sm>
+            <TextField
+              value={editedIngredientUnit}
+              data-edit-unit
+              label='Unit'
+              fullWidth
+              onChange={({ target }) => onIngredientUnitChange(target.value)}
+            />
+          </Grid>
+          <Grid item sm>
+            <Button
+              color='primary'
+              href=''
+              data-edit-save
+              onMouseDown={onSaveClick}
+            >
+              Save
+            </Button>
+          </Grid>
         </Grid>
       </Grid>
     )
@@ -125,6 +145,8 @@ Ingredient.propTypes = {
   onIngredientNameChange: PropTypes.func,
   editedIngredientQuantity: PropTypes.number,
   onIngredientQuantityChange: PropTypes.func,
+  editedIngredientUnit: PropTypes.string,
+  onIngredientUnitChange: PropTypes.func,
   hideEditableMode: PropTypes.func,
   onSaveClick: PropTypes.func,
 }

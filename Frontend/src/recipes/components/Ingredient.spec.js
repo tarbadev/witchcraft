@@ -81,6 +81,29 @@ describe('Ingredient', () => {
       .toEqual(newIngredientQuantity)
   })
 
+  it('Updates the ingredient unit on change', () => {
+    mockAppContext()
+    const oldIngredientUnit = 'tbsp'
+    const newIngredientUnit = 'oz'
+
+    const ingredientContainer = mount(<IngredientContainer
+      ingredient={ingredient}
+      index={index}
+      recipeId={recipeId}
+    />)
+
+    ingredientContainer.find(`.ingredient_${index} [data-ingredient-container]`).at(0).simulate('click')
+    expect(ingredientContainer.find(`.ingredient_${index} [data-edit-unit] input`).at(0).prop('value'))
+      .toEqual(oldIngredientUnit)
+
+    ingredientContainer.find(`.ingredient_${index} [data-edit-unit] input`)
+      .at(0)
+      .simulate('change', { target: { value: newIngredientUnit } })
+
+    expect(ingredientContainer.find(`.ingredient_${index} [data-edit-unit] input`).at(0).prop('value'))
+      .toEqual(newIngredientUnit)
+  })
+
   it('Hides the editable ingredient on click away', () => {
     mockAppContext()
 
@@ -99,6 +122,11 @@ describe('Ingredient', () => {
 
   it('Dispatches an update ingredient call', () => {
     const context = mockAppContext()
+    const newIngredient = {
+      name: 'shredded mozzarella cheese',
+      quantity: 31.0,
+      unit: 'oz',
+    }
 
     const ingredientContainer = mount(<IngredientContainer
       ingredient={ingredient}
@@ -107,10 +135,15 @@ describe('Ingredient', () => {
     />)
 
     ingredientContainer.find(`.ingredient_${index} [data-ingredient-container]`).at(0).simulate('click')
+
+    ingredientContainer.find(`.ingredient_${index} [data-edit-name] input`).at(0).simulate('change', { target: { value: newIngredient.name } })
+    ingredientContainer.find(`.ingredient_${index} [data-edit-quantity] input`).at(0).simulate('change', { target: { value: newIngredient.quantity } })
+    ingredientContainer.find(`.ingredient_${index} [data-edit-unit] input`).at(0).simulate('change', { target: { value: newIngredient.unit } })
+
     ingredientContainer.find(`.ingredient_${index} [data-edit-save] button`).simulate('mousedown')
 
     expect(context.dispatch)
-      .toHaveBeenLastCalledWith(RecipeActions.updateIngredient(recipeId, ingredient, expect.any(Function)))
+      .toHaveBeenLastCalledWith(RecipeActions.updateIngredient(recipeId, newIngredient, expect.any(Function)))
   })
 
   it('Updates the ingredient when an update ingredient call is successful', () => {
