@@ -9,6 +9,7 @@ import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import { useAppContext } from 'src/app/components/StoreProvider'
 import { updateIngredient } from 'src/recipes/actions/RecipeActions'
+import ClickAwayListener from '@material-ui/core/ClickAwayListener'
 
 export const IngredientContainer = ({ ingredient, index, recipeId }) => {
   const { dispatch } = useAppContext()
@@ -68,8 +69,8 @@ export const Ingredient = ({
 
   if (editable) {
     ingredientBody = (
-      <Grid container data-ingredient-container onBlur={hideEditableMode}>
-        <Grid item container sm={12} spacing={1} alignItems='center'>
+      <ClickAwayListener onClickAway={hideEditableMode}>
+        <Grid container data-ingredient-container spacing={1} alignItems='center'>
           <Grid item sm={6}>
             <TextField
               value={editedIngredientName}
@@ -108,7 +109,7 @@ export const Ingredient = ({
             </Button>
           </Grid>
         </Grid>
-      </Grid>
+      </ClickAwayListener>
     )
   } else {
     ingredientBody = (

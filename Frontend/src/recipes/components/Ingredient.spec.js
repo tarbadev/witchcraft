@@ -104,23 +104,7 @@ describe('Ingredient', () => {
       .toEqual(newIngredientUnit)
   })
 
-  it('Hides the editable ingredient on click away', () => {
-    mockAppContext()
-
-    const ingredientContainer = mount(<IngredientContainer
-      ingredient={ingredient}
-      index={index}
-      recipeId={recipeId}
-    />)
-
-    ingredientContainer.find(`.ingredient_${index} [data-ingredient-container]`).at(0).simulate('click')
-    expect(ingredientContainer.find(`.ingredient_${index} [data-edit-name] input`)).toHaveLength(1)
-
-    ingredientContainer.find(`.ingredient_${index} [data-ingredient-container]`).at(0).simulate('blur')
-    expect(ingredientContainer.find(`.ingredient_${index} [data-edit-name]`)).toHaveLength(0)
-  })
-
-  it('Dispatches an update ingredient call', () => {
+  it('Dispatches an update ingredient call on save button click', () => {
     const context = mockAppContext()
     const newIngredient = {
       name: 'shredded mozzarella cheese',
@@ -136,9 +120,12 @@ describe('Ingredient', () => {
 
     ingredientContainer.find(`.ingredient_${index} [data-ingredient-container]`).at(0).simulate('click')
 
-    ingredientContainer.find(`.ingredient_${index} [data-edit-name] input`).at(0).simulate('change', { target: { value: newIngredient.name } })
-    ingredientContainer.find(`.ingredient_${index} [data-edit-quantity] input`).at(0).simulate('change', { target: { value: newIngredient.quantity } })
-    ingredientContainer.find(`.ingredient_${index} [data-edit-unit] input`).at(0).simulate('change', { target: { value: newIngredient.unit } })
+    ingredientContainer.find(`.ingredient_${index} [data-edit-name] input`).at(0)
+      .simulate('change', { target: { value: newIngredient.name } })
+    ingredientContainer.find(`.ingredient_${index} [data-edit-quantity] input`).at(0)
+      .simulate('change', { target: { value: newIngredient.quantity } })
+    ingredientContainer.find(`.ingredient_${index} [data-edit-unit] input`).at(0)
+      .simulate('change', { target: { value: newIngredient.unit } })
 
     ingredientContainer.find(`.ingredient_${index} [data-edit-save] button`).simulate('mousedown')
 
@@ -146,7 +133,7 @@ describe('Ingredient', () => {
       .toHaveBeenLastCalledWith(RecipeActions.updateIngredient(recipeId, newIngredient, expect.any(Function)))
   })
 
-  it('Updates the ingredient when an update ingredient call is successful', () => {
+  it('Updates the ingredient when an update ingredient call is successful and hides editable form', () => {
     mockAppContext()
     const newIngredient = {
       name: 'shredded mozzarella cheese',
@@ -175,7 +162,8 @@ describe('Ingredient', () => {
 
     ingredientContainer.find(`.ingredient_${index} [data-ingredient-container]`).at(0).simulate('click')
     ingredientContainer.find(`.ingredient_${index} [data-edit-save] button`).simulate('mousedown')
-    ingredientContainer.find(`.ingredient_${index} [data-ingredient-container]`).at(0).simulate('blur')
+
+    expect(ingredientContainer.find(`.ingredient_${index} [data-edit-name] input`)).toHaveLength(0)
 
     expectIngredientDisplayed(newIngredient)
   })
