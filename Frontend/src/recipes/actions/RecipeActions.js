@@ -56,3 +56,11 @@ export const updateIngredient = (id, ingredient, onSuccess) =>
     body: ingredient,
     onSuccess,
   })
+
+export const deleteIngredient = (id, ingredientId, onSuccess, onError) =>
+  fetchAction({
+    url: `/api/recipes/${id}/ingredients/${ingredientId}`,
+    method: 'DELETE',
+    onSuccess,
+    onError,
+  })

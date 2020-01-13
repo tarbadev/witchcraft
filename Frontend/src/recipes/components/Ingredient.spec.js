@@ -9,6 +9,7 @@ describe('Ingredient', () => {
   const index = 0
   const recipeId = 34
   const ingredient = {
+    id: 12,
     name: 'shredded mozzarella cheese, divided',
     quantity: 4.0,
     unit: 'tbsp',
@@ -107,6 +108,7 @@ describe('Ingredient', () => {
   it('Dispatches an update ingredient call on save button click', () => {
     const context = mockAppContext()
     const newIngredient = {
+      id: 12,
       name: 'shredded mozzarella cheese',
       quantity: 31.0,
       unit: 'oz',
@@ -166,5 +168,113 @@ describe('Ingredient', () => {
     expect(ingredientContainer.find(`.ingredient_${index} [data-edit-name] input`)).toHaveLength(0)
 
     expectIngredientDisplayed(newIngredient)
+  })
+
+  describe('delete', () => {
+    it('displays confirmation dialog when delete button is clicked', () => {
+      mockAppContext()
+
+      const ingredientContainer = mount(<IngredientContainer
+        ingredient={ingredient}
+        index={index}
+        recipeId={recipeId}
+      />)
+
+      ingredientContainer.find(`.ingredient_${index} [data-ingredient-container]`).at(0).simulate('click')
+      expect(ingredientContainer.find('[data-confirm-delete]')).toHaveLength(0)
+
+      ingredientContainer.find(`.ingredient_${index} [data-edit-delete] button`).simulate('click')
+      expect(ingredientContainer.find('[data-confirm-delete-title]')).toHaveLength(3)
+    })
+
+    it('closes dialog when cancel button clicked', () => {
+      mockAppContext()
+      const ingredientContainer = mount(<IngredientContainer
+        ingredient={ingredient}
+        index={index}
+        recipeId={recipeId}
+      />)
+
+      expect(ingredientContainer.find('[data-confirm-delete-title]')).toHaveLength(0)
+
+      ingredientContainer.find(`.ingredient_${index} [data-ingredient-container]`).at(0).simulate('click')
+      ingredientContainer.find(`.ingredient_${index} [data-edit-delete] button`).simulate('click')
+      ingredientContainer.find(`.ingredient_${index} [data-edit-cancel-delete] button`).simulate('click')
+
+      setTimeout(done => {
+        expect(ingredientContainer.find('[data-confirm-delete-title]')).toHaveLength(0)
+        done()
+      }, 500)
+    })
+
+    it('dispatches deleteIngredient when confirm Delete button clicked', () => {
+      const context = mockAppContext()
+
+      const ingredientContainer = mount(<IngredientContainer
+        ingredient={ingredient}
+        index={index}
+        recipeId={recipeId}
+      />)
+
+      ingredientContainer.find(`.ingredient_${index} [data-ingredient-container]`).at(0).simulate('click')
+      ingredientContainer.find(`.ingredient_${index} [data-edit-delete] button`).simulate('click')
+      ingredientContainer.find(`.ingredient_${index} [data-edit-confirm-delete] button`).simulate('click')
+
+      setTimeout(done => {
+        expect(ingredientContainer.find('[data-confirm-delete-title]')).toHaveLength(0)
+        done()
+      }, 500)
+
+      expect(context.dispatch).toHaveBeenLastCalledWith(RecipeActions.deleteIngredient(
+        recipeId,
+        ingredient.id,
+        expect.any(Function),
+        expect.any(Function),
+      ))
+    })
+
+    it('calls deleteIngredientCallback when delete is successful', () => {
+      mockAppContext()
+      const deleteCallbackSpy = jest.fn()
+
+      jest
+        .spyOn(RecipeActions, 'deleteIngredient')
+        .mockImplementation((id, ingredientId, onSuccess) => onSuccess())
+
+      const ingredientContainer = mount(<IngredientContainer
+        ingredient={ingredient}
+        index={index}
+        recipeId={recipeId}
+        deleteCallback={deleteCallbackSpy}
+      />)
+
+      ingredientContainer.find(`.ingredient_${index} [data-ingredient-container]`).at(0).simulate('click')
+      ingredientContainer.find(`.ingredient_${index} [data-edit-delete] button`).simulate('click')
+      ingredientContainer.find(`.ingredient_${index} [data-edit-confirm-delete] button`).simulate('click')
+
+      expect(deleteCallbackSpy).toHaveBeenCalled()
+    })
+
+    it('calls deleteIngredientCallback when delete is unsuccessful', () => {
+      mockAppContext()
+      const deleteCallbackSpy = jest.fn()
+
+      jest
+        .spyOn(RecipeActions, 'deleteIngredient')
+        .mockImplementation((id, ingredientId, onSuccess, onError) => onError())
+
+      const ingredientContainer = mount(<IngredientContainer
+        ingredient={ingredient}
+        index={index}
+        recipeId={recipeId}
+        deleteCallback={deleteCallbackSpy}
+      />)
+
+      ingredientContainer.find(`.ingredient_${index} [data-ingredient-container]`).at(0).simulate('click')
+      ingredientContainer.find(`.ingredient_${index} [data-edit-delete] button`).simulate('click')
+      ingredientContainer.find(`.ingredient_${index} [data-edit-confirm-delete] button`).simulate('click')
+
+      expect(deleteCallbackSpy).toHaveBeenCalled()
+    })
   })
 })

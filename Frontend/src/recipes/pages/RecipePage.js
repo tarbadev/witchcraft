@@ -37,8 +37,9 @@ export const RecipePageContainer = ({ match, history }) => {
   const [isConfirmDeleteDialogOpen, setIsConfirmDeleteDialogOpen] = useState(false)
 
   const getRecipeNoteSuccess = data => setNotes(data.notes)
+  const loadRecipe = () => dispatch(getRecipe(match.params.id, data => setRecipe(data)))
 
-  useEffect(() => dispatch(getRecipe(match.params.id, data => setRecipe(data))), [])
+  useEffect(loadRecipe, [])
   useEffect(() => dispatch(getRecipeNotes(match.params.id, getRecipeNoteSuccess)), [])
 
   const deleteRecipeAndDisplayInProgress = () => {
@@ -74,7 +75,9 @@ export const RecipePageContainer = ({ match, history }) => {
     onStepNoteSaveButtonClick={(stepId, newNote) => dispatch(saveStepNote(recipe.id,
       stepId,
       newNote,
-      updateRecipeWithUpdatedStep))} />
+      updateRecipeWithUpdatedStep))}
+    onIngredientDeletion={loadRecipe}
+  />
 }
 
 RecipePageContainer.propTypes = {
@@ -94,6 +97,7 @@ export const RecipePage = ({
   isDeleting,
   updateNotes,
   onStepNoteSaveButtonClick,
+  onIngredientDeletion,
 }) => {
   let steps
   let ingredients
@@ -119,7 +123,8 @@ export const RecipePage = ({
         <IngredientContainer
           index={index}
           ingredient={ingredient}
-          recipeId={recipe.id} />
+          recipeId={recipe.id}
+          deleteCallback={onIngredientDeletion} />
       </Grid>
     ))
   }
@@ -169,7 +174,7 @@ export const RecipePage = ({
             <Button onClick={closeConfirmDeleteDialogOpen} autoFocus>
               Cancel
             </Button>
-            <Button onClick={confirmDeleteRecipe} data-confirm-delete-button color='primary'>
+            <Button onClick={confirmDeleteRecipe} data-confirm-delete-button color='secondary'>
               Delete
             </Button>
           </DialogActions>
@@ -237,4 +242,5 @@ RecipePage.propTypes = {
   notes: PropTypes.string,
   updateNotes: PropTypes.func,
   onStepNoteSaveButtonClick: PropTypes.func,
+  onIngredientDeletion: PropTypes.func,
 }

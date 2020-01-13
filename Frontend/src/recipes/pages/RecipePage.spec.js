@@ -31,7 +31,8 @@ describe('RecipePageContainer', () => {
     const recipePageContainer = mount(<RecipePageContainer match={{ params: { id } }} />)
     recipePageContainer.find('.favoriteButton button').simulate('click')
 
-    expect(context.dispatch).toHaveBeenLastCalledWith(RecipeActions.setFavorite(id, !promisedRecipe.favorite, expect.any(Function)))
+    expect(context.dispatch)
+      .toHaveBeenLastCalledWith(RecipeActions.setFavorite(id, !promisedRecipe.favorite, expect.any(Function)))
   })
 
   it('dispatches history.push when Modify button clicked', () => {
@@ -79,7 +80,8 @@ describe('RecipePageContainer', () => {
       recipePageContainer.find('.deleteButton button').simulate('click')
       recipePageContainer.find('[data-confirm-delete-button] button').simulate('click')
 
-      expect(context.dispatch).toHaveBeenLastCalledWith(RecipeActions.deleteRecipe(id, expect.any(Function), expect.any(Function)))
+      expect(context.dispatch)
+        .toHaveBeenLastCalledWith(RecipeActions.deleteRecipe(id, expect.any(Function), expect.any(Function)))
     })
 
     it('displays circular progress when confirm delete button is clicked', () => {
@@ -155,7 +157,8 @@ describe('RecipePageContainer', () => {
 
       mount(<RecipePageContainer match={{ params: { id: promisedRecipe.id } }} />)
 
-      expect(context.dispatch).toHaveBeenLastCalledWith(RecipeActions.getRecipeNotes(promisedRecipe.id, expect.any(Function)))
+      expect(context.dispatch)
+        .toHaveBeenLastCalledWith(RecipeActions.getRecipeNotes(promisedRecipe.id, expect.any(Function)))
     })
 
     it('displays a message when notes are empty', () => {
@@ -227,7 +230,8 @@ describe('RecipePageContainer', () => {
       recipePageContainer.find('.notes-container__value-content').at(0).simulate('click')
       recipePageContainer.find('.notes-container__update-value-button button').simulate('mousedown')
 
-      expect(context.dispatch).toHaveBeenLastCalledWith(RecipeActions.updateNotes(promisedRecipe.id, notes, expect.any(Function)))
+      expect(context.dispatch)
+        .toHaveBeenLastCalledWith(RecipeActions.updateNotes(promisedRecipe.id, notes, expect.any(Function)))
     })
 
     it('Updates the notes when an update notes call is successful', () => {
@@ -269,9 +273,36 @@ describe('RecipePageContainer', () => {
       recipePageContainer.find('.notes-container__value-content').at(0).simulate('click')
       expect(recipePageContainer.find('.notes-container__editable-value textarea').at(0).text()).toEqual(notes)
 
-      recipePageContainer.find('.notes-container__editable-value textarea').at(0).simulate('change', { target: { value: newNotes } })
+      recipePageContainer.find('.notes-container__editable-value textarea')
+        .at(0)
+        .simulate('change', { target: { value: newNotes } })
 
       expect(recipePageContainer.find('.notes-container__editable-value textarea').at(0).text()).toEqual(newNotes)
+    })
+  })
+
+  describe('on Ingredient deletion', () => {
+    it('displays confirmation dialog when delete button is clicked', () => {
+      const context = mockAppContext()
+      const id = promisedRecipe.id
+
+      jest
+        .spyOn(RecipeActions, 'getRecipe')
+        .mockImplementationOnce((id, onSuccess) => onSuccess(promisedRecipe))
+      jest
+        .spyOn(RecipeActions, 'deleteIngredient')
+        .mockImplementation((id, ingredientId, onSuccess) => onSuccess())
+
+      const recipePageContainer = mount(<RecipePageContainer match={{ params: { id } }} />)
+
+      recipePageContainer.find('.ingredient_0 [data-ingredient-container]').at(0).simulate('click')
+      recipePageContainer.find('.ingredient_0 [data-edit-delete] button').simulate('click')
+      recipePageContainer.find('.ingredient_0 [data-edit-confirm-delete] button').simulate('click')
+
+      setTimeout(done => {
+        expect(context.dispatch).toHaveBeenLastCalledWith(RecipeActions.getRecipe(id, expect.any(Function)))
+        done()
+      }, 500)
     })
   })
 })

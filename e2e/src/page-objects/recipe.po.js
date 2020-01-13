@@ -1,4 +1,4 @@
-import { fillInput, getTextByCssSelector, goToUrl, waitForTextByCss } from './helpers.po'
+import { fillInput, getTextByCssSelector, goToUrl, waitForTextByCss, waitForTextNotEmptyByCss } from './helpers.po'
 
 export const goTo = async (id) => {
   await goToUrl(`/recipes/${id}`)
@@ -89,9 +89,18 @@ export const getConfirmationDeleteRecipe = async () => {
 export const clickOnConfirmDeleteButton = async () => {
   await global.page.click('[data-confirm-delete-button]')
 }
+
 export const editIngredient = async (index, { name }) => {
   await global.page.click(`.ingredient_${index}`)
   await fillInput(`.ingredient_${index} [data-edit-name]`, name)
   await global.page.click(`.ingredient_${index} [data-edit-save]`)
   await waitForTextByCss(`.ingredient_${index} [data-name]`, name)
+}
+
+export const deleteIngredient = async index => {
+  await global.page.click(`.ingredient_${index}`)
+  await global.page.click(`.ingredient_${index} [data-edit-delete]`)
+  await waitForTextNotEmptyByCss('[data-confirm-delete-title]')
+  await global.page.click('[data-edit-confirm-delete]')
+  await page.waitForResponse(response => response.url().includes('/api/recipes/') && response.status() === 200);
 }

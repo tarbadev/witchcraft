@@ -125,6 +125,49 @@ describe('Recipe', () => {
       ].sort()
       expect(newIngredients).toEqual(expectedNewIngredients)
     })
+
+    it('displays the delete button and removes the ingredient', async () => {
+      await RecipePage.goTo(3)
+      await waitForTextByCss('.title', 'Thai Chicken Salad')
+
+      const expectedIngredients = [
+        'Napa cabbage, thinly sliced (about 4 cups)',
+        'Small red cabbage, thinly sliced (about 2 cups)',
+        'Medium carrots, grated (about 1 cup)',
+        'Green onion, thinly sliced',
+        'Minced cilantro',
+        'Cooked, shredded chicken breast',
+        'Slivered almonds, toasted',
+        'Lime, juiced',
+        'Natural peanut butter',
+        'Low-sodium soy sauce',
+        'Agave nectar (or honey)',
+        'Fish sauce',
+        'Rice vinegar',
+        'Chili garlic sauce',
+      ].sort()
+      expect(await RecipePage.getIngredients()).toEqual(expectedIngredients)
+
+      await RecipePage.deleteIngredient(0)
+
+      const expectedNewIngredients = [
+        'Napa cabbage, thinly sliced (about 4 cups)',
+        'Small red cabbage, thinly sliced (about 2 cups)',
+        'Medium carrots, grated (about 1 cup)',
+        'Green onion, thinly sliced',
+        'Minced cilantro',
+        'Cooked, shredded chicken breast',
+        'Slivered almonds, toasted',
+        'Lime, juiced',
+        'Natural peanut butter',
+        'Low-sodium soy sauce',
+        'Fish sauce',
+        'Rice vinegar',
+        'Chili garlic sauce',
+      ].sort()
+
+      expect(await RecipePage.getIngredients()).toEqual(expectedNewIngredients)
+    })
   })
 
   describe('Notes', () => {

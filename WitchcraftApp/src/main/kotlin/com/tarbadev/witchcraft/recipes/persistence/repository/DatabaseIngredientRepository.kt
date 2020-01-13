@@ -15,4 +15,9 @@ class DatabaseIngredientRepository(
         .save(IngredientEntity(ingredient))
         .toIngredient()
   }
+
+  override fun delete(id: Int) {
+    ingredientEntityRepository.deleteById(id)
+    ingredientEntityRepository.flush()
+  }
 }

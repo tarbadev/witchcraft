@@ -6,6 +6,7 @@ import {
   updateIngredient,
   updateNotes,
   updateRecipe,
+  deleteIngredient,
 } from './RecipeActions'
 import { fetchAction } from 'src/app/WitchcraftMiddleware'
 
@@ -127,6 +128,20 @@ describe('RecipeActions', () => {
         method: 'PUT',
         body: ingredient,
         onSuccess: onSuccessSpy,
+      }))
+    })
+  })
+
+  describe('deleteIngredient', () => {
+    it('calls API and calls onSuccess', () => {
+      const onSuccessSpy = jest.fn()
+      const onErrorSpy = jest.fn()
+
+      expect(deleteIngredient(2, 45, onSuccessSpy, onErrorSpy)).toEqual(fetchAction({
+        url: '/api/recipes/2/ingredients/45',
+        method: 'DELETE',
+        onSuccess: onSuccessSpy,
+        onError: onErrorSpy,
       }))
     })
   })

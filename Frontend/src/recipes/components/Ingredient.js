@@ -8,13 +8,17 @@ import 'src/recipes/components/Ingredient.css'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import { useAppContext } from 'src/app/components/StoreProvider'
-import { updateIngredient } from 'src/recipes/actions/RecipeActions'
+import { deleteIngredient, updateIngredient } from 'src/recipes/actions/RecipeActions'
 import ClickAwayListener from '@material-ui/core/ClickAwayListener'
+import DialogTitle from '@material-ui/core/DialogTitle'
+import DialogActions from '@material-ui/core/DialogActions'
+import Dialog from '@material-ui/core/Dialog'
 
-export const IngredientContainer = ({ ingredient, index, recipeId }) => {
+export const IngredientContainer = ({ ingredient, index, recipeId, deleteCallback }) => {
   const { dispatch } = useAppContext()
   const [currentIngredient, setCurrentIngredient] = useState(ingredient)
   const [isEditable, setEditable] = useState(false)
+  const [isConfirmDeleteDialogOpen, setConfirmDeleteDialogOpen] = useState(false)
   const [editedIngredientName, setEditedIngredientName] = useState(currentIngredient.name)
   const [editedIngredientQuantity, setEditedIngredientQuantity] = useState(currentIngredient.quantity)
   const [editedIngredientUnit, setEditedIngredientUnit] = useState(currentIngredient.unit)
@@ -33,13 +37,22 @@ export const IngredientContainer = ({ ingredient, index, recipeId }) => {
     onIngredientQuantityChange={(newQuantity) => setEditedIngredientQuantity(newQuantity)}
     editedIngredientUnit={editedIngredientUnit}
     onIngredientUnitChange={(newUnit) => setEditedIngredientUnit(newUnit)}
-    onSaveClick={() => dispatch(updateIngredient(recipeId,
+    onSaveClick={() => dispatch(updateIngredient(
+      recipeId,
       { ...ingredient, name: editedIngredientName, quantity: editedIngredientQuantity, unit: editedIngredientUnit },
       (ingredient) => {
         setCurrentIngredient(ingredient)
         setEditable(false)
       },
     ))}
+    displayConfirmDeleteDialog={() => setConfirmDeleteDialogOpen(true)}
+    closeConfirmDeleteDialog={() => setConfirmDeleteDialogOpen(false)}
+    isConfirmDeleteDialogOpen={isConfirmDeleteDialogOpen}
+    deleteIngredient={() => dispatch(deleteIngredient(
+      recipeId,
+      ingredient.id,
+      () => deleteCallback(),
+      () => deleteCallback()))}
   />
 }
 
@@ -47,6 +60,7 @@ IngredientContainer.propTypes = {
   ingredient: PropTypes.object,
   index: PropTypes.number,
   recipeId: PropTypes.number,
+  deleteCallback: PropTypes.func,
 }
 
 export const Ingredient = ({
@@ -64,6 +78,10 @@ export const Ingredient = ({
   editedIngredientUnit,
   onIngredientUnitChange,
   onSaveClick,
+  isConfirmDeleteDialogOpen,
+  displayConfirmDeleteDialog,
+  closeConfirmDeleteDialog,
+  deleteIngredient,
 }) => {
   let ingredientBody
 
@@ -98,15 +116,43 @@ export const Ingredient = ({
               onChange={({ target }) => onIngredientUnitChange(target.value)}
             />
           </Grid>
-          <Grid item sm>
-            <Button
-              color='primary'
-              href=''
-              data-edit-save
-              onMouseDown={onSaveClick}
-            >
-              Save
-            </Button>
+          <Grid item sm container direction='column' spacing={0}>
+            <Grid item>
+              <Button
+                color='primary'
+                href=''
+                data-edit-save
+                onMouseDown={onSaveClick}
+              >
+                Save
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button
+                color='secondary'
+                href=''
+                data-edit-delete
+                onClick={displayConfirmDeleteDialog}
+              >
+                Delete
+              </Button>
+              <Dialog
+                open={isConfirmDeleteDialogOpen}
+                onClose={closeConfirmDeleteDialog}
+              >
+                <DialogTitle data-confirm-delete-title>
+                  {`Delete ingredient ${ingredient}?`}
+                </DialogTitle>
+                <DialogActions>
+                  <Button onClick={closeConfirmDeleteDialog} data-edit-cancel-delete autoFocus>
+                    Cancel
+                  </Button>
+                  <Button onClick={deleteIngredient} data-edit-confirm-delete color='secondary'>
+                    Delete
+                  </Button>
+                </DialogActions>
+              </Dialog>
+            </Grid>
           </Grid>
         </Grid>
       </ClickAwayListener>
@@ -150,4 +196,8 @@ Ingredient.propTypes = {
   onIngredientUnitChange: PropTypes.func,
   hideEditableMode: PropTypes.func,
   onSaveClick: PropTypes.func,
+  isConfirmDeleteDialogOpen: PropTypes.bool,
+  displayConfirmDeleteDialog: PropTypes.func,
+  closeConfirmDeleteDialog: PropTypes.func,
+  deleteIngredient: PropTypes.func,
 }

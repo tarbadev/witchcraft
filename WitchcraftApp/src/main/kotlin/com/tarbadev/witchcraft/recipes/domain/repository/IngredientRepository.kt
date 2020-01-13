@@ -4,4 +4,5 @@ import com.tarbadev.witchcraft.recipes.domain.entity.Ingredient
 
 interface IngredientRepository {
   fun save(ingredient: Ingredient): Ingredient
+  fun delete(id: Int)
 }

@@ -6,6 +6,7 @@ import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import com.tarbadev.witchcraft.converter.UnitHelper
 import com.tarbadev.witchcraft.recipes.domain.entity.Ingredient
+import com.tarbadev.witchcraft.recipes.domain.usecase.DeleteIngredientUseCase
 import com.tarbadev.witchcraft.recipes.domain.usecase.SaveIngredientUseCase
 import com.tarbadev.witchcraft.recipes.rest.entity.IngredientModifyRequest
 import org.junit.jupiter.api.Test
@@ -26,6 +27,8 @@ class IngredientRestControllerTest(
 ) {
   @MockBean
   private lateinit var saveIngredientUseCase: SaveIngredientUseCase
+  @MockBean
+  private lateinit var deleteIngredientUseCase: DeleteIngredientUseCase
 
   @Test
   fun update() {
@@ -42,7 +45,7 @@ class IngredientRestControllerTest(
         quantity = UnitHelper.getQuantity(ingredientModifyRequest.quantity, ingredientModifyRequest.unit)
     )
 
-    whenever(saveIngredientUseCase.execute(any<Ingredient>())).thenReturn(ingredient)
+    whenever(saveIngredientUseCase.execute(any())).thenReturn(ingredient)
 
     mockMvc.perform(MockMvcRequestBuilders.put("/api/recipes/23/ingredients/${ingredientModifyRequest.id}")
         .contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -51,5 +54,15 @@ class IngredientRestControllerTest(
         .andExpect(MockMvcResultMatchers.status().isOk)
 
     verify(saveIngredientUseCase).execute(ingredient)
+  }
+
+  @Test
+  fun delete() {
+    mockMvc.perform(MockMvcRequestBuilders.delete("/api/recipes/23/ingredients/12")
+        .contentType(MediaType.APPLICATION_JSON_UTF8)
+    )
+        .andExpect(MockMvcResultMatchers.status().isNoContent)
+
+    verify(deleteIngredientUseCase).execute(12)
   }
 }
