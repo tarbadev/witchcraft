@@ -5,6 +5,20 @@ import * as EditRecipePage from '../page-objects/editRecipe.po'
 import { waitForTextByCss } from '../page-objects/helpers.po'
 
 describe('Recipe', () => {
+  it('displays the ingredient details', async () => {
+    await RecipePage.goTo(3)
+    await waitForTextByCss('.title', 'Thai Chicken Salad')
+
+    const ingredient = await RecipePage.getIngredient(2)
+    const expectedIngredient = {
+      name: 'Cooked, shredded chicken breast',
+      quantity: '2',
+      unit: 'cup',
+    }
+
+    expect(ingredient).toEqual(expectedIngredient)
+  })
+
   it('displays the steps', async () => {
     await RecipePage.goTo(3)
     await waitForTextByCss('.title', 'Thai Chicken Salad')

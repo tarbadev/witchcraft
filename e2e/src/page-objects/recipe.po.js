@@ -104,3 +104,10 @@ export const deleteIngredient = async index => {
   await global.page.click('[data-edit-confirm-delete]')
   await page.waitForResponse(response => response.url().includes('/api/recipes/') && response.status() === 200);
 }
+
+export const getIngredient = async index => {
+  const name = await getTextByCssSelector(`.ingredient_${index} [data-name]`)
+  const quantity = await getTextByCssSelector(`.ingredient_${index} [data-quantity]`)
+  const unit = await getTextByCssSelector(`.ingredient_${index} [data-unit]`)
+  return { name, quantity, unit }
+}
