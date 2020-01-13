@@ -42,48 +42,6 @@ export const EditRecipePage = ({ recipe, submitForm }) => {
     submitForm({ ...form, url: form.originUrl, originUrl: undefined })
   }
 
-  const ingredients = form.ingredients
-    ? form.ingredients.map((ingredient, index) =>
-      (<Grid item xs={12} container key={index}>
-        <Grid item xs={12}>
-          <Typography variant='body1'>Ingredient {index + 1}</Typography>
-        </Grid>
-        <Grid item xs={2}>
-          <TextField
-            label='Quantity'
-            className={`modify-form__ingredient-quantity-${index}`}
-            fullWidth
-            onChange={(e) => {
-              dispatch(setState(`ingredients.${index}.quantity`, e.target.value))
-            }}
-            value={ingredient.quantity}
-            type='text' />
-        </Grid>
-        <Grid item xs={2}>
-          <TextField
-            label='Unit'
-            className={`modify-form__ingredient-unit-${index}`}
-            fullWidth
-            onChange={(e) => {
-              dispatch(setState(`ingredients.${index}.unit`, e.target.value))
-            }}
-            value={ingredient.unit}
-            type='text' />
-        </Grid>
-        <Grid item xs={8}>
-          <TextField
-            label='Name'
-            className={`modify-form__ingredient-name-${index}`}
-            fullWidth
-            onChange={(e) => {
-              dispatch(setState(`ingredients.${index}.name`, e.target.value))
-            }}
-            value={ingredient.name}
-            type='text' />
-        </Grid>
-      </Grid>))
-    : undefined
-
   const steps = form.steps
     ? form.steps.map((step, index) =>
       (<Grid item xs={12} container key={index}>
@@ -141,7 +99,6 @@ export const EditRecipePage = ({ recipe, submitForm }) => {
           placeholder='http://example.com/recipes/32434.png'
           type='text' />
       </Grid>
-      {ingredients}
       {steps}
       <Grid item xs={12}>
         <Button
