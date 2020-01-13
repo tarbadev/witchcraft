@@ -130,57 +130,55 @@ export const RecipePage = ({
 
   const capitalizedRecipeName = recipe.name.charAt(0).toUpperCase() + recipe.name.slice(1)
 
-  return <Grid container spacing={3} direction='row'>
+  return <Grid container spacing={3}>
     <PageTitle title={recipe.name} />
-    <Grid item xs={12} name='title'>
-      <Grid container justify='space-between'>
-        <Grid item xs={8}>
-          <Typography variant='h5' className='title witchcraft-title'>
-            {recipe.name}
-          </Typography>
-          <IconButton
-            href=''
-            onClick={toggleFavorite}
-            className={favoriteClassName}>
-            <FavoriteIcon />
-          </IconButton>
-        </Grid>
-        <Grid item className='circularProgressContainer'>
-          <Button className='modifyButton' variant='contained' href='' onClick={editRecipe}>
-            <EditIcon className='editIcon' />
-          </Button>
-          <Button
-            className='deleteButton'
-            variant='contained'
-            onClick={deleteRecipe}
-            href=''
-            disabled={isDeleting}>
-            <DeleteIcon className='deleteIcon' />
-          </Button>
-          <Dialog
-            open={isConfirmDeleteDialogOpen}
-            onClose={closeConfirmDeleteDialogOpen}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-          >
-            <DialogTitle data-confirm-delete-title>
-              {`Delete recipe ${capitalizedRecipeName}?`}
-            </DialogTitle>
-            <DialogActions>
-              <Button onClick={closeConfirmDeleteDialogOpen} autoFocus>
-                Cancel
-              </Button>
-              <Button onClick={confirmDeleteRecipe} data-confirm-delete-button color='primary'>
-                Delete
-              </Button>
-            </DialogActions>
-          </Dialog>
-          {isDeleting && <CircularProgress size={24} className='circularProgress' />}
-          <Button target='_blank' variant='contained' href={recipe.originUrl}>
-            <OpenInNewIcon className='leftIcon' />
-            Go to recipe
-          </Button>
-        </Grid>
+    <Grid item xs={12} name='title' container justify='space-between'>
+      <Grid item xs>
+        <Typography variant='h5' className='title witchcraft-title'>
+          {recipe.name}
+        </Typography>
+        <IconButton
+          href=''
+          onClick={toggleFavorite}
+          className={favoriteClassName}>
+          <FavoriteIcon />
+        </IconButton>
+      </Grid>
+      <Grid item xs={3}>
+        <Button className='modifyButton' variant='contained' href='' onClick={editRecipe}>
+          <EditIcon className='editIcon' />
+        </Button>
+        <Button
+          className='deleteButton'
+          variant='contained'
+          onClick={deleteRecipe}
+          href=''
+          disabled={isDeleting}>
+          <DeleteIcon className='deleteIcon' />
+        </Button>
+        <Dialog
+          open={isConfirmDeleteDialogOpen}
+          onClose={closeConfirmDeleteDialogOpen}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle data-confirm-delete-title>
+            {`Delete recipe ${capitalizedRecipeName}?`}
+          </DialogTitle>
+          <DialogActions>
+            <Button onClick={closeConfirmDeleteDialogOpen} autoFocus>
+              Cancel
+            </Button>
+            <Button onClick={confirmDeleteRecipe} data-confirm-delete-button color='primary'>
+              Delete
+            </Button>
+          </DialogActions>
+        </Dialog>
+        {isDeleting && <CircularProgress size={24} className='circularProgress' />}
+        <Button target='_blank' variant='contained' href={recipe.originUrl}>
+          <OpenInNewIcon className='leftIcon' />
+          Go to recipe
+        </Button>
       </Grid>
     </Grid>
     <Grid item container xs={3} direction='column' justify='flex-start' alignItems='stretch'>
