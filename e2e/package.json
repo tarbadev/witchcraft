@@ -13,16 +13,16 @@
   "author": "Tarbadev",
   "homepage": "https://github.com/tarbadev/witchcraft#readme",
   "devDependencies": {
-    "@babel/core": "^7.4.5",
-    "@babel/polyfill": "^7.4.4",
-    "@babel/preset-env": "^7.4.5",
-    "axios": "^0.19.0",
-    "babel-jest": "^24.8.0",
-    "jest": "^24.8.0",
+    "@babel/core": "^7.8.3",
+    "@babel/polyfill": "^7.8.3",
+    "@babel/preset-env": "^7.8.3",
+    "axios": "^0.19.1",
+    "babel-jest": "^24.9.0",
+    "jest": "^24.9.0",
     "jest-junit": "^6.4.0",
-    "jest-puppeteer": "^4.1.1",
-    "mysql2": "^1.6.5",
-    "puppeteer": "^1.17.0"
+    "jest-puppeteer": "^4.4.0",
+    "mysql2": "^1.7.0",
+    "puppeteer": "^1.20.0"
   },
   "engines": {
     "node": "13.5.0",
