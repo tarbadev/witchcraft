@@ -24,8 +24,9 @@ import { RECIPES } from 'src/app/components/Header'
 import { OneLineEditableFieldContainer } from 'src/app/components/OneLineEditableField'
 import { saveStepNote } from '../actions/StepActions'
 import Dialog from '@material-ui/core/Dialog'
-import DialogTitle from '@material-ui/core/DialogTitle'
 import DialogActions from '@material-ui/core/DialogActions'
+import { ConverterContainer } from '../components/Converter'
+import DialogTitle from '@material-ui/core/DialogTitle'
 
 export const RecipePageContainer = ({ match, history }) => {
   const { state, dispatch, setCurrentHeader } = useAppContext()
@@ -35,6 +36,7 @@ export const RecipePageContainer = ({ match, history }) => {
   const [notes, setNotes] = useState(state.pages.recipePage.notes)
   const [isDeleting, setIsDeleting] = useState(state.pages.recipePage.isDeleting)
   const [isConfirmDeleteDialogOpen, setIsConfirmDeleteDialogOpen] = useState(false)
+  const [isConverterOpen, setConverterOpen] = useState(false)
 
   const getRecipeNoteSuccess = data => setNotes(data.notes)
   const loadRecipe = () => dispatch(getRecipe(match.params.id, data => setRecipe(data)))
@@ -77,6 +79,9 @@ export const RecipePageContainer = ({ match, history }) => {
       newNote,
       updateRecipeWithUpdatedStep))}
     onIngredientDeletion={loadRecipe}
+    isConverterOpen={isConverterOpen}
+    displayConverter={() => setConverterOpen(true)}
+    closeConverter={() => setConverterOpen(false)}
   />
 }
 
@@ -98,6 +103,9 @@ export const RecipePage = ({
   updateNotes,
   onStepNoteSaveButtonClick,
   onIngredientDeletion,
+  displayConverter,
+  closeConverter,
+  isConverterOpen,
 }) => {
   let steps
   let ingredients
@@ -149,7 +157,8 @@ export const RecipePage = ({
           <FavoriteIcon />
         </IconButton>
       </Grid>
-      <Grid item xs={3}>
+      <Grid item xs={4}>
+        <Button variant='contained' href='' data-open-converter onClick={displayConverter}>Converter</Button>
         <Button className='modifyButton' variant='contained' href='' onClick={editRecipe}>
           <EditIcon className='editIcon' />
         </Button>
@@ -227,6 +236,7 @@ export const RecipePage = ({
         </Grid>
       </Grid>
     </Grid>
+    <ConverterContainer open={isConverterOpen} onClose={closeConverter} />
   </Grid>
 }
 
@@ -243,4 +253,7 @@ RecipePage.propTypes = {
   updateNotes: PropTypes.func,
   onStepNoteSaveButtonClick: PropTypes.func,
   onIngredientDeletion: PropTypes.func,
+  displayConverter: PropTypes.func,
+  closeConverter: PropTypes.func,
+  isConverterOpen: PropTypes.bool,
 }

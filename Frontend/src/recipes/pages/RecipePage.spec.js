@@ -305,4 +305,36 @@ describe('RecipePageContainer', () => {
       }, 500)
     })
   })
+
+  describe('on Converter click', () => {
+    it('displays the Converter', () => {
+      mockAppContext()
+      const id = promisedRecipe.id
+
+      const recipePageContainer = mount(<RecipePageContainer match={{ params: { id } }} />)
+
+      expect(recipePageContainer.find('[data-converter-container]').at(0).prop('open')).toBeFalsy()
+
+      recipePageContainer.find('[data-open-converter] button').at(0).simulate('click')
+
+      expect(recipePageContainer.find('[data-converter-container]').at(0).prop('open')).toBeTruthy()
+    })
+  })
+
+  describe('Converter', () => {
+    describe('on Close button click', () => {
+      it('closes the Converter', () => {
+        mockAppContext()
+        const id = promisedRecipe.id
+
+        const recipePageContainer = mount(<RecipePageContainer match={{ params: { id } }} />)
+
+        recipePageContainer.find('[data-open-converter] button').at(0).simulate('click')
+        expect(recipePageContainer.find('[data-converter-container]').at(0).prop('open')).toBeTruthy()
+
+        recipePageContainer.find('[data-close-converter] button').at(0).simulate('click')
+        expect(recipePageContainer.find('[data-converter-container]').at(0).prop('open')).toBeFalsy()
+      })
+    })
+  })
 })
