@@ -5,10 +5,16 @@ export const fillInput = async (selector, value) => {
 }
 
 export const waitForTextByCss = async (cssSelector, text) => {
-  const selector = cssSelector.replace(/"/g, '\\"')
-  const textToSearch = text.toLowerCase()
   await global.page.waitForFunction(
-    `document.querySelector("${selector}").innerText.toLowerCase().includes("${textToSearch}")`,
+    (selector, textToSearch) => {
+      const element = document.querySelector(selector)
+      if (element) {
+        return element.innerText.toLowerCase().includes(textToSearch)
+      }
+    },
+    {},
+    cssSelector.replace(/"/g, '\\"'),
+    text.toLowerCase(),
   )
 }
 
