@@ -38,6 +38,23 @@ describe('Recipe', () => {
     expect(await RecipePage.getPortions()).toEqual('4')
   })
 
+  // describe('on open converter click', () => {
+  //   it('displays a modal', async () => {
+  //     await RecipePage.goTo(3)
+  //     await waitForTextByCss('.title', 'Thai Chicken Salad')
+  //
+  //     await RecipePage.openConverter()
+  //     const ingredient = await RecipePage.getIngredient(2)
+  //     const expectedIngredient = {
+  //       name: 'Cooked, shredded chicken breast',
+  //       quantity: '2',
+  //       unit: 'cup',
+  //     }
+  //
+  //     expect(ingredient).toEqual(expectedIngredient)
+  //   })
+  // })
+
   describe('on heart button click', () => {
     it('adds the recipe as favourite', async () => {
       await RecipePage.goTo(3)
