@@ -306,22 +306,22 @@ describe('RecipePageContainer', () => {
     })
   })
 
-  describe('on Converter click', () => {
-    it('displays the Converter', () => {
-      mockAppContext()
-      const id = promisedRecipe.id
-
-      const recipePageContainer = mount(<RecipePageContainer match={{ params: { id } }} />)
-
-      expect(recipePageContainer.find('[data-converter-container]').at(0).prop('open')).toBeFalsy()
-
-      recipePageContainer.find('[data-open-converter] button').at(0).simulate('click')
-
-      expect(recipePageContainer.find('[data-converter-container]').at(0).prop('open')).toBeTruthy()
-    })
-  })
-
   describe('Converter', () => {
+    describe('on Converter click', () => {
+      it('displays the Converter', () => {
+        mockAppContext()
+        const id = promisedRecipe.id
+
+        const recipePageContainer = mount(<RecipePageContainer match={{ params: { id } }} />)
+
+        expect(recipePageContainer.find('[data-converter-container]').at(0).prop('open')).toBeFalsy()
+
+        recipePageContainer.find('[data-open-converter] button').at(0).simulate('click')
+
+        expect(recipePageContainer.find('[data-converter-container]').at(0).prop('open')).toBeTruthy()
+      })
+    })
+
     describe('on Close button click', () => {
       it('closes the Converter', () => {
         mockAppContext()
@@ -335,6 +335,29 @@ describe('RecipePageContainer', () => {
         recipePageContainer.find('[data-close-converter] button').at(0).simulate('click')
         expect(recipePageContainer.find('[data-converter-container]').at(0).prop('open')).toBeFalsy()
       })
+    })
+  })
+
+  describe('On portions update', () => {
+    it('updates the portions value', () => {
+      mockAppContext()
+      const id = promisedRecipe.id
+      const newPortions = '8'
+      const recipe = { ...promisedRecipe, portions: newPortions }
+
+      jest
+        .spyOn(RecipeActions, 'updatePortions')
+        .mockImplementation((id, portions, onSuccess) => onSuccess(recipe))
+
+      const recipePageContainer = mount(<RecipePageContainer match={{ params: { id } }} />)
+
+      expect(recipePageContainer.find('[data-portions-value]').text()).toEqual(promisedRecipe.portions)
+
+      recipePageContainer.find('[data-portions-container]').at(0).simulate('click')
+      recipePageContainer.find('[data-edit-portions] input').at(0).simulate('change', { target: { value: newPortions } })
+      recipePageContainer.find('[data-save-portions] button').simulate('mousedown')
+
+      expect(recipePageContainer.find('[data-portions-value]').text()).toEqual(newPortions)
     })
   })
 })

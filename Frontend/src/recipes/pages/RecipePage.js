@@ -27,6 +27,7 @@ import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import { ConverterContainer } from '../components/Converter'
 import DialogTitle from '@material-ui/core/DialogTitle'
+import { PortionsContainer } from '../components/Portions'
 
 export const RecipePageContainer = ({ match, history }) => {
   const { state, dispatch, setCurrentHeader } = useAppContext()
@@ -82,6 +83,7 @@ export const RecipePageContainer = ({ match, history }) => {
     isConverterOpen={isConverterOpen}
     displayConverter={() => setConverterOpen(true)}
     closeConverter={() => setConverterOpen(false)}
+    onPortionsUpdated={recipe => setRecipe(recipe)}
   />
 }
 
@@ -106,6 +108,7 @@ export const RecipePage = ({
   displayConverter,
   closeConverter,
   isConverterOpen,
+  onPortionsUpdated,
 }) => {
   let steps
   let ingredients
@@ -225,11 +228,9 @@ export const RecipePage = ({
         </Paper>
       </Grid>
     </Grid>
-    <Grid item xs={9} container spacing={3}>
+    <Grid item xs={9} container spacing={3} justify='flex-start' alignItems='flex-start'>
       <Grid item xs={12} container justify='flex-end'>
-        <Typography variant='h6' className='portions-title witchcraft-title'>
-          Portions: <span className='portions-value'>{recipe.portions}</span>
-        </Typography>
+        <PortionsContainer recipeId={recipe.id} portions={`${recipe.portions}`} onPortionsUpdated={onPortionsUpdated} />
       </Grid>
       <Grid item xs={7} name='steps'>
         <Typography variant='h6' gutterBottom className='witchcraft-title'>Steps</Typography>
@@ -264,4 +265,5 @@ RecipePage.propTypes = {
   displayConverter: PropTypes.func,
   closeConverter: PropTypes.func,
   isConverterOpen: PropTypes.bool,
+  onPortionsUpdated: PropTypes.func,
 }

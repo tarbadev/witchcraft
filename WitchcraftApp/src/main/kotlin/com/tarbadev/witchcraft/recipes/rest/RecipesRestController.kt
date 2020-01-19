@@ -17,7 +17,8 @@ class RecipesRestController(
     private val saveRecipeUseCase: SaveRecipeUseCase,
     private val getFavoriteRecipesUseCase: GetFavoriteRecipesUseCase,
     private val lastAddedRecipesUseCase: LastAddedRecipesUseCase,
-    private val editStepNoteUseCase: EditStepNoteUseCase
+    private val editStepNoteUseCase: EditStepNoteUseCase,
+    private val updatePortionsUseCase: UpdatePortionsUseCase
 ) {
   @GetMapping
   fun list(): RecipeListResponse {
@@ -71,5 +72,11 @@ class RecipesRestController(
   @PostMapping("/{id}/steps/{stepId}")
   fun addStepNote(@PathVariable stepId: Int, @RequestBody editStepNoteRequest: EditStepNoteRequest): StepResponse{
     return StepResponse.fromStep(editStepNoteUseCase.execute(stepId, editStepNoteRequest.note))
+  }
+
+  @PutMapping("/{id}/portions")
+  fun updatePortions(@PathVariable id: Int, @RequestBody updatePortionsRequest: UpdatePortionsRequest): RecipeResponse {
+    val recipe = updatePortionsUseCase.execute(id, updatePortionsRequest.portions)
+    return RecipeResponse.fromRecipe(recipe)
   }
 }

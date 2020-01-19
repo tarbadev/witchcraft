@@ -56,10 +56,6 @@ export const getNotes = async () => {
   return await global.page.$eval('.notes-container__notes [data-display-value]', element => element.textContent)
 }
 
-export const getPortions = () => {
-  return getTextByCssSelector('.portions-value')
-}
-
 export const displayStepNote = async number => {
   const stepNoteIconClassName = `.step-note-${number}`
 
@@ -110,4 +106,15 @@ export const getIngredient = async index => {
   const quantity = await getTextByCssSelector(`.ingredient_${index} [data-quantity]`)
   const unit = await getTextByCssSelector(`.ingredient_${index} [data-unit]`)
   return { name, quantity, unit }
+}
+
+export const getPortions = async () => {
+  return await getTextByCssSelector('[data-portions-value]')
+}
+
+export const editPortion = async portions => {
+  await global.page.click('[data-portions-value]')
+  await fillInput('[data-edit-portions]', portions)
+  await global.page.click('[data-save-portions]')
+  await waitForTextByCss('[data-portions-value]', portions)
 }

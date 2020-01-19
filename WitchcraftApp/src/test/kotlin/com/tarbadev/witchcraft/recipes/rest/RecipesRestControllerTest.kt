@@ -22,8 +22,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
-import java.util.Arrays.asList
-
 
 @ExtendWith(SpringExtension::class)
 @WebMvcTest(RecipesRestController::class)
@@ -41,17 +39,15 @@ class RecipesRestControllerTest(
   @MockBean
   private lateinit var setFavoriteRecipeUseCase: SetFavoriteRecipeUseCase
   @MockBean
-  private lateinit var getRecipeDetailsFromUrlUseCase: GetRecipeDetailsFromUrlUseCase
-  @MockBean
   private lateinit var saveRecipeUseCase: SaveRecipeUseCase
-  @MockBean
-  private lateinit var getRecipeDetailsFromFormUseCase: GetRecipeDetailsFromFormUseCase
   @MockBean
   private lateinit var getFavoriteRecipesUseCase: GetFavoriteRecipesUseCase
   @MockBean
   private lateinit var lastAddedRecipesUseCase: LastAddedRecipesUseCase
   @MockBean
   private lateinit var editStepNoteUseCase: EditStepNoteUseCase
+  @MockBean
+  private lateinit var updatePortionsUseCase: UpdatePortionsUseCase
 
   @Test
   fun list() {
@@ -66,7 +62,7 @@ class RecipesRestControllerTest(
         imgUrl = recipe1ImageUrl
     )
 
-    val recipes = asList(
+    val recipes = listOf(
         recipe1,
         Recipe(name = recipe2Name)
     )
@@ -188,9 +184,9 @@ class RecipesRestControllerTest(
     val recipe2 = Recipe()
     val recipe3 = Recipe()
 
-    val recipes = asList(recipe1, recipe2, recipe3)
+    val recipes = listOf(recipe1, recipe2, recipe3)
 
-    val recipesResponse = asList(
+    val recipesResponse = listOf(
         RecipeResponse.fromRecipe(recipe1),
         RecipeResponse.fromRecipe(recipe2),
         RecipeResponse.fromRecipe(recipe3)
@@ -210,9 +206,9 @@ class RecipesRestControllerTest(
     val recipe2 = Recipe()
     val recipe3 = Recipe()
 
-    val recipes = asList(recipe1, recipe2, recipe3)
+    val recipes = listOf(recipe1, recipe2, recipe3)
 
-    val recipesResponse = asList(
+    val recipesResponse = listOf(
         RecipeResponse.fromRecipe(recipe1),
         RecipeResponse.fromRecipe(recipe2),
         RecipeResponse.fromRecipe(recipe3)
@@ -240,5 +236,21 @@ class RecipesRestControllerTest(
     )
         .andExpect(status().isOk)
         .andExpect(content().json(jacksonObjectMapper().writeValueAsString(stepResponse)))
+  }
+
+  @Test
+  fun updatePortions() {
+    val updatePortionsRequest = UpdatePortionsRequest(4)
+    val newRecipe = Recipe(id = 45, portions = 4)
+    val recipeResponse = RecipeResponse.fromRecipe(newRecipe)
+
+    whenever(updatePortionsUseCase.execute(recipeResponse.id, updatePortionsRequest.portions)).thenReturn(newRecipe)
+
+    mockMvc.perform(put("/api/recipes/45/portions")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(jacksonObjectMapper().writeValueAsString(updatePortionsRequest))
+    )
+        .andExpect(status().isOk)
+        .andExpect(content().json(jacksonObjectMapper().writeValueAsString(recipeResponse)))
   }
 }
