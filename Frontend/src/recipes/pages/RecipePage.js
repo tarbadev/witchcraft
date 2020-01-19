@@ -158,7 +158,15 @@ export const RecipePage = ({
         </IconButton>
       </Grid>
       <Grid item xs={4}>
-        <Button variant='contained' href='' data-open-converter onClick={displayConverter}>Converter</Button>
+        <Button
+          variant='contained'
+          href=''
+          style={{ marginRight: 10 }}
+          data-open-converter
+          onClick={displayConverter}
+        >
+          Converter
+        </Button>
         <Button className='modifyButton' variant='contained' href='' onClick={editRecipe}>
           <EditIcon className='editIcon' />
         </Button>

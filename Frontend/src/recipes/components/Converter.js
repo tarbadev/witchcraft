@@ -135,7 +135,7 @@ const Converter = ({
         Converter
       </DialogTitleWithCloseButton>
       <DialogContent dividers>
-        <Grid container>
+        <Grid container spacing={1}>
           <Grid item sm={12}>
             <TextField
               select
@@ -148,47 +148,54 @@ const Converter = ({
               {measures.map(measure => <MenuItem key={measure} value={measure} data-menu-measure>{measure}</MenuItem>)}
             </TextField>
           </Grid>
-          <Grid item sm={6}>
-            <TextField
-              label='Quantity'
-              value={leftQuantity}
-              data-quantity-left
-              onChange={({ target }) => onLeftQuantityChange(Number(target.value))}
-            />
-            <TextField
-              select
-              label='Unit'
-              value={leftUnit}
-              data-select-unit-left
-              onChange={({ target }) => onSelectLeftUnit(target.value)}
-            >
-              {units.map(unit => <MenuItem key={`${unit}-left`} value={unit} data-menu-unit-left>{unit}</MenuItem>)}
-            </TextField>
+          <Grid item sm={6} container direction='row'>
+            <Grid item sm>
+              <TextField
+                label='Quantity'
+                value={leftQuantity}
+                fullWidth
+                data-quantity-left
+                onChange={({ target }) => onLeftQuantityChange(Number(target.value))}
+              />
+            </Grid>
+            <Grid item sm={4} container alignItems='flex-end'>
+              <TextField
+                select
+                label='Unit'
+                fullWidth
+                value={leftUnit}
+                data-select-unit-left
+                onChange={({ target }) => onSelectLeftUnit(target.value)}
+              >
+                {units.map(unit => <MenuItem key={`${unit}-left`} value={unit} data-menu-unit-left>{unit}</MenuItem>)}
+              </TextField>
+            </Grid>
           </Grid>
-          <Grid item sm={6}>
-            <TextField
-              label='Quantity'
-              value={rightQuantity}
-              data-quantity-right
-              onChange={({ target }) => onRightQuantityChange(Number(target.value))}
-            />
-            <TextField
-              select
-              label='Unit'
-              value={rightUnit}
-              data-select-unit-right
-              onChange={({ target }) => onSelectRightUnit(target.value)}
-            >
-              {units.map(unit => <MenuItem key={`${unit}-right`} value={unit} data-menu-unit-right>{unit}</MenuItem>)}
-            </TextField>
+          <Grid item sm={6} container direction='row'>
+            <Grid item sm>
+              <TextField
+                label='Quantity'
+                fullWidth
+                value={rightQuantity}
+                data-quantity-right
+                onChange={({ target }) => onRightQuantityChange(Number(target.value))}
+              />
+            </Grid>
+            <Grid item sm={4} container alignItems='flex-end'>
+              <TextField
+                select
+                label='Unit'
+                fullWidth
+                value={rightUnit}
+                data-select-unit-right
+                onChange={({ target }) => onSelectRightUnit(target.value)}
+              >
+                {units.map(unit => <MenuItem key={`${unit}-right`} value={unit} data-menu-unit-right>{unit}</MenuItem>)}
+              </TextField>
+            </Grid>
           </Grid>
         </Grid>
       </DialogContent>
-      {/*<DialogActions>*/}
-      {/*  <Button autoFocus onClick={handleClose} color="primary">*/}
-      {/*    Save changes*/}
-      {/*  </Button>*/}
-      {/*</DialogActions>*/}
     </Dialog>
   )
 }
