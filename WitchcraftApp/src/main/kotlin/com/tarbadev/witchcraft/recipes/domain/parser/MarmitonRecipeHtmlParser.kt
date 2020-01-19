@@ -26,7 +26,7 @@ class MarmitonRecipeHtmlParser(
   override val recipeNameSelector = "h1.main-title"
   override val imgUrlSelector: String = "img#af-diapo-desktop-0_img"
   override val imgUrlAttribute: String = "src"
-  override val ingredientSelector: String = ".recipe-ingredients__list__item div"
+  override val ingredientSelector: String = ".recipe-ingredients__list__item div:not(.recipe-ingredients__list__item--prog-content)"
   override val portionsSelector = "input.recipe-ingredients__qt-counter__value"
 
   override fun getStepsFromHtml(html: Document): List<Step> {

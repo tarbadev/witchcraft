@@ -15,7 +15,6 @@ import com.tarbadev.witchcraft.recipes.domain.usecase.IngredientFromStringUseCas
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import java.util.Arrays.asList
 
 class MarmitonRecipeHtmlParserTest {
   private val recipe = TestResources.Recipes.marmiton
@@ -109,7 +108,7 @@ class MarmitonRecipeHtmlParserTest {
         .thenReturn(ingredient6)
         .thenReturn(ingredient7)
     whenever(convertAndAddSameIngredientUseCase.execute(
-        asList(
+        listOf(
             ingredient1,
             ingredient2,
             ingredient3,

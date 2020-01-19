@@ -6,7 +6,6 @@ import com.tarbadev.witchcraft.converter.*
 import com.tarbadev.witchcraft.recipes.domain.entity.Ingredient
 import com.tarbadev.witchcraft.recipes.domain.entity.Recipe
 import com.tarbadev.witchcraft.recipes.domain.entity.Step
-import java.util.Arrays
 
 class TestResources {
   class Recipes {
@@ -15,7 +14,7 @@ class TestResources {
           name = "Mini Goat Cheese Stuffed Potato Appetizers – Greek-Inspired",
           originUrl = "https://www.cookincanuck.com/mini-goat-cheese-stuffed-potato-appetizers/",
           imgUrl = "https://www.cookincanuck.com/wp-content/uploads/2017/11/Mini-Goat-Cheese-Stuffed-Potato-Appetizers-Greek-Inspired-Cookin-Canuck-4-250x250.jpg",
-          ingredients = Arrays.asList(
+          ingredients = listOf(
               Ingredient(
                   name = "Little Potato Co. Creamer potatoes (I used Dynamic Duo)",
                   quantity = 1.5.pound
@@ -49,7 +48,7 @@ class TestResources {
                   quantity = 0.25.teaspoon
               )
           ),
-          steps = Arrays.asList(
+          steps = listOf(
               Step(name = "Place the potatoes in a large saucepan and cover with cold water by an inch. Bring to a boil. Cook until the potatoes are tender when pierced with a fork, but not falling apart, 15 to 20 minutes. Drain and let the potatoes rest until cool enough to handle."),
               Step(name = "While the potatoes are cooking, prepare the fillings. In the first bowl, stir together the goat cheese roasted red pepper and Kalamata olives."),
               Step(name = "In the second bowl, stir together the goat cheese, 2 tablespoons pistachios and honey."),
@@ -63,7 +62,7 @@ class TestResources {
           name = "Baja Chicken Quesadillas",
           originUrl = "https://www.hellofresh.com/recipes/2019-w26-r14-baja-chicken-quesadilla-5cd9dfa0d5c2f800105388bc?locale=en-US",
           imgUrl = "https://img.hellofresh.com/f_auto,fl_lossy,q_auto,w_1200/hellofresh_s3/image/2019-w26-r14-baja-chicken-quesadilla-e4f0ad1b.jpg",
-          ingredients = Arrays.asList(
+          ingredients = listOf(
               Ingredient(
                   name = "Red Onion",
                   quantity = 1.unit
@@ -121,7 +120,7 @@ class TestResources {
                   quantity = 1.unit
               )
           ),
-          steps = Arrays.asList(
+          steps = listOf(
               Step(name = "Wash and dry all produce. Halve, peel, and finely dice onion. Pat chicken dry with paper towels."),
               Step(name = "Set aside 2 TBSP onion (4 TBSP for 4 servings). Heat a large drizzle of oil in a large, preferably nonstick, pan over medium-high heat. Add chicken, remaining onion, Blackening Spice, salt, and pepper. Cook, stirring occasionally, until chicken is browned and cooked through, 4-6 minutes. Turn off heat; transfer to a large bowl. Wipe out pan."),
               Step(name = "Meanwhile, zest and quarter lime. Finely dice tomato. In a medium bowl, combine tomato and 1 TBSP reserved onion (3 TBSP for 4 servings); add more onion to taste. Squeeze in juice from 1 lime wedge (2 lime wedges for 4) and season with salt and pepper."),
@@ -136,7 +135,7 @@ class TestResources {
           name = "Pâte à crêpes",
           originUrl = "https://www.marmiton.org/recettes/recette_pate-a-crepes_12372.aspx",
           imgUrl = "https://assets.afcdn.com/recipe/20180713/81162_w420h344c1cx1944cy2592cxt0cyt0cxb3888cyb5184.jpg",
-          ingredients = Arrays.asList(
+          ingredients = listOf(
               Ingredient(
                   name = "Farine",
                   quantity = 300.gram
@@ -166,7 +165,7 @@ class TestResources {
                   quantity = 5.centiliter
               )
           ),
-          steps = Arrays.asList(
+          steps = listOf(
               Step(name = "Mettre la farine dans une terrine et former un puits."),
               Step(name = "Y déposer les oeufs entiers, le sucre, l'huile et le beurre."),
               Step(name = "Mélanger délicatement avec un fouet en ajoutant au fur et à mesure le lait. La pâte ainsi obtenue doit avoir une consistance d'un liquide légèrement épais."),

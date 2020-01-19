@@ -19,6 +19,6 @@ class DeleteIngredientUseCaseTest {
   fun execute() {
     deleteIngredientUseCase.execute(23)
 
-    verify(ingredientRepository.delete(23))
+    verify(ingredientRepository).delete(23)
   }
 }
