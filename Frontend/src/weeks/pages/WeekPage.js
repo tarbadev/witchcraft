@@ -60,7 +60,6 @@ export const WeekPageContainer = ({ history, weekNumber, year }) => {
 
   const closeModal = () => setModal(toggleModal(false))
   const setRecipeAndCloseModal = (recipe, day, meal) => {
-    console.log(recipe)
     setWeek(setRecipeToWeek(week, recipe, day, meal))
     closeModal()
   }

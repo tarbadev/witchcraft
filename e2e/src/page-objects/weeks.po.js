@@ -12,8 +12,8 @@ export const getMeal = async (meal, day) => {
   return await getTextByCssSelector(selector)
 }
 
-export const clickOnMeal = async (meal, day) => {
-  const selectedMeal = await global.page.$(`td[data-meal="${meal}-${day}"]`)
+export const clickOnAddRecipe = async (meal, day) => {
+  const selectedMeal = await global.page.$(`td[data-meal="${meal}-${day}"] [data-add-recipe]`)
   await selectedMeal.click()
 }
 

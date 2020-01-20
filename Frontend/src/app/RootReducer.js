@@ -85,8 +85,8 @@ export const initialState = {
   week: {
     days: [
       {
-        lunch: {},
-        diner: {},
+        lunch: [],
+        diner: [],
       },
     ],
   },

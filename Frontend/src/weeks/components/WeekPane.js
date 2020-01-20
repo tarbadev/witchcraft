@@ -15,7 +15,6 @@ export const WeekPane = ({
   week,
   onMealClick,
 }) => {
-
   const DayCell = withStyles({
     root: {
       padding: '4px 0px',
@@ -51,7 +50,7 @@ export const WeekPane = ({
     return (
       <WeekRecipeCell
         key={`lunch-${index}`}
-        recipe={day.lunch[0]}
+        recipes={day.lunch}
         onCellClick={onCellClick}
         dataTag={`lunch-${day.name}`}
       />
@@ -67,7 +66,7 @@ export const WeekPane = ({
     return (
       <WeekRecipeCell
         key={`diner-${index}`}
-        recipe={day.diner[0]}
+        recipes={day.diner}
         onCellClick={onCellClick}
         dataTag={`diner-${day.name}`}
       />

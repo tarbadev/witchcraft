@@ -4,11 +4,21 @@ import TableCell from '@material-ui/core/TableCell'
 
 import './WeekRecipeCell.css'
 import { RecipeCard } from 'src/recipes/components/RecipeCard'
+import Grid from '@material-ui/core/Grid'
 
-export const WeekRecipeCell = ({ recipe, onCellClick, dataTag }) => {
+export const WeekRecipeCell = ({ recipes, onCellClick, dataTag }) => {
   const classes = onCellClick
     ? 'table-cell table-cell-clickable'
     : 'table-cell'
+
+  const recipeGrids = recipes.map(recipe => (
+    <Grid item key={`grid-recipe-cell-${recipe.id}`}>
+      <RecipeCard
+        title={recipe.name}
+        imgUrl={recipe.imgUrl}
+      />
+    </Grid>
+  ))
   return (
     <TableCell
       className={classes}
@@ -16,15 +26,15 @@ export const WeekRecipeCell = ({ recipe, onCellClick, dataTag }) => {
       data-meal={dataTag}
     >
       {onCellClick && <div className='hover-mask' />}
-      {(recipe && recipe.name) &&
-      <RecipeCard title={recipe.name} imgUrl={recipe.imgUrl} />
-      }
+      <Grid container>
+        {recipeGrids}
+      </Grid>
     </TableCell>
   )
 }
 
 WeekRecipeCell.propTypes = {
-  recipe: PropTypes.object,
+  recipes: PropTypes.array,
   dataTag: PropTypes.string,
   onCellClick: PropTypes.func,
 }
