@@ -51,7 +51,11 @@ export const setRecipeToWeek = (week, recipe, day, meal) => {
   const dayIndex = days.indexOf(day.toLowerCase())
 
   if (recipe.remove) {
-    newWeek.days[dayIndex].lunch.splice(newWeek.days[dayIndex].lunch.indexOf(recipe), 1)
+    if (meal === 'lunch') {
+      newWeek.days[dayIndex].lunch.splice(newWeek.days[dayIndex].lunch.indexOf(recipe), 1)
+    } else if (meal === 'diner') {
+      newWeek.days[dayIndex].diner.splice(newWeek.days[dayIndex].diner.indexOf(recipe), 1)
+    }
   } else {
     if (meal === 'lunch') {
       newWeek.days[dayIndex].lunch = [...newWeek.days[dayIndex].lunch, recipe]

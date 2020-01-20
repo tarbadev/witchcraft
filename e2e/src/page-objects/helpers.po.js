@@ -9,7 +9,6 @@ export const waitForTextByCss = async (cssSelector, text) => {
     (selector, textToSearch) => {
       const element = document.querySelector(selector)
       if (element) {
-        console.log(element)
         return element.innerText.toLowerCase().includes(textToSearch)
       }
     },

@@ -136,7 +136,7 @@ describe('WeekPageActions', () => {
       expect(setRecipeToWeek(newWeek, recipe, 'tuesday', 'diner')).toEqual(newWeek2)
     })
 
-    it('Returns a new week without the removed recipe', () => {
+    it('Returns a new week without the removed recipe for lunch', () => {
       const recipe = { id: 4, name: 'lasagna', remove: true }
       const week = {
         id: 12,
@@ -174,6 +174,46 @@ describe('WeekPageActions', () => {
       }
 
       expect(setRecipeToWeek(week, recipe, 'tuesday', 'lunch')).toEqual(newWeek)
+    })
+
+    it('Returns a new week without the removed recipe for diner', () => {
+      const recipe = { id: 4, name: 'lasagna', remove: true }
+      const week = {
+        id: 12,
+        year: 2018,
+        weekNumber: 33,
+        days: [
+          {
+            name: 'monday',
+            lunch: [],
+            diner: [{ id: 34 }],
+          },
+          {
+            name: 'tuesday',
+            lunch: [],
+            diner: [{ id: 4, name: 'lasagna' }],
+          },
+        ],
+      }
+      const newWeek = {
+        id: 12,
+        year: 2018,
+        weekNumber: 33,
+        days: [
+          {
+            name: 'monday',
+            lunch: [],
+            diner: [{ id: 34 }],
+          },
+          {
+            name: 'tuesday',
+            lunch: [],
+            diner: [],
+          },
+        ],
+      }
+
+      expect(setRecipeToWeek(week, recipe, 'tuesday', 'diner')).toEqual(newWeek)
     })
   })
 })

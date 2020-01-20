@@ -12,21 +12,3 @@
 .table-cell > .recipe-card:hover {
     transform: inherit;
 }
-
-.table-cell-clickable {
-    cursor: pointer;
-}
-
-.table-cell-clickable:hover .hover-mask {
-    background-color: rgba(33, 150, 243, .6);
-}
-
-.hover-mask {
-    background-color: rgba(33, 150, 243, 0);
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    transition: background-color .2s;
-}

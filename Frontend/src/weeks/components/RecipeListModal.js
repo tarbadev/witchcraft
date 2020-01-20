@@ -78,7 +78,7 @@ export const RecipeListModal = ({
       <GridListTile key={recipe.imgUrl} className={'recipe-card'} onClick={onClick}>
         {recipe.imgUrl &&
         <CardMedia component='img' image={recipe.imgUrl} alt={recipe.name} onError={onRecipeImageNotFoundError} />}
-        <GridListTileBar title={recipe.name} className={'recipe-card-title'} />
+        <GridListTileBar title={recipe.name} className={'recipe-card-title'} data-recipe-title={recipe.name} />
         {currentRecipeIcon && currentRecipeIcon}
       </GridListTile>
     )

@@ -1,4 +1,4 @@
-import { getTextByCssSelector, goToUrl } from './helpers.po'
+import { getTextByCssSelector, goToUrl, waitForTextByCss } from './helpers.po'
 
 export const clickOnCreateCart = async () => {
   await global.page.click('.week-page__create-cart-button')
@@ -14,11 +14,22 @@ export const getMeal = async (meal, day) => {
 
 export const clickOnAddRecipe = async (meal, day) => {
   const selectedMeal = await global.page.$(`td[data-meal="${meal}-${day}"] [data-add-recipe]`)
-  await selectedMeal.click()
+  const maxRetries = 3
+  for (let i = 0; i < maxRetries; i++) {
+    try {
+      await selectedMeal.click()
+      await global.page.waitForSelector('[data-recipe-title]', { timeout: 500 })
+      break
+    } catch (e) {
+      if (i === maxRetries - 1) {
+        throw e
+      }
+    }
+  }
 }
 
 export const clickOnRecipe = async recipeName => {
-  const recipes = await global.page.$x(`//div[contains(@class, 'recipe-card-title') and contains(.//div, '${recipeName}')]`)
+  const recipes = await global.page.$x(`//div[contains(@class, 'recipe-card-title') and contains(., '${recipeName}')]`)
 
   if (await recipes.length > 0) {
     await recipes[0].click()

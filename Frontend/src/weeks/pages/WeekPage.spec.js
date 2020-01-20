@@ -297,7 +297,7 @@ describe('WeekPageContainer', () => {
 
     expect(weekPage.find('Modal').props().open).toBeFalsy()
 
-    weekPage.find('[data-meal="lunch-MONDAY"]').at(0).simulate('click')
+    weekPage.find('[data-meal="lunch-MONDAY"] button').at(0).simulate('click')
 
     expect(weekPage.find('Modal').at(0).props().open).toBeTruthy()
   })

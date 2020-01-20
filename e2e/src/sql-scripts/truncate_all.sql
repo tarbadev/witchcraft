@@ -8,3 +8,4 @@ truncate table recipe;
 truncate table step_note;
 truncate table step;
 truncate table week;
+truncate table meal;
