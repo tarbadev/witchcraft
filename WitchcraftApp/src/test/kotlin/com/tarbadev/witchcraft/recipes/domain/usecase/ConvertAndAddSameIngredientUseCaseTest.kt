@@ -11,34 +11,33 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.test.context.ActiveProfiles
-import java.util.*
 
 @ActiveProfiles("test")
 class ConvertAndAddSameIngredientUseCaseTest {
-    private val ingredientConverter: IngredientConverter = mock()
-    private lateinit var subject: ConvertAndAddSameIngredientUseCase
+  private val ingredientConverter: IngredientConverter = mock()
+  private lateinit var subject: ConvertAndAddSameIngredientUseCase
 
-    @BeforeEach
-    fun setUp() {
-        subject = ConvertAndAddSameIngredientUseCase(ingredientConverter)
-        reset(ingredientConverter)
-    }
+  @BeforeEach
+  fun setUp() {
+    subject = ConvertAndAddSameIngredientUseCase(ingredientConverter)
+    reset(ingredientConverter)
+  }
 
-    @Test
-    fun execute() {
-        val allIngredients = Arrays.asList(
-            Ingredient(name = "olive oil", quantity = 0.5.cup),
-            Ingredient(name = "olive oil", quantity = 3.tablespoon)
-        )
+  @Test
+  fun execute() {
+    val allIngredients = listOf(
+        Ingredient(name = "olive oil", quantity = 0.5.cup),
+        Ingredient(name = "olive oil", quantity = 3.tablespoon)
+    )
 
-        val expectedIngredient = Ingredient(
-            name = "olive oil",
-            quantity = 0.5625.cup
-        )
+    val expectedIngredient = Ingredient(
+        name = "olive oil",
+        quantity = 0.5625.cup
+    )
 
-        whenever(ingredientConverter.addToHighestUnit(allIngredients[0], allIngredients[1]))
-            .thenReturn(expectedIngredient)
+    whenever(ingredientConverter.addToHighestUnit(allIngredients[0], allIngredients[1]))
+        .thenReturn(expectedIngredient)
 
-        assertEquals(listOf(expectedIngredient), subject.execute(allIngredients))
-    }
+    assertEquals(listOf(expectedIngredient), subject.execute(allIngredients))
+  }
 }

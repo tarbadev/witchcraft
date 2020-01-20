@@ -7,28 +7,27 @@ import com.tarbadev.witchcraft.recipes.domain.repository.RecipeRepository
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import java.util.*
 
 class GetFavoriteRecipesUseCaseTest {
-    private val recipeRepository: RecipeRepository = mock()
-    private lateinit var subject: GetFavoriteRecipesUseCase
+  private val recipeRepository: RecipeRepository = mock()
+  private lateinit var subject: GetFavoriteRecipesUseCase
 
-    @BeforeEach
-    fun setUp() {
-        subject = GetFavoriteRecipesUseCase(recipeRepository)
-    }
+  @BeforeEach
+  fun setUp() {
+    subject = GetFavoriteRecipesUseCase(recipeRepository)
+  }
 
-    @Test
-    fun execute() {
-        val recipes = Arrays.asList(
-            Recipe(),
-            Recipe(),
-            Recipe(),
-            Recipe()
-        )
+  @Test
+  fun execute() {
+    val recipes = listOf(
+        Recipe(),
+        Recipe(),
+        Recipe(),
+        Recipe()
+    )
 
-        whenever(recipeRepository.findAllFavorite()).thenReturn(recipes)
+    whenever(recipeRepository.findAllFavorite()).thenReturn(recipes)
 
-        assertEquals(recipes, subject.execute())
-    }
+    assertEquals(recipes, subject.execute())
+  }
 }

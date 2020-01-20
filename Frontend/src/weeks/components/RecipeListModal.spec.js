@@ -31,7 +31,8 @@ describe('RecipeListModalContainer', () => {
     const day = 'monday'
     const meal = 'lunch'
     const recipe = 'Some new recipe'
-    const recipeListModalContainer = mount(<RecipeListModalContainer config={{ isModalOpen: true, day, meal }} setRecipe={setRecipeSpy} />)
+    const recipeListModalContainer = mount(<RecipeListModalContainer config={{ isModalOpen: true, day, meal }}
+                                                                     setRecipe={setRecipeSpy} />)
 
     expect(recipeListModalContainer.find('[data-name="express-recipe-form-modal"]').at(0).props().open).toBeFalsy()
 
@@ -55,10 +56,34 @@ describe('RecipeListModalContainer', () => {
       .spyOn(RecipesActions, 'getAllRecipes')
       .mockImplementation(onSuccess => onSuccess({ recipes: allRecipes }))
 
-    const withoutCurrentRecipe = mount(<RecipeListModalContainer config={{ isModalOpen: true }} />)
+    const withoutCurrentRecipe = mount(<RecipeListModalContainer
+      config={{ isModalOpen: true, currentRecipeIds: [] }} />)
     expect(withoutCurrentRecipe.find('.current-recipe')).toHaveLength(0)
 
-    const withCurrentRecipe = mount(<RecipeListModalContainer config={{ isModalOpen: true, currentRecipeId: 3 }} />)
+    const withCurrentRecipe = mount(<RecipeListModalContainer config={{ isModalOpen: true, currentRecipeIds: [3] }} />)
     expect(withCurrentRecipe.find('.current-recipe')).toHaveLength(4)
+  })
+
+  it('when clicking on current recipe adds a remove flag', () => {
+    mockAppContext()
+    const setRecipeSpy = jest.fn()
+    const existingRecipe = { id: 1, imgUrl: 'fakeToRemoveWarning1', name: 'Recipe test' }
+    const config = { isModalOpen: true, currentRecipeIds: [existingRecipe.id], day: 'monday', meal: 'lunch' }
+    const allRecipes = [
+      existingRecipe,
+      { id: 2, imgUrl: 'fakeToRemoveWarning2', name: 'Recipe Two' },
+      { id: 3, imgUrl: 'fakeToRemoveWarning3', name: 'Recipe Three' },
+    ]
+
+    jest
+      .spyOn(RecipesActions, 'getAllRecipes')
+      .mockImplementation(onSuccess => onSuccess({ recipes: allRecipes }))
+
+    const recipeListModalContainer = mount(<RecipeListModalContainer config={config} setRecipe={setRecipeSpy} />)
+    expect(recipeListModalContainer.find('.current-recipe')).toHaveLength(4)
+
+    recipeListModalContainer.find('.recipe-card').at(0).simulate('click')
+
+    expect(setRecipeSpy).toHaveBeenCalledWith({ ...existingRecipe, remove: true }, config.day, config.meal)
   })
 })

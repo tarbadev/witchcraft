@@ -1,33 +1,22 @@
 package com.tarbadev.witchcraft.weeks.rest.entity
 
-import com.tarbadev.witchcraft.recipes.rest.entity.RecipeResponse
 import com.tarbadev.witchcraft.weeks.domain.entity.Day
+import com.tarbadev.witchcraft.weeks.domain.entity.MealType
 
 data class DayResponse(
     val id: Int,
     val name: String,
-    val lunch: RecipeResponse?,
-    val diner: RecipeResponse?
+    val lunch: List<MealResponse>,
+    val diner: List<MealResponse>
 ) {
   companion object {
-    fun fromDay(day: Day): DayResponse {
-      val dayLunch = day.lunch
-      var lunch: RecipeResponse? = null
-      if (dayLunch != null) {
-        lunch = RecipeResponse.fromRecipe(dayLunch)
-      }
-      val dayDiner = day.diner
-      var diner: RecipeResponse? = null
-      if (dayDiner != null) {
-        diner = RecipeResponse.fromRecipe(dayDiner)
-      }
-
-      return DayResponse(
-          day.id,
-          day.name.name,
-          lunch,
-          diner
-      )
-    }
+    fun fromDay(day: Day) = DayResponse(
+        day.id,
+        day.name.name,
+        day.meals.filter { it.mealType == MealType.LUNCH }
+            .map { MealResponse.fromMeal(it) },
+        day.meals.filter { it.mealType == MealType.DINER }
+            .map { MealResponse.fromMeal(it) }
+    )
   }
 }

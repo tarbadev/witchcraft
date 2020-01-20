@@ -142,7 +142,7 @@ class HelloFreshRecipeHtmlParserTest {
         .thenReturn(ingredient13)
         .thenReturn(ingredient14)
     whenever(convertAndAddSameIngredientUseCase.execute(
-        asList(
+        listOf(
             ingredient1,
             ingredient2,
             ingredient3,

@@ -3,7 +3,7 @@ import * as CartPage from '../page-objects/cart.po'
 
 describe('Weeks page', () => {
   describe('on lunch or diner click', () => {
-    it('displays a list of clickable recipes', async () => {
+    it('displays a list of clickable recipes and removes it if clicked again', async () => {
       await WeeksPage.goTo()
       await WeeksPage.clickOnMeal('lunch', 'THURSDAY')
 
@@ -15,28 +15,60 @@ describe('Weeks page', () => {
       ])
 
       await WeeksPage.clickOnRecipe('thai chicken salad')
+      expect(await WeeksPage.getMeal('lunch', 'THURSDAY')).toEqual('thai chicken salad')
 
-      const thursdayLunch = await WeeksPage.getMeal('lunch', 'THURSDAY')
-      expect(thursdayLunch).toEqual('thai chicken salad')
+      await WeeksPage.clickOnMeal('lunch', 'THURSDAY')
+      await WeeksPage.clickOnRecipe('thai chicken salad')
+      expect(await WeeksPage.getMeal('lunch', 'THURSDAY')).toEqual('')
     })
 
-    it('saves the current week and displays a success message', async () => {
+    it('adds an express recipe', async () => {
+      await WeeksPage.goTo()
+      await WeeksPage.clickOnMeal('diner', 'MONDAY')
+      await WeeksPage.addExpressRecipe('Fajitas With Beef')
+
+      const mondayDiner = await WeeksPage.getMeal('diner', 'MONDAY')
+      expect(mondayDiner).toEqual('fajitas with beef')
+    })
+  })
+
+  it('saves the current week and displays a success message', async () => {
+    await WeeksPage.goTo()
+    await WeeksPage.clickOnMeal('lunch', 'THURSDAY')
+    await WeeksPage.clickOnRecipe('thai chicken salad')
+    await WeeksPage.save()
+
+    await global.page.waitForSelector('.week-page__success-message')
+    expect(await WeeksPage.isSuccessMessageDisplayed()).toBeTruthy()
+
+    await WeeksPage.discardSuccessMessage()
+
+    expect(await WeeksPage.isSuccessMessageDisplayed()).toBeFalsy()
+
+    await WeeksPage.goTo()
+
+    const thursdayLunch = await WeeksPage.getMeal('lunch', 'THURSDAY')
+    expect(thursdayLunch).toEqual('thai chicken salad')
+  })
+
+  describe('on create cart click', () => {
+    it('saves the cart when clicking on create cart', async () => {
       await WeeksPage.goTo()
       await WeeksPage.clickOnMeal('lunch', 'THURSDAY')
       await WeeksPage.clickOnRecipe('thai chicken salad')
-      await WeeksPage.save()
+      await WeeksPage.clickOnMeal('diner', 'MONDAY')
+      await WeeksPage.clickOnRecipe('lasagna alla bolognese')
 
-      await global.page.waitForSelector('.week-page__success-message')
-      expect(await WeeksPage.isSuccessMessageDisplayed()).toBeTruthy()
-
-      await WeeksPage.discardSuccessMessage()
-
-      expect(await WeeksPage.isSuccessMessageDisplayed()).toBeFalsy()
+      await WeeksPage.clickOnCreateCart()
+      await CartPage.waitForPageLoaded()
 
       await WeeksPage.goTo()
 
       const thursdayLunch = await WeeksPage.getMeal('lunch', 'THURSDAY')
       expect(thursdayLunch).toEqual('thai chicken salad')
+
+      const wednesdayDiner = await WeeksPage.getMeal('diner', 'MONDAY')
+      expect(wednesdayDiner).toEqual('lasagna alla bolognese')
     })
 
     it('generates a cart from a given week', async () => {
@@ -63,34 +95,6 @@ describe('Weeks page', () => {
         'thai chicken salad',
         'lasagna alla bolognese',
       ].sort())
-    })
-
-    it('saves the cart when clicking on create cart', async () => {
-      await WeeksPage.goTo()
-      await WeeksPage.clickOnMeal('lunch', 'THURSDAY')
-      await WeeksPage.clickOnRecipe('thai chicken salad')
-      await WeeksPage.clickOnMeal('diner', 'MONDAY')
-      await WeeksPage.clickOnRecipe('lasagna alla bolognese')
-
-      await WeeksPage.clickOnCreateCart()
-      await CartPage.waitForPageLoaded()
-
-      await WeeksPage.goTo()
-
-      const thursdayLunch = await WeeksPage.getMeal('lunch', 'THURSDAY')
-      expect(thursdayLunch).toEqual('thai chicken salad')
-
-      const wednesdayDiner = await WeeksPage.getMeal('diner', 'MONDAY')
-      expect(wednesdayDiner).toEqual('lasagna alla bolognese')
-    })
-
-    it('adds an express recipe', async () => {
-      await WeeksPage.goTo()
-      await WeeksPage.clickOnMeal('diner', 'MONDAY')
-      await WeeksPage.addExpressRecipe('Fajitas With Beef')
-
-      const mondayDiner = await WeeksPage.getMeal('diner', 'MONDAY')
-      expect(mondayDiner).toEqual('fajitas with beef')
     })
   })
 })

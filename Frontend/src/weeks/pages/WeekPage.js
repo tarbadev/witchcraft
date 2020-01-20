@@ -60,6 +60,7 @@ export const WeekPageContainer = ({ history, weekNumber, year }) => {
 
   const closeModal = () => setModal(toggleModal(false))
   const setRecipeAndCloseModal = (recipe, day, meal) => {
+    console.log(recipe)
     setWeek(setRecipeToWeek(week, recipe, day, meal))
     closeModal()
   }
@@ -72,7 +73,7 @@ export const WeekPageContainer = ({ history, weekNumber, year }) => {
     showSuccessMessage={showSuccessMessage}
     onSuccessButtonClose={() => setShowSuccessMessage(false)}
     modal={modal}
-    openModal={(day, meal, currentRecipeId) => setModal(toggleModal(true, day, meal, currentRecipeId))}
+    openModal={(day, meal, currentRecipeIds) => setModal(toggleModal(true, day, meal, currentRecipeIds))}
     closeModal={closeModal}
     setRecipe={setRecipeAndCloseModal}
   />
@@ -100,9 +101,8 @@ export const WeekPage = ({
 }) => {
   const onCreateCartClick = () => {
     const recipeIds = week.days
-      .map(day => [day.lunch?.id, day.diner?.id])
+      .map(day => day.lunch.map(recipe => recipe.id).concat(day.diner.map(recipe => recipe.id)))
       .reduce((prev, curr) => prev.concat(curr))
-      .filter(recipeId => recipeId > 0)
 
     saveWeek()
     createCart(recipeIds)

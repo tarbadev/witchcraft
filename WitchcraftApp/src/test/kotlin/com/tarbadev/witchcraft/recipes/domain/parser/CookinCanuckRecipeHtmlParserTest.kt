@@ -113,7 +113,7 @@ class CookinCanuckRecipeHtmlParserTest {
   fun parse_ImportStepsFromParagraphTag() {
     val steps1 = subject.parse("https://www.cookincanuck.com/one-pot-whole-wheat-pasta-recipe-chicken-spinach/").steps
 
-    val steps = asList(
+    val steps = listOf(
         Step(name = "In a large nonstick saucepan (or nonstick skillet with high sides) set over medium-high heat, heat 2 teaspoons of olive oil. Add the chicken and cook, stirring occasionally, until just cooked through, 4 to 5 minutes. Transfer to a bowl."),
         Step(name = "Reduce the heat to medium and add 1 teaspoon of olive oil to the saucepan. Add the orange pepper and cook for 1 minute. Transfer to the bowl with the chicken. Set aside."),
         Step(name = "Add the remaining 1 teaspoon of olive oil to the saucepan. Add the onion and sauté until softened, about 4 minutes. Add the garlic and oregano, and cook for 30 seconds."),
@@ -137,7 +137,7 @@ class CookinCanuckRecipeHtmlParserTest {
         .thenReturn(ingredient8)
         .thenReturn(ingredient9)
     whenever(convertAndAddSameIngredientUseCase.execute(
-        asList(
+        listOf(
             ingredient1,
             ingredient2,
             ingredient3,

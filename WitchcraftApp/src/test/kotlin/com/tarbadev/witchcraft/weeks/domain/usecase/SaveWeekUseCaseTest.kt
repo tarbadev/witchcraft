@@ -5,14 +5,11 @@ import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import com.tarbadev.witchcraft.recipes.domain.entity.Recipe
 import com.tarbadev.witchcraft.recipes.domain.repository.RecipeRepository
-import com.tarbadev.witchcraft.weeks.domain.entity.Day
-import com.tarbadev.witchcraft.weeks.domain.entity.DayName
-import com.tarbadev.witchcraft.weeks.domain.entity.Week
+import com.tarbadev.witchcraft.weeks.domain.entity.*
 import com.tarbadev.witchcraft.weeks.domain.repository.WeekRepository
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.test.context.ActiveProfiles
-import java.util.Arrays.asList
 
 @ActiveProfiles("test")
 class SaveWeekUseCaseTest {
@@ -35,16 +32,16 @@ class SaveWeekUseCaseTest {
             id = 345,
             year = 2018,
             weekNumber = 12,
-            days = asList(
+            days = listOf(
                 Day(
                     id = 234,
                     name = DayName.MONDAY,
-                    lunch = Recipe(id = 213)
+                    meals = listOf(Meal(recipe = Recipe(id = 213), mealType = MealType.LUNCH))
                 ),
                 Day(
                     id = 789,
                     name = DayName.THURSDAY,
-                    diner = Recipe(id = 897)
+                    meals = listOf(Meal(recipe = Recipe(id = 897), mealType = MealType.DINER))
                 )
             ))
 
@@ -52,16 +49,16 @@ class SaveWeekUseCaseTest {
             id = 345,
             year = 2018,
             weekNumber = 12,
-            days = asList(
+            days = listOf(
                 Day(
                     id = 234,
                     name = DayName.MONDAY,
-                    lunch = lasagna
+                    meals = listOf(Meal(recipe = lasagna, mealType = MealType.LUNCH))
                 ),
                 Day(
                     id = 789,
                     name = DayName.THURSDAY,
-                    diner = tartiflette
+                    meals = listOf(Meal(recipe = tartiflette, mealType = MealType.DINER))
                 )
             ))
 

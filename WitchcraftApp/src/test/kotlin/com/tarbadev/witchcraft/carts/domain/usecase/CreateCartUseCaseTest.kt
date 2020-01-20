@@ -35,7 +35,7 @@ class CreateCartUseCaseTest {
     @Test
     fun execute() {
         val recipes = listOf(Recipe(
-            ingredients = asList(
+            ingredients = listOf(
                 Ingredient(
                     name = "Ingredient 1",
                     quantity = 2.2.pound
@@ -67,9 +67,9 @@ class CreateCartUseCaseTest {
 
     @Test
     fun execute_addsItemsWithSameNameAndConvertUnit() {
-        val recipes = asList(
+        val recipes = listOf(
             Recipe(
-                ingredients = asList(
+                ingredients = listOf(
                     Ingredient(
                         name = "Ingredient 1",
                         quantity = 1.2.pound
@@ -82,7 +82,7 @@ class CreateCartUseCaseTest {
                 steps = emptyList()
             ),
             Recipe(
-                ingredients = asList(
+                ingredients = listOf(
                     Ingredient(
                         name = "Ingredient 1",
                         quantity = 2.2.pound
@@ -95,7 +95,7 @@ class CreateCartUseCaseTest {
                 steps = emptyList()
             )
         )
-        val items = asList(
+        val items = listOf(
             Item(
                 name = "Ingredient 1",
                 quantity = 2.2 + 1.2,

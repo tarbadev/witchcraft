@@ -5,7 +5,6 @@ import com.tarbadev.witchcraft.weeks.domain.entity.DayName
 import com.tarbadev.witchcraft.weeks.domain.entity.Week
 import com.tarbadev.witchcraft.weeks.domain.repository.WeekRepository
 import org.springframework.stereotype.Component
-import java.util.*
 
 @Component
 class WeekFromYearAndWeekNumberUseCase(private val weekRepository: WeekRepository) {
@@ -17,14 +16,14 @@ class WeekFromYearAndWeekNumberUseCase(private val weekRepository: WeekRepositor
       week = Week(
           year = year,
           weekNumber = weekNumber,
-          days = Arrays.asList(
-              Day(name = DayName.MONDAY, lunch = null, diner = null),
-              Day(name = DayName.TUESDAY, lunch = null, diner = null),
-              Day(name = DayName.WEDNESDAY, lunch = null, diner = null),
-              Day(name = DayName.THURSDAY, lunch = null, diner = null),
-              Day(name = DayName.FRIDAY, lunch = null, diner = null),
-              Day(name = DayName.SATURDAY, lunch = null, diner = null),
-              Day(name = DayName.SUNDAY, lunch = null, diner = null)
+          days = listOf(
+              Day(name = DayName.MONDAY),
+              Day(name = DayName.TUESDAY),
+              Day(name = DayName.WEDNESDAY),
+              Day(name = DayName.THURSDAY),
+              Day(name = DayName.FRIDAY),
+              Day(name = DayName.SATURDAY),
+              Day(name = DayName.SUNDAY)
           )
       )
     }

@@ -5,16 +5,16 @@ describe('WeekPageActions', () => {
   it('toggleModal returns the new modal object', () => {
     const day = 'Monday'
     const meal = 'Lunch'
-    const recipeId = 23
+    const recipeIds = [23]
     const newModal = {
       isModalOpen: true,
       day: day,
       meal: meal,
-      currentRecipeId: recipeId,
+      currentRecipeIds: recipeIds,
       displayExpressRecipeForm: false,
     }
 
-    expect(toggleModal(true, day, meal, recipeId)).toEqual(newModal)
+    expect(toggleModal(true, day, meal, recipeIds)).toEqual(newModal)
   })
 
   describe('saveWeek', () => {
@@ -35,7 +35,7 @@ describe('WeekPageActions', () => {
       }))
     })
 
-    it('sends only the id of the recipes, not the object', () => {
+    it('sends only the id of the recipes and mealId if exists', () => {
       const onSuccessSpy = jest.fn()
       const week = {
         id: 12,
@@ -43,10 +43,12 @@ describe('WeekPageActions', () => {
         weekNumber: 33,
         days: [
           {
-            diner: { id: 34 },
+            lunch: [],
+            diner: [{ id: 34, mealId: 45 }],
           },
           {
-            lunch: { id: 4 },
+            lunch: [{ id: 4 }],
+            diner: [],
           },
         ],
       }
@@ -56,10 +58,12 @@ describe('WeekPageActions', () => {
         weekNumber: 33,
         days: [
           {
-            diner: 34,
+            lunch: [],
+            diner: [{ recipeId: 34, mealId: 45 }],
           },
           {
-            lunch: 4,
+            lunch: [{ recipeId: 4 }],
+            diner: [],
           },
         ],
       }
@@ -83,11 +87,13 @@ describe('WeekPageActions', () => {
         days: [
           {
             name: 'monday',
-            diner: { id: 34 },
+            lunch: [],
+            diner: [{ id: 34 }],
           },
           {
             name: 'tuesday',
-            lunch: { id: 4 },
+            lunch: [{ id: 4 }],
+            diner: [],
           },
         ],
       }
@@ -98,12 +104,13 @@ describe('WeekPageActions', () => {
         days: [
           {
             name: 'monday',
-            lunch: recipe,
-            diner: { id: 34 },
+            lunch: [recipe],
+            diner: [{ id: 34 }],
           },
           {
             name: 'tuesday',
-            lunch: { id: 4 },
+            lunch: [{ id: 4 }],
+            diner: [],
           },
         ],
       }
@@ -114,19 +121,59 @@ describe('WeekPageActions', () => {
         days: [
           {
             name: 'monday',
-            lunch: recipe,
-            diner: { id: 34 },
+            lunch: [recipe],
+            diner: [{ id: 34 }],
           },
           {
             name: 'tuesday',
-            lunch: { id: 4 },
-            diner: recipe,
+            lunch: [{ id: 4 }],
+            diner: [recipe],
           },
         ],
       }
 
       expect(setRecipeToWeek(week, recipe, 'monday', 'lunch')).toEqual(newWeek)
       expect(setRecipeToWeek(newWeek, recipe, 'tuesday', 'diner')).toEqual(newWeek2)
+    })
+
+    it('Returns a new week without the removed recipe', () => {
+      const recipe = { id: 4, name: 'lasagna', remove: true }
+      const week = {
+        id: 12,
+        year: 2018,
+        weekNumber: 33,
+        days: [
+          {
+            name: 'monday',
+            lunch: [],
+            diner: [{ id: 34 }],
+          },
+          {
+            name: 'tuesday',
+            lunch: [{ id: 4, name: 'lasagna' }],
+            diner: [],
+          },
+        ],
+      }
+      const newWeek = {
+        id: 12,
+        year: 2018,
+        weekNumber: 33,
+        days: [
+          {
+            name: 'monday',
+            lunch: [],
+            diner: [{ id: 34 }],
+          },
+          {
+            name: 'tuesday',
+            lunch: [],
+            diner: [],
+          },
+        ],
+      }
+
+      expect(setRecipeToWeek(week, recipe, 'tuesday', 'lunch')).toEqual(newWeek)
     })
   })
 })

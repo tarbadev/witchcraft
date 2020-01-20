@@ -33,9 +33,10 @@ export const RecipeListModalContainer = ({ config, closeModal, setRecipe }) => {
     closeModal={closeModal}
     day={config.day}
     meal={config.meal}
-    currentRecipeId={config.currentRecipeId}
+    currentRecipeIds={config.currentRecipeIds}
     setRecipe={setRecipe}
-    addExpressRecipe={recipeName => dispatch(addExpressRecipe(recipeName, recipe => setRecipe(recipe, config.day, config.meal)))}
+    addExpressRecipe={recipeName => dispatch(addExpressRecipe(recipeName,
+      recipe => setRecipe(recipe, config.day, config.meal)))}
     displayExpressRecipeForm={() => openExpressRecipeModal(true)}
     closeAddExpressRecipeForm={() => openExpressRecipeModal(false)}
     isDisplayExpressRecipeForm={isExpressRecipeModalOpen} />
@@ -53,7 +54,7 @@ export const RecipeListModal = ({
   closeModal,
   day,
   meal,
-  currentRecipeId,
+  currentRecipeIds,
   displayExpressRecipeForm,
   closeAddExpressRecipeForm,
   isDisplayExpressRecipeForm,
@@ -64,13 +65,13 @@ export const RecipeListModal = ({
 }) => {
   const recipeCards = recipes.map(recipe => {
     const onClick = () => {
-      if (recipe?.id === currentRecipeId) return setRecipe({}, day, meal)
+      if (currentRecipeIds.includes(recipe?.id)) return setRecipe({ ...recipe, remove: true }, day, meal)
       else return setRecipe(recipe, day, meal)
     }
-    const className = recipe?.id === currentRecipeId
+    const className = currentRecipeIds.includes(recipe?.id)
       ? 'current-recipe'
       : {}
-    const currentRecipeIcon = recipe?.id === currentRecipeId
+    const currentRecipeIcon = currentRecipeIds.includes(recipe?.id)
       ? <CheckCircleIcon className={className} />
       : undefined
     return (
@@ -130,7 +131,7 @@ RecipeListModal.propTypes = {
   closeModal: PropTypes.func,
   day: PropTypes.string,
   meal: PropTypes.string,
-  currentRecipeId: PropTypes.number,
+  currentRecipeIds: PropTypes.array,
   displayExpressRecipeForm: PropTypes.func,
   isDisplayExpressRecipeForm: PropTypes.bool,
   expressRecipeName: PropTypes.string,

@@ -13,8 +13,6 @@ import com.tarbadev.witchcraft.recipes.domain.entity.Step
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import java.util.*
-import java.util.Arrays.asList
 
 class GetRecipeDetailsFromFormUseCaseTest {
   private val ingredientFromStringUseCase: IngredientFromStringUseCase = mock()
@@ -56,7 +54,7 @@ class GetRecipeDetailsFromFormUseCaseTest {
         name = name,
         originUrl = originUrl,
         imgUrl = imgUrl,
-        ingredients = asList(
+        ingredients = listOf(
             ingredient1,
             ingredient2,
             ingredient3
@@ -102,14 +100,14 @@ class GetRecipeDetailsFromFormUseCaseTest {
         name = "lemon",
         quantity = 1.unit
     )
-    val allIngredients = asList(
+    val allIngredients = listOf(
         ingredient1,
         ingredient2,
         ingredient3,
         ingredient4
     )
 
-    val expectedIngredients = Arrays.asList(
+    val expectedIngredients = listOf(
         Ingredient(
             name = "sugar",
             quantity = 10.tablespoon
