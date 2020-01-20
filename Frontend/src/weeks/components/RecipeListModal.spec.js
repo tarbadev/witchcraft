@@ -55,10 +55,10 @@ describe('RecipeListModalContainer', () => {
       .spyOn(RecipesActions, 'getAllRecipes')
       .mockImplementation(onSuccess => onSuccess({ recipes: allRecipes }))
 
-    const withoutCurrentRecipe = mount(<RecipeListModalContainer config={{ isModalOpen: true }} />)
+    const withoutCurrentRecipe = mount(<RecipeListModalContainer config={{ isModalOpen: true, currentRecipeIds: [] }} />)
     expect(withoutCurrentRecipe.find('.current-recipe')).toHaveLength(0)
 
-    const withCurrentRecipe = mount(<RecipeListModalContainer config={{ isModalOpen: true, currentRecipeId: 3 }} />)
+    const withCurrentRecipe = mount(<RecipeListModalContainer config={{ isModalOpen: true, currentRecipeIds: [3] }} />)
     expect(withCurrentRecipe.find('.current-recipe')).toHaveLength(4)
   })
 })

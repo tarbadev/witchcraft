@@ -7,7 +7,6 @@ import com.tarbadev.witchcraft.recipes.domain.repository.RecipeRepository
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import java.util.Arrays.asList
 
 class LastAddedRecipesUseCaseTest {
     private val recipeRepository: RecipeRepository = mock()
@@ -20,7 +19,7 @@ class LastAddedRecipesUseCaseTest {
 
     @Test
     fun execute() {
-        val recipes = asList(
+        val recipes = listOf(
             Recipe(),
             Recipe(),
             Recipe(),

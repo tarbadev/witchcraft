@@ -45,13 +45,13 @@ export const WeekPane = ({
   const lunches = week.days.map((day, index) => {
     let onCellClick
     if (onMealClick) {
-      onCellClick = () => onMealClick(day.name.toLowerCase(), 'lunch', day.lunch?.id)
+      onCellClick = () => onMealClick(day.name.toLowerCase(), 'lunch', day.lunch.map(recipe => recipe.id))
     }
 
     return (
       <WeekRecipeCell
         key={`lunch-${index}`}
-        recipe={day.lunch}
+        recipe={day.lunch[0]}
         onCellClick={onCellClick}
         dataTag={`lunch-${day.name}`}
       />
@@ -61,13 +61,13 @@ export const WeekPane = ({
   const diners = week.days.map((day, index) => {
     let onCellClick
     if (onMealClick) {
-      onCellClick = () => onMealClick(day.name.toLowerCase(), 'diner', day.diner?.id)
+      onCellClick = () => onMealClick(day.name.toLowerCase(), 'diner', day.diner.map(recipe => recipe.id))
     }
 
     return (
       <WeekRecipeCell
         key={`diner-${index}`}
-        recipe={day.diner}
+        recipe={day.diner[0]}
         onCellClick={onCellClick}
         dataTag={`diner-${day.name}`}
       />

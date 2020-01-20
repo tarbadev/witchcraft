@@ -22,7 +22,7 @@ class CreateCartUseCase(
     private fun getItemsFromRecipe(recipes: List<Recipe>): List<Item> {
         val allIngredients = recipes.flatMap { recipe -> recipe.ingredients }
 
-        val ingredientsByNameAndUnit = allIngredients.groupBy { asList(it.name, it.quantity.getUnit()) }
+        val ingredientsByNameAndUnit = allIngredients.groupBy { listOf(it.name, it.quantity.getUnit()) }
 
         val ingredientsByName = ingredientsByNameAndUnit.values
                 .map { it.reduce { a, b -> a.addQuantity(b.quantity) } }

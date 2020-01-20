@@ -27,8 +27,8 @@ describe('WeekPageContainer', () => {
       weekNumber: week,
       days: [
         {
-          lunch: { id: 1 },
-          diner: { id: 3 },
+          lunch: [{ id: 1 }],
+          diner: [{ id: 3 }],
         },
       ],
     }
@@ -53,12 +53,12 @@ describe('WeekPageContainer', () => {
       weekNumber: week,
       days: [
         {
-          lunch: { id: 1 },
-          diner: { id: 3 },
+          lunch: [{ id: 1 }],
+          diner: [{ id: 3 }],
         },
         {
-          lunch: null,
-          diner: null,
+          lunch: [],
+          diner: [],
         },
       ],
     }
@@ -83,12 +83,12 @@ describe('WeekPageContainer', () => {
       weekNumber: week,
       days: [
         {
-          lunch: { id: 1 },
-          diner: { id: 3 },
+          lunch: [{ mealId: 78, id: 1 }],
+          diner: [{ mealId: 12, id: 3 }],
         },
         {
-          lunch: null,
-          diner: null,
+          lunch: [],
+          diner: [],
         },
       ],
     }
@@ -114,12 +114,12 @@ describe('WeekPageContainer', () => {
       weekNumber: week,
       days: [
         {
-          lunch: { id: 1 },
-          diner: { id: 3 },
+          lunch: [{ id: 1 }],
+          diner: [{ id: 3 }],
         },
         {
-          lunch: null,
-          diner: null,
+          lunch: [],
+          diner: [],
         },
       ],
     }
@@ -150,12 +150,12 @@ describe('WeekPageContainer', () => {
         weekNumber: week,
         days: [
           {
-            lunch: { id: 1 },
-            diner: { id: 3 },
+            lunch: [{ id: 1 }],
+            diner: [{ id: 3 }],
           },
           {
-            lunch: null,
-            diner: null,
+            lunch: [],
+            diner: [],
           },
         ],
       }
@@ -181,12 +181,12 @@ describe('WeekPageContainer', () => {
         weekNumber: week,
         days: [
           {
-            lunch: { id: 1 },
-            diner: { id: 3 },
+            lunch: [{ id: 1 }],
+            diner: [{ id: 3 }],
           },
           {
-            lunch: null,
-            diner: null,
+            lunch: [],
+            diner: [],
           },
         ],
       }
@@ -214,12 +214,12 @@ describe('WeekPageContainer', () => {
         weekNumber: week,
         days: [
           {
-            lunch: { id: 1 },
-            diner: { id: 3 },
+            lunch: [{ id: 1 }],
+            diner: [{ id: 3 }],
           },
           {
-            lunch: null,
-            diner: null,
+            lunch: [],
+            diner: [],
           },
         ],
       }
@@ -245,12 +245,12 @@ describe('WeekPageContainer', () => {
         weekNumber: week,
         days: [
           {
-            lunch: { id: 1 },
-            diner: { id: 3 },
+            lunch: [{ id: 1 }],
+            diner: [{ id: 3 }],
           },
           {
-            lunch: null,
-            diner: null,
+            lunch: [],
+            diner: [],
           },
         ],
       }
@@ -278,13 +278,13 @@ describe('WeekPageContainer', () => {
       days: [
         {
           name: 'MONDAY',
-          lunch: { id: 0,  },
-          diner: { id: 0,  },
+          lunch: [{ id: 0,  }],
+          diner: [{ id: 0,  }],
         },
         {
           name: 'TUESDAY',
-          lunch: null,
-          diner: null,
+          lunch: [],
+          diner: [],
         },
       ],
     }

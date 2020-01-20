@@ -23,6 +23,7 @@ const pages = {
       day: '',
       meal: '',
       displayExpressRecipeForm: false,
+      currentRecipeIds: [],
     },
     expressRecipeForm: {
       recipeName: '',

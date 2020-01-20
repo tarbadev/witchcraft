@@ -9,28 +9,26 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-import java.util.Arrays
-
 class CartCatalogUseCaseTest {
-    private val cartRepository: CartRepository = mock()
-    private var cartCatalogUseCase: CartCatalogUseCase = CartCatalogUseCase(cartRepository)
+  private val cartRepository: CartRepository = mock()
+  private var cartCatalogUseCase: CartCatalogUseCase = CartCatalogUseCase(cartRepository)
 
-    @BeforeEach
-    fun setUp() {
-        reset(cartRepository)
-    }
+  @BeforeEach
+  fun setUp() {
+    reset(cartRepository)
+  }
 
-    @Test
-    fun execute() {
-        val carts = Arrays.asList(
-                Cart(),
-                Cart(),
-                Cart(),
-                Cart()
-        )
+  @Test
+  fun execute() {
+    val carts = listOf(
+        Cart(),
+        Cart(),
+        Cart(),
+        Cart()
+    )
 
-        whenever(cartRepository.findAll()).thenReturn(carts)
+    whenever(cartRepository.findAll()).thenReturn(carts)
 
-        assertEquals(carts, cartCatalogUseCase.execute())
-    }
+    assertEquals(carts, cartCatalogUseCase.execute())
+  }
 }

@@ -20,8 +20,6 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager
 import org.springframework.test.context.junit.jupiter.SpringExtension
-import java.util.*
-import java.util.Arrays.asList
 import java.util.Collections.emptyList
 
 @ExtendWith(SpringExtension::class)
@@ -71,7 +69,7 @@ class DatabaseRecipeRepositoryTest(
   fun saveRecipe_savesIngredients() {
     val recipe = Recipe(
         name = "Lasagna",
-        ingredients = asList(
+        ingredients = listOf(
             Ingredient(quantity = 1.unit),
             Ingredient(quantity = 1.unit)
         ),
@@ -83,7 +81,7 @@ class DatabaseRecipeRepositoryTest(
     val expectedRecipe = Recipe(
         id = returnedRecipe.id,
         name = "lasagna",
-        ingredients = asList(
+        ingredients = listOf(
             Ingredient(id = returnedRecipe.ingredients[0].id, quantity = 1.unit),
             Ingredient(id = returnedRecipe.ingredients[1].id, quantity = 1.unit)
         ),
@@ -126,7 +124,7 @@ class DatabaseRecipeRepositoryTest(
     val url2 = "URL2"
 
 
-    val expectedRecipes = asList(
+    val expectedRecipes = listOf(
         entityManager.persist(RecipeEntity(
             name = "Lasagna",
             ingredients = emptyList(),
@@ -173,7 +171,7 @@ class DatabaseRecipeRepositoryTest(
 
     entityManager.clear()
 
-    val expectedRecipes = Arrays.asList(burger, pizza, tartiflette)
+    val expectedRecipes = listOf(burger, pizza, tartiflette)
 
     val recipes = databaseRecipeRepository.findAll()
     assertEquals(expectedRecipes.size, recipes.size)
@@ -205,7 +203,7 @@ class DatabaseRecipeRepositoryTest(
 
     entityManager.clear()
 
-    val expectedRecipes = Arrays.asList(pizza)
+    val expectedRecipes = listOf(pizza)
 
     val recipes = databaseRecipeRepository.findAll()
     assertEquals(expectedRecipes, recipes)
@@ -232,7 +230,7 @@ class DatabaseRecipeRepositoryTest(
     val recipe = entityManager.persistAndFlush(
         RecipeEntity(
             name = "Recipe 1",
-            ingredients = asList(
+            ingredients = listOf(
                 IngredientEntity(name = "Parsley"),
                 IngredientEntity(name = "Cilantro"),
                 IngredientEntity(name = "Egg")

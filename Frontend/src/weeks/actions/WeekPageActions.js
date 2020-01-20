@@ -1,11 +1,11 @@
 import { fetchAction } from 'src/app/WitchcraftMiddleware'
 
-export const toggleModal = (isModalOpen, day = '', meal = '', currentRecipeId) =>
+export const toggleModal = (isModalOpen, day = '', meal = '', currentRecipeIds = []) =>
   ({
     isModalOpen: isModalOpen,
     day: day,
     meal: meal,
-    currentRecipeId: currentRecipeId,
+    currentRecipeIds: currentRecipeIds,
     displayExpressRecipeForm: false,
   })
 
@@ -17,8 +17,8 @@ export const saveWeek = (week, onSuccess) => {
     days: week.days.map(day => ({
       id: day.id,
       name: day.name,
-      lunch: day.lunch?.id,
-      diner: day.diner?.id,
+      lunch: day.lunch.map(meal => ({ recipeId: meal.id, mealId: meal.mealId })),
+      diner: day.diner.map(meal => ({ recipeId: meal.id, mealId: meal.mealId })),
     })),
   }
 
@@ -51,9 +51,9 @@ export const setRecipeToWeek = (week, recipe, day, meal) => {
   const dayIndex = days.indexOf(day.toLowerCase())
 
   if (meal === 'lunch') {
-    newWeek.days[dayIndex].lunch = recipe
+    newWeek.days[dayIndex].lunch = [...newWeek.days[dayIndex].lunch, recipe]
   } else if (meal === 'diner') {
-    newWeek.days[dayIndex].diner = recipe
+    newWeek.days[dayIndex].diner = [...newWeek.days[dayIndex].diner, recipe]
   }
 
   return newWeek

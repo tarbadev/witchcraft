@@ -58,7 +58,7 @@ class CartsRestControllerTest(
 
   @Test
   fun getAll() {
-    val carts = asList(
+    val carts = listOf(
         Cart(),
         Cart(),
         Cart()
@@ -74,13 +74,13 @@ class CartsRestControllerTest(
 
   @Test
   fun create() {
-    val createCartRequests = asList(
+    val createCartRequests = listOf(
         CreateCartRequest(id = 1),
         CreateCartRequest(id = 2),
         CreateCartRequest(id = 4)
     )
 
-    val recipes = asList(
+    val recipes = listOf(
         Recipe(id = 1),
         Recipe(id = 2),
         Recipe(id = 3),

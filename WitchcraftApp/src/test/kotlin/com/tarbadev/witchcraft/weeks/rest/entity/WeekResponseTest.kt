@@ -1,16 +1,18 @@
 package com.tarbadev.witchcraft.weeks.rest.entity
 
 import com.tarbadev.witchcraft.recipes.domain.entity.Recipe
-import com.tarbadev.witchcraft.weeks.domain.entity.Day
-import com.tarbadev.witchcraft.weeks.domain.entity.DayName
-import com.tarbadev.witchcraft.weeks.domain.entity.Week
+import com.tarbadev.witchcraft.weeks.domain.entity.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class WeekResponseTest {
   @Test
   fun fromWeek() {
-    val day = Day(lunch = Recipe(), diner = Recipe(), name = DayName.FRIDAY, id = 2)
+    val day = Day(
+        meals = listOf(Meal(mealType = MealType.LUNCH, recipe = Recipe()), Meal(mealType = MealType.DINER, recipe = Recipe())),
+        name = DayName.FRIDAY,
+        id = 2
+    )
     val week = Week(
         year = 2018,
         weekNumber = 33,

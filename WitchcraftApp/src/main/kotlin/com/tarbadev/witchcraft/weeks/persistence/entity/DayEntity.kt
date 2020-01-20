@@ -1,6 +1,5 @@
 package com.tarbadev.witchcraft.weeks.persistence.entity
 
-import com.tarbadev.witchcraft.recipes.persistence.entity.RecipeEntity
 import com.tarbadev.witchcraft.weeks.domain.entity.Day
 import com.tarbadev.witchcraft.weeks.domain.entity.DayName
 import javax.persistence.*
@@ -11,26 +10,21 @@ data class DayEntity(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private val id: Int = 0,
     private val name: String = "",
-    @ManyToOne
-    @JoinColumn(name = "lunch_recipe_id")
-    private val lunch: RecipeEntity? = null,
-    @ManyToOne
-    @JoinColumn(name = "diner_recipe_id")
-    private val diner: RecipeEntity? = null
+    @OneToMany(cascade = [CascadeType.ALL])
+    @JoinColumn(name = "day_id")
+    private val meals: List<MealEntity> = ArrayList()
 ) {
-    constructor(day: Day) : this(
-        id = day.id,
-        name = day.name.name,
-        lunch = if (day.lunch != null) RecipeEntity.fromRecipe(day.lunch!!) else null,
-        diner = if (day.diner != null) RecipeEntity.fromRecipe(day.diner!!) else null
-    )
+  constructor(day: Day) : this(
+      id = day.id,
+      name = day.name.name,
+      meals = day.meals.map { MealEntity(it) }
+  )
 
-    fun day(): Day {
-        return Day(
-            id = id,
-            name = DayName.valueOf(name),
-            lunch = lunch?.toRecipe(),
-            diner = diner?.toRecipe()
-        )
-    }
+  fun day(): Day {
+    return Day(
+        id = id,
+        name = DayName.valueOf(name),
+        meals = meals.map { it.meal() }
+    )
+  }
 }
