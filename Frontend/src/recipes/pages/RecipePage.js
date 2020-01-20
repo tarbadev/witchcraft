@@ -28,6 +28,8 @@ import DialogActions from '@material-ui/core/DialogActions'
 import { ConverterContainer } from '../components/Converter'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import { PortionsContainer } from '../components/Portions'
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown'
 
 export const RecipePageContainer = ({ match, history }) => {
   const { state, dispatch, setCurrentHeader } = useAppContext()
@@ -42,8 +44,8 @@ export const RecipePageContainer = ({ match, history }) => {
   const getRecipeNoteSuccess = data => setNotes(data.notes)
   const loadRecipe = () => dispatch(getRecipe(match.params.id, data => setRecipe(data)))
 
-  useEffect(loadRecipe, [])
-  useEffect(() => dispatch(getRecipeNotes(match.params.id, getRecipeNoteSuccess)), [])
+  useEffect(loadRecipe, [match.params.id])
+  useEffect(() => dispatch(getRecipeNotes(match.params.id, getRecipeNoteSuccess)), [match.params.id])
 
   const deleteRecipeAndDisplayInProgress = () => {
     setIsDeleting(true)
@@ -63,6 +65,23 @@ export const RecipePageContainer = ({ match, history }) => {
 
     setRecipe(newRecipe)
   }
+
+  const onPortionsUp = () => {
+    const newPortions = Number(recipe.portions) + 1
+    const newIngredients = getUpdatedIngredientPortions(newPortions / recipe.portions)
+    setRecipe({ ...recipe, portions: newPortions, ingredients: newIngredients })
+  }
+
+  const onPortionsDown = () => {
+    const newPortions = Number(recipe.portions) - 1
+    const newIngredients = getUpdatedIngredientPortions(newPortions / recipe.portions)
+    setRecipe({ ...recipe, portions: newPortions, ingredients: newIngredients })
+  }
+
+  const getUpdatedIngredientPortions = difference => recipe.ingredients.map(ingredient => ({
+    ...ingredient,
+    quantity: ingredient.quantity * difference,
+  }))
 
   return <RecipePage
     recipe={recipe}
@@ -84,6 +103,8 @@ export const RecipePageContainer = ({ match, history }) => {
     displayConverter={() => setConverterOpen(true)}
     closeConverter={() => setConverterOpen(false)}
     onPortionsUpdated={recipe => setRecipe(recipe)}
+    portionsUp={onPortionsUp}
+    portionsDown={onPortionsDown}
   />
 }
 
@@ -109,6 +130,8 @@ export const RecipePage = ({
   closeConverter,
   isConverterOpen,
   onPortionsUpdated,
+  portionsUp,
+  portionsDown,
 }) => {
   let steps
   let ingredients
@@ -229,8 +252,40 @@ export const RecipePage = ({
       </Grid>
     </Grid>
     <Grid item xs={9} container spacing={3} justify='flex-start' alignItems='flex-start'>
-      <Grid item xs={12} container justify='flex-end'>
-        <PortionsContainer recipeId={recipe.id} portions={`${recipe.portions}`} onPortionsUpdated={onPortionsUpdated} />
+      <Grid item xs={12} container justify='flex-end' direction='row' alignItems='center' spacing={1}>
+        <Grid item>
+          <PortionsContainer
+            recipeId={recipe.id}
+            portions={`${recipe.portions}`}
+            onPortionsUpdated={onPortionsUpdated}
+          />
+        </Grid>
+        <Grid item>
+          <Grid container direction='column' spacing={1}>
+            <Grid item>
+              <Button
+                aria-label="Portions up"
+                data-portions-button-up
+                onClick={portionsUp}
+                color='primary'
+                style={{ padding: 0, fontSize: '1.2rem' }}
+              >
+                <KeyboardArrowUpIcon style={{ fontSize: '1.2rem' }} />
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button
+                aria-label="Portions down"
+                data-portions-button-down
+                onClick={portionsDown}
+                color='primary'
+                style={{ padding: 0, fontSize: '1.2rem' }}
+              >
+                <KeyboardArrowDownIcon style={{ fontSize: '1.2rem' }} />
+              </Button>
+            </Grid>
+          </Grid>
+        </Grid>
       </Grid>
       <Grid item xs={7} name='steps'>
         <Typography variant='h6' gutterBottom className='witchcraft-title'>Steps</Typography>
@@ -266,4 +321,6 @@ RecipePage.propTypes = {
   closeConverter: PropTypes.func,
   isConverterOpen: PropTypes.bool,
   onPortionsUpdated: PropTypes.func,
+  portionsUp: PropTypes.func,
+  portionsDown: PropTypes.func,
 }

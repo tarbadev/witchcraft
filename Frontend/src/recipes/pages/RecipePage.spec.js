@@ -346,6 +346,10 @@ describe('RecipePageContainer', () => {
       const recipe = { ...promisedRecipe, portions: newPortions }
 
       jest
+        .spyOn(RecipeActions, 'getRecipe')
+        .mockImplementation((id, onSuccess) => onSuccess(promisedRecipe))
+
+      jest
         .spyOn(RecipeActions, 'updatePortions')
         .mockImplementation((id, portions, onSuccess) => onSuccess(recipe))
 
@@ -358,6 +362,46 @@ describe('RecipePageContainer', () => {
       recipePageContainer.find('[data-save-portions] button').simulate('mousedown')
 
       expect(recipePageContainer.find('[data-portions-value]').text()).toEqual(newPortions)
+    })
+  })
+
+  describe('On portions up', () => {
+    it('updates the portions value and the ingredient\'s quantity', () => {
+      mockAppContext()
+      const id = promisedRecipe.id
+
+      jest
+        .spyOn(RecipeActions, 'getRecipe')
+        .mockImplementation((id, onSuccess) => onSuccess(promisedRecipe))
+
+      const recipePageContainer = mount(<RecipePageContainer match={{ params: { id } }} />)
+
+      expect(recipePageContainer.find('[data-portions-value]').text()).toEqual(promisedRecipe.portions)
+      expect(recipePageContainer.find('.ingredient_0 [data-quantity]').text()).toEqual('1')
+
+      recipePageContainer.find('[data-portions-button-up]').at(0).simulate('click')
+      expect(recipePageContainer.find('[data-portions-value]').text()).toEqual(`${Number(promisedRecipe.portions) + 1}`)
+      expect(recipePageContainer.find('.ingredient_0 [data-quantity]').text()).toEqual('1.5')
+    })
+  })
+
+  describe('On portions down', () => {
+    it('updates the portions value and the ingredient\'s quantity', () => {
+      mockAppContext()
+      const id = promisedRecipe.id
+
+      jest
+        .spyOn(RecipeActions, 'getRecipe')
+        .mockImplementation((id, onSuccess) => onSuccess(promisedRecipe))
+
+      const recipePageContainer = mount(<RecipePageContainer match={{ params: { id } }} />)
+
+      expect(recipePageContainer.find('[data-portions-value]').text()).toEqual(promisedRecipe.portions)
+      expect(recipePageContainer.find('.ingredient_0 [data-quantity]').text()).toEqual('1')
+
+      recipePageContainer.find('[data-portions-button-down]').at(0).simulate('click')
+      expect(recipePageContainer.find('[data-portions-value]').text()).toEqual(`${Number(promisedRecipe.portions) - 1}`)
+      expect(recipePageContainer.find('.ingredient_0 [data-quantity]').text()).toEqual('0.5')
     })
   })
 })

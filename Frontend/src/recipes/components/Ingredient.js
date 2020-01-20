@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import Typography from '@material-ui/core/Typography'
 import Paper from '@material-ui/core/Paper'
@@ -16,17 +16,33 @@ import Dialog from '@material-ui/core/Dialog'
 
 export const IngredientContainer = ({ ingredient, index, recipeId, deleteCallback }) => {
   const { dispatch } = useAppContext()
-  const [currentIngredient, setCurrentIngredient] = useState(ingredient)
+  const [currentIngredient, setCurrentIngredient] = useState(null)
   const [isEditable, setEditable] = useState(false)
   const [isConfirmDeleteDialogOpen, setConfirmDeleteDialogOpen] = useState(false)
-  const [editedIngredientName, setEditedIngredientName] = useState(currentIngredient.name)
-  const [editedIngredientQuantity, setEditedIngredientQuantity] = useState(currentIngredient.quantity)
-  const [editedIngredientUnit, setEditedIngredientUnit] = useState(currentIngredient.unit)
+  const [editedIngredientName, setEditedIngredientName] = useState(null)
+  const [editedIngredientQuantity, setEditedIngredientQuantity] = useState(null)
+  const [editedIngredientUnit, setEditedIngredientUnit] = useState(null)
+
+  useEffect(() => {
+    setCurrentIngredient(ingredient)
+  }, [ingredient])
+
+  useEffect(() => {
+    setEditedIngredientName(currentIngredient?.name)
+  }, [currentIngredient?.name])
+
+  useEffect(() => {
+    setEditedIngredientQuantity(currentIngredient?.quantity)
+  }, [currentIngredient?.quantity])
+
+  useEffect(() => {
+    setEditedIngredientUnit(currentIngredient?.unit)
+  }, [currentIngredient?.unit])
 
   return <Ingredient
-    quantity={currentIngredient.quantity}
-    unit={currentIngredient.unit}
-    ingredient={currentIngredient.name}
+    quantity={currentIngredient?.quantity}
+    unit={currentIngredient?.unit}
+    ingredient={currentIngredient?.name}
     className={`ingredient_${index}`}
     editable={isEditable}
     showEditableMode={() => setEditable(true)}
