@@ -68,6 +68,7 @@ module.exports = {
       title: 'Witchcraft',
       favicon: PUBLIC + '/logo.png',
       templateContent: '<div id="react"></div>',
+      meta: { viewport: 'width=device-width, minimum-scale=1, initial-scale=1, shrink-to-fit=no' },
     }),
     new CopyWebpackPlugin([
       { from: 'package.json', to: DEST },
