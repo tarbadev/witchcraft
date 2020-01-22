@@ -9,11 +9,11 @@ import { getRecipe, updateRecipe } from 'src/recipes/actions/RecipeActions'
 import { PageTitle } from 'src/app/components/PageTitle'
 import { reducer, setState } from 'src/app/RootReducer'
 import { useAppContext } from 'src/app/components/StoreProvider'
-import { RECIPES } from 'src/app/components/Header'
+import { RECIPE } from 'src/app/components/Header'
 
 export const EditRecipePageContainer = ({ match, history }) => {
   const { state, dispatch, setCurrentHeader } = useAppContext()
-  setCurrentHeader(RECIPES)
+  setCurrentHeader(RECIPE)
   const [recipe, setRecipe] = useState(state.recipe)
 
   useEffect(() =>

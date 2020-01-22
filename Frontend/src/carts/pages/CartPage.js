@@ -12,14 +12,14 @@ import { findWithAttr, getCart, toggleItem, deleteCart } from 'src/carts/actions
 import './CartPage.css'
 import { PageTitle } from 'src/app/components/PageTitle'
 import { useAppContext } from 'src/app/components/StoreProvider'
-import { CARTS } from 'src/app/components/Header'
+import { CART } from 'src/app/components/Header'
 import Button from '@material-ui/core/Button'
 import DeleteIcon from '@material-ui/icons/Delete'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
 export const CartPageContainer = ({ match, history }) => {
   const { state, dispatch, setCurrentHeader } = useAppContext()
-  setCurrentHeader(CARTS)
+  setCurrentHeader(CART)
 
   const cartId = match.params.id
   const [cart, setCart] = useState(state.cart)

@@ -9,11 +9,11 @@ import { createCart } from 'src/carts/actions/NewCartActions'
 import { PageTitle } from 'src/app/components/PageTitle'
 import { useAppContext } from 'src/app/components/StoreProvider'
 import { getAllRecipes } from 'src/recipes/actions/RecipesActions'
-import { CARTS } from 'src/app/components/Header'
+import { CART } from 'src/app/components/Header'
 
 export const NewCartPageContainer = ({ history }) => {
   const { state, dispatch, setCurrentHeader } = useAppContext()
-  setCurrentHeader(CARTS)
+  setCurrentHeader(CART)
 
   const [recipes, setRecipes] = useState(state.recipes)
 

@@ -20,7 +20,7 @@ import { onRecipeImageNotFoundError } from 'src/app/components/App'
 import CardMedia from '@material-ui/core/CardMedia'
 import { PageTitle } from 'src/app/components/PageTitle'
 import { useAppContext } from 'src/app/components/StoreProvider'
-import { RECIPES } from 'src/app/components/Header'
+import { RECIPE } from 'src/app/components/Header'
 import { OneLineEditableFieldContainer } from 'src/app/components/OneLineEditableField'
 import { saveStepNote } from '../actions/StepActions'
 import Dialog from '@material-ui/core/Dialog'
@@ -33,7 +33,7 @@ import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown'
 
 export const RecipePageContainer = ({ match, history }) => {
   const { state, dispatch, setCurrentHeader } = useAppContext()
-  setCurrentHeader(RECIPES)
+  setCurrentHeader(RECIPE)
 
   const [recipe, setRecipe] = useState(state.recipe)
   const [notes, setNotes] = useState(state.pages.recipePage.notes)

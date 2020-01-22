@@ -14,7 +14,7 @@ import { PageTitle } from 'src/app/components/PageTitle'
 import { useAppContext } from 'src/app/components/StoreProvider'
 import { getWeek } from '../actions/WeekActions'
 import { RecipeListModalContainer } from '../components/RecipeListModal'
-import { WEEKS } from 'src/app/components/Header'
+import { WEEK } from 'src/app/components/Header'
 import moment from 'moment'
 
 export const WEEKS_IN_A_YEAR = 52
@@ -33,7 +33,7 @@ const IconButtonStyled = withStyles({
 
 export const WeekPageContainer = ({ history, weekNumber, year }) => {
   const { state, dispatch, setCurrentHeader } = useAppContext()
-  setCurrentHeader(WEEKS)
+  setCurrentHeader(WEEK)
 
   const [week, setWeek] = useState(state.week)
   const [modal, setModal] = useState(state.pages.weekPage.modal)

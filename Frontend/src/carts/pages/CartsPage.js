@@ -9,11 +9,11 @@ import { Paper, Typography } from '@material-ui/core'
 import { getCartTitle } from './CartHelper'
 import { useAppContext } from 'src/app/components/StoreProvider'
 import { getAllCarts } from '../actions/CartsActions'
-import { CARTS } from 'src/app/components/Header'
+import { CART } from 'src/app/components/Header'
 
 export const CartsPageContainer = ({ history }) => {
   const { state, dispatch, setCurrentHeader } = useAppContext()
-  setCurrentHeader(CARTS)
+  setCurrentHeader(CART)
 
   const [carts, setCarts] = useState(state.carts)
 

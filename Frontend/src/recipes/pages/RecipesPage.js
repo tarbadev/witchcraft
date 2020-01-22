@@ -11,7 +11,7 @@ import { filterRecipes, getAllRecipes } from 'src/recipes/actions/RecipesActions
 import { makeStyles } from '@material-ui/core'
 import { PageTitle } from 'src/app/components/PageTitle'
 import { useAppContext } from 'src/app/components/StoreProvider'
-import { RECIPES } from 'src/app/components/Header'
+import { RECIPE } from 'src/app/components/Header'
 
 const useStyles = makeStyles({
   paper: {
@@ -21,7 +21,7 @@ const useStyles = makeStyles({
 
 export const RecipesPageContainer = ({ history }) => {
   const { state, dispatch, setCurrentHeader } = useAppContext()
-  setCurrentHeader(RECIPES)
+  setCurrentHeader(RECIPE)
 
   const [recipes, setRecipes] = useState(state.recipes)
   const [filteredRecipes, setFilteredRecipes] = useState(recipes)

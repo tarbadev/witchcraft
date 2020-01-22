@@ -9,11 +9,11 @@ import { PageTitle } from './PageTitle'
 import { getFavoriteRecipes, getLatestRecipes } from '../../recipes/actions/RecipesActions'
 import { getCurrentWeek, getWeek } from '../../weeks/actions/WeekActions'
 import { useAppContext } from './StoreProvider'
-import { HOME } from './Header'
+import { DASHBOARD } from './Header'
 
 export const HomePageContainer = () => {
   const { state, dispatch, setCurrentHeader } = useAppContext()
-  setCurrentHeader(HOME)
+  setCurrentHeader(DASHBOARD)
 
   const [week, setWeek] = useState(state.week)
   const [latestRecipes, setLatestRecipes] = useState(state.pages.homePage.lastRecipes)

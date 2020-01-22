@@ -2,17 +2,17 @@ import './index.css'
 
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Router } from 'react-router'
-
 import { App } from './app/components/App'
-import { StoreProvider } from './app/components/StoreProvider'
-import { createBrowserHistory } from 'history'
+import CssBaseline from '@material-ui/core/CssBaseline'
+import { StoreProvider } from 'src/app/components/StoreProvider'
+import { BrowserRouter } from 'react-router-dom'
 
 ReactDOM.render(
   <StoreProvider>
-    <Router history={createBrowserHistory()}>
+    <BrowserRouter>
+      <CssBaseline />
       <App />
-    </Router>
+    </BrowserRouter>
   </StoreProvider>
   , document.getElementById('react'),
 )
