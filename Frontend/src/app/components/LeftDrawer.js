@@ -6,24 +6,16 @@ import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import CardMedia from '@material-ui/core/CardMedia'
 import ListItemText from '@material-ui/core/ListItemText'
-import { ListItemIcon, makeStyles } from '@material-ui/core'
+import { ListItemIcon } from '@material-ui/core'
 
-const useStyles = makeStyles({
-  drawerPaper: {
-    width: 240,
-  },
-})
-
-export const LeftDrawer = ({ open, closeDrawer, links }) => {
-  const classes = useStyles()
-
+export const LeftDrawer = ({ open, closeDrawer, links, variant, paperClassName }) => {
   return (
     <Drawer
-      variant='temporary'
+      variant={variant}
       open={open}
       onClose={closeDrawer}
       classes={{
-        paper: classes.drawerPaper,
+        paper: paperClassName,
       }}
       ModalProps={{
         keepMounted: true, // Better open performance on mobile.
@@ -60,4 +52,6 @@ LeftDrawer.propTypes = {
   open: PropTypes.bool,
   closeDrawer: PropTypes.func,
   links: PropTypes.array,
+  variant: PropTypes.string,
+  paperClassName: PropTypes.object,
 }

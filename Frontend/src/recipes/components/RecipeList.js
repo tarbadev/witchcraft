@@ -8,7 +8,7 @@ import { RecipeCard } from './RecipeCard'
 
 export const RecipeList = ({ recipes = [] }) => {
   const recipeCards = recipes.map(recipe =>
-    <Grid item lg={3} md={4} sm={6} key={recipe.id}>
+    <Grid item xs={12} sm={4} md={3} lg={2} key={recipe.id}>
       <Link to={`/recipes/${recipe.id}`} className='recipe-list__link'>
         <Box width={1}>
           <RecipeCard
@@ -20,7 +20,7 @@ export const RecipeList = ({ recipes = [] }) => {
   )
 
   return (
-    <Grid container spacing={3}>
+    <Grid container spacing={3} direction='row' alignItems='stretch'>
       {recipeCards}
     </Grid>
   )

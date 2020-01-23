@@ -4,7 +4,7 @@ import { Container, makeStyles } from '@material-ui/core'
 import './App.css'
 import DefaultRecipePicture from 'src/recipes/images/recipe-default.png'
 import { Content } from './Content'
-import { Header } from 'src/app/components/Header'
+import { DRAWER_WIDTH, Header } from 'src/app/components/Header'
 
 export const onRecipeImageNotFoundError = (e) => e.target.src = DefaultRecipePicture
 
@@ -18,6 +18,13 @@ const useStyles = makeStyles(theme => ({
   container: {
     paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(4),
+    [theme.breakpoints.up('md')]: {
+      marginLeft: DRAWER_WIDTH,
+      width: `calc(100% - ${DRAWER_WIDTH}px)`,
+    },
+    [theme.breakpoints.up('xl')]: {
+      marginLeft: 'auto',
+    },
   },
 }))
 
@@ -29,7 +36,7 @@ export const App = () => {
       <Header />
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
-        <Container className={classes.container}>
+        <Container maxWidth='xl' className={classes.container}>
           <Content />
         </Container>
       </main>
