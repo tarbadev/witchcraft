@@ -1,16 +1,26 @@
 import React from 'react'
-import { mount } from 'enzyme'
 import convert from 'convert-units'
 import { ConverterContainer } from './Converter'
+import { createMount } from '@material-ui/core/test-utils'
 
 describe('Converter', () => {
+  let mount
+
+  beforeEach(() => {
+    mount = createMount()
+  });
+
+  afterEach(() => {
+    mount.cleanUp()
+  });
+
   it('displays the list of measures', () => {
     const measures = convert().measures()
     const converterContainer = mount(<ConverterContainer open={true} />)
 
     expect(converterContainer.find('[data-menu-measure]')).toHaveLength(0)
 
-    converterContainer.find('div[data-select-measure] div div').at(1).simulate('click')
+    converterContainer.find('div[data-select-measure] div div').at(0).simulate('mousedown')
 
     expect(converterContainer.find('li[data-menu-measure]')).toHaveLength(measures.length)
   })
@@ -20,10 +30,10 @@ describe('Converter', () => {
 
     expect(converterContainer.find('div[data-select-measure] input').props().value).toEqual('')
 
-    converterContainer.find('div[data-select-measure] div div').at(1).simulate('click')
+    converterContainer.find('div[data-select-measure] div div').at(0).simulate('mousedown')
     converterContainer.find('li[data-menu-measure]').at(0).simulate('click')
 
-    expect(converterContainer.find('div[data-select-measure] input').props().value).toBe(measure)
+    expect(converterContainer.find('div[data-select-measure] input[type="hidden"]').props().value).toBe(measure)
   })
 
   it('displays the list of units after the measures are selected', () => {
@@ -33,10 +43,10 @@ describe('Converter', () => {
 
     expect(converterContainer.find('li[data-menu-unit-left]')).toHaveLength(0)
 
-    converterContainer.find('div[data-select-measure] div div').at(1).simulate('click')
+    converterContainer.find('div[data-select-measure] div div').at(0).simulate('mousedown')
     converterContainer.find('li[data-menu-measure]').at(0).simulate('click')
 
-    converterContainer.find('div[data-select-unit-left] div div').at(1).simulate('click')
+    converterContainer.find('div[data-select-unit-left] div div').at(0).simulate('mousedown')
     expect(converterContainer.find('li[data-menu-unit-left]')).toHaveLength(units.length)
   })
 
@@ -47,10 +57,10 @@ describe('Converter', () => {
 
     expect(converterContainer.find('div[data-select-unit-left] input').props().value).toEqual('')
 
-    converterContainer.find('div[data-select-measure] div div').at(1).simulate('click')
+    converterContainer.find('div[data-select-measure] div div').at(0).simulate('mousedown')
     converterContainer.find('li[data-menu-measure]').at(0).simulate('click')
 
-    converterContainer.find('div[data-select-unit-left] div div').at(1).simulate('click')
+    converterContainer.find('div[data-select-unit-left] div div').at(0).simulate('mousedown')
     converterContainer.find('li[data-menu-unit-left]').at(0).simulate('click')
 
     expect(converterContainer.find('div[data-select-unit-left] input').props().value).toBe(unit)
@@ -63,10 +73,10 @@ describe('Converter', () => {
 
     expect(converterContainer.find('div[data-select-unit-right] input').props().value).toEqual('')
 
-    converterContainer.find('div[data-select-measure] div div').at(1).simulate('click')
+    converterContainer.find('div[data-select-measure] div div').at(0).simulate('mousedown')
     converterContainer.find('li[data-menu-measure]').at(0).simulate('click')
 
-    converterContainer.find('div[data-select-unit-right] div div').at(1).simulate('click')
+    converterContainer.find('div[data-select-unit-right] div div').at(0).simulate('mousedown')
     converterContainer.find('li[data-menu-unit-right]').at(2).simulate('click')
 
     expect(converterContainer.find('div[data-select-unit-right] input').props().value).toBe(unit)
@@ -79,12 +89,12 @@ describe('Converter', () => {
 
     expect(converterContainer.find('div[data-select-unit-right] input').props().value).toEqual('')
 
-    converterContainer.find('div[data-select-measure] div div').at(1).simulate('click')
+    converterContainer.find('div[data-select-measure] div div').at(0).simulate('mousedown')
     converterContainer.find('li[data-menu-measure]').at(2).simulate('click')
 
-    converterContainer.find('div[data-select-unit-left] div div').at(1).simulate('click')
+    converterContainer.find('div[data-select-unit-left] div div').at(0).simulate('mousedown')
     converterContainer.find('li[data-menu-unit-left]').at(2).simulate('click')
-    converterContainer.find('div[data-select-unit-right] div div').at(1).simulate('click')
+    converterContainer.find('div[data-select-unit-right] div div').at(0).simulate('mousedown')
     converterContainer.find('li[data-menu-unit-right]').at(5).simulate('click')
 
     converterContainer.find('div[data-quantity-left] input').simulate('change', { target: { value: leftQuantity } })
@@ -97,12 +107,12 @@ describe('Converter', () => {
 
     expect(converterContainer.find('div[data-select-unit-right] input').props().value).toEqual('')
 
-    converterContainer.find('div[data-select-measure] div div').at(1).simulate('click')
+    converterContainer.find('div[data-select-measure] div div').at(0).simulate('mousedown')
     converterContainer.find('li[data-menu-measure]').at(2).simulate('click')
 
-    converterContainer.find('div[data-select-unit-left] div div').at(1).simulate('click')
+    converterContainer.find('div[data-select-unit-left] div div').at(0).simulate('mousedown')
     converterContainer.find('li[data-menu-unit-left]').at(2).simulate('click')
-    converterContainer.find('div[data-select-unit-right] div div').at(1).simulate('click')
+    converterContainer.find('div[data-select-unit-right] div div').at(0).simulate('mousedown')
     converterContainer.find('li[data-menu-unit-right]').at(5).simulate('click')
 
     converterContainer.find('div[data-quantity-left] input').simulate('change', { target: { value: 'zsdffds;' } })
@@ -121,12 +131,12 @@ describe('Converter', () => {
 
     expect(converterContainer.find('div[data-select-unit-left] input').props().value).toEqual('')
 
-    converterContainer.find('div[data-select-measure] div div').at(1).simulate('click')
+    converterContainer.find('div[data-select-measure] div div').at(0).simulate('mousedown')
     converterContainer.find('li[data-menu-measure]').at(2).simulate('click')
 
-    converterContainer.find('div[data-select-unit-left] div div').at(1).simulate('click')
+    converterContainer.find('div[data-select-unit-left] div div').at(0).simulate('mousedown')
     converterContainer.find('li[data-menu-unit-left]').at(2).simulate('click')
-    converterContainer.find('div[data-select-unit-right] div div').at(1).simulate('click')
+    converterContainer.find('div[data-select-unit-right] div div').at(0).simulate('mousedown')
     converterContainer.find('li[data-menu-unit-right]').at(5).simulate('click')
 
     converterContainer.find('div[data-quantity-right] input').simulate('change', { target: { value: rightQuantity } })
@@ -135,7 +145,7 @@ describe('Converter', () => {
   })
 
   it('when measure changes, clears the units and quantities', () => {
-    const leftQuantity = '50'
+    const leftQuantity = '1.6127'
     const rightQuantity = '1.7637'
     const converterContainer = mount(<ConverterContainer open={true} />)
 
@@ -144,19 +154,19 @@ describe('Converter', () => {
     expect(converterContainer.find('div[data-quantity-left] input').props().value).toEqual('')
     expect(converterContainer.find('div[data-quantity-right] input').props().value).toEqual('')
 
-    converterContainer.find('div[data-select-measure] div div').at(1).simulate('click')
-    converterContainer.find('li[data-menu-measure]').at(2).simulate('click')
+    converterContainer.find('div[data-select-measure] div div').at(0).simulate('mousedown')
+    converterContainer.find('li[data-menu-measure]').at(2).simulate('mousedown')
 
-    converterContainer.find('div[data-select-unit-left] div div').at(1).simulate('click')
+    converterContainer.find('div[data-select-unit-left] div div').at(0).simulate('mousedown')
     converterContainer.find('li[data-menu-unit-left]').at(2).simulate('click')
-    converterContainer.find('div[data-select-unit-right] div div').at(1).simulate('click')
+    converterContainer.find('div[data-select-unit-right] div div').at(0).simulate('mousedown')
     converterContainer.find('li[data-menu-unit-right]').at(5).simulate('click')
 
     converterContainer.find('div[data-quantity-right] input').simulate('change', { target: { value: rightQuantity } })
 
     expect(converterContainer.find('div[data-quantity-left] input').props().value).toBe(leftQuantity)
 
-    converterContainer.find('div[data-select-measure] div div').at(1).simulate('click')
+    converterContainer.find('div[data-select-measure] div div').at(0).simulate('mousedown')
     converterContainer.find('li[data-menu-measure]').at(0).simulate('click')
 
     expect(converterContainer.find('div[data-select-unit-right] input').props().value).toEqual('')

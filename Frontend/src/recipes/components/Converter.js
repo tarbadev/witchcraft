@@ -136,7 +136,7 @@ const Converter = ({
       </DialogTitleWithCloseButton>
       <DialogContent dividers>
         <Grid container spacing={1}>
-          <Grid item sm={12}>
+          <Grid item xs={12}>
             <TextField
               select
               label='Measure'
@@ -148,8 +148,8 @@ const Converter = ({
               {measures.map(measure => <MenuItem key={measure} value={measure} data-menu-measure>{measure}</MenuItem>)}
             </TextField>
           </Grid>
-          <Grid item sm={6} container direction='row'>
-            <Grid item sm>
+          <Grid item xs={6} container direction='row'>
+            <Grid item xs>
               <TextField
                 label='Quantity'
                 value={leftQuantity}
@@ -158,7 +158,7 @@ const Converter = ({
                 onChange={({ target }) => onLeftQuantityChange(Number(target.value))}
               />
             </Grid>
-            <Grid item sm={4} container alignItems='flex-end'>
+            <Grid item xs={4} container alignItems='flex-end'>
               <TextField
                 select
                 label='Unit'
@@ -171,8 +171,8 @@ const Converter = ({
               </TextField>
             </Grid>
           </Grid>
-          <Grid item sm={6} container direction='row'>
-            <Grid item sm>
+          <Grid item xs={6} container direction='row'>
+            <Grid item xs>
               <TextField
                 label='Quantity'
                 fullWidth
@@ -181,7 +181,7 @@ const Converter = ({
                 onChange={({ target }) => onRightQuantityChange(Number(target.value))}
               />
             </Grid>
-            <Grid item sm={4} container alignItems='flex-end'>
+            <Grid item xs={4} container alignItems='flex-end'>
               <TextField
                 select
                 label='Unit'

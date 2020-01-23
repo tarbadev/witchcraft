@@ -24,9 +24,10 @@ describe('RecipeList', function () {
 
       let index = 0
       grids.map((grid) => {
-        expect(grid.props().sm).toBe(6)
-        expect(grid.props().md).toBe(4)
-        expect(grid.props().lg).toBe(3)
+        expect(grid.props().xs).toBe(12)
+        expect(grid.props().sm).toBe(4)
+        expect(grid.props().md).toBe(3)
+        expect(grid.props().lg).toBe(2)
         expect(grid.find(Link).length).toBe(1)
 
         let link = grid.find(Link).at(0)

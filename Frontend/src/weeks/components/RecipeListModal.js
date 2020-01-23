@@ -90,6 +90,7 @@ export const RecipeListModal = ({
       aria-describedby="simple-modal-description"
       open={isModalOpen}
       onClose={closeModal}
+      data-recipe-modal
       disableAutoFocus={true}>
       <Grid container justify='center' alignItems='center' direction='row' className={'modal'}>
         <Grid item xs={10}>

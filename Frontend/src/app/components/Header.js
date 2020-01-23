@@ -52,6 +52,7 @@ export const Header = () => {
     isDrawerOpen={isDrawerOpen}
     handleDrawerToggle={() => setDrawerOpen(!isDrawerOpen)}
     closeDrawer={() => setDrawerOpen(false)}
+    openDrawer={() => setDrawerOpen(true)}
   />
 }
 
@@ -73,7 +74,7 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const HeaderDisplay = ({ title, links, isDrawerOpen, handleDrawerToggle, closeDrawer }) => {
+const HeaderDisplay = ({ title, links, isDrawerOpen, handleDrawerToggle, closeDrawer, openDrawer }) => {
   const classes = useStyles()
   const theme = useTheme()
   const drawerVariant = useMediaQuery(theme.breakpoints.up('md')) ? 'permanent' : 'temporary'
@@ -98,6 +99,7 @@ const HeaderDisplay = ({ title, links, isDrawerOpen, handleDrawerToggle, closeDr
       </AppBar>
       <LeftDrawer
         open={isDrawerOpen}
+        openDrawer={openDrawer}
         closeDrawer={closeDrawer}
         links={links}
         variant={drawerVariant}
@@ -113,4 +115,5 @@ HeaderDisplay.propTypes = {
   isDrawerOpen: PropTypes.bool,
   handleDrawerToggle: PropTypes.func,
   closeDrawer: PropTypes.func,
+  openDrawer: PropTypes.func,
 }

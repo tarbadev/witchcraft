@@ -1,13 +1,23 @@
 import React from 'react'
-import { mount } from 'enzyme'
 
 import { WeekPageContainer, WEEKS_IN_A_YEAR } from './WeekPage'
 import { mockAppContext } from 'src/testUtils'
 import * as WeekActions from 'src/weeks/actions/WeekActions'
 import * as NewCartActions from 'src/carts/actions/NewCartActions'
 import { saveWeek } from '../actions/WeekPageActions'
+import { createMount } from '@material-ui/core/test-utils'
 
 describe('WeekPageContainer', () => {
+  let mount
+
+  beforeEach(() => {
+    mount = createMount()
+  })
+
+  afterEach(() => {
+    mount.cleanUp()
+  })
+
   it('loads the week when mounting the component', () => {
     const context = mockAppContext()
     const year = '2019'
@@ -278,8 +288,8 @@ describe('WeekPageContainer', () => {
       days: [
         {
           name: 'MONDAY',
-          lunch: [{ id: 0,  }],
-          diner: [{ id: 0,  }],
+          lunch: [{ id: 0, imgUrl: 'fakeUrl.png'  }],
+          diner: [{ id: 0, imgUrl: 'fakeUrl.png' }],
         },
         {
           name: 'TUESDAY',
@@ -295,10 +305,10 @@ describe('WeekPageContainer', () => {
 
     const weekPage = mount(<WeekPageContainer match={{ params: { year, week } }} />)
 
-    expect(weekPage.find('Modal').props().open).toBeFalsy()
+    expect(weekPage.find('[data-recipe-modal]').props().open).toBeFalsy()
 
     weekPage.find('[data-meal="lunch-MONDAY"] button').at(0).simulate('click')
 
-    expect(weekPage.find('Modal').at(0).props().open).toBeTruthy()
+    expect(weekPage.find('[data-recipe-modal]').at(0).props().open).toBeTruthy()
   })
 })

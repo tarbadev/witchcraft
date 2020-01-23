@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Drawer from '@material-ui/core/Drawer'
+import SwipeableDrawer from '@material-ui/core/SwipeableDrawer'
 import { Link } from 'react-router-dom'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
@@ -8,11 +8,12 @@ import CardMedia from '@material-ui/core/CardMedia'
 import ListItemText from '@material-ui/core/ListItemText'
 import { ListItemIcon } from '@material-ui/core'
 
-export const LeftDrawer = ({ open, closeDrawer, links, variant, paperClassName }) => {
+export const LeftDrawer = ({ open, openDrawer, closeDrawer, links, variant, paperClassName }) => {
   return (
-    <Drawer
+    <SwipeableDrawer
       variant={variant}
       open={open}
+      onOpen={openDrawer}
       onClose={closeDrawer}
       classes={{
         paper: paperClassName,
@@ -44,14 +45,15 @@ export const LeftDrawer = ({ open, closeDrawer, links, variant, paperClassName }
           </ListItem>
         ))}
       </List>
-    </Drawer>
+    </SwipeableDrawer>
   )
 }
 
 LeftDrawer.propTypes = {
   open: PropTypes.bool,
+  openDrawer: PropTypes.func,
   closeDrawer: PropTypes.func,
   links: PropTypes.array,
   variant: PropTypes.string,
-  paperClassName: PropTypes.object,
+  paperClassName: PropTypes.string,
 }
