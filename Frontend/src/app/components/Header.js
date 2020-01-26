@@ -118,6 +118,7 @@ const HeaderDisplay = ({
             aria-label='open menu'
             edge='end'
             onClick={toggleMenu}
+            style={{ display: menus.length === 0 ? 'none' : 'inherit' }}
             data-open-menu
           >
             <MoreIcon />
