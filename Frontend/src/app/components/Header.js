@@ -12,8 +12,10 @@ import DashboardIcon from '@material-ui/icons/Dashboard'
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday'
 import KitchenIcon from '@material-ui/icons/Kitchen'
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart'
+import MoreIcon from '@material-ui/icons/MoreVert'
 import { LeftDrawer } from 'src/app/components/LeftDrawer'
 import { makeStyles, useMediaQuery, useTheme } from '@material-ui/core'
+import Menu from '@material-ui/core/Menu'
 
 export const DASHBOARD = 'Dashboard'
 export const RECIPE = 'Recipes'
@@ -21,8 +23,9 @@ export const WEEK = 'Week'
 export const CART = 'Carts'
 
 export const Header = () => {
-  const { currentHeader } = useAppContext()
+  const { headerConfig } = useAppContext()
   const [isDrawerOpen, setDrawerOpen] = useState(false)
+  const [anchorEl, setAnchorEl] = useState(null)
   const links = [
     {
       label: DASHBOARD,
@@ -47,12 +50,16 @@ export const Header = () => {
   ]
 
   return <HeaderDisplay
-    title={currentHeader}
-    links={links.map(link => ({ ...link, current: link.label === currentHeader }))}
+    title={headerConfig.title}
+    links={links.map(link => ({ ...link, current: link.label === headerConfig.currentLink }))}
     isDrawerOpen={isDrawerOpen}
     handleDrawerToggle={() => setDrawerOpen(!isDrawerOpen)}
     closeDrawer={() => setDrawerOpen(false)}
     openDrawer={() => setDrawerOpen(true)}
+    anchorEl={anchorEl}
+    closeMenu={() => setAnchorEl(null)}
+    toggleMenu={({ currentTarget }) => setAnchorEl(anchorEl === null ? currentTarget : null)}
+    menus={headerConfig.menuList}
   />
 }
 
@@ -74,7 +81,18 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const HeaderDisplay = ({ title, links, isDrawerOpen, handleDrawerToggle, closeDrawer, openDrawer }) => {
+const HeaderDisplay = ({
+  title,
+  links,
+  isDrawerOpen,
+  handleDrawerToggle,
+  closeDrawer,
+  openDrawer,
+  anchorEl,
+  closeMenu,
+  toggleMenu,
+  menus,
+}) => {
   const classes = useStyles()
   const theme = useTheme()
   const drawerVariant = useMediaQuery(theme.breakpoints.up('md')) ? 'permanent' : 'temporary'
@@ -92,9 +110,27 @@ const HeaderDisplay = ({ title, links, isDrawerOpen, handleDrawerToggle, closeDr
           >
             <MenuIcon />
           </IconButton>
-          <Typography component='h1' variant='h6'>
+          <Typography component='h1' variant='h6' style={{ flexGrow: 1 }}>
             {title}
           </Typography>
+          <IconButton
+            color='inherit'
+            aria-label='open menu'
+            edge='end'
+            onClick={toggleMenu}
+            data-open-menu
+          >
+            <MoreIcon />
+          </IconButton>
+          <Menu
+            keepMounted
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={closeMenu}
+            onClick={toggleMenu}
+          >
+            {menus}
+          </Menu>
         </Toolbar>
       </AppBar>
       <LeftDrawer
@@ -116,4 +152,8 @@ HeaderDisplay.propTypes = {
   handleDrawerToggle: PropTypes.func,
   closeDrawer: PropTypes.func,
   openDrawer: PropTypes.func,
+  anchorEl: PropTypes.object,
+  closeMenu: PropTypes.func,
+  toggleMenu: PropTypes.func,
+  menus: PropTypes.array,
 }

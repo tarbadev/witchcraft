@@ -4,7 +4,7 @@ import { Route, Switch } from 'react-router-dom'
 
 import { HomePageContainer } from './HomePage'
 import { RecipesPageContainer } from 'src/recipes/pages/RecipesPage'
-import { RecipePageContainer } from 'src/recipes/pages/RecipePage'
+import { RecipePage } from 'src/recipes/pages/RecipePage'
 import { NewRecipePageContainer } from 'src/recipes/pages/NewRecipePage'
 import { EditRecipePageContainer } from 'src/recipes/pages/EditRecipePage'
 import { CartsPageContainer } from 'src/carts/pages/CartsPage'
@@ -20,7 +20,7 @@ export const Content = () =>
         <Route exact path="/" component={HomePageContainer} />
         <Route exact path="/recipes" component={RecipesPageContainer} />
         <Route exact path="/recipes/new" component={NewRecipePageContainer} />
-        <Route exact path="/recipes/:id" component={RecipePageContainer} />
+        <Route exact path="/recipes/:id" component={RecipePage} />
         <Route exact path="/recipes/:id/edit" component={EditRecipePageContainer} />
         <Route exact path="/carts" component={CartsPageContainer} />
         <Route exact path="/carts/new" component={NewCartPageContainer} />

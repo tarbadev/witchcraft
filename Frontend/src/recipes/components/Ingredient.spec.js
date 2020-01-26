@@ -1,7 +1,7 @@
 import React from 'react'
 import { mount } from 'enzyme'
 
-import { IngredientContainer } from 'src/recipes/components/Ingredient'
+import { Ingredient } from 'src/recipes/components/Ingredient'
 import { mockAppContext } from 'src/testUtils'
 import * as RecipeActions from 'src/recipes/actions/RecipeActions'
 
@@ -19,7 +19,7 @@ describe('Ingredient', () => {
     mockAppContext()
     const oldIngredientName = 'shredded mozzarella cheese, divided'
 
-    const ingredientContainer = mount(<IngredientContainer
+    const ingredientContainer = mount(<Ingredient
       ingredient={ingredient}
       index={index}
       recipeId={recipeId}
@@ -41,7 +41,7 @@ describe('Ingredient', () => {
     const oldIngredientName = 'shredded mozzarella cheese, divided'
     const newIngredientName = 'shredded mozzarella cheese'
 
-    const ingredientContainer = mount(<IngredientContainer
+    const ingredientContainer = mount(<Ingredient
       ingredient={ingredient}
       index={index}
       recipeId={recipeId}
@@ -64,7 +64,7 @@ describe('Ingredient', () => {
     const oldIngredientQuantity = 4.0
     const newIngredientQuantity = 10.0
 
-    const ingredientContainer = mount(<IngredientContainer
+    const ingredientContainer = mount(<Ingredient
       ingredient={ingredient}
       index={index}
       recipeId={recipeId}
@@ -87,7 +87,7 @@ describe('Ingredient', () => {
     const oldIngredientUnit = 'tbsp'
     const newIngredientUnit = 'oz'
 
-    const ingredientContainer = mount(<IngredientContainer
+    const ingredientContainer = mount(<Ingredient
       ingredient={ingredient}
       index={index}
       recipeId={recipeId}
@@ -114,7 +114,7 @@ describe('Ingredient', () => {
       unit: 'oz',
     }
 
-    const ingredientContainer = mount(<IngredientContainer
+    const ingredientContainer = mount(<Ingredient
       ingredient={ingredient}
       index={index}
       recipeId={recipeId}
@@ -147,7 +147,7 @@ describe('Ingredient', () => {
       .spyOn(RecipeActions, 'updateIngredient')
       .mockImplementation((id, ingredient, onSuccess) => onSuccess(newIngredient))
 
-    const ingredientContainer = mount(<IngredientContainer
+    const ingredientContainer = mount(<Ingredient
       ingredient={ingredient}
       index={index}
       recipeId={recipeId}
@@ -156,8 +156,7 @@ describe('Ingredient', () => {
     const expectIngredientDisplayed = (expectedIngredient) => {
       expect(ingredientContainer.find(`.ingredient_${index} [data-name]`).at(0).text()).toEqual(expectedIngredient.name)
       expect(ingredientContainer.find(`.ingredient_${index} [data-quantity]`).at(0).text())
-        .toEqual(expectedIngredient.quantity.toString())
-      expect(ingredientContainer.find(`.ingredient_${index} [data-unit]`).at(0).text()).toEqual(expectedIngredient.unit)
+        .toEqual(`${expectedIngredient.quantity} ${expectedIngredient.unit}`)
     }
 
     expectIngredientDisplayed(ingredient)
@@ -174,7 +173,7 @@ describe('Ingredient', () => {
     it('displays confirmation dialog when delete button is clicked', () => {
       mockAppContext()
 
-      const ingredientContainer = mount(<IngredientContainer
+      const ingredientContainer = mount(<Ingredient
         ingredient={ingredient}
         index={index}
         recipeId={recipeId}
@@ -189,7 +188,7 @@ describe('Ingredient', () => {
 
     it('closes dialog when cancel button clicked', () => {
       mockAppContext()
-      const ingredientContainer = mount(<IngredientContainer
+      const ingredientContainer = mount(<Ingredient
         ingredient={ingredient}
         index={index}
         recipeId={recipeId}
@@ -210,7 +209,7 @@ describe('Ingredient', () => {
     it('dispatches deleteIngredient when confirm Delete button clicked', () => {
       const context = mockAppContext()
 
-      const ingredientContainer = mount(<IngredientContainer
+      const ingredientContainer = mount(<Ingredient
         ingredient={ingredient}
         index={index}
         recipeId={recipeId}
@@ -241,7 +240,7 @@ describe('Ingredient', () => {
         .spyOn(RecipeActions, 'deleteIngredient')
         .mockImplementation((id, ingredientId, onSuccess) => onSuccess())
 
-      const ingredientContainer = mount(<IngredientContainer
+      const ingredientContainer = mount(<Ingredient
         ingredient={ingredient}
         index={index}
         recipeId={recipeId}
@@ -263,7 +262,7 @@ describe('Ingredient', () => {
         .spyOn(RecipeActions, 'deleteIngredient')
         .mockImplementation((id, ingredientId, onSuccess, onError) => onError())
 
-      const ingredientContainer = mount(<IngredientContainer
+      const ingredientContainer = mount(<Ingredient
         ingredient={ingredient}
         index={index}
         recipeId={recipeId}

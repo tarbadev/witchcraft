@@ -12,6 +12,7 @@ import { makeStyles } from '@material-ui/core'
 import { PageTitle } from 'src/app/components/PageTitle'
 import { useAppContext } from 'src/app/components/StoreProvider'
 import { RECIPE } from 'src/app/components/Header'
+import { initialState } from 'src/app/RootReducer'
 
 const useStyles = makeStyles({
   paper: {
@@ -20,8 +21,9 @@ const useStyles = makeStyles({
 })
 
 export const RecipesPageContainer = ({ history }) => {
-  const { state, dispatch, setCurrentHeader } = useAppContext()
-  setCurrentHeader(RECIPE)
+  const { state, dispatch, setHeaderConfig } = useAppContext()
+  const headerConfig = { currentLink: RECIPE, title: RECIPE, ...initialState.headerConfig }
+  useEffect(() => setHeaderConfig(headerConfig), [])
 
   const [recipes, setRecipes] = useState(state.recipes)
   const [filteredRecipes, setFilteredRecipes] = useState(recipes)

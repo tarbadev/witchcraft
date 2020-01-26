@@ -1,27 +1,22 @@
 import * as RecipePage from '../page-objects/recipe.po'
-import { displayStepNote } from '../page-objects/recipe.po'
 import * as RecipesPage from '../page-objects/recipes.po'
 import * as EditRecipePage from '../page-objects/editRecipe.po'
-import { waitForTextByCss } from '../page-objects/helpers.po'
 
 describe('Recipe', () => {
   it('displays the ingredient details', async () => {
-    await RecipePage.goTo(3)
-    await waitForTextByCss('.title', 'Thai Chicken Salad')
+    await RecipePage.goTo(3, 'Thai Chicken Salad')
 
     const ingredient = await RecipePage.getIngredient(2)
     const expectedIngredient = {
       name: 'Cooked, shredded chicken breast',
-      quantity: '2',
-      unit: 'cup',
+      quantity: '2 cup',
     }
 
     expect(ingredient).toEqual(expectedIngredient)
   })
 
   it('displays the steps', async () => {
-    await RecipePage.goTo(3)
-    await waitForTextByCss('.title', 'Thai Chicken Salad')
+    await RecipePage.goTo(3, 'Thai Chicken Salad')
 
     const steps = await RecipePage.getSteps()
     const expectedSteps = [
@@ -33,8 +28,7 @@ describe('Recipe', () => {
 
   describe('on heart button click', () => {
     it('adds the recipe as favourite', async () => {
-      await RecipePage.goTo(3)
-      await waitForTextByCss('.title', 'Thai Chicken Salad')
+      await RecipePage.goTo(3, 'Thai Chicken Salad')
 
       expect(await RecipePage.isFavorite()).toBeFalsy()
 
@@ -47,8 +41,7 @@ describe('Recipe', () => {
 
   describe('on delete button click', () => {
     it('displays a confirmation popup', async () => {
-      await RecipePage.goTo(2)
-      await waitForTextByCss('.title', 'Tartiflette')
+      await RecipePage.goTo(2, 'Tartiflette')
 
       await RecipePage.clickOnDeleteButton()
       const confirmationDeleteRecipe = await RecipePage.getConfirmationDeleteRecipe()
@@ -56,8 +49,7 @@ describe('Recipe', () => {
     })
 
     it('delete the recipe and redirect to recipe list', async () => {
-      await RecipePage.goTo(2)
-      await waitForTextByCss('.title', 'Tartiflette')
+      await RecipePage.goTo(2, 'Tartiflette')
 
       await RecipePage.clickOnDeleteButton()
       await RecipePage.clickOnConfirmDeleteButton()
@@ -76,8 +68,7 @@ describe('Recipe', () => {
 
   describe('on modify button click', () => {
     it('redirects to edit recipe page', async () => {
-      await RecipePage.goTo(3)
-      await waitForTextByCss('.title', 'Thai Chicken Salad')
+      await RecipePage.goTo(3, 'Thai Chicken Salad')
 
       await RecipePage.clickOnModifyButton()
       await EditRecipePage.waitForPageLoaded()
@@ -88,8 +79,7 @@ describe('Recipe', () => {
 
   describe('on ingredient click', () => {
     it('displays the modify ingredient form and stores new values', async () => {
-      await RecipePage.goTo(3)
-      await waitForTextByCss('.title', 'Thai Chicken Salad')
+      await RecipePage.goTo(3, 'Thai Chicken Salad')
 
       const ingredients = await RecipePage.getIngredients()
       const expectedIngredients = [
@@ -134,8 +124,7 @@ describe('Recipe', () => {
     })
 
     it('displays the delete button and removes the ingredient', async () => {
-      await RecipePage.goTo(3)
-      await waitForTextByCss('.title', 'Thai Chicken Salad')
+      await RecipePage.goTo(3, 'Thai Chicken Salad')
 
       const expectedIngredients = [
         'Napa cabbage, thinly sliced (about 4 cups)',
@@ -179,8 +168,7 @@ describe('Recipe', () => {
 
   describe('on portion click', () => {
     it('displays the modify portion form and stores new value', async () => {
-      await RecipePage.goTo(3)
-      await waitForTextByCss('.title', 'Thai Chicken Salad')
+      await RecipePage.goTo(3, 'Thai Chicken Salad')
 
       expect(await RecipePage.getPortions()).toEqual('4')
 
@@ -192,8 +180,7 @@ describe('Recipe', () => {
 
   describe('Notes', () => {
     it('can see and edit the recipe\'s notes', async () => {
-      await RecipePage.goTo(2)
-      await waitForTextByCss('.title', 'Tartiflette')
+      await RecipePage.goTo(2, 'Tartiflette')
 
       expect(await RecipePage.getNotes()).toBe('Please add more cheese if needed')
 
@@ -205,21 +192,17 @@ describe('Recipe', () => {
 
   describe('Step Note', () => {
     it('can see a step\'s notes', async () => {
-      await RecipePage.goTo(3)
-      await waitForTextByCss('.title', 'Thai Chicken Salad')
+      await RecipePage.goTo(3, 'Thai Chicken Salad')
 
-      await displayStepNote(1)
-      expect(await RecipePage.getStepNote(1)).toBe('Careful not to break the almonds')
+      expect(await RecipePage.getStepNote()).toBe('Note: Careful not to break the almonds')
     })
 
     it('can edit a step\'s notes', async () => {
-      await RecipePage.goTo(3)
-      await waitForTextByCss('.title', 'Thai Chicken Salad')
+      await RecipePage.goTo(3, 'Thai Chicken Salad')
 
-      await displayStepNote(1)
       await RecipePage.editStepNote('Careful not to break the almonds when slicing them')
 
-      expect(await RecipePage.getStepNote(1)).toBe('Careful not to break the almonds when slicing them')
+      expect(await RecipePage.getStepNote()).toBe('Note: Careful not to break the almonds when slicing them')
     })
   })
 })

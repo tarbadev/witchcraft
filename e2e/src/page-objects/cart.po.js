@@ -14,13 +14,13 @@ export const getRecipes = async () => {
 
 export const getIngredients = async () => {
   return await global.page.$$eval(
-    'p.ingredient',
-    elements => elements.map(el => el.textContent),
+    '[data-ingredient-container] [data-name]',
+    elements => elements.map(el => el.textContent).sort(),
   )
 }
 
 export const tapOnIngredient = async ingredient => {
-  const ingredients = await global.page.$x(`//p[contains(text(), '${ingredient}') and contains(@class, 'ingredient')]`)
+  const ingredients = await global.page.$x(`//span[contains(text(), '${ingredient}')]`)
 
   if (await ingredients.length > 0) {
     await ingredients[0].click()

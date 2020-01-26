@@ -1,4 +1,5 @@
 import { constant, updateIn } from 'updeep'
+import { DASHBOARD } from 'src/app/components/Header'
 
 export const SET_STATE = 'SET_STATE'
 
@@ -38,7 +39,11 @@ const pages = {
 
 export const initialState = {
   pages,
-  currentPage: 'Home',
+  headerConfig: {
+    currentLink: DASHBOARD,
+    title: 'Witchcraft',
+    menuList: [],
+  },
   recipe: {
     id: 0,
     name: '',

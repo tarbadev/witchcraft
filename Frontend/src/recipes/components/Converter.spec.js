@@ -1,19 +1,9 @@
 import React from 'react'
 import convert from 'convert-units'
 import { ConverterContainer } from './Converter'
-import { createMount } from '@material-ui/core/test-utils'
+import { mount } from 'enzyme'
 
 describe('Converter', () => {
-  let mount
-
-  beforeEach(() => {
-    mount = createMount()
-  });
-
-  afterEach(() => {
-    mount.cleanUp()
-  });
-
   it('displays the list of measures', () => {
     const measures = convert().measures()
     const converterContainer = mount(<ConverterContainer open={true} />)

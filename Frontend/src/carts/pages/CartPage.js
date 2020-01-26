@@ -4,10 +4,10 @@ import { Link } from 'react-router-dom'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 
-import { Ingredient } from 'src/recipes/components/Ingredient'
+import { IngredientDisplay } from 'src/recipes/components/Ingredient'
 import { getCartTitle } from './CartHelper'
 import { RecipeCard } from 'src/recipes/components/RecipeCard'
-import { findWithAttr, getCart, toggleItem, deleteCart } from 'src/carts/actions/CartActions'
+import { deleteCart, findWithAttr, getCart, toggleItem } from 'src/carts/actions/CartActions'
 
 import './CartPage.css'
 import { PageTitle } from 'src/app/components/PageTitle'
@@ -16,12 +16,14 @@ import { CART } from 'src/app/components/Header'
 import Button from '@material-ui/core/Button'
 import DeleteIcon from '@material-ui/icons/Delete'
 import CircularProgress from '@material-ui/core/CircularProgress'
+import { initialState } from 'src/app/RootReducer'
 
 export const CartPageContainer = ({ match, history }) => {
-  const { state, dispatch, setCurrentHeader } = useAppContext()
-  setCurrentHeader(CART)
-
+  const { state, dispatch, setHeaderConfig } = useAppContext()
   const cartId = match.params.id
+
+  useEffect(() => setHeaderConfig({ currentLink: CART, title: CART, ...initialState.headerConfig }), [cartId])
+
   const [cart, setCart] = useState(state.cart)
   const [isDeleting, setIsDeleting] = useState(false)
 
@@ -73,10 +75,7 @@ export const CartPage = ({
         data-item
         className={`cart-page__ingredient ${ingredient.enabled ? '' : 'cart-page__ingredient-disabled'}`}
         onClick={() => onItemClick(cart.id, ingredient.id, !ingredient.enabled)}>
-        <Ingredient
-          ingredient={ingredient.name}
-          unit={ingredient.unit}
-          quantity={ingredient.quantity} />
+        <IngredientDisplay name={ingredient.name} quantity={`${ingredient.quantity} ${ingredient.unit}`} />
       </Grid>
     ))
     : []

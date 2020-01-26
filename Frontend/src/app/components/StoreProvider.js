@@ -12,12 +12,18 @@ const StoreContext = createContext(initialState)
 export const StoreProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState)
   const enhancedDispatch = applyMiddleware(dispatch)
-  const [currentHeader, setCurrentHeader] = useState(state.currentPage)
+  const [headerConfig, setHeaderConfig] = useState(state.headerConfig)
 
   const actions = useActions(state, enhancedDispatch)
 
   return (
-    <StoreContext.Provider value={{ state, dispatch: enhancedDispatch, actions, currentHeader, setCurrentHeader }}>
+    <StoreContext.Provider value={{
+      state,
+      dispatch: enhancedDispatch,
+      actions,
+      headerConfig,
+      setHeaderConfig,
+    }}>
       {children}
     </StoreContext.Provider>
   )

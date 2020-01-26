@@ -9,6 +9,7 @@ import Button from '@material-ui/core/Button'
 import { useAppContext } from 'src/app/components/StoreProvider'
 import { updatePortions } from 'src/recipes/actions/RecipeActions'
 import ClickAwayListener from '@material-ui/core/ClickAwayListener'
+import { makeStyles } from '@material-ui/core'
 
 export const PortionsContainer = ({ portions, recipeId, onPortionsUpdated }) => {
   const { dispatch } = useAppContext()
@@ -39,6 +40,13 @@ PortionsContainer.propTypes = {
   onPortionsUpdated: PropTypes.func,
 }
 
+const useStyles = makeStyles(theme => ({
+  paper: {
+    padding: `${theme.spacing(1)}px ${theme.spacing(3)}px`,
+    cursor: 'pointer',
+  },
+}))
+
 const Portions = ({
   portions,
   editable,
@@ -48,6 +56,7 @@ const Portions = ({
   onPortionsChange,
   onSaveClick,
 }) => {
+  const classes = useStyles()
   let portionsBody
 
   if (editable) {
@@ -78,14 +87,19 @@ const Portions = ({
     )
   } else {
     portionsBody = (
-      <Typography variant='h6' className='witchcraft-title' data-portions-container onClick={showEditableMode}>
+      <Typography
+        variant='h6'
+        className='witchcraft-title'
+        data-portions-container
+        onClick={showEditableMode}
+      >
         Portions: <span data-portions-value='true'>{portions}</span>
       </Typography>
     )
   }
 
   return (
-    <Paper elevation={1} style={{ padding: '.5em 1em', cursor: 'pointer' }}>
+    <Paper elevation={1} className={classes.paper}>
       {portionsBody}
     </Paper>
   )

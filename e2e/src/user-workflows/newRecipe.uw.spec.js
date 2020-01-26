@@ -17,7 +17,7 @@ describe('New Recipe', () => {
       expect(recipes).toEqual(expectedRecipes)
 
       await RecipesPage.clickOnRecipe('mini goat cheese stuffed potato appetizers – greek-inspired')
-      await waitForTextByCss('.title', 'Mini Goat Cheese Stuffed Potato Appetizers – Greek-Inspired')
+      await waitForTextByCss('[data-recipe-title]', 'Mini Goat Cheese Stuffed Potato Appetizers – Greek-Inspired')
 
       const ingredients = await RecipePage.getIngredients()
       const expectedIngredients = [
@@ -58,7 +58,7 @@ describe('New Recipe', () => {
       expect(recipes).toEqual(expectedRecipes)
 
       await RecipesPage.clickOnRecipe('baja chicken quesadillas')
-      await waitForTextByCss('.title', 'Baja Chicken Quesadillas')
+      await waitForTextByCss('[data-recipe-title]', 'Baja Chicken Quesadillas')
 
       const ingredients = await RecipePage.getIngredients()
       const expectedIngredients = [
@@ -105,7 +105,7 @@ describe('New Recipe', () => {
       expect(recipes).toEqual(expectedRecipes)
 
       await RecipesPage.clickOnRecipe('pâte à crêpes')
-      await waitForTextByCss('.title', 'Pâte À Crêpes')
+      await waitForTextByCss('[data-recipe-title]', 'Pâte À Crêpes')
 
       const ingredients = await RecipePage.getIngredients()
       const expectedIngredients = [
@@ -155,7 +155,7 @@ describe('New Recipe', () => {
       expect(recipes).toEqual(expectedRecipes)
 
       await RecipesPage.clickOnRecipe('some recipe name')
-      await waitForTextByCss('.title', 'Some Recipe Name')
+      await waitForTextByCss('[data-recipe-title]', 'Some Recipe Name')
 
       const ingredients = await RecipePage.getIngredients()
       const expectedIngredients = [

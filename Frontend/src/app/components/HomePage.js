@@ -10,10 +10,11 @@ import { getFavoriteRecipes, getLatestRecipes } from '../../recipes/actions/Reci
 import { getCurrentWeek, getWeek } from '../../weeks/actions/WeekActions'
 import { useAppContext } from './StoreProvider'
 import { DASHBOARD } from './Header'
+import { initialState } from 'src/app/RootReducer'
 
 export const HomePageContainer = () => {
-  const { state, dispatch, setCurrentHeader } = useAppContext()
-  setCurrentHeader(DASHBOARD)
+  const { state, dispatch, setHeaderConfig } = useAppContext()
+  useEffect(() => setHeaderConfig({ currentLink: DASHBOARD, title: DASHBOARD, ...initialState.headerConfig }), [])
 
   const [week, setWeek] = useState(state.week)
   const [latestRecipes, setLatestRecipes] = useState(state.pages.homePage.lastRecipes)

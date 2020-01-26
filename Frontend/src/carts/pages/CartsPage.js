@@ -10,10 +10,11 @@ import { getCartTitle } from './CartHelper'
 import { useAppContext } from 'src/app/components/StoreProvider'
 import { getAllCarts } from '../actions/CartsActions'
 import { CART } from 'src/app/components/Header'
+import { initialState } from 'src/app/RootReducer'
 
 export const CartsPageContainer = ({ history }) => {
-  const { state, dispatch, setCurrentHeader } = useAppContext()
-  setCurrentHeader(CART)
+  const { state, dispatch, setHeaderConfig } = useAppContext()
+  useEffect(() => setHeaderConfig({ currentLink: CART, title: CART, ...initialState.headerConfig }), [])
 
   const [carts, setCarts] = useState(state.carts)
 
@@ -45,7 +46,13 @@ export const CartsPage = ({
   return (
     <Grid container spacing={1}>
       <Grid item xs={12}>
-        <Button variant='contained' href='' className='cart-page__new-cart-button' color='primary' onClick={onNewCartClick}>
+        <Button
+          variant='contained'
+          href=''
+          className='cart-page__new-cart-button'
+          color='primary'
+          onClick={onNewCartClick}
+        >
           New Cart
         </Button>
       </Grid>

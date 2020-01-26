@@ -5,7 +5,7 @@ import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 
-export const OneLineEditableFieldContainer = ({ initialValue, onSaveClick }) => {
+export const OneLineEditableFieldContainer = ({ initialValue, onSaveClick, prefix }) => {
   const [editableValue, setEditableValue] = useState(initialValue)
   const [isEditable, setEditable] = useState(false)
 
@@ -21,12 +21,15 @@ export const OneLineEditableFieldContainer = ({ initialValue, onSaveClick }) => 
     onEditableValueChange={setEditableValue}
     showEditableMode={showEditableMode}
     hideEditableMode={() => setEditable(false)}
-    onSaveClick={() => onSaveClick(editableValue)} />
+    onSaveClick={() => onSaveClick(editableValue)}
+    prefix={prefix}
+  />
 }
 
 OneLineEditableFieldContainer.propTypes = {
   initialValue: PropTypes.string,
   onSaveClick: PropTypes.func,
+  prefix: PropTypes.string,
 }
 
 const OneLineEditableField = ({
@@ -37,20 +40,36 @@ const OneLineEditableField = ({
   showEditableMode,
   hideEditableMode,
   onSaveClick,
+  prefix,
 }) => {
+  const DisplayTypography = ({ children }) => <Typography
+    variant='body2'
+    data-display-value
+    component='span'
+    style={{ cursor: 'pointer' }}
+    onClick={showEditableMode}>
+    {children}
+  </Typography>
+
+  DisplayTypography.propTypes = { children: PropTypes.node }
+
   if (editable) {
-    return <Grid container direction="row" justify="space-between" alignItems="center">
-      <Grid item sm={9}>
+    return <Grid container component='span' direction="row" justify="space-between" alignItems="flex-end">
+      <Grid item xs={10} component='span'>
         <TextField
           autoFocus
-          multiline={true}
-          className='notes-container__editable-value'
+          multiline
           value={editableValue}
           data-edit-value
+          fullWidth
+          label='Note'
+          component='span'
+          InputProps={{ inputComponent: 'span' }}
           onChange={({ target }) => onEditableValueChange(target.value)}
-          onBlur={hideEditableMode} />
+          onBlur={hideEditableMode}
+        />
       </Grid>
-      <Grid item sm={2}>
+      <Grid item xs={2} component='span'>
         <Button
           className='notes-container__update-value-button'
           color='primary'
@@ -59,21 +78,13 @@ const OneLineEditableField = ({
       </Grid>
     </Grid>
   } else if (initialValue) {
-    return <Typography
-      variant='body2'
-      className='notes-container__value-content'
-      data-display-value
-      onClick={showEditableMode}>
-      {initialValue}
-    </Typography>
+    return <DisplayTypography>
+      {prefix ? `${prefix} ${initialValue}` : initialValue}
+    </DisplayTypography>
   } else {
-    return <Typography
-      variant='body2'
-      data-display-value
-      className='notes-container__empty-value'
-      onClick={showEditableMode}>
+    return <DisplayTypography>
       Add a note
-    </Typography>
+    </DisplayTypography>
   }
 }
 
@@ -84,4 +95,5 @@ OneLineEditableField.propTypes = {
   onEditableValueChange: PropTypes.func,
   showEditableMode: PropTypes.func,
   hideEditableMode: PropTypes.func,
+  prefix: PropTypes.string,
 }

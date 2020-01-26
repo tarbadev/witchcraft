@@ -5,7 +5,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 import CloseIcon from '@material-ui/icons/Close'
 
-import { saveWeek, toggleModal, setRecipeToWeek } from 'src/weeks/actions/WeekPageActions'
+import { saveWeek, setRecipeToWeek, toggleModal } from 'src/weeks/actions/WeekPageActions'
 import { createCart } from 'src/carts/actions/NewCartActions'
 import { WeekPane } from 'src/weeks/components/WeekPane'
 
@@ -16,6 +16,7 @@ import { getWeek } from '../actions/WeekActions'
 import { RecipeListModalContainer } from '../components/RecipeListModal'
 import { WEEK } from 'src/app/components/Header'
 import moment from 'moment'
+import { initialState } from 'src/app/RootReducer'
 
 export const WEEKS_IN_A_YEAR = 52
 
@@ -32,8 +33,8 @@ const IconButtonStyled = withStyles({
 })(IconButton)
 
 export const WeekPageContainer = ({ history, weekNumber, year }) => {
-  const { state, dispatch, setCurrentHeader } = useAppContext()
-  setCurrentHeader(WEEK)
+  const { state, dispatch, setHeaderConfig } = useAppContext()
+  useEffect(() => setHeaderConfig({ currentLink: WEEK, title: WEEK, ...initialState.headerConfig }), [weekNumber, year])
 
   const [week, setWeek] = useState(state.week)
   const [modal, setModal] = useState(state.pages.weekPage.modal)

@@ -7,7 +7,7 @@
     transition: .2s ease;
 }
 
-.cart-page__ingredient-disabled .paper {
+.cart-page__ingredient-disabled {
     background-color: #bdbdbd;
     font-style: italic;
 }

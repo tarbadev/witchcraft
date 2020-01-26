@@ -10,10 +10,12 @@ import { PageTitle } from 'src/app/components/PageTitle'
 import { useAppContext } from 'src/app/components/StoreProvider'
 import { getAllRecipes } from 'src/recipes/actions/RecipesActions'
 import { CART } from 'src/app/components/Header'
+import { initialState } from 'src/app/RootReducer'
 
 export const NewCartPageContainer = ({ history }) => {
-  const { state, dispatch, setCurrentHeader } = useAppContext()
-  setCurrentHeader(CART)
+  const { state, dispatch, setHeaderConfig } = useAppContext()
+
+  useEffect(() => setHeaderConfig({ currentLink: CART, title: CART, ...initialState.headerConfig }), [])
 
   const [recipes, setRecipes] = useState(state.recipes)
 

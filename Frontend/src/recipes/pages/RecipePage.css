@@ -13,22 +13,6 @@
     margin-right: .5em;
 }
 
-.deleteButton {
-    background-color: #db2828 !important;
-    color: #fff !important;
-    margin-right: 10px !important;
-}
-
-.modifyButton {
-    background-color: #fbbd08 !important;
-    color: #fff !important;
-    margin-right: 10px !important;
-}
-
-.modifyButtonhover {
-    background-color: #ffb300 !important;
-}
-
 .modifyIcon {
     margin-right: .5em;
 }
@@ -41,22 +25,11 @@
     margin-left: -12px;
 }
 
-.favoriteButton {
-    margin-top: -8px !important;
-    margin-left: 5px !important;
-}
-
-.favorite {
-    color: #db2828 !important;
-}
-
 .notes-container__update-value-button {
-    /*margin-top: 10px !important;*/
     text-align: right !important;
 }
 
 .notes-container {
-    margin-top: 10px !important;
     padding: 5px 10px;
 }
 
@@ -73,20 +46,6 @@
     font-family: 'Indie Flower', cursive !important;
 }
 
-.notes-container__value-content {
-    font-family: 'Indie Flower', cursive !important;
-}
-
 .notes-container__notes-title {
     font-family: 'Indie Flower', cursive !important;
-}
-
-.notes-container__empty-value {
-    font-style: italic;
-    color: rgba(0, 0, 0, 0.70) !important;
-}
-
-.notes-container__editable-value {
-    width: 100%;
-    margin: 0 !important;
 }

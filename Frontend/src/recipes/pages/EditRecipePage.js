@@ -7,13 +7,13 @@ import Typography from '@material-ui/core/Typography'
 
 import { getRecipe, updateRecipe } from 'src/recipes/actions/RecipeActions'
 import { PageTitle } from 'src/app/components/PageTitle'
-import { reducer, setState } from 'src/app/RootReducer'
+import { initialState, reducer, setState } from 'src/app/RootReducer'
 import { useAppContext } from 'src/app/components/StoreProvider'
 import { RECIPE } from 'src/app/components/Header'
 
 export const EditRecipePageContainer = ({ match, history }) => {
-  const { state, dispatch, setCurrentHeader } = useAppContext()
-  setCurrentHeader(RECIPE)
+  const { state, dispatch, setHeaderConfig } = useAppContext()
+  useEffect(() => setHeaderConfig({ currentLink: RECIPE, title: RECIPE, ...initialState.headerConfig }), [match.params.id])
   const [recipe, setRecipe] = useState(state.recipe)
 
   useEffect(() =>

@@ -1,23 +1,34 @@
 import React from 'react'
 import { mount } from 'enzyme'
 
-import { RecipePageContainer } from './RecipePage'
+import { RecipePage } from './RecipePage'
 
 import promisedRecipeList from 'test-resources/recipeList.json'
 import { mockAppContext } from 'src/testUtils'
 import * as RecipeActions from '../actions/RecipeActions'
+import { Header } from 'src/app/components/Header'
+import { BrowserRouter } from 'react-router-dom'
 
 const promisedRecipe = promisedRecipeList.recipes[0]
 
-describe('RecipePageContainer', () => {
+describe('RecipePage', () => {
   it('renders without crashing and loads the recipe', () => {
     const context = mockAppContext()
     const id = 2
 
-    const recipePageContainer = mount(<RecipePageContainer match={{ params: { id } }} />)
+    const recipePageContainer = mount(<RecipePage match={{ params: { id } }} />)
 
     expect(recipePageContainer).toBeDefined()
     expect(context.dispatch).toHaveBeenNthCalledWith(1, RecipeActions.getRecipe(id, expect.any(Function)))
+  })
+
+  it('sets the header config', () => {
+    const context = mockAppContext()
+    const id = 2
+
+    mount(<RecipePage match={{ params: { id } }} />)
+
+    expect(context.setHeaderConfig).toHaveBeenCalled()
   })
 
   it('dispatches setFavorite on FavoriteIcon click', () => {
@@ -28,15 +39,15 @@ describe('RecipePageContainer', () => {
       .spyOn(RecipeActions, 'getRecipe')
       .mockImplementation((id, onSuccess) => onSuccess(promisedRecipe))
 
-    const recipePageContainer = mount(<RecipePageContainer match={{ params: { id } }} />)
-    recipePageContainer.find('.favoriteButton button').simulate('click')
+    const recipePageContainer = mount(<RecipePage match={{ params: { id } }} />)
+    recipePageContainer.find('[data-toggle-favorite-button] button').simulate('click')
 
     expect(context.dispatch)
       .toHaveBeenLastCalledWith(RecipeActions.setFavorite(id, !promisedRecipe.favorite, expect.any(Function)))
   })
 
   it('dispatches history.push when Modify button clicked', () => {
-    mockAppContext()
+    const context = mockAppContext()
     const pushSpy = jest.fn()
     const id = promisedRecipe.id
 
@@ -44,103 +55,75 @@ describe('RecipePageContainer', () => {
       .spyOn(RecipeActions, 'getRecipe')
       .mockImplementation((id, onSuccess) => onSuccess(promisedRecipe))
 
-    const recipePageContainer = mount(<RecipePageContainer match={{ params: { id } }} history={{ push: pushSpy }} />)
-    recipePageContainer.find('.modifyButton button').simulate('click')
+    mount(<RecipePage match={{ params: { id } }} history={{ push: pushSpy }} />)
+
+    const headerConfig = context.setHeaderConfig.mock.calls[0][0]
+    mockAppContext({ headerConfig })
+
+    const recipePageContainer = mount(<BrowserRouter>
+      <Header />
+      <RecipePage match={{ params: { id } }} history={{ push: pushSpy }} />
+    </BrowserRouter>)
+    recipePageContainer.find('[data-edit-button]').at(0).simulate('click')
 
     expect(pushSpy).toHaveBeenCalledWith(`/recipes/${promisedRecipe.id}/edit`)
   })
 
   describe('delete', () => {
-    it('displays confirmation dialog when delete button is clicked', () => {
-      mockAppContext()
-      const id = promisedRecipe.id
+    let recipePageContainer
+    let fullPageContainer
+    let pushSpy
+    let context
+
+    const id = promisedRecipe.id
+
+    beforeEach(() => {
+      pushSpy = jest.fn()
+      context = mockAppContext()
 
       jest
         .spyOn(RecipeActions, 'getRecipe')
         .mockImplementation((id, onSuccess) => onSuccess(promisedRecipe))
 
-      const recipePageContainer = mount(<RecipePageContainer match={{ params: { id } }} />)
+      recipePageContainer = mount(<RecipePage match={{ params: { id } }} history={{ push: pushSpy }} />)
 
-      expect(recipePageContainer.find('[data-confirm-delete]')).toHaveLength(0)
+      const headerConfig = context.setHeaderConfig.mock.calls[0][0]
+      context = mockAppContext({ headerConfig })
 
-      recipePageContainer.find('.deleteButton button').simulate('click')
+      fullPageContainer = mount(<BrowserRouter>
+        <Header />
+        <RecipePage match={{ params: { id } }} history={{ push: pushSpy }} />
+      </BrowserRouter>)
+
+    })
+
+    it('displays confirmation dialog when delete button is clicked', () => {
+      expect(recipePageContainer.find('[data-confirm-delete-title]')).toHaveLength(0)
+
+      fullPageContainer.find('[data-delete-button]').at(0).simulate('click')
+      recipePageContainer.update()
 
       expect(recipePageContainer.find('[data-confirm-delete-title]')).toHaveLength(3)
     })
 
     it('dispatches deleteRecipe when confirm Delete button clicked', () => {
-      const context = mockAppContext()
-      const id = promisedRecipe.id
+      fullPageContainer.find('[data-delete-button]').at(0).simulate('click')
+      recipePageContainer.update()
 
-      jest
-        .spyOn(RecipeActions, 'getRecipe')
-        .mockImplementation((id, onSuccess) => onSuccess(promisedRecipe))
-
-      const recipePageContainer = mount(<RecipePageContainer match={{ params: { id } }} />)
-      recipePageContainer.find('.deleteButton button').simulate('click')
       recipePageContainer.find('[data-confirm-delete-button] button').simulate('click')
 
       expect(context.dispatch)
         .toHaveBeenLastCalledWith(RecipeActions.deleteRecipe(id, expect.any(Function), expect.any(Function)))
     })
 
-    it('displays circular progress when confirm delete button is clicked', () => {
-      mockAppContext()
-      const id = promisedRecipe.id
-
-      jest
-        .spyOn(RecipeActions, 'getRecipe')
-        .mockImplementation((id, onSuccess) => onSuccess(promisedRecipe))
-
-      const recipePageContainer = mount(<RecipePageContainer match={{ params: { id } }} />)
-
-      expect(recipePageContainer.find('.circularProgress')).toHaveLength(0)
-
-      recipePageContainer.find('.deleteButton button').simulate('click')
-      recipePageContainer.find('[data-confirm-delete-button] button').simulate('click')
-
-      expect(recipePageContainer.find('.circularProgress')).toHaveLength(3)
-    })
-
-    it('Hides CircularProgress call is successful', () => {
-      mockAppContext()
-      const id = promisedRecipe.id
-
-      jest
-        .spyOn(RecipeActions, 'getRecipe')
-        .mockImplementation((id, onSuccess) => onSuccess(promisedRecipe))
-
-      const recipePageContainer = mount(
-        <RecipePageContainer
-          match={{ params: { id } }}
-          history={{ push: jest.fn() }} />)
-
-      expect(recipePageContainer.find('.circularProgress')).toHaveLength(0)
-
-      jest
-        .spyOn(RecipeActions, 'deleteRecipe')
-        .mockImplementation((id, onSuccess) => onSuccess())
-
-      recipePageContainer.find('.deleteButton button').simulate('click')
-      recipePageContainer.find('[data-confirm-delete-button] button').simulate('click')
-      expect(recipePageContainer.find('.circularProgress')).toHaveLength(0)
-    })
-
     it('redirects to recipes page when delete succeeds', () => {
-      mockAppContext()
-      const id = promisedRecipe.id
-      const pushSpy = jest.fn()
-
-      jest
-        .spyOn(RecipeActions, 'getRecipe')
-        .mockImplementation((id, onSuccess) => onSuccess(promisedRecipe))
-
       jest
         .spyOn(RecipeActions, 'deleteRecipe')
         .mockImplementation((id, onSuccess) => onSuccess())
 
-      const recipePageContainer = mount(<RecipePageContainer match={{ params: { id } }} history={{ push: pushSpy }} />)
-      recipePageContainer.find('.deleteButton button').simulate('click')
+      fullPageContainer.find('[data-delete-button]').at(0).simulate('click')
+      recipePageContainer.update()
+
       recipePageContainer.find('[data-confirm-delete-button] button').simulate('click')
 
       expect(pushSpy).toHaveBeenLastCalledWith('/recipes')
@@ -155,7 +138,7 @@ describe('RecipePageContainer', () => {
         .spyOn(RecipeActions, 'getRecipe')
         .mockImplementation((id, onSuccess) => onSuccess(promisedRecipe))
 
-      mount(<RecipePageContainer match={{ params: { id: promisedRecipe.id } }} />)
+      mount(<RecipePage match={{ params: { id: promisedRecipe.id } }} />)
 
       expect(context.dispatch)
         .toHaveBeenLastCalledWith(RecipeActions.getRecipeNotes(promisedRecipe.id, expect.any(Function)))
@@ -168,9 +151,9 @@ describe('RecipePageContainer', () => {
         .spyOn(RecipeActions, 'getRecipe')
         .mockImplementation((id, onSuccess) => onSuccess(promisedRecipe))
 
-      const recipePageContainer = mount(<RecipePageContainer match={{ params: { id: promisedRecipe.id } }} />)
+      const recipePageContainer = mount(<RecipePage match={{ params: { id: promisedRecipe.id } }} />)
 
-      expect(recipePageContainer.find('.notes-container__empty-value').at(0).text()).toEqual('Add a note')
+      expect(recipePageContainer.find('[data-display-value]').at(0).text()).toEqual('Add a note')
     })
 
     it('displays the notes editable mode on click', () => {
@@ -185,15 +168,15 @@ describe('RecipePageContainer', () => {
         .spyOn(RecipeActions, 'getRecipeNotes')
         .mockImplementation((id, onSuccess) => onSuccess({ notes }))
 
-      const recipePageContainer = mount(<RecipePageContainer match={{ params: { id: promisedRecipe.id } }} />)
+      const recipePageContainer = mount(<RecipePage match={{ params: { id: promisedRecipe.id } }} />)
 
-      expect(recipePageContainer.find('.notes-container__editable-value')).toHaveLength(0)
+      expect(recipePageContainer.find('[data-edit-value]')).toHaveLength(0)
       expect(recipePageContainer.find('.notes-container__update-value-button button')).toHaveLength(0)
 
-      recipePageContainer.find('.notes-container__value-content').at(0).simulate('click')
+      recipePageContainer.find('[data-display-value]').at(0).simulate('click')
 
-      expect(recipePageContainer.find('.notes-container__editable-value textarea')).toHaveLength(2)
-      expect(recipePageContainer.find('.notes-container__editable-value textarea').at(0).text()).toEqual(notes)
+      expect(recipePageContainer.find('[data-edit-value] textarea')).toHaveLength(2)
+      expect(recipePageContainer.find('[data-edit-value] textarea').at(0).text()).toEqual(notes)
       expect(recipePageContainer.find('.notes-container__update-value-button button')).toHaveLength(1)
     })
 
@@ -204,13 +187,13 @@ describe('RecipePageContainer', () => {
         .spyOn(RecipeActions, 'getRecipe')
         .mockImplementation((id, onSuccess) => onSuccess(promisedRecipe))
 
-      const recipePageContainer = mount(<RecipePageContainer match={{ params: { id: promisedRecipe.id } }} />)
+      const recipePageContainer = mount(<RecipePage match={{ params: { id: promisedRecipe.id } }} />)
 
-      recipePageContainer.find('.notes-container__empty-value').at(0).simulate('click')
-      expect(recipePageContainer.find('.notes-container__editable-value textarea')).toHaveLength(2)
+      recipePageContainer.find('[data-display-value]').at(0).simulate('click')
+      expect(recipePageContainer.find('[data-edit-value] textarea')).toHaveLength(2)
 
-      recipePageContainer.find('.notes-container__editable-value textarea').at(0).simulate('blur')
-      expect(recipePageContainer.find('.notes-container__editable-value')).toHaveLength(0)
+      recipePageContainer.find('[data-edit-value] textarea').at(0).simulate('blur')
+      expect(recipePageContainer.find('[data-edit-value]')).toHaveLength(0)
     })
 
     it('Dispatches an update notes call', () => {
@@ -225,9 +208,9 @@ describe('RecipePageContainer', () => {
         .spyOn(RecipeActions, 'getRecipeNotes')
         .mockImplementation((id, onSuccess) => onSuccess({ notes }))
 
-      const recipePageContainer = mount(<RecipePageContainer match={{ params: { id: promisedRecipe.id } }} />)
+      const recipePageContainer = mount(<RecipePage match={{ params: { id: promisedRecipe.id } }} />)
 
-      recipePageContainer.find('.notes-container__value-content').at(0).simulate('click')
+      recipePageContainer.find('[data-display-value]').at(0).simulate('click')
       recipePageContainer.find('.notes-container__update-value-button button').simulate('mousedown')
 
       expect(context.dispatch)
@@ -246,13 +229,13 @@ describe('RecipePageContainer', () => {
         .spyOn(RecipeActions, 'updateNotes')
         .mockImplementation((id, notes, onSuccess) => onSuccess({ notes: newNotes }))
 
-      const recipePageContainer = mount(<RecipePageContainer match={{ params: { id: promisedRecipe.id } }} />)
+      const recipePageContainer = mount(<RecipePage match={{ params: { id: promisedRecipe.id } }} />)
 
-      recipePageContainer.find('.notes-container__empty-value').at(0).simulate('click')
+      recipePageContainer.find('[data-display-value]').at(0).simulate('click')
       recipePageContainer.find('.notes-container__update-value-button button').simulate('mousedown')
-      recipePageContainer.find('.notes-container__editable-value textarea').at(0).simulate('blur')
+      recipePageContainer.find('[data-edit-value] textarea').at(0).simulate('blur')
 
-      expect(recipePageContainer.find('.notes-container__value-content').at(0).text()).toEqual(newNotes)
+      expect(recipePageContainer.find('[data-display-value]').at(0).text()).toEqual(newNotes)
     })
 
     it('Updates the notes text on change', () => {
@@ -268,16 +251,16 @@ describe('RecipePageContainer', () => {
         .spyOn(RecipeActions, 'getRecipeNotes')
         .mockImplementation((id, onSuccess) => onSuccess({ notes }))
 
-      const recipePageContainer = mount(<RecipePageContainer match={{ params: { id: promisedRecipe.id } }} />)
+      const recipePageContainer = mount(<RecipePage match={{ params: { id: promisedRecipe.id } }} />)
 
-      recipePageContainer.find('.notes-container__value-content').at(0).simulate('click')
-      expect(recipePageContainer.find('.notes-container__editable-value textarea').at(0).text()).toEqual(notes)
+      recipePageContainer.find('[data-display-value]').at(0).simulate('click')
+      expect(recipePageContainer.find('[data-edit-value] textarea').at(0).text()).toEqual(notes)
 
-      recipePageContainer.find('.notes-container__editable-value textarea')
+      recipePageContainer.find('[data-edit-value] textarea')
         .at(0)
         .simulate('change', { target: { value: newNotes } })
 
-      expect(recipePageContainer.find('.notes-container__editable-value textarea').at(0).text()).toEqual(newNotes)
+      expect(recipePageContainer.find('[data-edit-value] textarea').at(0).text()).toEqual(newNotes)
     })
   })
 
@@ -293,7 +276,7 @@ describe('RecipePageContainer', () => {
         .spyOn(RecipeActions, 'deleteIngredient')
         .mockImplementation((id, ingredientId, onSuccess) => onSuccess())
 
-      const recipePageContainer = mount(<RecipePageContainer match={{ params: { id } }} />)
+      const recipePageContainer = mount(<RecipePage match={{ params: { id } }} />)
 
       recipePageContainer.find('.ingredient_0 [data-ingredient-container]').at(0).simulate('click')
       recipePageContainer.find('.ingredient_0 [data-edit-delete] button').simulate('click')
@@ -307,16 +290,38 @@ describe('RecipePageContainer', () => {
   })
 
   describe('Converter', () => {
+    let recipePageContainer
+    let fullPageContainer
+    let pushSpy
+    let context
+
+    const id = promisedRecipe.id
+
+    beforeEach(() => {
+      pushSpy = jest.fn()
+      context = mockAppContext()
+
+      jest
+        .spyOn(RecipeActions, 'getRecipe')
+        .mockImplementation((id, onSuccess) => onSuccess(promisedRecipe))
+
+      recipePageContainer = mount(<RecipePage match={{ params: { id } }} history={{ push: pushSpy }} />)
+
+      const headerConfig = context.setHeaderConfig.mock.calls[0][0]
+      context = mockAppContext({ headerConfig })
+
+      fullPageContainer = mount(<BrowserRouter>
+        <Header />
+        <RecipePage match={{ params: { id } }} history={{ push: pushSpy }} />
+      </BrowserRouter>)
+    })
+
     describe('on Converter click', () => {
       it('displays the Converter', () => {
-        mockAppContext()
-        const id = promisedRecipe.id
-
-        const recipePageContainer = mount(<RecipePageContainer match={{ params: { id } }} />)
-
         expect(recipePageContainer.find('[data-converter-container]').at(0).prop('open')).toBeFalsy()
 
-        recipePageContainer.find('[data-open-converter] button').at(0).simulate('click')
+        fullPageContainer.find('[data-open-converter]').at(0).simulate('click')
+        recipePageContainer.update()
 
         expect(recipePageContainer.find('[data-converter-container]').at(0).prop('open')).toBeTruthy()
       })
@@ -324,15 +329,11 @@ describe('RecipePageContainer', () => {
 
     describe('on Close button click', () => {
       it('closes the Converter', () => {
-        mockAppContext()
-        const id = promisedRecipe.id
-
-        const recipePageContainer = mount(<RecipePageContainer match={{ params: { id } }} />)
-
-        recipePageContainer.find('[data-open-converter] button').at(0).simulate('click')
+        fullPageContainer.find('[data-open-converter]').at(0).simulate('click')
+        recipePageContainer.update()
         expect(recipePageContainer.find('[data-converter-container]').at(0).prop('open')).toBeTruthy()
 
-        recipePageContainer.find('[data-close-converter] button').at(0).simulate('click')
+        recipePageContainer.find('[data-close-converter]').at(0).simulate('click')
         expect(recipePageContainer.find('[data-converter-container]').at(0).prop('open')).toBeFalsy()
       })
     })
@@ -353,12 +354,14 @@ describe('RecipePageContainer', () => {
         .spyOn(RecipeActions, 'updatePortions')
         .mockImplementation((id, portions, onSuccess) => onSuccess(recipe))
 
-      const recipePageContainer = mount(<RecipePageContainer match={{ params: { id } }} />)
+      const recipePageContainer = mount(<RecipePage match={{ params: { id } }} />)
 
       expect(recipePageContainer.find('[data-portions-value]').text()).toEqual(promisedRecipe.portions)
 
       recipePageContainer.find('[data-portions-container]').at(0).simulate('click')
-      recipePageContainer.find('[data-edit-portions] input').at(0).simulate('change', { target: { value: newPortions } })
+      recipePageContainer.find('[data-edit-portions] input')
+        .at(0)
+        .simulate('change', { target: { value: newPortions } })
       recipePageContainer.find('[data-save-portions] button').simulate('mousedown')
 
       expect(recipePageContainer.find('[data-portions-value]').text()).toEqual(newPortions)
@@ -374,14 +377,14 @@ describe('RecipePageContainer', () => {
         .spyOn(RecipeActions, 'getRecipe')
         .mockImplementation((id, onSuccess) => onSuccess(promisedRecipe))
 
-      const recipePageContainer = mount(<RecipePageContainer match={{ params: { id } }} />)
+      const recipePageContainer = mount(<RecipePage match={{ params: { id } }} />)
 
       expect(recipePageContainer.find('[data-portions-value]').text()).toEqual(promisedRecipe.portions)
-      expect(recipePageContainer.find('.ingredient_0 [data-quantity]').text()).toEqual('1')
+      expect(recipePageContainer.find('.ingredient_0 [data-quantity]').text()).toEqual('1 cup')
 
       recipePageContainer.find('[data-portions-button-up]').at(0).simulate('click')
       expect(recipePageContainer.find('[data-portions-value]').text()).toEqual(`${Number(promisedRecipe.portions) + 1}`)
-      expect(recipePageContainer.find('.ingredient_0 [data-quantity]').text()).toEqual('1.5')
+      expect(recipePageContainer.find('.ingredient_0 [data-quantity]').text()).toEqual('1.5 cup')
     })
   })
 
@@ -394,14 +397,14 @@ describe('RecipePageContainer', () => {
         .spyOn(RecipeActions, 'getRecipe')
         .mockImplementation((id, onSuccess) => onSuccess(promisedRecipe))
 
-      const recipePageContainer = mount(<RecipePageContainer match={{ params: { id } }} />)
+      const recipePageContainer = mount(<RecipePage match={{ params: { id } }} />)
 
       expect(recipePageContainer.find('[data-portions-value]').text()).toEqual(promisedRecipe.portions)
-      expect(recipePageContainer.find('.ingredient_0 [data-quantity]').text()).toEqual('1')
+      expect(recipePageContainer.find('.ingredient_0 [data-quantity]').text()).toEqual('1 cup')
 
       recipePageContainer.find('[data-portions-button-down]').at(0).simulate('click')
       expect(recipePageContainer.find('[data-portions-value]').text()).toEqual(`${Number(promisedRecipe.portions) - 1}`)
-      expect(recipePageContainer.find('.ingredient_0 [data-quantity]').text()).toEqual('0.5')
+      expect(recipePageContainer.find('.ingredient_0 [data-quantity]').text()).toEqual('0.5 cup')
     })
   })
 })

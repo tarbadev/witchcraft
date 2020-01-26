@@ -1,33 +1,35 @@
 import { fillInput, getTextByCssSelector, goToUrl, waitForTextByCss, waitForTextNotEmptyByCss } from './helpers.po'
 
-export const goTo = async (id) => {
+export const goTo = async (id, title) => {
   await goToUrl(`/recipes/${id}`)
-  await waitForPageLoaded()
+  await waitForTextByCss('[data-recipe-title]', title)
 }
 
 export const isFavorite = async () => {
-  const favoriteButton = await global.page.$('.favorite')
+  const favoriteButton = await global.page.$('[data-recipe-favorited]')
   return favoriteButton !== null
 }
 
 export const clickOnFavoriteButton = async () => {
-  await global.page.click('.favoriteButton')
+  await global.page.click('[data-toggle-favorite-button]')
 }
 
 export const clickOnModifyButton = async () => {
-  await global.page.click('.modifyButton')
+  await global.page.click('[data-open-menu]')
+  await global.page.click('[data-edit-button]')
 }
 
 export const clickOnDeleteButton = async () => {
-  await global.page.click('.deleteButton')
+  await global.page.click('[data-open-menu]')
+  await global.page.click('[data-delete-button]')
 }
 
 export const waitForPageLoaded = async () => {
-  await global.page.waitForSelector('h5.title')
+  await global.page.waitForSelector('[data-recipe-title]')
 }
 
 export const waitForFavoriteState = async () => {
-  await global.page.waitForSelector('.favorite')
+  await global.page.waitForSelector('[data-recipe-favorited]')
 }
 
 export const getIngredients = async () => {
@@ -39,7 +41,7 @@ export const getIngredients = async () => {
 
 export const getSteps = async () => {
   return await global.page.$$eval(
-    'p[data-step]',
+    '[data-step]',
     elements => elements.map(el => el.textContent),
   )
 }
@@ -54,13 +56,6 @@ export const editNotes = async (notes) => {
 export const getNotes = async () => {
   await global.page.waitForSelector('.notes-container__notes [data-display-value]')
   return await global.page.$eval('.notes-container__notes [data-display-value]', element => element.textContent)
-}
-
-export const displayStepNote = async number => {
-  const stepNoteIconClassName = `.step-note-${number}`
-
-  await global.page.waitForSelector(stepNoteIconClassName)
-  await global.page.click(stepNoteIconClassName)
 }
 
 export const getStepNote = async () => {
@@ -104,8 +99,7 @@ export const deleteIngredient = async index => {
 export const getIngredient = async index => {
   const name = await getTextByCssSelector(`.ingredient_${index} [data-name]`)
   const quantity = await getTextByCssSelector(`.ingredient_${index} [data-quantity]`)
-  const unit = await getTextByCssSelector(`.ingredient_${index} [data-unit]`)
-  return { name, quantity, unit }
+  return { name, quantity }
 }
 
 export const getPortions = async () => {

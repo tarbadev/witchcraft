@@ -23,7 +23,7 @@ describe('Edit Recipe', () => {
 
       await EditRecipePage.submitEditedRecipe()
       await RecipePage.waitForPageLoaded()
-      await waitForTextByCss('.title', 'Thai Chicken Salad Recipe')
+      await waitForTextByCss('[data-recipe-title]', 'Thai Chicken Salad Recipe')
 
       const ingredients = await RecipePage.getIngredients()
       const expectedIngredients = [
