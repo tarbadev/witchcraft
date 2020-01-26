@@ -8,6 +8,8 @@ import CardMedia from '@material-ui/core/CardMedia'
 import ListItemText from '@material-ui/core/ListItemText'
 import { ListItemIcon } from '@material-ui/core'
 
+import logo from 'src/app/assets/logo.png'
+
 export const LeftDrawer = ({ open, openDrawer, closeDrawer, links, variant, paperClassName }) => {
   return (
     <SwipeableDrawer
@@ -25,7 +27,7 @@ export const LeftDrawer = ({ open, openDrawer, closeDrawer, links, variant, pape
       <List>
         <ListItem divider>
           <CardMedia
-            image='logo.png'
+            image={logo}
             src='logo.png'
             style={{ height: '100px', width: '80%', margin: 'auto', marginBottom: 10 }}
           />
