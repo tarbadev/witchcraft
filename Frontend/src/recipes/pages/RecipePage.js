@@ -237,7 +237,8 @@ const RecipePageDisplay = ({
             style={{ color: recipe.favorite ? '#db2828' : 'white' }}
             data-toggle-favorite-button
           >
-            {recipe.favorite ? <FavoriteIcon data-recipe-favorited fontSize='large' /> : <FavoriteBorderIcon fontSize='large' />}
+            {recipe.favorite ? <FavoriteIcon data-recipe-favorited fontSize='large' /> :
+              <FavoriteBorderIcon fontSize='large' />}
           </IconButton>
           <Typography className={`${classes.recipeTitle} witchcraft-title`} data-recipe-title>
             {recipe.name}
@@ -245,52 +246,54 @@ const RecipePageDisplay = ({
         </Grid>
       </CardMedia>
     </Grid>
-    <Grid item xs={12} md={6} container direction='row' spacing={1} alignContent='flex-start'>
-      <Grid item xs={12}>
-        <Paper className='notes-container notes-container-color' square elevation={0}>
-          <Grid container direction='column' justify='flex-start' alignItems='stretch'>
-            <Grid item>
-              <Typography variant='h6' className='notes-container__notes-title'>
-                Notes
-              </Typography>
+    <Grid item xs={12} md={6}>
+      <Grid container direction='row' spacing={1} alignContent='flex-start'>
+        <Grid item xs={12}>
+          <Paper className='notes-container notes-container-color' square elevation={0}>
+            <Grid container direction='column' justify='flex-start' alignItems='stretch'>
+              <Grid item>
+                <Typography variant='h6' className='notes-container__notes-title'>
+                  Notes
+                </Typography>
+              </Grid>
+              <Grid item className='notes-container__notes'>
+                <OneLineEditableFieldContainer initialValue={notes} onSaveClick={updateNotes} />
+              </Grid>
             </Grid>
-            <Grid item className='notes-container__notes'>
-              <OneLineEditableFieldContainer initialValue={notes} onSaveClick={updateNotes} />
-            </Grid>
-          </Grid>
-        </Paper>
-      </Grid>
-      <Grid item xs={12} container justify='flex-start' direction='row' alignItems='flex-start' spacing={1}>
-        <Grid item>
-          <PortionsContainer
-            recipeId={recipe.id}
-            portions={`${Number(recipe.portions)}`}
-            onPortionsUpdated={onPortionsUpdated}
-          />
+          </Paper>
         </Grid>
-        <Grid item>
-          <Grid container direction='column' spacing={1}>
-            <Grid item>
-              <Button
-                aria-label="Portions up"
-                data-portions-button-up
-                onClick={portionsUp}
-                color='primary'
-                style={{ padding: 0, fontSize: '1.2rem' }}
-              >
-                <KeyboardArrowUpIcon style={{ fontSize: '1.2rem' }} />
-              </Button>
-            </Grid>
-            <Grid item>
-              <Button
-                aria-label="Portions down"
-                data-portions-button-down
-                onClick={portionsDown}
-                color='primary'
-                style={{ padding: 0, fontSize: '1.2rem' }}
-              >
-                <KeyboardArrowDownIcon style={{ fontSize: '1.2rem' }} />
-              </Button>
+        <Grid item xs={12} container justify='flex-start' direction='row' alignItems='flex-start' spacing={1}>
+          <Grid item>
+            <PortionsContainer
+              recipeId={recipe.id}
+              portions={`${Number(recipe.portions)}`}
+              onPortionsUpdated={onPortionsUpdated}
+            />
+          </Grid>
+          <Grid item>
+            <Grid container direction='column' spacing={1}>
+              <Grid item>
+                <Button
+                  aria-label="Portions up"
+                  data-portions-button-up
+                  onClick={portionsUp}
+                  color='primary'
+                  style={{ padding: 0, fontSize: '1.2rem' }}
+                >
+                  <KeyboardArrowUpIcon style={{ fontSize: '1.2rem' }} />
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button
+                  aria-label="Portions down"
+                  data-portions-button-down
+                  onClick={portionsDown}
+                  color='primary'
+                  style={{ padding: 0, fontSize: '1.2rem' }}
+                >
+                  <KeyboardArrowDownIcon style={{ fontSize: '1.2rem' }} />
+                </Button>
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
