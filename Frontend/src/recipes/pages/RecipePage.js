@@ -40,6 +40,7 @@ import { OneLineEditableFieldContainer } from 'src/app/components/OneLineEditabl
 import { PortionsContainer } from 'src/recipes/components/Portions'
 
 import './RecipePage.css'
+import { initialState } from 'src/app/RootReducer'
 
 export const RecipePage = ({ match, history }) => {
   const { state, dispatch, setHeaderConfig } = useAppContext()
@@ -66,6 +67,7 @@ export const RecipePage = ({ match, history }) => {
   useEffect(loadRecipe, [match.params.id])
   useEffect(() => {
     setHeaderConfig({
+      ...initialState.headerConfig,
       currentLink: RECIPE,
       menuList: [
         <MenuItem key='menu-edit' data-edit-button onClick={() => history.push(`/recipes/${match.params.id}/edit`)}>

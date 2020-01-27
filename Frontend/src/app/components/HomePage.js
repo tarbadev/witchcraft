@@ -14,7 +14,7 @@ import { initialState } from 'src/app/RootReducer'
 
 export const HomePageContainer = () => {
   const { state, dispatch, setHeaderConfig } = useAppContext()
-  useEffect(() => setHeaderConfig({ currentLink: DASHBOARD, title: DASHBOARD, ...initialState.headerConfig }), [])
+  useEffect(() => setHeaderConfig({ ...initialState.headerConfig, currentLink: DASHBOARD, title: DASHBOARD }), [])
 
   const [week, setWeek] = useState(state.week)
   const [latestRecipes, setLatestRecipes] = useState(state.pages.homePage.lastRecipes)

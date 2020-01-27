@@ -34,7 +34,7 @@ const IconButtonStyled = withStyles({
 
 export const WeekPageContainer = ({ history, weekNumber, year }) => {
   const { state, dispatch, setHeaderConfig } = useAppContext()
-  useEffect(() => setHeaderConfig({ currentLink: WEEK, title: WEEK, ...initialState.headerConfig }), [weekNumber, year])
+  useEffect(() => setHeaderConfig({ ...initialState.headerConfig, currentLink: WEEK, title: WEEK }), [weekNumber, year])
 
   const [week, setWeek] = useState(state.week)
   const [modal, setModal] = useState(state.pages.weekPage.modal)

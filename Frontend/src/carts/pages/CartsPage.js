@@ -14,7 +14,7 @@ import { initialState } from 'src/app/RootReducer'
 
 export const CartsPageContainer = ({ history }) => {
   const { state, dispatch, setHeaderConfig } = useAppContext()
-  useEffect(() => setHeaderConfig({ currentLink: CART, title: CART, ...initialState.headerConfig }), [])
+  useEffect(() => setHeaderConfig({ ...initialState.headerConfig, currentLink: CART, title: CART }), [])
 
   const [carts, setCarts] = useState(state.carts)
 

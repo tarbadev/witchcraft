@@ -13,7 +13,7 @@ import { RECIPE } from 'src/app/components/Header'
 
 export const EditRecipePageContainer = ({ match, history }) => {
   const { state, dispatch, setHeaderConfig } = useAppContext()
-  useEffect(() => setHeaderConfig({ currentLink: RECIPE, title: RECIPE, ...initialState.headerConfig }), [match.params.id])
+  useEffect(() => setHeaderConfig({ ...initialState.headerConfig, currentLink: RECIPE, title: RECIPE }), [match.params.id])
   const [recipe, setRecipe] = useState(state.recipe)
 
   useEffect(() =>

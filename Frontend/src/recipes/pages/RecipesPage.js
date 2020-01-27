@@ -22,7 +22,7 @@ const useStyles = makeStyles({
 
 export const RecipesPageContainer = ({ history }) => {
   const { state, dispatch, setHeaderConfig } = useAppContext()
-  const headerConfig = { currentLink: RECIPE, title: RECIPE, ...initialState.headerConfig }
+  const headerConfig = { ...initialState.headerConfig, currentLink: RECIPE, title: RECIPE }
   useEffect(() => setHeaderConfig(headerConfig), [])
 
   const [recipes, setRecipes] = useState(state.recipes)

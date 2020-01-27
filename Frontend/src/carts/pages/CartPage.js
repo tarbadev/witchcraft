@@ -22,7 +22,7 @@ export const CartPageContainer = ({ match, history }) => {
   const { state, dispatch, setHeaderConfig } = useAppContext()
   const cartId = match.params.id
 
-  useEffect(() => setHeaderConfig({ currentLink: CART, title: CART, ...initialState.headerConfig }), [cartId])
+  useEffect(() => setHeaderConfig({ ...initialState.headerConfig, currentLink: CART, title: CART }), [cartId])
 
   const [cart, setCart] = useState(state.cart)
   const [isDeleting, setIsDeleting] = useState(false)
