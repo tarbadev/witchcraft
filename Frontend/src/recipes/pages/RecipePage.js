@@ -41,6 +41,7 @@ import { PortionsContainer } from 'src/recipes/components/Portions'
 
 import './RecipePage.css'
 import { initialState } from 'src/app/RootReducer'
+import { capitalizeWords } from 'src/app/Utils'
 
 export const RecipePage = ({ match, history }) => {
   const { state, dispatch, setHeaderConfig } = useAppContext()
@@ -52,6 +53,7 @@ export const RecipePage = ({ match, history }) => {
   const [notes, setNotes] = useState('')
   const [panelIngredientsExpanded, setPanelIngredientsExpanded] = useState(isSmallAndUp)
   const [panelStepsExpanded, setPanelStepsExpanded] = useState(isSmallAndUp)
+  const capitalizedRecipeName = capitalizeWords(recipe.name)
 
   const loadRecipe = () => dispatch(getRecipe(match.params.id, data => setRecipe(data)))
   const updateRecipeWithUpdatedStep = newStep => {
@@ -69,6 +71,7 @@ export const RecipePage = ({ match, history }) => {
     setHeaderConfig({
       ...initialState.headerConfig,
       currentLink: RECIPE,
+      title: capitalizedRecipeName,
       menuList: [
         <MenuItem key='menu-edit' data-edit-button onClick={() => history.push(`/recipes/${match.params.id}/edit`)}>
           <ListItemIcon>
@@ -121,6 +124,7 @@ export const RecipePage = ({ match, history }) => {
     setRecipe({ ...recipe, portions: newPortions, ingredients: newIngredients })
   }
 
+
   return <RecipePageDisplay
     recipe={recipe}
     onIngredientDeletion={loadRecipe}
@@ -146,6 +150,7 @@ export const RecipePage = ({ match, history }) => {
     toggleIngredientsPanel={() => setPanelIngredientsExpanded(!panelIngredientsExpanded)}
     toggleStepsPanel={() => setPanelStepsExpanded(!panelStepsExpanded)}
     displayExpandPanelButton={!isSmallAndUp}
+    capitalizedRecipeName={capitalizedRecipeName}
   />
 }
 
@@ -170,6 +175,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
     color: 'white',
     width: '100%',
+    zIndex: 100,
   },
 }))
 
@@ -193,6 +199,7 @@ const RecipePageDisplay = ({
   toggleIngredientsPanel,
   toggleStepsPanel,
   displayExpandPanelButton,
+  capitalizedRecipeName,
 }) => {
   const classes = useStyles()
 
@@ -207,7 +214,6 @@ const RecipePageDisplay = ({
           lastItem={index === recipe.steps.length - 1} />
       </Grid>))
 
-  const capitalizedRecipeName = recipe.name.charAt(0).toUpperCase() + recipe.name.slice(1)
   const imgHeight = 200
 
   return <Grid container spacing={1}>
@@ -231,22 +237,31 @@ const RecipePageDisplay = ({
       </DialogActions>
     </Dialog>
     <Grid item xs={12} md={6}>
-      <CardMedia image={recipe.imgUrl} style={{ height: imgHeight }} onError={onRecipeImageNotFoundError}>
-        <Grid container style={{ height: imgHeight }} direction='column' justify='space-between' alignItems='flex-end'>
-          <IconButton
-            href=''
-            onClick={toggleFavorite}
-            style={{ color: recipe.favorite ? '#db2828' : 'white' }}
-            data-toggle-favorite-button
-          >
-            {recipe.favorite ? <FavoriteIcon data-recipe-favorited fontSize='large' /> :
-              <FavoriteBorderIcon fontSize='large' />}
-          </IconButton>
-          <Typography className={`${classes.recipeTitle} witchcraft-title`} data-recipe-title>
-            {recipe.name}
-          </Typography>
-        </Grid>
-      </CardMedia>
+      <Grid
+        style={{ height: imgHeight, position: 'relative' }}
+        container
+        direction='column'
+        justify='space-between'
+        alignItems='flex-end'
+      >
+        <CardMedia
+          component='img'
+          src={recipe.imgUrl}
+          style={{ height: imgHeight, position: 'absolute', zIndex: 10 }}
+          onError={onRecipeImageNotFoundError} />
+        <IconButton
+          href=''
+          onClick={toggleFavorite}
+          style={{ color: recipe.favorite ? '#db2828' : 'white', zIndex: 100 }}
+          data-toggle-favorite-button
+        >
+          {recipe.favorite ? <FavoriteIcon data-recipe-favorited fontSize='large' /> :
+            <FavoriteBorderIcon fontSize='large' />}
+        </IconButton>
+        <Typography className={`${classes.recipeTitle} witchcraft-title`} data-recipe-title>
+          {recipe.name}
+        </Typography>
+      </Grid>
     </Grid>
     <Grid item xs={12} md={6}>
       <Grid container direction='row' spacing={1} alignContent='flex-start'>
@@ -355,4 +370,5 @@ RecipePageDisplay.propTypes = {
   toggleIngredientsPanel: PropTypes.func,
   toggleStepsPanel: PropTypes.func,
   displayExpandPanelButton: PropTypes.bool,
+  capitalizedRecipeName: PropTypes.string,
 }

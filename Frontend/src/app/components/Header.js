@@ -16,6 +16,9 @@ import MoreIcon from '@material-ui/icons/MoreVert'
 import { LeftDrawer } from 'src/app/components/LeftDrawer'
 import { makeStyles, useMediaQuery, useTheme } from '@material-ui/core'
 import Menu from '@material-ui/core/Menu'
+import Breadcrumbs from '@material-ui/core/Breadcrumbs'
+import Link from '@material-ui/core/Link'
+import { Link as RouterLink } from 'react-router-dom'
 
 export const DASHBOARD = 'Dashboard'
 export const RECIPE = 'Recipes'
@@ -49,6 +52,10 @@ export const Header = () => {
     },
   ]
 
+  const breadcrumbLink = links.find(link => link.label === headerConfig.title)
+    ? undefined
+    : links.find(link => link.label === headerConfig.currentLink)
+
   return <HeaderDisplay
     title={headerConfig.title}
     links={links.map(link => ({ ...link, current: link.label === headerConfig.currentLink }))}
@@ -60,6 +67,7 @@ export const Header = () => {
     closeMenu={() => setAnchorEl(null)}
     toggleMenu={({ currentTarget }) => setAnchorEl(anchorEl === null ? currentTarget : null)}
     menus={headerConfig.menuList}
+    breadcrumbLink={breadcrumbLink}
   />
 }
 
@@ -92,6 +100,7 @@ const HeaderDisplay = ({
   closeMenu,
   toggleMenu,
   menus,
+  breadcrumbLink,
 }) => {
   const classes = useStyles()
   const theme = useTheme()
@@ -110,9 +119,10 @@ const HeaderDisplay = ({
           >
             <MenuIcon />
           </IconButton>
-          <Typography component='h1' variant='h6' style={{ flexGrow: 1 }}>
-            {title}
-          </Typography>
+          <Breadcrumbs aria-label="breadcrumb" style={{ flexGrow: 1, color: 'white' }}>
+            {breadcrumbLink && <Link style={{ color: 'inherit' }} component={RouterLink} to={breadcrumbLink.url}>{breadcrumbLink.label}</Link>}
+            <Typography>{title}</Typography>
+          </Breadcrumbs>
           <IconButton
             color='inherit'
             aria-label='open menu'
@@ -157,4 +167,5 @@ HeaderDisplay.propTypes = {
   closeMenu: PropTypes.func,
   toggleMenu: PropTypes.func,
   menus: PropTypes.array,
+  breadcrumbLink: PropTypes.object,
 }
