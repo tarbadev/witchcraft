@@ -1,7 +1,7 @@
 import React from 'react'
 import { mount } from 'enzyme'
 
-import { HomePageContainer } from './HomePage'
+import { DashboardPageContainer } from './DashboardPage'
 import * as WeekActions from '../../weeks/actions/WeekActions'
 import { getFavoriteRecipes, getLatestRecipes } from '../../recipes/actions/RecipesActions'
 import { mockAppContext } from '../../testUtils'
@@ -16,7 +16,7 @@ describe('HomePageContainer', function () {
       .spyOn(WeekActions, 'getCurrentWeek')
       .mockImplementation(() => ({ year, week }))
 
-    const home = mount(<HomePageContainer />)
+    const home = mount(<DashboardPageContainer />)
 
     expect(home).toBeDefined()
     expect(context.dispatch).toHaveBeenNthCalledWith(1, getFavoriteRecipes(expect.any(Function)))

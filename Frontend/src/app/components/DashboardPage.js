@@ -11,8 +11,13 @@ import { getCurrentWeek, getWeek } from '../../weeks/actions/WeekActions'
 import { useAppContext } from './StoreProvider'
 import { DASHBOARD } from './Header'
 import { initialState } from 'src/app/RootReducer'
+import { useMediaQuery, useTheme } from '@material-ui/core'
 
-export const HomePageContainer = () => {
+export const DashboardPageContainer = () => {
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down('xs'))
+  const isTablet = useMediaQuery(theme.breakpoints.down('sm'))
+
   const { state, dispatch, setHeaderConfig } = useAppContext()
   useEffect(() => setHeaderConfig({ ...initialState.headerConfig, currentLink: DASHBOARD, title: DASHBOARD }), [])
 
@@ -20,23 +25,43 @@ export const HomePageContainer = () => {
   const [latestRecipes, setLatestRecipes] = useState(state.pages.homePage.lastRecipes)
   const [favoriteRecipes, setFavoriteRecipes] = useState(state.pages.homePage.favoriteRecipes)
 
+  const currentWeek = getCurrentWeek()
   useEffect(() => {
-    const { year, week } = getCurrentWeek()
     dispatch(getFavoriteRecipes(data => setFavoriteRecipes(data)))
     dispatch(getLatestRecipes(data => setLatestRecipes(data)))
-    dispatch(getWeek(year, week, data => setWeek(data)))
+    dispatch(getWeek(currentWeek.year, currentWeek.week, data => setWeek(data)))
   }, [])
 
-  return <HomePage
+  let days = week.days
+
+  if (week.days.length > 0) {
+    let dayIndex = new Date().getDay()
+    if (dayIndex === 0) {
+      dayIndex = 6
+    } else {
+      dayIndex--
+    }
+
+    if (isMobile) {
+      days = [week.days[dayIndex]]
+    } else if (isTablet) {
+      if (dayIndex > 4) {
+        dayIndex = 4
+      }
+      days = [week.days[dayIndex], week.days[dayIndex + 1], week.days[dayIndex + 2]]
+    }
+  }
+
+  return <DashboardPage
     favoriteRecipes={favoriteRecipes}
     latestRecipes={latestRecipes}
-    week={week} />
+    days={days} />
 }
 
-export const HomePage = ({
+export const DashboardPage = ({
   favoriteRecipes,
   latestRecipes,
-  week,
+  days,
 }) => {
 
   return (
@@ -44,7 +69,7 @@ export const HomePage = ({
       <PageTitle />
       <Grid item xs={12}>
         <Typography variant='h6' gutterBottom className='witchcraft-title'>Current Week</Typography>
-        <MultipleDayPane days={week.days} />
+        <MultipleDayPane days={days} />
       </Grid>
       <Grid item xs={12}>
         <Typography variant='h6' gutterBottom className='witchcraft-title'>Favorite Recipes</Typography>
@@ -58,8 +83,8 @@ export const HomePage = ({
   )
 }
 
-HomePage.propTypes = {
+DashboardPage.propTypes = {
   favoriteRecipes: PropTypes.array,
   latestRecipes: PropTypes.array,
-  week: PropTypes.object,
+  days: PropTypes.array,
 }

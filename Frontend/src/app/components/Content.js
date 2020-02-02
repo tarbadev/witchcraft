@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Route, Switch } from 'react-router-dom'
 
-import { HomePageContainer } from './HomePage'
+import { DashboardPageContainer } from './DashboardPage'
 import { RecipesPageContainer } from 'src/recipes/pages/RecipesPage'
 import { RecipePage } from 'src/recipes/pages/RecipePage'
 import { NewRecipePageContainer } from 'src/recipes/pages/NewRecipePage'
@@ -17,7 +17,7 @@ export const Content = () =>
   (
     <div>
       <Switch>
-        <Route exact path="/" component={HomePageContainer} />
+        <Route exact path="/" component={DashboardPageContainer} />
         <Route exact path="/recipes" component={RecipesPageContainer} />
         <Route exact path="/recipes/new" component={NewRecipePageContainer} />
         <Route exact path="/recipes/:id" component={RecipePage} />
