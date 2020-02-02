@@ -10,7 +10,7 @@ import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOut
 
 export const WeekRecipeCell = ({ recipes, onCellClick, dataTag }) => {
   const recipeGrids = recipes.map(recipe => (
-    <Grid item key={`grid-recipe-cell-${recipe.id}-${dataTag}`}>
+    <Grid item xs={12} key={`grid-recipe-cell-${recipe.id}-${dataTag}`}>
       <RecipeCard
         title={recipe.name}
         imgUrl={recipe.imgUrl}
@@ -26,11 +26,12 @@ export const WeekRecipeCell = ({ recipes, onCellClick, dataTag }) => {
       data-meal={dataTag}
       style={{ verticalAlign: 'top' }}
     >
-      <Grid container direction='column' alignItems='stretch' justify='flex-start' style={{ height: '100%' }}>
+      <Grid container alignItems='stretch' justify='flex-start' style={{ height: '100%' }}>
         {recipeGrids}
         {onCellClick &&
         <Grid
           item
+          xs={12}
           style={buttonContainerStyles}
         >
           <Button

@@ -3,25 +3,25 @@ import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import Paper from '@material-ui/core/Paper'
-import Table from '@material-ui/core/Table'
-import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import TableCell from '@material-ui/core/TableCell'
-import TableBody from '@material-ui/core/TableBody'
 
 import { WeekRecipeCell } from './WeekRecipeCell'
+import TableHead from '@material-ui/core/TableHead'
+import Table from '@material-ui/core/Table'
+import TableBody from '@material-ui/core/TableBody'
 
 export const MultipleDayPane = ({ days, onMealClick }) => {
   const DayCell = withStyles({
     root: {
       padding: '4px 0px',
-      width: `calc(100% / ${days.length})`,
     },
   })(TableCell)
 
   const FirstColumnCell = withStyles({
     root: {
       padding: '15px',
+      width: '80px',
     },
   })(TableCell)
 
@@ -71,7 +71,7 @@ export const MultipleDayPane = ({ days, onMealClick }) => {
 
   return (
     <Paper>
-      <Table>
+      <Table style={{ tableLayout: 'fixed' }}>
         <TableHead>
           <TableRow>
             <FirstColumnCell />
