@@ -10,8 +10,8 @@ import { EditRecipePageContainer } from 'src/recipes/pages/EditRecipePage'
 import { CartsPageContainer } from 'src/carts/pages/CartsPage'
 import { CartPageContainer } from 'src/carts/pages/CartPage'
 import { NewCartPageContainer } from 'src/carts/pages/NewCartPage'
-import { WeekPageContainer } from 'src/weeks/pages/WeekPage'
 import { WeeksPage } from 'src/weeks/pages/WeeksPage'
+import { WeekPage } from 'src/weeks/pages/WeekPage'
 
 export const Content = () =>
   (
@@ -33,7 +33,7 @@ export const Content = () =>
             }
           } = props
 
-          return (<WeekPageContainer
+          return (<WeekPage
             key={`year=${year}&week=${week}`}
             year={year}
             weekNumber={week}

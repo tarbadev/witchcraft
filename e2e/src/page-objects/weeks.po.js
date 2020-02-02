@@ -1,7 +1,9 @@
-import { getTextByCssSelector, goToUrl, waitForTextByCss } from './helpers.po'
+import { getTextByCssSelector, goToUrl } from './helpers.po'
 
 export const clickOnCreateCart = async () => {
-  await global.page.click('.week-page__create-cart-button')
+  await global.page.click('[data-open-menu]')
+  await global.page.waitForSelector('[data-create-cart-button]')
+  await global.page.click('[data-create-cart-button]')
 }
 
 export const getMeal = async (meal, day) => {
@@ -13,12 +15,12 @@ export const getMeal = async (meal, day) => {
 }
 
 export const clickOnAddRecipe = async (meal, day) => {
-  const selectedMeal = await global.page.$(`td[data-meal="${meal}-${day}"] [data-add-recipe]`)
   const maxRetries = 3
   for (let i = 0; i < maxRetries; i++) {
     try {
+      const selectedMeal = await global.page.$(`td[data-meal="${meal}-${day}"] [data-add-recipe]`)
       await selectedMeal.click()
-      await global.page.waitForSelector('[data-recipe-title]', { timeout: 500 })
+      await global.page.waitForSelector('[data-modal-recipe-container] .card-header-title', { timeout: 500 })
       break
     } catch (e) {
       if (i === maxRetries - 1) {
@@ -29,12 +31,18 @@ export const clickOnAddRecipe = async (meal, day) => {
 }
 
 export const clickOnRecipe = async recipeName => {
-  const recipes = await global.page.$x(`//div[contains(@class, 'recipe-card-title') and contains(., '${recipeName}')]`)
-
-  if (await recipes.length > 0) {
-    await recipes[0].click()
-  } else {
-    throw new Error(`Recipe not found: ${recipeName}`)
+  const maxRetries = 3
+  for (let i = 0; i < maxRetries; i++) {
+    try {
+      const recipes = await global.page.$x(`//span[contains(@class, 'card-header-title') and contains(text(), '${recipeName}')]`)
+      await recipes[recipes.length - 1].click()
+      await global.page.waitForSelector('[data-modal-recipe-container] .card-header-title', { timeout: 500, hidden: true })
+      break
+    } catch (e) {
+      if (i === maxRetries - 1) {
+        throw new Error(`Recipe not found: ${recipeName}`)
+      }
+    }
   }
 }
 
@@ -44,7 +52,7 @@ export const goTo = async () => {
 }
 
 export const waitForPageLoaded = async () => {
-  await global.page.waitForSelector('.week-page__create-cart-button')
+  await global.page.waitForSelector('[data-add-recipe]')
 }
 
 export const save = async () => {
@@ -54,7 +62,7 @@ export const save = async () => {
 
 export const getModalRecipeList = async () => {
   return await global.page.$$eval(
-    'div.recipe-card-title',
+    'span.card-header-title',
     elements => elements.map(el => el.textContent),
   )
 }
@@ -70,7 +78,7 @@ export const discardSuccessMessage = async () => {
 
 export const addExpressRecipe = async (recipeName) => {
   await global.page.click('.week-page__add-express-recipe__button')
-  await global.page.type('.express-recipe-form__recipe-name input', recipeName)
-  await global.page.click('.express-recipe-form__submit-button')
+  await global.page.type('[data-express-recipe-form-recipe-name] input', recipeName)
+  await global.page.click('[data-express-recipe-form-submit-button]')
   await global.page.waitFor(500)
 }

@@ -21,6 +21,7 @@ export const RecipeCard = ({ title, imgUrl }) => {
         component='img'
         title={title}
         image={imgUrl}
+        src={imgUrl}
         onError={onRecipeImageNotFoundError} />
       <CardHeader classes={cardHeaderClasses} title={title} />
     </Card>

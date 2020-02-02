@@ -88,12 +88,7 @@ export const initialState = {
     createdAt: '',
   },
   week: {
-    days: [
-      {
-        lunch: [],
-        diner: [],
-      },
-    ],
+    days: [],
   },
 }
 

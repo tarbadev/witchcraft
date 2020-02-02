@@ -27,8 +27,8 @@ export const LeftDrawer = ({ open, openDrawer, closeDrawer, links, variant, pape
       <List>
         <ListItem divider>
           <CardMedia
-            image={logo}
-            src='logo.png'
+            image={logo.toString()}
+            src={logo.toString()}
             style={{ height: '100px', width: '80%', margin: 'auto', marginBottom: 10 }}
           />
         </ListItem>

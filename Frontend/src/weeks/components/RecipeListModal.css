@@ -1,24 +1,3 @@
-.recipe-card-title {
-    text-transform: capitalize;
-}
-
-.recipe-card {
-    cursor: pointer;
-}
-
-.recipe-card:hover .recipe-card-title {
-    height: auto;
-}
-
-.recipe-card:hover .recipe-card-title div {
-    overflow: auto !important;
-    white-space: normal;
-}
-
-.recipe-cards-title {
-    height: auto !important;
-}
-
 .modal {
     top: 50%;
     left: 50%;

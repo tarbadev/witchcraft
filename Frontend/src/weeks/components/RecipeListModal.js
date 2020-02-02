@@ -1,24 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import {
-  Button,
-  CardMedia,
-  Grid,
-  GridList,
-  GridListTile,
-  GridListTileBar,
-  ListSubheader,
-  Modal,
-  Paper,
-  Typography,
-} from '@material-ui/core'
+import { Button, Grid } from '@material-ui/core'
 import CheckCircleIcon from '@material-ui/icons/CheckCircle'
 import { addExpressRecipe } from 'src/weeks/actions/RecipeListModalActions'
 import './RecipeListModal.css'
 import { ExpressRecipeFormModalContainer } from './ExpressRecipeFormModal'
-import { onRecipeImageNotFoundError } from 'src/app/components/App'
 import { useAppContext } from 'src/app/components/StoreProvider'
 import { getAllRecipes } from 'src/recipes/actions/RecipesActions'
+import DialogTitle from '@material-ui/core/DialogTitle'
+import DialogContent from '@material-ui/core/DialogContent'
+import Dialog from '@material-ui/core/Dialog'
+import DialogActions from '@material-ui/core/DialogActions'
+import { RecipeCard } from 'src/recipes/components/RecipeCard'
 
 export const RecipeListModalContainer = ({ config, closeModal, setRecipe }) => {
   const { state, dispatch } = useAppContext()
@@ -35,8 +28,13 @@ export const RecipeListModalContainer = ({ config, closeModal, setRecipe }) => {
     meal={config.meal}
     currentRecipeIds={config.currentRecipeIds}
     setRecipe={setRecipe}
-    addExpressRecipe={recipeName => dispatch(addExpressRecipe(recipeName,
-      recipe => setRecipe(recipe, config.day, config.meal)))}
+    addExpressRecipe={recipeName => {
+      dispatch(addExpressRecipe(
+        recipeName,
+        recipe => setRecipe(recipe, config.day, config.meal),
+      ))
+      openExpressRecipeModal(false)
+    }}
     displayExpressRecipeForm={() => openExpressRecipeModal(true)}
     closeAddExpressRecipeForm={() => openExpressRecipeModal(false)}
     isDisplayExpressRecipeForm={isExpressRecipeModalOpen} />
@@ -71,58 +69,50 @@ export const RecipeListModal = ({
     const className = currentRecipeIds.includes(recipe?.id)
       ? 'current-recipe'
       : {}
-    const currentRecipeIcon = currentRecipeIds.includes(recipe?.id)
-      ? <CheckCircleIcon className={className} />
-      : undefined
+
     return (
-      <GridListTile key={recipe.imgUrl} className={'recipe-card'} onClick={onClick}>
-        {recipe.imgUrl &&
-        <CardMedia component='img' image={recipe.imgUrl} alt={recipe.name} onError={onRecipeImageNotFoundError} />}
-        <GridListTileBar title={recipe.name} className={'recipe-card-title'} data-recipe-title={recipe.name} />
-        {currentRecipeIcon && currentRecipeIcon}
-      </GridListTile>
+      <Grid data-modal-recipe-container item xs={12} sm={4} key={`recipe-${recipe.id}`} onClick={onClick} style={{ position: 'relative' }}>
+        <RecipeCard
+          imgUrl={recipe.imgUrl}
+          title={recipe.name} />
+        {currentRecipeIds.includes(recipe?.id) && <CheckCircleIcon className={className} />}
+      </Grid>
     )
   })
 
   return (
-    <Modal
+    <Dialog
       aria-labelledby="simple-modal-title"
       aria-describedby="simple-modal-description"
       open={isModalOpen}
       onClose={closeModal}
       data-recipe-modal
       disableAutoFocus={true}>
-      <Grid container justify='center' alignItems='center' direction='row' className={'modal'}>
-        <Grid item xs={10}>
-          <Paper>
-            <GridList cellHeight={180} cols={4}>
-              <GridListTile key="Subheader" cols={4} className={'recipe-cards-title'}>
-                <ListSubheader component="div">
-                  <Grid container justify='space-between' alignItems='center'>
-                    <Typography>Choose a recipe for <span className={'day'}>{day}</span>{'\''}s {meal}</Typography>
-                    <Button
-                      className='week-page__add-express-recipe__button'
-                      onClick={displayExpressRecipeForm}
-                      variant='contained'
-                      href=''
-                      color='primary'>
-                      Add express recipe
-                    </Button>
-                  </Grid>
-                </ListSubheader>
-              </GridListTile>
-              {recipeCards}
-            </GridList>
-          </Paper>
+      <DialogTitle id="customized-dialog-title" onClose={closeModal}>
+        Choose a recipe for <span className={'day'}>{day}</span>{'\''}s {meal}
+      </DialogTitle>
+      <DialogContent dividers>
+        <Grid container spacing={1}>
+          {recipeCards}
         </Grid>
+      </DialogContent>
+      <DialogActions>
+        <Button
+          className='week-page__add-express-recipe__button'
+          onClick={displayExpressRecipeForm}
+          variant='contained'
+          href=''
+          color='primary'>
+          Add express recipe
+        </Button>
         <ExpressRecipeFormModalContainer
           recipeName={expressRecipeName}
           onRecipeNameChange={setExpressRecipeName}
           isModalOpen={isDisplayExpressRecipeForm}
           onAddRecipeClick={addExpressRecipe}
           onClose={closeAddExpressRecipeForm} />
-      </Grid>
-    </Modal>
+      </DialogActions>
+    </Dialog>
   )
 }
 

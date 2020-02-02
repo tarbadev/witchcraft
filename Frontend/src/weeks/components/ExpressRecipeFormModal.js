@@ -1,25 +1,19 @@
-import Modal from '@material-ui/core/Modal'
-import Grid from '@material-ui/core/Grid'
-import Paper from '@material-ui/core/Paper'
 import React, { useState } from 'react'
 import * as PropTypes from 'prop-types'
-import { Button, TextField } from '@material-ui/core'
-
-import './ExpressRecipeFormModal.css'
-import { useAppContext } from 'src/app/components/StoreProvider'
+import { Button, Dialog, DialogActions, TextField } from '@material-ui/core'
+import DialogContent from '@material-ui/core/DialogContent'
 
 export const ExpressRecipeFormModalContainer = ({
   isModalOpen,
   onAddRecipeClick,
   onClose,
 }) => {
-  const { state } = useAppContext()
-  const [recipeName, setRecipeName] = useState(state.pages.weekPage.expressRecipeForm.recipeName)
+  const [recipeName, setRecipeName] = useState('')
 
   return <ExpressRecipeFormModal
     isModalOpen={isModalOpen}
     recipeName={recipeName}
-    onAddRecipeClick={onAddRecipeClick}
+    onAddRecipeClick={() => onAddRecipeClick(recipeName)}
     onRecipeNameChange={newRecipeName => setRecipeName(newRecipeName)}
     onClose={onClose} />
 }
@@ -38,35 +32,35 @@ export const ExpressRecipeFormModal = ({
   onClose,
 }) => {
   return (
-    <Modal
+    <Dialog
       data-name='express-recipe-form-modal'
       aria-labelledby="simple-modal-title"
       aria-describedby="simple-modal-description"
       open={isModalOpen}
       onClose={onClose}
       disableAutoFocus={true}>
-      <Grid container justify='center' alignItems='center' direction='row'>
-        <Grid item xs={4}>
-          <Paper className='express-recipe-form__paper'>
-            <TextField
-              fullWidth
-              className='express-recipe-form__recipe-name'
-              onChange={(e) => onRecipeNameChange(e.target.value)}
-              value={recipeName}
-              label='Name'
-              type='search' />
-            <Button
-              className='express-recipe-form__submit-button'
-              onClick={() => onAddRecipeClick(recipeName)}
-              variant='contained'
-              href=''
-              color='primary'>
-              Add
-            </Button>
-          </Paper>
-        </Grid>
-      </Grid>
-    </Modal>
+      <DialogContent dividers>
+        <TextField
+          fullWidth
+          data-express-recipe-form-recipe-name
+          onChange={(e) => onRecipeNameChange(e.target.value)}
+          value={recipeName}
+          label='Name'
+          type='search'
+          autoFocus
+        />
+      </DialogContent>
+      <DialogActions>
+        <Button
+          data-express-recipe-form-submit-button
+          onClick={onAddRecipeClick}
+          variant='contained'
+          href=''
+          color='primary'>
+          Add
+        </Button>
+      </DialogActions>
+    </Dialog>
   )
 }
 

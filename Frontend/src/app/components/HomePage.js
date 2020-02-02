@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 
 import { RecipeList } from 'src/recipes/components/RecipeList'
-import { WeekPane } from 'src/weeks/components/WeekPane'
+import { MultipleDayPane } from 'src/weeks/components/MultipleDayPane'
 import { PageTitle } from './PageTitle'
 import { getFavoriteRecipes, getLatestRecipes } from '../../recipes/actions/RecipesActions'
 import { getCurrentWeek, getWeek } from '../../weeks/actions/WeekActions'
@@ -44,7 +44,7 @@ export const HomePage = ({
       <PageTitle />
       <Grid item xs={12}>
         <Typography variant='h6' gutterBottom className='witchcraft-title'>Current Week</Typography>
-        <WeekPane week={week} />
+        <MultipleDayPane days={week.days} />
       </Grid>
       <Grid item xs={12}>
         <Typography variant='h6' gutterBottom className='witchcraft-title'>Favorite Recipes</Typography>

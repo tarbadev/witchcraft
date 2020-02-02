@@ -39,9 +39,9 @@ describe('RecipeListModalContainer', () => {
     expect(recipeListModalContainer.find('[data-name="express-recipe-form-modal"]').at(0).props().open).toBeFalsy()
 
     recipeListModalContainer.find('.week-page__add-express-recipe__button button').simulate('click')
-    recipeListModalContainer.find('.express-recipe-form__recipe-name input')
+    recipeListModalContainer.find('[data-express-recipe-form-recipe-name] input')
       .simulate('change', { target: { value: recipe } })
-    recipeListModalContainer.find('.express-recipe-form__submit-button button').simulate('click')
+    recipeListModalContainer.find('[data-express-recipe-form-submit-button] button').simulate('click')
 
     expect(context.dispatch).toHaveBeenLastCalledWith(addExpressRecipe(recipe, expect.any(Function)))
   })
@@ -84,7 +84,7 @@ describe('RecipeListModalContainer', () => {
     const recipeListModalContainer = mount(<RecipeListModalContainer config={config} setRecipe={setRecipeSpy} />)
     expect(recipeListModalContainer.find('.current-recipe')).toHaveLength(4)
 
-    recipeListModalContainer.find('li.recipe-card').at(2).simulate('click')
+    recipeListModalContainer.find('div.recipe-card').at(2).simulate('click')
 
     expect(setRecipeSpy).toHaveBeenCalledWith({ ...existingRecipe, remove: true }, config.day, config.meal)
   })

@@ -11,20 +11,16 @@ import TableBody from '@material-ui/core/TableBody'
 
 import { WeekRecipeCell } from './WeekRecipeCell'
 
-export const WeekPane = ({
-  week,
-  onMealClick,
-}) => {
+export const MultipleDayPane = ({ days, onMealClick }) => {
   const DayCell = withStyles({
     root: {
       padding: '4px 0px',
-      width: 'calc(100% / 7)',
+      width: `calc(100% / ${days.length})`,
     },
   })(TableCell)
 
   const FirstColumnCell = withStyles({
     root: {
-      width: '50px',
       padding: '15px',
     },
   })(TableCell)
@@ -35,13 +31,13 @@ export const WeekPane = ({
     },
   })(TableRow)
 
-  const header = week.days.map((day, index) => (
+  const header = days.map((day, index) => (
     <DayCell key={`header-${index}`} align='center'>
       <Typography variant='button'>{day.name}</Typography>
     </DayCell>
   ))
 
-  const lunches = week.days.map((day, index) => {
+  const lunches = days.map((day, index) => {
     let onCellClick
     if (onMealClick) {
       onCellClick = () => onMealClick(day.name.toLowerCase(), 'lunch', day.lunch.map(recipe => recipe.id))
@@ -57,7 +53,7 @@ export const WeekPane = ({
     )
   })
 
-  const diners = week.days.map((day, index) => {
+  const diners = days.map((day, index) => {
     let onCellClick
     if (onMealClick) {
       onCellClick = () => onMealClick(day.name.toLowerCase(), 'diner', day.diner.map(recipe => recipe.id))
@@ -101,7 +97,7 @@ export const WeekPane = ({
   )
 }
 
-WeekPane.propTypes = {
-  week: PropTypes.object,
+MultipleDayPane.propTypes = {
+  days: PropTypes.array,
   onMealClick: PropTypes.func,
 }

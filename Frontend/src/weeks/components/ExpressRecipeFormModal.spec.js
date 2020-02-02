@@ -8,7 +8,7 @@ describe('ExpressRecipeFormModal', () => {
     const recipeListModal = shallow(<ExpressRecipeFormModal onRecipeNameChange={onRecipeNameChangeSpy} />)
     const recipeName = 'Lasagna'
 
-    recipeListModal.find('.express-recipe-form__recipe-name').simulate('change', { target: { value: recipeName } })
+    recipeListModal.find('[data-express-recipe-form-recipe-name]').simulate('change', { target: { value: recipeName } })
 
     expect(onRecipeNameChangeSpy).toHaveBeenCalledWith(recipeName)
   })
@@ -22,8 +22,8 @@ describe('ExpressRecipeFormModal', () => {
         recipeName={recipeName} />,
     )
 
-    recipeListModal.find('.express-recipe-form__submit-button').simulate('click')
+    recipeListModal.find('[data-express-recipe-form-submit-button]').simulate('click')
 
-    expect(onAddRecipeClickSpy).toHaveBeenCalledWith(recipeName)
+    expect(onAddRecipeClickSpy).toHaveBeenCalled()
   })
 })
