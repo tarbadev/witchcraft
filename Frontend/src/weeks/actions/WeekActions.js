@@ -19,3 +19,14 @@ export const getCurrentWeek = () => {
   const year = new Date().getYear() + 1900
   return { year, week }
 }
+
+export const getCurrentDayIndex = () => {
+  let dayIndex = new Date().getDay()
+  if (dayIndex === 0) {
+    dayIndex = 6
+  } else {
+    dayIndex--
+  }
+
+  return dayIndex
+}

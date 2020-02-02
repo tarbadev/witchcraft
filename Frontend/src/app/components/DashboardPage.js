@@ -12,6 +12,7 @@ import { useAppContext } from './StoreProvider'
 import { DASHBOARD } from './Header'
 import { initialState } from 'src/app/RootReducer'
 import { useMediaQuery, useTheme } from '@material-ui/core'
+import { getCurrentDayIndex } from 'src/weeks/actions/WeekActions'
 
 export const DashboardPageContainer = () => {
   const theme = useTheme()
@@ -35,12 +36,7 @@ export const DashboardPageContainer = () => {
   let days = week.days
 
   if (week.days.length > 0) {
-    let dayIndex = new Date().getDay()
-    if (dayIndex === 0) {
-      dayIndex = 6
-    } else {
-      dayIndex--
-    }
+    let dayIndex = getCurrentDayIndex()
 
     if (isMobile) {
       days = [week.days[dayIndex]]

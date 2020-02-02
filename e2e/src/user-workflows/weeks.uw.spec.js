@@ -2,10 +2,13 @@ import * as WeeksPage from '../page-objects/weeks.po'
 import * as CartPage from '../page-objects/cart.po'
 
 describe('Weeks page', () => {
+  const days = ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY']
+  const day = days[new Date().getDay()]
+  
   describe('on add recipe click', () => {
     it('displays a list of clickable recipes and removes it if clicked again', async () => {
       await WeeksPage.goTo()
-      await WeeksPage.clickOnAddRecipe('lunch', 'TUESDAY')
+      await WeeksPage.clickOnAddRecipe('lunch', day)
 
       const recipes = await WeeksPage.getModalRecipeList()
       expect(recipes).toEqual([
@@ -15,11 +18,11 @@ describe('Weeks page', () => {
       ])
 
       await WeeksPage.clickOnRecipe('thai chicken salad')
-      expect(await WeeksPage.getMeal('lunch', 'TUESDAY')).toEqual('thai chicken salad')
+      expect(await WeeksPage.getMeal('lunch', day)).toEqual('thai chicken salad')
 
-      await WeeksPage.clickOnAddRecipe('lunch', 'TUESDAY')
+      await WeeksPage.clickOnAddRecipe('lunch', day)
       await WeeksPage.clickOnRecipe('thai chicken salad')
-      expect(await WeeksPage.getMeal('lunch', 'TUESDAY')).toEqual('')
+      expect(await WeeksPage.getMeal('lunch', day)).toEqual('')
     })
 
     it('adds an express recipe', async () => {
@@ -33,7 +36,7 @@ describe('Weeks page', () => {
 
     it('saves the current week and displays a success message', async () => {
       await WeeksPage.goTo()
-      await WeeksPage.clickOnAddRecipe('lunch', 'TUESDAY')
+      await WeeksPage.clickOnAddRecipe('lunch', day)
       await WeeksPage.clickOnRecipe('thai chicken salad')
 
       await global.page.waitForSelector('.week-page__success-message')
@@ -45,7 +48,7 @@ describe('Weeks page', () => {
 
       await WeeksPage.goTo()
 
-      const thursdayLunch = await WeeksPage.getMeal('lunch', 'TUESDAY')
+      const thursdayLunch = await WeeksPage.getMeal('lunch', day)
       expect(thursdayLunch).toEqual('thai chicken salad')
     })
   })
@@ -53,7 +56,7 @@ describe('Weeks page', () => {
   describe('on create cart click', () => {
     it('generates a cart from a given week', async () => {
       await WeeksPage.goTo()
-      await WeeksPage.clickOnAddRecipe('lunch', 'TUESDAY')
+      await WeeksPage.clickOnAddRecipe('lunch', day)
       await WeeksPage.clickOnRecipe('thai chicken salad')
       await WeeksPage.clickOnAddRecipe('diner', 'MONDAY')
       await WeeksPage.clickOnRecipe('tartiflette')

@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import { useAppContext } from 'src/app/components/StoreProvider'
 import { initialState } from 'src/app/RootReducer'
 import { WEEK } from 'src/app/components/Header'
-import { getWeek } from 'src/weeks/actions/WeekActions'
+import { getCurrentDayIndex, getWeek } from 'src/weeks/actions/WeekActions'
 import Typography from '@material-ui/core/Typography'
 import { saveWeek, setRecipeToWeek, toggleModal } from 'src/weeks/actions/WeekPageActions'
 import { RecipeListModalContainer } from 'src/weeks/components/RecipeListModal'
@@ -20,8 +20,17 @@ import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import { createCart } from 'src/carts/actions/NewCartActions'
 import { MultipleDayPane } from 'src/weeks/components/MultipleDayPane'
+import { weekNumber } from 'weeknumber'
 
 export const WEEKS_IN_A_YEAR = 52
+
+const getDefaultDayIndex = week => {
+  if (weekNumber().toString() === week.toString()) {
+    return getCurrentDayIndex()
+  }
+
+  return 0
+}
 
 export const WeekPage = ({ history, weekNumber, year }) => {
   const theme = useTheme()
@@ -32,7 +41,7 @@ export const WeekPage = ({ history, weekNumber, year }) => {
   const [modal, setModal] = useState(state.pages.weekPage.modal)
   const [week, setWeek] = useState(state.week)
   const [showSuccessMessage, setShowSuccessMessage] = useState(false)
-  const [dayIndex, setDayIndex] = useState(0)
+  const [dayIndex, setDayIndex] = useState(getDefaultDayIndex(weekNumber))
 
   const dayOfWeek = moment(`${year}-${weekNumber}-${dayIndex + 1}`, 'GGGG-W-E')
   let title = ''
@@ -71,12 +80,15 @@ export const WeekPage = ({ history, weekNumber, year }) => {
   }), [week, dayIndex, isMobile, isTablet])
   useEffect(() => dispatch(getWeek(year, weekNumber, data => setWeek(data))), [year, weekNumber])
   useEffect(() => {
-    let defaultDayIndex = 0
+    let defaultDayIndex = getDefaultDayIndex(weekNumber)
+    if (isTablet && defaultDayIndex > 4) {
+      defaultDayIndex = 4
+    }
     if (history.location.search.includes('previous=true')) {
-      if (isTablet) {
-        defaultDayIndex = 4
-      } else {
+      if (isMobile) {
         defaultDayIndex = 6
+      } else {
+        defaultDayIndex = 4
       }
     }
     return setDayIndex(defaultDayIndex)
@@ -104,7 +116,7 @@ export const WeekPage = ({ history, weekNumber, year }) => {
   }
 
   const onNextClick = () => {
-    let maxDayIndex = isTablet ? week.days.length - 3 : week.days.length - 1
+    let maxDayIndex = isMobile ? week.days.length - 1 : week.days.length - 3
 
     if ((isMobile || isTablet) && dayIndex < maxDayIndex) {
       setDayIndex(dayIndex + 1)
