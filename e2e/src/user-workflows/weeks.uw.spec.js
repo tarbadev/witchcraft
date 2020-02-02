@@ -4,7 +4,7 @@ import * as CartPage from '../page-objects/cart.po'
 describe('Weeks page', () => {
   const days = ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY']
   const day = days[new Date().getDay()]
-  
+
   describe('on add recipe click', () => {
     it('displays a list of clickable recipes and removes it if clicked again', async () => {
       await WeeksPage.goTo()
@@ -27,10 +27,10 @@ describe('Weeks page', () => {
 
     it('adds an express recipe', async () => {
       await WeeksPage.goTo()
-      await WeeksPage.clickOnAddRecipe('diner', 'MONDAY')
+      await WeeksPage.clickOnAddRecipe('diner', day)
       await WeeksPage.addExpressRecipe('Fajitas With Beef')
 
-      const mondayDiner = await WeeksPage.getMeal('diner', 'MONDAY')
+      const mondayDiner = await WeeksPage.getMeal('diner', day)
       expect(mondayDiner).toEqual('fajitas with beef')
     })
 
@@ -58,7 +58,7 @@ describe('Weeks page', () => {
       await WeeksPage.goTo()
       await WeeksPage.clickOnAddRecipe('lunch', day)
       await WeeksPage.clickOnRecipe('thai chicken salad')
-      await WeeksPage.clickOnAddRecipe('diner', 'MONDAY')
+      await WeeksPage.clickOnAddRecipe('diner', day)
       await WeeksPage.clickOnRecipe('tartiflette')
 
       await WeeksPage.clickOnCreateCart()
