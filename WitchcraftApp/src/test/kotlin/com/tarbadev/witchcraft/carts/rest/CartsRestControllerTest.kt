@@ -1,7 +1,9 @@
 package com.tarbadev.witchcraft.carts.rest
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.verify
+import com.nhaarman.mockitokotlin2.verifyZeroInteractions
 import com.nhaarman.mockitokotlin2.whenever
 import com.tarbadev.witchcraft.carts.domain.entity.Cart
 import com.tarbadev.witchcraft.carts.domain.entity.Item
@@ -24,7 +26,6 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
-import java.util.Arrays.asList
 
 @ExtendWith(SpringExtension::class)
 @WebMvcTest(CartsRestController::class)
@@ -76,8 +77,8 @@ class CartsRestControllerTest(
   fun create() {
     val createCartRequests = listOf(
         CreateCartRequest(id = 1),
-        CreateCartRequest(id = 2),
-        CreateCartRequest(id = 4)
+        CreateCartRequest(id = 4),
+        CreateCartRequest(id = 1)
     )
 
     val recipes = listOf(
@@ -87,14 +88,11 @@ class CartsRestControllerTest(
         Recipe(id = 4),
         Recipe(id = 5)
     )
-    val cartRecipes = recipes
-        .filter { recipe ->
-          createCartRequests.any { createCartRequest -> createCartRequest.id == recipe.id }
-        }
+    val cartRecipes = listOf(Recipe(id = 1), Recipe(id = 4), Recipe(id = 1))
     val cart = Cart(recipes = recipes)
 
     whenever(recipeCatalogUseCase.execute()).thenReturn(recipes)
-    whenever(createCartUseCase.execute(cartRecipes)).thenReturn(cart)
+    whenever(createCartUseCase.execute(any())).thenReturn(cart)
 
     mockMvc.perform(post("/api/carts")
         .contentType(APPLICATION_JSON_UTF8)
@@ -103,6 +101,39 @@ class CartsRestControllerTest(
         .andExpect(status().isCreated)
         .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE))
         .andExpect(content().json(jacksonObjectMapper().writeValueAsString(CartResponse.fromCart(cart))))
+
+    verify(recipeCatalogUseCase).execute()
+    verify(createCartUseCase).execute(cartRecipes)
+  }
+
+  @Test
+  fun `create - when recipe does not exist`() {
+    val createCartRequests = listOf(
+        CreateCartRequest(id = 1),
+        CreateCartRequest(id = 4),
+        CreateCartRequest(id = 12)
+    )
+
+    val recipes = listOf(
+        Recipe(id = 1),
+        Recipe(id = 2),
+        Recipe(id = 3),
+        Recipe(id = 4),
+        Recipe(id = 5)
+    )
+    val cart = Cart(recipes = recipes)
+
+    whenever(recipeCatalogUseCase.execute()).thenReturn(recipes)
+    whenever(createCartUseCase.execute(any())).thenReturn(cart)
+
+    mockMvc.perform(post("/api/carts")
+        .contentType(APPLICATION_JSON_UTF8)
+        .content(jacksonObjectMapper().writeValueAsString(createCartRequests))
+    )
+        .andExpect(status().isBadRequest)
+
+    verify(recipeCatalogUseCase).execute()
+    verifyZeroInteractions(createCartUseCase)
   }
 
   @Test

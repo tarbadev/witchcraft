@@ -6,7 +6,10 @@ import com.tarbadev.witchcraft.carts.rest.entity.CreateCartRequest
 import com.tarbadev.witchcraft.carts.rest.entity.ItemResponse
 import com.tarbadev.witchcraft.carts.rest.entity.UpdateItemRequest
 import com.tarbadev.witchcraft.recipes.domain.usecase.RecipeCatalogUseCase
+import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
+import org.springframework.http.HttpStatus.BAD_REQUEST
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -28,12 +31,21 @@ class CartsRestController(
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
-  fun create(@RequestBody createCartRequests: List<CreateCartRequest>): CartResponse {
+  fun create(@RequestBody createCartRequests: List<CreateCartRequest>): ResponseEntity<CartResponse> {
     val recipesCatalog = recipeCatalogUseCase.execute()
-    val recipes = recipesCatalog
-        .filter { recipe -> createCartRequests.any { createCartRequest -> createCartRequest.id == recipe.id } }
+    return try {
+      val recipes = createCartRequests
+          .map { recipesCatalog.first { recipe -> it.id == recipe.id } }
 
-    return CartResponse.fromCart(createCartUseCase.execute(recipes))
+      ResponseEntity.ok(CartResponse.fromCart(createCartUseCase.execute(recipes)))
+    } catch(exception: NoSuchElementException) {
+      val logger = LoggerFactory.getLogger(CartsRestController::class.java)
+      logger.error("Request: [$createCartRequests]")
+      logger.error("Catalog: [$recipesCatalog]")
+      logger.error("RECIPE NOT FOUND", exception)
+
+      ResponseEntity(BAD_REQUEST)
+    }
   }
 
   @PutMapping("/{cartId}/items/{itemId}")

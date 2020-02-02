@@ -29,7 +29,7 @@ describe('WeekPage', () => {
       {
         name: 'TUESDAY',
         lunch: [],
-        diner: [],
+        diner: [{ id: 1, imgUrl: 'dummy' }],
       },
     ],
   }
@@ -65,7 +65,7 @@ describe('WeekPage', () => {
     })
 
     it('calls createCartFromWeek on create cart button click', () => {
-      const recipeIds = [1, 3]
+      const recipeIds = [1, 3, 1]
 
       weekPageContainer.find('[data-create-cart-button]').at(0).simulate('click')
 
