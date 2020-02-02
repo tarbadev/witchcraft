@@ -5,6 +5,7 @@ import { RecipesPageContainer } from './RecipesPage'
 import { mockAppContext } from 'src/testUtils'
 import * as RecipesActions from '../actions/RecipesActions'
 import { BrowserRouter } from 'react-router-dom'
+import { Header } from 'src/app/components/Header'
 
 describe('RecipesPageContainer', () => {
   it('calls searchRecipe callback on search input change', () => {
@@ -46,12 +47,19 @@ describe('RecipesPageContainer', () => {
   })
 
   it('redirects to new recipe page on new recipe button click', () => {
-    mockAppContext()
+    let context = mockAppContext()
     const pushSpy = jest.fn()
 
-    const recipesPageContainer = mount(<RecipesPageContainer history={{ push: pushSpy }} />)
+    mount(<RecipesPageContainer history={{ push: pushSpy }} />)
+    const headerConfig = context.setHeaderConfig.mock.calls[0][0]
+    mockAppContext({ headerConfig })
 
-    recipesPageContainer.find('[data-name="new-recipe-button"] button').simulate('click')
+    const recipesPageContainer = mount(<BrowserRouter>
+      <Header />
+      <RecipesPageContainer history={{ push: pushSpy }} />
+    </BrowserRouter>)
+
+    recipesPageContainer.find('[data-new-recipe]').at(0).simulate('click')
 
     expect(pushSpy).toHaveBeenCalledWith('/recipes/new')
   })

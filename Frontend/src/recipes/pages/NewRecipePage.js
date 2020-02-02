@@ -25,7 +25,7 @@ export const NewRecipePageContainer = ({
 }) => {
   const { state, dispatch, setHeaderConfig } = useAppContext()
 
-  useEffect(() => setHeaderConfig({ ...initialState.headerConfig, currentLink: RECIPE, title: RECIPE }), [])
+  useEffect(() => setHeaderConfig({ ...initialState.headerConfig, currentLink: RECIPE, title: 'New Recipe' }), [])
 
   const useSupportedDomains = () => {
     const [supportedDomains, setSupportedDomains] = useState(state.pages.newRecipePage.supportedDomains)

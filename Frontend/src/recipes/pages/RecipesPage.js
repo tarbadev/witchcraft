@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import Grid from '@material-ui/core/Grid'
-import Button from '@material-ui/core/Button'
 import Paper from '@material-ui/core/Paper'
 import TextField from '@material-ui/core/TextField'
+import AddIcon from '@material-ui/icons/Add'
 
 import { RecipeList } from 'src/recipes/components/RecipeList'
 
@@ -13,6 +13,9 @@ import { PageTitle } from 'src/app/components/PageTitle'
 import { useAppContext } from 'src/app/components/StoreProvider'
 import { RECIPE } from 'src/app/components/Header'
 import { initialState } from 'src/app/RootReducer'
+import MenuItem from '@material-ui/core/MenuItem'
+import ListItemIcon from '@material-ui/core/ListItemIcon'
+import ListItemText from '@material-ui/core/ListItemText'
 
 const useStyles = makeStyles({
   paper: {
@@ -22,7 +25,23 @@ const useStyles = makeStyles({
 
 export const RecipesPageContainer = ({ history }) => {
   const { state, dispatch, setHeaderConfig } = useAppContext()
-  const headerConfig = { ...initialState.headerConfig, currentLink: RECIPE, title: RECIPE }
+  const headerConfig = {
+    ...initialState.headerConfig,
+    currentLink: RECIPE,
+    title: RECIPE,
+    menuList: [
+      <MenuItem
+        key='menu-new-recipe'
+        data-new-recipe
+        onClick={() => history.push('/recipes/new')}
+      >
+        <ListItemIcon>
+          <AddIcon />
+        </ListItemIcon>
+        <ListItemText primary="New Recipe" />
+      </MenuItem>,
+    ],
+  }
   useEffect(() => setHeaderConfig(headerConfig), [])
 
   const [recipes, setRecipes] = useState(state.recipes)
@@ -38,7 +57,6 @@ export const RecipesPageContainer = ({ history }) => {
 
   return <RecipesPage
     recipes={filteredRecipes}
-    onNewRecipeClick={() => history.push('/recipes/new')}
     searchRecipe={(search) => setFilteredRecipes(filterRecipes(recipes, search))} />
 }
 
@@ -46,7 +64,7 @@ RecipesPageContainer.propTypes = {
   history: PropTypes.object,
 }
 
-export const RecipesPage = ({ recipes, searchRecipe, onNewRecipeClick }) => {
+export const RecipesPage = ({ recipes, searchRecipe }) => {
   const classes = useStyles()
 
   return (
@@ -63,11 +81,6 @@ export const RecipesPage = ({ recipes, searchRecipe, onNewRecipeClick }) => {
         </Paper>
       </Grid>
       <Grid item xs={12}>
-        <Button variant='contained' href='' color='primary' data-name='new-recipe-button' onClick={onNewRecipeClick}>
-          New Recipe
-        </Button>
-      </Grid>
-      <Grid item xs={12}>
         <RecipeList recipes={recipes} />
       </Grid>
     </Grid>
@@ -77,5 +90,4 @@ export const RecipesPage = ({ recipes, searchRecipe, onNewRecipeClick }) => {
 RecipesPage.propTypes = {
   recipes: PropTypes.array,
   searchRecipe: PropTypes.func,
-  onNewRecipeClick: PropTypes.func,
 }
