@@ -1,4 +1,4 @@
-import { goToUrl, waitForTextNotEmptyByCss } from './helpers.po'
+import { goToUrl } from './helpers.po'
 
 export const goTo = async () => {
   await goToUrl(`/carts`)
@@ -6,7 +6,7 @@ export const goTo = async () => {
 }
 
 export const waitForPageLoaded = async () => {
-  await global.page.waitForSelector('.cart-page__new-cart-button')
+  await global.page.waitForSelector('[data-new-cart-button]')
 }
 
 export const getCarts = async () => {
@@ -14,4 +14,9 @@ export const getCarts = async () => {
     '.cart-list__item',
     elements => elements.map(el => el.textContent),
   )
+}
+
+export const newCart = async () => {
+  await global.page.click('[data-open-menu]')
+  await global.page.click('[data-new-cart-button]')
 }

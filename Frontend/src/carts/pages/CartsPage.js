@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import Grid from '@material-ui/core/Grid'
-import Button from '@material-ui/core/Button'
 import { Link } from 'react-router-dom'
 
 import './CartsPage.css'
@@ -11,10 +10,30 @@ import { useAppContext } from 'src/app/components/StoreProvider'
 import { getAllCarts } from '../actions/CartsActions'
 import { CART } from 'src/app/components/Header'
 import { initialState } from 'src/app/RootReducer'
+import MenuItem from '@material-ui/core/MenuItem'
+import ListItemIcon from '@material-ui/core/ListItemIcon'
+import ListItemText from '@material-ui/core/ListItemText'
+import AddIcon from '@material-ui/icons/Add'
 
 export const CartsPageContainer = ({ history }) => {
   const { state, dispatch, setHeaderConfig } = useAppContext()
-  useEffect(() => setHeaderConfig({ ...initialState.headerConfig, currentLink: CART, title: CART }), [])
+  useEffect(() => setHeaderConfig({
+    ...initialState.headerConfig,
+    currentLink: CART,
+    title: CART,
+    menuList: [
+      <MenuItem
+        key='menu-new-cart'
+        data-new-cart-button
+        onClick={() => history.push('/carts/new')}
+      >
+        <ListItemIcon>
+          <AddIcon />
+        </ListItemIcon>
+        <ListItemText primary="New Cart" />
+      </MenuItem>,
+    ],
+  }), [])
 
   const [carts, setCarts] = useState(state.carts)
 
@@ -28,7 +47,6 @@ CartsPageContainer.propTypes = {
 }
 
 export const CartsPage = ({
-  onNewCartClick,
   carts,
 }) => {
   const cartList = carts.map(cart => (
@@ -45,25 +63,11 @@ export const CartsPage = ({
 
   return (
     <Grid container spacing={1}>
-      <Grid item xs={12}>
-        <Button
-          variant='contained'
-          href=''
-          className='cart-page__new-cart-button'
-          color='primary'
-          onClick={onNewCartClick}
-        >
-          New Cart
-        </Button>
-      </Grid>
-      <Grid item container xs={12} className='cart-list' spacing={1}>
-        {cartList}
-      </Grid>
+      {cartList}
     </Grid>
   )
 }
 
 CartsPage.propTypes = {
-  onNewCartClick: PropTypes.func,
   carts: PropTypes.array,
 }

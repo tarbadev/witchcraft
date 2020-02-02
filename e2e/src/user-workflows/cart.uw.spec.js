@@ -11,6 +11,13 @@ describe('Cart', () => {
     await CartPage.waitForPageLoaded()
   }
 
+  it('Carts page displays a button to the new cart page', async () => {
+    await CartsPage.goTo()
+    await CartsPage.newCart()
+
+    expect(global.page.url()).toBe(`${appUrl}/carts/new`)
+  })
+
   it('changes the state of an item when clicking on it', async () => {
     await createCart()
 
@@ -29,7 +36,7 @@ describe('Cart', () => {
     await CartsPage.goTo()
 
     expect(await CartsPage.getCarts()).toHaveLength(2)
-  }, 10000)
+  })
 
   it('can be deleted', async () => {
     await CartsPage.goTo()
