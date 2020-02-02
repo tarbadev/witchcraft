@@ -44,7 +44,7 @@ describe('WeekPage', () => {
 
   describe('with Header', () => {
     let weekPageContainer
-    let context = mockAppContext()
+    let context
 
     beforeEach(() => {
       context = mockAppContext()

@@ -22,7 +22,7 @@ describe('Cart', () => {
     await createCart()
 
     expect(await CartPage.numberOfDisabledItems()).toBe(0)
-    await CartPage.tapOnIngredient('fish sauce')
+    await CartPage.tapOnIngredient()
     expect(await CartPage.numberOfDisabledItems()).toBe(1)
   })
 
@@ -36,7 +36,7 @@ describe('Cart', () => {
     await CartsPage.goTo()
 
     expect(await CartsPage.getCarts()).toHaveLength(2)
-  })
+  }, 10000)
 
   it('can be deleted', async () => {
     await CartsPage.goTo()

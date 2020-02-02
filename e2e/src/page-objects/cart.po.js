@@ -6,6 +6,7 @@ export const waitForPageLoaded = async () => {
 }
 
 export const getRecipes = async () => {
+  await global.page.waitForSelector('a[data-recipe="true"]')
   return await global.page.$$eval(
     'a[data-recipe="true"]',
     elements => elements.map(el => el.textContent),
@@ -13,21 +14,17 @@ export const getRecipes = async () => {
 }
 
 export const getIngredients = async () => {
+  await global.page.waitForSelector('[data-ingredient-container] [data-name]')
   return await global.page.$$eval(
     '[data-ingredient-container] [data-name]',
     elements => elements.map(el => el.textContent).sort(),
   )
 }
 
-export const tapOnIngredient = async ingredient => {
-  const ingredients = await global.page.$x(`//span[contains(text(), '${ingredient}')]`)
-
-  if (await ingredients.length > 0) {
-    await ingredients[0].click()
-    await global.page.waitForSelector('.cart-page__ingredient-disabled')
-  } else {
-    throw new Error(`Ingredient not found: ${ingredient}`)
-  }
+export const tapOnIngredient = async () => {
+  await global.page.waitForSelector('[data-item]', { timeout: 500 })
+  await global.page.click('[data-item]')
+  await global.page.waitForSelector('.cart-page__ingredient-disabled', { timeout: 500 })
 }
 
 export const numberOfDisabledItems = async () => {
@@ -35,5 +32,6 @@ export const numberOfDisabledItems = async () => {
 }
 
 export const clickOnDelete = async () => {
-  await global.page.click('.cart-page__delete-button')
+  await global.page.click('[data-open-menu]')
+  await global.page.click('[data-delete-cart-button]')
 }

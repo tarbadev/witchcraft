@@ -3,6 +3,8 @@ import { mount, shallow } from 'enzyme'
 import { CartPage, CartPageContainer } from './CartPage'
 import { mockAppContext } from 'src/testUtils'
 import * as CartActions from 'src/carts/actions/CartActions'
+import { BrowserRouter } from 'react-router-dom'
+import { Header } from 'src/app/components/Header'
 
 describe('CartPage', () => {
   it('calls the onItemClick callback when clicking on it', () => {
@@ -35,79 +37,43 @@ describe('CartPageContainer', function () {
   })
 
   describe('delete', () => {
-    it('dispatches deleteCart when Delete button clicked', () => {
-      const context = mockAppContext()
-      const promisedCart = { id: 12 }
-      const id = promisedCart.id
+    let cartPageContainer
+    let context
+    let pushSpy
+    const promisedCart = { id: 12 }
+    const id = promisedCart.id
+
+    beforeEach(() => {
+      context = mockAppContext()
+      pushSpy = jest.fn()
 
       jest
         .spyOn(CartActions, 'getCart')
         .mockImplementation((id, onSuccess) => onSuccess(promisedCart))
 
-      const cartPageContainer = mount(<CartPageContainer match={{ params: { id } }} />)
-      cartPageContainer.find('.cart-page__delete-button button').simulate('click')
+      mount(<CartPageContainer match={{ params: { id } }} history={{ push: pushSpy }} />)
+
+      const headerConfig = context.setHeaderConfig.mock.calls[1][0]
+      mockAppContext({ headerConfig })
+
+      cartPageContainer = mount(<BrowserRouter>
+        <Header />
+        <CartPageContainer match={{ params: { id } }} history={{ push: pushSpy }} />
+      </BrowserRouter>)
+    })
+
+    it('dispatches deleteCart when Delete button clicked', () => {
+      cartPageContainer.find('[data-delete-cart-button]').at(0).simulate('click')
 
       expect(context.dispatch).toHaveBeenLastCalledWith(CartActions.deleteCart(id, expect.any(Function), expect.any(Function)))
     })
 
-    it('displays circular progress when delete button is clicked', () => {
-      mockAppContext()
-      const promisedCart = { id: 12 }
-      const id = promisedCart.id
-
-      jest
-        .spyOn(CartActions, 'getCart')
-        .mockImplementation((id, onSuccess) => onSuccess(promisedCart))
-
-      const cartPageContainer = mount(<CartPageContainer match={{ params: { id } }} />)
-
-      expect(cartPageContainer.find('.circularProgress')).toHaveLength(0)
-
-      cartPageContainer.find('.cart-page__delete-button button').simulate('click')
-
-      expect(cartPageContainer.find('.circularProgress')).toHaveLength(3)
-    })
-
-    it('Hides CircularProgress call is successful', () => {
-      mockAppContext()
-      const promisedCart = { id: 12 }
-      const id = promisedCart.id
-
-      jest
-        .spyOn(CartActions, 'getCart')
-        .mockImplementation((id, onSuccess) => onSuccess(promisedCart))
-
-      const cartPageContainer = mount(
-        <CartPageContainer
-          match={{ params: { id } }}
-          history={{ push: jest.fn() }} />)
-
-      expect(cartPageContainer.find('.circularProgress')).toHaveLength(0)
-
-      jest
-        .spyOn(CartActions, 'deleteCart')
-        .mockImplementation((id, onSuccess) => onSuccess())
-
-      cartPageContainer.find('.cart-page__delete-button button').simulate('click')
-      expect(cartPageContainer.find('.circularProgress')).toHaveLength(0)
-    })
-
     it('redirects to carts page when delete succeeds', () => {
-      mockAppContext()
-      const promisedCart = { id: 12 }
-      const id = promisedCart.id
-      const pushSpy = jest.fn()
-
-      jest
-        .spyOn(CartActions, 'getCart')
-        .mockImplementation((id, onSuccess) => onSuccess(promisedCart))
-
       jest
         .spyOn(CartActions, 'deleteCart')
         .mockImplementation((id, onSuccess) => onSuccess())
 
-      const cartPageContainer = mount(<CartPageContainer match={{ params: { id } }} history={{ push: pushSpy }} />)
-      cartPageContainer.find('.cart-page__delete-button button').simulate('click')
+      cartPageContainer.find('[data-delete-cart-button]').at(0).simulate('click')
 
       expect(pushSpy).toHaveBeenLastCalledWith('/carts')
     })
