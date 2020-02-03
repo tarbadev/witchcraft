@@ -81,7 +81,7 @@ export const WeekPage = ({ history, weekNumber, year }) => {
   useEffect(() => dispatch(getWeek(year, weekNumber, data => setWeek(data))), [year, weekNumber])
   useEffect(() => {
     let defaultDayIndex = getDefaultDayIndex(weekNumber)
-    if (isTablet && defaultDayIndex > 4) {
+    if ((isTablet && !isMobile) && defaultDayIndex > 4) {
       defaultDayIndex = 4
     }
     if (history.location.search.includes('previous=true')) {
