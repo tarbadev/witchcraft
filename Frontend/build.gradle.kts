@@ -14,7 +14,7 @@ version = "0.0.1-SNAPSHOT"
 
 node {
   download = true
-  version = "13.5.0"
+  version = "13.6.0"
   npmVersion = "6.13.1"
 }
 
