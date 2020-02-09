@@ -30,9 +30,17 @@ class IngredientFromStringUseCase {
       tokens.removeAt(0)
     }
 
+    if (tokens[0] == "d" && tokens[1] == "'") {
+      tokens.removeAt(0)
+      tokens.removeAt(0)
+    }
+
     val name = tokens.joinToString(" ")
         .replace("( ", "(")
         .replace(" )", ")")
+        .replace(" .", ".")
+        .replace(" - ", "-")
+        .replace(" , ", ", ")
 
     return Ingredient(
         name = name,

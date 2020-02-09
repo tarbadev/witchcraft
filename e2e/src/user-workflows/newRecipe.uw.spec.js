@@ -21,10 +21,10 @@ describe('New Recipe', () => {
 
       const ingredients = await RecipePage.getIngredients()
       const expectedIngredients = [
-        'Little Potato Co. Creamer potatoes I used Dynamic Duo',
+        'Little potato co. creamer potatoes i used dynamic duo',
         'Soft goat cheese chevre, room temperature',
         'Diced roasted red pepper',
-        'Pitted Kalamata olives diced',
+        'Pitted kalamata olives diced',
         'Minced flat-leaf parsley',
         'Pistachios halves divided',
         'Honey',
@@ -62,17 +62,17 @@ describe('New Recipe', () => {
 
       const ingredients = await RecipePage.getIngredients()
       const expectedIngredients = [
-        'Red Onion',
-        'Blackening Spice',
-        'Roma Tomato',
-        'Flour Tortilla',
-        'Mexican Cheese Blend',
-        'Chicken Breast Strips',
+        'Red onion',
+        'Blackening spice',
+        'Roma tomato',
+        'Flour tortilla',
+        'Mexican cheese blend',
+        'Chicken breast strips',
         'Lime',
-        'Sour Cream',
-        'Mozzarella Cheese',
-        'Hot Sauce',
-        'Vegetable Oil',
+        'Sour cream',
+        'Mozzarella cheese',
+        'Hot sauce',
+        'Vegetable oil',
         'Butter',
         'Salt',
         'Pepper',
@@ -91,7 +91,7 @@ describe('New Recipe', () => {
       expect(steps.sort()).toEqual(expectedSteps.sort())
 
       expect(await RecipePage.getPortions()).toEqual('2')
-    }, 10000)
+    }, 15000)
 
     it('retrieves details from www.marmiton.org', async () => {
       await NewRecipePage.addFromUrl('https://www.marmiton.org/recettes/recette_pate-a-crepes_12372.aspx')
@@ -112,7 +112,7 @@ describe('New Recipe', () => {
         'Farine',
         'Oeufs entiers',
         'Sucre',
-        'D\'huile',
+        'Huile',
         'Beurre fondu',
         'Lait',
         'Rhum',

@@ -290,4 +290,40 @@ class IngredientFromStringUseCaseTest {
     )
     assertThat(subject.execute("1tsp salt")).isEqualTo(expectedIngredient)
   }
+
+  @Test
+  fun execute_acceptsComplexSentence() {
+    val expectedIngredient = Ingredient(
+        name = "little potato co. creamer potatoes i used dynamic duo",
+        quantity = 1.5.pound
+    )
+    assertThat(subject.execute("1 1/2 pounds Little Potato Co. Creamer potatoes I used Dynamic Duo")).isEqualTo(expectedIngredient)
+  }
+
+  @Test
+  fun execute_acceptsHyphens() {
+    val expectedIngredient = Ingredient(
+        name = "minced flat-leaf parsley",
+        quantity = 1.tablespoon
+    )
+    assertThat(subject.execute("1 tablespoon minced flat-leaf parsley")).isEqualTo(expectedIngredient)
+  }
+
+  @Test
+  fun execute_acceptsComma() {
+    val expectedIngredient = Ingredient(
+        name = "soft goat cheese chevre, room temperature",
+        quantity = 2.ounce
+    )
+    assertThat(subject.execute("2 ounces soft goat cheese chevre, room temperature")).isEqualTo(expectedIngredient)
+  }
+
+  @Test
+  fun execute_acceptsApostrophe() {
+    val expectedIngredient = Ingredient(
+        name = "huile",
+        quantity = 2.tablespoon
+    )
+    assertThat(subject.execute("2 cuillères à soupe d'huile")).isEqualTo(expectedIngredient)
+  }
 }
