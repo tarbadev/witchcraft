@@ -1,8 +1,10 @@
 package com.tarbadev.witchcraft.learning.persistence.entity
 
+import com.tarbadev.witchcraft.converter.UnitHelper
 import com.tarbadev.witchcraft.converter.UnitHelper.getQuantity
 import com.tarbadev.witchcraft.learning.domain.entity.LearningIngredient
 import com.tarbadev.witchcraft.learning.domain.entity.Language
+import com.tarbadev.witchcraft.learning.rest.entity.LearningIngredientResponse
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
@@ -29,5 +31,18 @@ data class LearningIngredientEntity(
                 language = Language.valueOf(language),
                 valid = valid
         )
+    }
+
+    companion object {
+        fun fromLearningIngredient(learningIngredient: LearningIngredient) =
+            LearningIngredientEntity(
+                id = learningIngredient.id,
+                name = learningIngredient.name,
+                quantity = "%.3f".format(learningIngredient.quantity.getValue().toDouble()).toDouble(),
+                unit = UnitHelper.getUnitShortName(learningIngredient.quantity),
+                line = learningIngredient.line,
+                valid = learningIngredient.valid,
+                language = learningIngredient.language.toString()
+            )
     }
 }

@@ -9,6 +9,7 @@ import com.tarbadev.witchcraft.recipes.domain.usecase.RecipeCatalogUseCase
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatus.BAD_REQUEST
+import org.springframework.http.HttpStatus.CREATED
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -30,14 +31,13 @@ class CartsRestController(
   fun getCart(@PathVariable id: Int): CartResponse = CartResponse.fromCart(getCartUseCase.execute(id)!!)
 
   @PostMapping
-  @ResponseStatus(HttpStatus.CREATED)
   fun create(@RequestBody createCartRequests: List<CreateCartRequest>): ResponseEntity<CartResponse> {
     val recipesCatalog = recipeCatalogUseCase.execute()
     return try {
       val recipes = createCartRequests
           .map { recipesCatalog.first { recipe -> it.id == recipe.id } }
 
-      ResponseEntity.ok(CartResponse.fromCart(createCartUseCase.execute(recipes)))
+      ResponseEntity.status(CREATED).body(CartResponse.fromCart(createCartUseCase.execute(recipes)))
     } catch(exception: NoSuchElementException) {
       val logger = LoggerFactory.getLogger(CartsRestController::class.java)
       logger.error("Request: [$createCartRequests]")

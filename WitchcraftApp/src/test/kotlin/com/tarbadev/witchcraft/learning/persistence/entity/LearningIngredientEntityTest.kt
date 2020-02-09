@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 class LearningIngredientEntityTest {
   @Test
   fun toIngredientToValidate() {
-    val ingredientToValidateEntity = LearningIngredientEntity(
+    val learningIngredientEntity = LearningIngredientEntity(
         12,
         "another ingredient",
         350.0,
@@ -18,7 +18,7 @@ class LearningIngredientEntityTest {
         Language.FRENCH.toString(),
         false
     )
-    val ingredientToValidate = LearningIngredient(
+    val learningIngredient = LearningIngredient(
         id = 12,
         line = "Another ingredient line",
         quantity = 350.centiliter,
@@ -27,6 +27,29 @@ class LearningIngredientEntityTest {
         valid = false
     )
 
-    assertThat(ingredientToValidateEntity.toLearningIngredient()).isEqualTo(ingredientToValidate)
+    assertThat(learningIngredientEntity.toLearningIngredient()).isEqualTo(learningIngredient)
+  }
+
+  @Test
+  fun fromIngredientToValidate() {
+    val learningIngredientEntity = LearningIngredientEntity(
+        12,
+        "another ingredient",
+        350.0,
+        "cl",
+        "Another ingredient line",
+        Language.FRENCH.toString(),
+        false
+    )
+    val learningIngredient = LearningIngredient(
+        id = 12,
+        line = "Another ingredient line",
+        quantity = 350.centiliter,
+        name = "another ingredient",
+        language = Language.FRENCH,
+        valid = false
+    )
+
+    assertThat(LearningIngredientEntity.fromLearningIngredient(learningIngredient)).isEqualTo(learningIngredientEntity)
   }
 }

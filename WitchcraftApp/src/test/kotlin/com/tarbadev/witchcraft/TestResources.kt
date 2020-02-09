@@ -134,7 +134,7 @@ class TestResources {
       val marmiton = Recipe(
           name = "Pâte à crêpes",
           originUrl = "https://www.marmiton.org/recettes/recette_pate-a-crepes_12372.aspx",
-          imgUrl = "https://assets.afcdn.com/recipe/20180713/81162_w420h344c1cx1944cy2592cxt0cyt0cxb3888cyb5184.jpg",
+          imgUrl = "https://assets.afcdn.com/recipe/20180713/81162_w648h414c1cx1944cy2592.jpg",
           ingredients = listOf(
               Ingredient(
                   name = "Farine",
