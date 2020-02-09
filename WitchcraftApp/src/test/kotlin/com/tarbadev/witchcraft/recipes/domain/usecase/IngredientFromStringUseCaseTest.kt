@@ -133,18 +133,18 @@ class IngredientFromStringUseCaseTest {
   }
 
   @Test
-  fun execute_changesUnitToLowerButNotName() {
+  fun execute_changesTextToLowercase() {
     val expectedIngredient = Ingredient(
         name = "diced roasted red pepper",
         quantity = 1.cup
     )
-    assertThat(subject.execute("1 Cup diced roasted red pepper")).isEqualTo(expectedIngredient)
+    assertThat(subject.execute("1 Cup diced ROASTED RED PEPPER")).isEqualTo(expectedIngredient)
   }
 
   @Test
   fun execute_removesPointAfterUnit() {
     val expectedIngredient = Ingredient(
-        name = "Something",
+        name = "something",
         quantity = 1.pound
     )
     assertThat(subject.execute("1 lb. Something")).isEqualTo(expectedIngredient)
@@ -153,7 +153,7 @@ class IngredientFromStringUseCaseTest {
   @Test
   fun execute_handlesSpecialSlash() {
     val expectedIngredient = Ingredient(
-        name = "Something",
+        name = "something",
         quantity = 0.5.pound
     )
     assertThat(subject.execute("1⁄2 lb Something")).isEqualTo(expectedIngredient)
@@ -249,9 +249,45 @@ class IngredientFromStringUseCaseTest {
   @Test
   fun execute_acceptsTheWordUnitAsAUnit() {
     val expectedIngredient = Ingredient(
-        name = "Flour Tortilla",
+        name = "flour tortilla",
         quantity = 1.unit
     )
     assertThat(subject.execute("1 unit Flour Tortilla")).isEqualTo(expectedIngredient)
+  }
+
+  @Test
+  fun execute_acceptsNoQuantityNorUnit() {
+    val expectedIngredient = Ingredient(
+        name = "flour tortilla",
+        quantity = 1.unit
+    )
+    assertThat(subject.execute("Flour Tortilla")).isEqualTo(expectedIngredient)
+  }
+
+  @Test
+  fun execute_acceptsQuantityAndUnitAtTheEnd() {
+    val expectedIngredient = Ingredient(
+        name = "salt",
+        quantity = 1.teaspoon
+    )
+    assertThat(subject.execute("salt 1 tsp")).isEqualTo(expectedIngredient)
+  }
+
+  @Test
+  fun execute_acceptsQuantityUnitWithoutSpaceAtTheEnd() {
+    val expectedIngredient = Ingredient(
+        name = "salt",
+        quantity = 1.teaspoon
+    )
+    assertThat(subject.execute("salt 1tsp")).isEqualTo(expectedIngredient)
+  }
+
+  @Test
+  fun execute_acceptsQuantityUnitWithoutSpaceAtTheBeginning() {
+    val expectedIngredient = Ingredient(
+        name = "salt",
+        quantity = 1.teaspoon
+    )
+    assertThat(subject.execute("1tsp salt")).isEqualTo(expectedIngredient)
   }
 }

@@ -3,15 +3,62 @@ package com.tarbadev.witchcraft.recipes.domain.usecase
 import com.tarbadev.witchcraft.converter.UnitHelper.getQuantity
 import com.tarbadev.witchcraft.converter.UnitHelper.getUnitMappingByShortName
 import com.tarbadev.witchcraft.recipes.domain.entity.Ingredient
+import opennlp.tools.postag.POSModel
+import opennlp.tools.postag.POSTaggerME
+import opennlp.tools.tokenize.SimpleTokenizer
 import org.springframework.stereotype.Component
-import java.lang.Double.parseDouble
-import java.util.regex.Pattern
 
 @Component
 class IngredientFromStringUseCase {
 
   fun execute(text: String): Ingredient? {
-    val newText = text
+    val fixedText = fixText(text)
+
+    val tokens = SimpleTokenizer.INSTANCE.tokenize(fixedText).toMutableList()
+    val tags = extractTags(tokens)
+
+    var currentIndex = tags.indexOfFirst { it == "CD" }
+    val quantity = extractQuantity(tags, tokens, currentIndex)
+
+    if (currentIndex <= 0) {
+      currentIndex = 0
+    }
+
+    val unit = extractUnit(tokens, currentIndex)
+
+    if (tokens[0] == "de" || tokens[0] == ".") {
+      tokens.removeAt(0)
+    }
+
+    val name = tokens.joinToString(" ")
+        .replace("( ", "(")
+        .replace(" )", ")")
+
+    return Ingredient(
+        name = name,
+        quantity = getQuantity(quantity, unit)
+    )
+  }
+
+  private fun extractUnit(tokens: MutableList<String>, currentIndex: Int): String {
+    var unit = tokens[currentIndex]
+
+    if (unit.endsWith("s")) {
+      unit = unit.substring(0, unit.length - 1)
+    }
+
+    if (getUnitMappingByShortName(unit) != null) {
+      tokens.removeAt(currentIndex)
+    } else {
+      unit = ""
+    }
+
+    return unit
+  }
+
+  private fun fixText(text: String): String {
+    return text
+        .replace("⁄", "/")
         .replace("½", "1/2")
         .replace("⅓", "1/3")
         .replace("⅔", "2/3")
@@ -26,59 +73,40 @@ class IngredientFromStringUseCase {
         .replace("cuillères à soupe", "tbsp")
         .replace("(ContainsMilk)", "")
         .replace("(ContainsWheat)", "")
-    var quantity = 0.0
-    var unit = ""
-    var name = ""
-    val pattern = Pattern.compile("([\\d ]*\\d+[[\\⁄\\/]\\d]*|\\d+|)([\\s]|)(([A-Za-z]+?|[A-Za-z]+?)(s\\b|\\b)|)([ .,]*)((\\bde\\b)*)([()\\w[À-ÿ] ,-\\.\\/&\\'!\\+]+)")
-    val matcher = pattern.matcher(newText)
-    if (matcher.find()) {
-      val quantityStr = matcher.group(1)
-      if (!quantityStr.isEmpty()) {
-        val numbers = quantityStr.split(" ".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-        for (number in numbers) {
-          var tempQuantity: Double? = null
-          try {
-            tempQuantity = parseDouble(number)
-          } catch (ignored: NumberFormatException) {
-          }
+        .toLowerCase()
+  }
 
-          when {
-            tempQuantity != null -> quantity += tempQuantity
-            number.contains("/") -> {
-              val fraction = number.split("/".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-              tempQuantity = parseDouble(fraction[0]) / parseDouble(fraction[1])
-              quantity += tempQuantity
-            }
-            number.contains("⁄") -> {
-              val fraction = number.split("⁄".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-              tempQuantity = parseDouble(fraction[0]) / parseDouble(fraction[1])
-              quantity += tempQuantity
-            }
-          }
-        }
+  private fun extractQuantity(tags: Array<String>, tokens: MutableList<String>, currentIndex: Int): Double {
+    var quantity = 1.0
+    if (tags.count { it == "CD" } >= 2) {
+      if (tokens[currentIndex + 1] == "/" && tags[currentIndex + 2] == "CD") {
+        val firstNumber = tokens[currentIndex].toDouble()
+        val secondNumber = tokens[currentIndex + 2].toDouble()
+        quantity = firstNumber / secondNumber
+        tokens.removeAt(currentIndex)
+        tokens.removeAt(currentIndex)
+        tokens.removeAt(currentIndex)
+      } else if (tags[currentIndex + 1] == "CD" && tokens[currentIndex + 2] == "/" && tags[currentIndex + 3] == "CD") {
+        val firstNumber = tokens[currentIndex].toDouble()
+        val secondNumber = tokens[currentIndex + 1].toDouble()
+        val thirdNumber = tokens[currentIndex + 3].toDouble()
+        quantity = firstNumber + (secondNumber / thirdNumber)
+        tokens.removeAt(currentIndex)
+        tokens.removeAt(currentIndex)
+        tokens.removeAt(currentIndex)
+        tokens.removeAt(currentIndex)
       }
-
-      if (matcher.group(4) != null) {
-        val tempUnit = matcher.group(4)
-            .toLowerCase()
-            .replace("\\.".toRegex(), "")
-        if (getUnitMappingByShortName(tempUnit) != null) {
-          unit = tempUnit
-        } else if (tempUnit.isNotEmpty()) {
-          name = tempUnit + matcher.group(5) + matcher.group(6)
-        }
-      }
-
-      name += matcher.group(9)
-
-      return Ingredient(
-          name = name.trim(),
-          quantity = getQuantity(quantity, unit)
-      )
-    } else {
-      System.err.println("Ingredient not supported: $newText")
-
-      return null
+    } else if (currentIndex >= 0) {
+      quantity = tokens[currentIndex].toDouble()
+      tokens.removeAt(currentIndex)
     }
+    return quantity
+  }
+
+  private fun extractTags(tokens: MutableList<String>): Array<String> {
+    val inputStreamPOSTagger = javaClass.getResourceAsStream("/models/en-pos-maxent.bin")
+    val posModel = POSModel(inputStreamPOSTagger)
+    val posTagger = POSTaggerME(posModel)
+    return posTagger.tag(tokens.toTypedArray())
   }
 }

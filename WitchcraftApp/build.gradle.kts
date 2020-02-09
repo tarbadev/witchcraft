@@ -44,6 +44,7 @@ dependencies {
     compile("org.flywaydb:flyway-core:5.2.3")
     compile("com.fasterxml.jackson.module:jackson-module-kotlin:2.9.8")
     compile("javax.measure:unit-api:2.0-PRD")
+    compile("org.apache.opennlp:opennlp-tools:1.9.2")
     compile("tec.units:unit-ri:1.0.3")
 
     compile("si.uom:si-quantity:1.2")
