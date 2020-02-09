@@ -50,7 +50,7 @@ class IngredientRestControllerTest(
     mockMvc.perform(MockMvcRequestBuilders.put("/api/recipes/23/ingredients/${ingredientModifyRequest.id}")
         .contentType(MediaType.APPLICATION_JSON_UTF8)
         .content(jacksonObjectMapper().writeValueAsString(ingredientModifyRequest))
-    )
+        )
         .andExpect(MockMvcResultMatchers.status().isOk)
 
     verify(saveIngredientUseCase).execute(ingredient)
