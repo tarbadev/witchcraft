@@ -12,6 +12,7 @@ import { CartPageContainer } from 'src/carts/pages/CartPage'
 import { NewCartPageContainer } from 'src/carts/pages/NewCartPage'
 import { WeeksPage } from 'src/weeks/pages/WeeksPage'
 import { WeekPage } from 'src/weeks/pages/WeekPage'
+import { LearningPage } from 'src/learnings/pages/LearningPage'
 
 export const Content = () =>
   (
@@ -29,8 +30,8 @@ export const Content = () =>
         <Route exact path="/weeks/:year/:week" render={props => {
           const {
             match: {
-              params: { year, week }
-            }
+              params: { year, week },
+            },
           } = props
 
           return (<WeekPage
@@ -39,6 +40,7 @@ export const Content = () =>
             weekNumber={week}
             {...props} />)
         }} />
+        <Route exact path="/learning" component={LearningPage} />
       </Switch>
     </div>
   )

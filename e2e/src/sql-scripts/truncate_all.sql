@@ -9,3 +9,4 @@ truncate table step_note;
 truncate table step;
 truncate table week;
 truncate table meal;
+truncate table ml_ingredient;
