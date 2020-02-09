@@ -44,7 +44,7 @@ describe('New Recipe', () => {
       expect(steps.sort()).toEqual(expectedSteps.sort())
 
       expect(await RecipePage.getPortions()).toEqual('24')
-    }, 10000)
+    }, 15000)
 
     it('retrieves details from www.hellofresh.com', async () => {
       await NewRecipePage.addFromUrl('https://www.hellofresh.com/recipes/2019-w26-r14-baja-chicken-quesadilla-5cd9dfa0d5c2f800105388bc?locale=en-US')
