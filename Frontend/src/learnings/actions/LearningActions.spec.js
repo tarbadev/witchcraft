@@ -22,6 +22,7 @@ describe('LearningActions', () => {
         name: 'salt',
         quantity: 1.0,
         unit: 'tbsp',
+        detail: 'to taste',
         language: 'FRENCH',
       }
 

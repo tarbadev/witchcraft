@@ -47,6 +47,7 @@ describe('LearningPage', () => {
       name: '+ 2tsp salt',
       quantity: 2.0,
       unit: 'tsp',
+      detail: '',
       language: 'ENGLISH',
       valid: false,
     }]
@@ -54,6 +55,7 @@ describe('LearningPage', () => {
       name: 'salt',
       quantity: 1.0,
       unit: 'tbsp',
+      detail: 'to taste',
       language: 'ENGLISH',
     }
 
@@ -66,6 +68,7 @@ describe('LearningPage', () => {
     learningPage.find('[data-ingredient-quantity] input')
       .simulate('change', { target: { value: newIngredient.quantity } })
     learningPage.find('[data-ingredient-unit] input').simulate('change', { target: { value: newIngredient.unit } })
+    learningPage.find('[data-ingredient-detail] input').simulate('change', { target: { value: newIngredient.detail } })
 
     learningPage.find('[data-ingredient-validate] button').simulate('click')
 
@@ -81,6 +84,7 @@ describe('LearningPage', () => {
       name: '+ 2tsp salt',
       quantity: 2.0,
       unit: 'tsp',
+      detail: 'to taste',
       language: 'ENGLISH',
       valid: false,
     }]
@@ -91,6 +95,7 @@ describe('LearningPage', () => {
       name: '+ 2tsp salt',
       quantity: 2.0,
       unit: 'tsp',
+      detail: 'to taste',
       language: 'ENGLISH',
       valid: true,
     }]

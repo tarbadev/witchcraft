@@ -40,6 +40,7 @@ class LearningRestControllerTest(@Autowired private val mockMvc: MockMvc) {
             12,
             "Some ingredient line",
             "some ingredient",
+            "",
             2.teaspoon,
             Language.ENGLISH,
             true
@@ -60,7 +61,8 @@ class LearningRestControllerTest(@Autowired private val mockMvc: MockMvc) {
         name = "some ingredient",
         quantity = 23.0,
         unit = "tsp",
-        language = "FRENCH"
+        language = "FRENCH",
+        detail = "to taste"
     )
 
     mockMvc.perform(patch("/api/learning/21")
@@ -69,6 +71,6 @@ class LearningRestControllerTest(@Autowired private val mockMvc: MockMvc) {
     )
         .andExpect(status().isNoContent)
 
-    verify(validateLearningIngredientUseCase).execute(21, "some ingredient", 23.teaspoon, Language.FRENCH)
+    verify(validateLearningIngredientUseCase).execute(21, "some ingredient", 23.teaspoon, Language.FRENCH, "to taste")
   }
 }

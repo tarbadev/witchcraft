@@ -18,7 +18,8 @@ export const getIngredientsToValidate = async () => {
     const quantity = await element.$eval('[data-ingredient-quantity] input', element => element.value)
     const unit = await element.$eval('[data-ingredient-unit] input', element => element.value)
     const language = await element.$eval('[data-ingredient-language] div', element => element.textContent)
-    return { line, name, quantity, unit, language }
+    const detail = await element.$eval('[data-ingredient-detail] input', element => element.value)
+    return { line, name, quantity, unit, language, detail }
   }))
 }
 

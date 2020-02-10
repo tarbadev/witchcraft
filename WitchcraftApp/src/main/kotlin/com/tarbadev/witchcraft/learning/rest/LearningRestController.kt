@@ -28,7 +28,8 @@ class LearningRestController(
         id,
         learningIngredientRequest.name,
         getQuantity(learningIngredientRequest.quantity, learningIngredientRequest.unit),
-        Language.valueOf(learningIngredientRequest.language)
+        Language.valueOf(learningIngredientRequest.language),
+        learningIngredientRequest.detail
     )
   }
 }

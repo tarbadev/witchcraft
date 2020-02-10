@@ -35,6 +35,6 @@ VALUES (1, 'Please add more cheese if needed', 2);
 INSERT INTO step_note (id, comment, step_id)
 VALUES (1, 'Careful not to break the almonds', 1);
 
-INSERT INTO ml_ingredient (id, name, quantity, unit, line, language, valid)
-VALUES (1, 'salt', '2', 'tsp', '2 teaspoons Salt', 'ENGLISH', false),
-       (2, 'lait', '350', 'cl', '350cl de Lait', 'FRENCH', false)
+INSERT INTO ml_ingredient (id, name, quantity, unit, detail, line, language, valid)
+VALUES (1, 'salt', '2', 'tsp', 'to taste', '2 teaspoons Salt', 'ENGLISH', false),
+       (2, 'lait', '350', 'cl', '', '350cl de Lait', 'FRENCH', false)

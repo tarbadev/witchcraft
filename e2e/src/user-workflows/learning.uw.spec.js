@@ -9,12 +9,14 @@ describe('Learning', () => {
       quantity: '2',
       unit: 'tsp',
       name: 'salt',
+      detail: 'to taste',
       language: 'English',
     },{
       line: '350cl de Lait',
       quantity: '350',
       unit: 'cl',
       name: 'lait',
+      detail: '',
       language: 'French',
     }]
 

@@ -54,6 +54,7 @@ const LearningIngredient = ({ ingredient, validateIngredient }) => {
   const [editName, setEditName] = useState(ingredient.name)
   const [editQuantity, setEditQuantity] = useState(ingredient.quantity)
   const [editUnit, setEditUnit] = useState(ingredient.unit)
+  const [editDetail, setEditDetail] = useState(ingredient.detail)
   const [editLanguage, setEditLanguage] = useState(ingredient.language)
 
   return <LearningIngredientDisplay
@@ -64,11 +65,13 @@ const LearningIngredient = ({ ingredient, validateIngredient }) => {
     updateQuantity={newQuantity => setEditQuantity(newQuantity)}
     unit={editUnit}
     updateUnit={newUnit => setEditUnit(newUnit)}
+    detail={editDetail}
+    updateDetail={newDetail => setEditDetail(newDetail)}
     language={editLanguage}
     updateLanguage={newLanguage => setEditLanguage(newLanguage)}
     validateIngredient={() => validateIngredient(
       ingredient.id,
-      { name: editName, quantity: editQuantity, unit: editUnit, language: editLanguage },
+      { name: editName, quantity: editQuantity, unit: editUnit, language: editLanguage, detail: editDetail },
     )}
   />
 }
@@ -86,6 +89,8 @@ const LearningIngredientDisplay = ({
   updateQuantity,
   unit,
   updateUnit,
+  detail,
+  updateDetail,
   language,
   updateLanguage,
   validateIngredient,
@@ -102,7 +107,7 @@ const LearningIngredientDisplay = ({
               disabled
               data-ingredient-line />
           </Grid>
-          <Grid item xs={12} sm={4}>
+          <Grid item xs={12} sm={6}>
             <TextField
               label='Name'
               value={name}
@@ -110,7 +115,15 @@ const LearningIngredientDisplay = ({
               data-ingredient-name
               onChange={({ target }) => updateName(target.value)} />
           </Grid>
-          <Grid item xs={4} sm={2}>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              label='Detail'
+              value={detail}
+              fullWidth
+              data-ingredient-detail
+              onChange={({ target }) => updateDetail(target.value)} />
+          </Grid>
+          <Grid item xs={4} sm>
             <TextField
               label='Quantity'
               value={quantity}
@@ -118,7 +131,7 @@ const LearningIngredientDisplay = ({
               data-ingredient-quantity
               onChange={({ target }) => updateQuantity(target.value)} />
           </Grid>
-          <Grid item xs={4} sm={2}>
+          <Grid item xs={4} sm>
             <TextField
               label='Unit'
               value={unit}
@@ -126,7 +139,7 @@ const LearningIngredientDisplay = ({
               data-ingredient-unit
               onChange={({ target }) => updateUnit(target.value)} />
           </Grid>
-          <Grid item xs={4} sm={2}>
+          <Grid item xs={4} sm>
             <Select
               label='Language'
               value={language}
@@ -144,6 +157,7 @@ const LearningIngredientDisplay = ({
               style={{ float: 'right' }}
               data-ingredient-validate
               onClick={validateIngredient}
+              fullWidth
             >
               Validate
             </Button>
@@ -162,6 +176,8 @@ LearningIngredientDisplay.propTypes = {
   updateQuantity: PropTypes.func,
   unit: PropTypes.string,
   updateUnit: PropTypes.func,
+  detail: PropTypes.string,
+  updateDetail: PropTypes.func,
   language: PropTypes.string,
   updateLanguage: PropTypes.func,
   validateIngredient: PropTypes.func,

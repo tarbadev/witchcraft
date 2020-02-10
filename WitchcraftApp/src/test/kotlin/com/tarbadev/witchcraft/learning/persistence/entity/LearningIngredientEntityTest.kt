@@ -12,6 +12,7 @@ class LearningIngredientEntityTest {
     val learningIngredientEntity = LearningIngredientEntity(
         12,
         "another ingredient",
+        "to taste",
         350.0,
         "cl",
         "Another ingredient line",
@@ -23,6 +24,7 @@ class LearningIngredientEntityTest {
         line = "Another ingredient line",
         quantity = 350.centiliter,
         name = "another ingredient",
+        detail = "to taste",
         language = Language.FRENCH,
         valid = false
     )
@@ -35,6 +37,7 @@ class LearningIngredientEntityTest {
     val learningIngredientEntity = LearningIngredientEntity(
         12,
         "another ingredient",
+        "to taste",
         350.0,
         "cl",
         "Another ingredient line",
@@ -46,6 +49,7 @@ class LearningIngredientEntityTest {
         line = "Another ingredient line",
         quantity = 350.centiliter,
         name = "another ingredient",
+        detail = "to taste",
         language = Language.FRENCH,
         valid = false
     )

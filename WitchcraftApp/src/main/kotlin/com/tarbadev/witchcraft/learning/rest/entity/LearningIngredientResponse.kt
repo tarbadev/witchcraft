@@ -7,6 +7,7 @@ data class LearningIngredientResponse(
     val id: Int,
     val line: String,
     val name: String,
+    val detail: String,
     val quantity: Double,
     val unit: String,
     val language: String,
@@ -17,6 +18,7 @@ data class LearningIngredientResponse(
         LearningIngredientResponse(
             id = learningIngredient.id,
             name = learningIngredient.name,
+            detail = learningIngredient.detail,
             quantity = "%.3f".format(learningIngredient.quantity.getValue().toDouble()).toDouble(),
             unit = getUnitShortName(learningIngredient.quantity),
             line = learningIngredient.line,

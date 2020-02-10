@@ -35,6 +35,7 @@ class DatabaseLearningIngredientRepositoryTest(
         entityManager.persist(LearningIngredientEntity(
             0,
             "some ingredient",
+            "to taste",
             2.0,
             "tsp",
             "Some ingredient line",
@@ -44,6 +45,7 @@ class DatabaseLearningIngredientRepositoryTest(
         entityManager.persist(LearningIngredientEntity(
             0,
             "another ingredient",
+            "",
             350.0,
             "cl",
             "Another ingredient line",
@@ -63,6 +65,7 @@ class DatabaseLearningIngredientRepositoryTest(
     val learningIngredientEntity = entityManager.persist(LearningIngredientEntity(
         0,
         "some ingredient",
+        "to taste",
         2.0,
         "tsp",
         "Some ingredient line",
@@ -83,6 +86,7 @@ class DatabaseLearningIngredientRepositoryTest(
         0,
         "Some ingredient line",
         "some ingredient",
+        "to taste",
         2.teaspoon,
         Language.ENGLISH,
         true

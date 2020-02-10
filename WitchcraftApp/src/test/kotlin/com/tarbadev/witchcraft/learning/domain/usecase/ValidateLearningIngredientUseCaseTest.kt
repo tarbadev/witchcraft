@@ -21,6 +21,7 @@ class ValidateLearningIngredientUseCaseTest {
         id,
         "2 tsp Some ingredient line",
         "some ingredient line",
+        "",
         2.teaspoon,
         Language.ENGLISH,
         false
@@ -29,6 +30,7 @@ class ValidateLearningIngredientUseCaseTest {
         id,
         "2 tsp Some ingredient line",
         "some ingredient",
+        "to taste",
         23.teaspoon,
         Language.FRENCH,
         true
@@ -40,7 +42,8 @@ class ValidateLearningIngredientUseCaseTest {
         id,
         updatedLearningIngredient.name,
         updatedLearningIngredient.quantity,
-        updatedLearningIngredient.language
+        updatedLearningIngredient.language,
+        updatedLearningIngredient.detail
     )
 
     verify(learningIngredientRepository).findById(id)

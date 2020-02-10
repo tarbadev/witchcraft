@@ -20,6 +20,7 @@ class GetLearningIngredientsUseCaseTest {
             12,
             "Some ingredient line",
             "some ingredient",
+            "to taste",
             2.teaspoon,
             Language.ENGLISH,
             true

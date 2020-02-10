@@ -13,6 +13,7 @@ class LearningIngredientResponseTest {
         12,
         "Some ingredient line",
         "some ingredient",
+        "details",
         2.teaspoon,
         Language.ENGLISH,
         true
@@ -21,6 +22,7 @@ class LearningIngredientResponseTest {
         12,
         "Some ingredient line",
         "some ingredient",
+        "details",
         2.0,
         "tsp",
         Language.ENGLISH.toString(),

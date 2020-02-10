@@ -8,12 +8,13 @@ import javax.measure.quantity.Volume
 
 @Component
 class ValidateLearningIngredientUseCase(private val learningIngredientRepository: LearningIngredientRepository) {
-  fun execute(id: Int, name: String, quantity: ComparableQuantity<*>, language: Language) {
+  fun execute(id: Int, name: String, quantity: ComparableQuantity<*>, language: Language, detail: String) {
     val learningIngredient = learningIngredientRepository.findById(id)
     learningIngredientRepository.save(learningIngredient!!.copy(
         name = name,
         quantity = quantity,
         language = language,
+        detail = detail,
         valid = true
     ))
   }
