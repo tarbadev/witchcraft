@@ -20,8 +20,8 @@
   "dependencies": {
     "@babel/runtime": "^7.5.4",
     "@material-ui/core": "^4.8.3",
-    "@material-ui/styles": "^4.8.2",
     "@material-ui/icons": "^4.5.1",
+    "@material-ui/styles": "^4.8.2",
     "@material-ui/system": "^4.7.1",
     "conditional-expression": "^1.1.2",
     "connect-history-api-fallback": "^1.6.0",
@@ -36,6 +36,7 @@
     "react-helmet": "^5.2.1",
     "react-router": "^5.0.1",
     "react-router-dom": "^5.0.1",
+    "react-swipeable-views": "^0.13.8",
     "updeep": "^1.1.0",
     "weeknumber": "^1.1.1"
   },

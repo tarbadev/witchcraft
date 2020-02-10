@@ -9,7 +9,7 @@ export const waitForPageLoaded = async () => {
   await global.page.waitForSelector('[data-ingredient]')
 }
 
-export const getIngredientsToValidate = async () => {
+export const getIngredients = async () => {
   const ingredientElements = await global.page.$$('[data-ingredient]')
 
   return await Promise.all(ingredientElements.map(async (element) => {
@@ -23,7 +23,12 @@ export const getIngredientsToValidate = async () => {
   }))
 }
 
+export const switchToValidatedTab = async () => {
+  await global.page.click('[data-tab-validated]')
+  await global.page.waitForSelector('[data-validated-container]')
+}
+
 export const validateFirstIngredient = async () => {
   await global.page.click('[data-ingredient-validate]')
-  await page.waitForResponse(response => response.url().includes('/api/learning') && response.status() === 200);
+  await page.waitForResponse(response => response.url().includes('/api/learning') && response.status() === 200)
 }

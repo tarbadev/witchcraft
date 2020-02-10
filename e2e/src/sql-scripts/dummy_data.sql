@@ -37,4 +37,5 @@ VALUES (1, 'Careful not to break the almonds', 1);
 
 INSERT INTO ml_ingredient (id, name, quantity, unit, detail, line, language, valid)
 VALUES (1, 'salt', '2', 'tsp', 'to taste', '2 teaspoons Salt', 'ENGLISH', false),
-       (2, 'lait', '350', 'cl', '', '350cl de Lait', 'FRENCH', false)
+       (2, 'lait', '350', 'cl', '', '350cl de Lait', 'FRENCH', false),
+       (3, 'chicken breast', '12', 'oz', 'boneless skinless', '12 oz Boneless Skinless Chicken Breast', 'ENGLISH', true)
