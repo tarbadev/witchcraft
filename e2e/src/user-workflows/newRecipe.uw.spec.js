@@ -44,7 +44,7 @@ describe('New Recipe', () => {
       expect(steps.sort()).toEqual(expectedSteps.sort())
 
       expect(await RecipePage.getPortions()).toEqual('24')
-    }, 15000)
+    }, 30000)
 
     it('retrieves details from www.hellofresh.com', async () => {
       await NewRecipePage.addFromUrl('https://www.hellofresh.com/recipes/2019-w26-r14-baja-chicken-quesadilla-5cd9dfa0d5c2f800105388bc?locale=en-US')
@@ -91,7 +91,7 @@ describe('New Recipe', () => {
       expect(steps.sort()).toEqual(expectedSteps.sort())
 
       expect(await RecipePage.getPortions()).toEqual('2')
-    }, 15000)
+    }, 30000)
 
     it('retrieves details from www.marmiton.org', async () => {
       await NewRecipePage.addFromUrl('https://www.marmiton.org/recettes/recette_pate-a-crepes_12372.aspx')
@@ -130,7 +130,7 @@ describe('New Recipe', () => {
       expect(steps.sort()).toEqual(expectedSteps.sort())
 
       expect(await RecipePage.getPortions()).toEqual('15')
-    }, 10000)
+    }, 30000)
   })
 
   describe('add recipe from form inputs', () => {
@@ -173,7 +173,7 @@ describe('New Recipe', () => {
       expect(steps).toEqual(expectedSteps)
 
       expect(await RecipePage.getPortions()).toEqual('4')
-    }, 10000)
+    }, 30000)
   })
 
   it('displays the list of supported domains', async () => {
