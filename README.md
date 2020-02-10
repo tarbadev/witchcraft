@@ -1,4 +1,4 @@
-# Witchcraft
+# Witchcraft [![Witchcraft](https://circleci.com/gh/tarbadev/witchcraft.svg?style=svg)](https://circleci.com/gh/tarbadev/workflows/witchcraft)
 ## Set Up
 1. Run the `setup.sh` script to install mysql, create the `spring` user, `witchcraft` and `witchcraft_test` databases
 1. Load `build.gradle` to import project in IntelliJ
