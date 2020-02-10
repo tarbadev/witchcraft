@@ -20,4 +20,13 @@ describe('Learning', () => {
 
     expect(ingredientsToValidate).toEqual(expectedIngredients)
   })
+
+  it('Removes the ingredient once validated', async () => {
+    await LearningPage.goTo()
+
+    expect(await LearningPage.getIngredientsToValidate()).toHaveLength(2)
+
+    await LearningPage.validateFirstIngredient()
+    expect(await LearningPage.getIngredientsToValidate()).toHaveLength(1)
+  })
 })

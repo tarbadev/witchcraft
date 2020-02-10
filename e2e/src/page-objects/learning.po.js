@@ -12,7 +12,6 @@ export const waitForPageLoaded = async () => {
 export const getIngredientsToValidate = async () => {
   const ingredientElements = await global.page.$$('[data-ingredient]')
 
-
   return await Promise.all(ingredientElements.map(async (element) => {
     const line = await element.$eval('[data-ingredient-line] input', element => element.value)
     const name = await element.$eval('[data-ingredient-name] input', element => element.value)
@@ -21,4 +20,9 @@ export const getIngredientsToValidate = async () => {
     const language = await element.$eval('[data-ingredient-language] div', element => element.textContent)
     return { line, name, quantity, unit, language }
   }))
+}
+
+export const validateFirstIngredient = async () => {
+  await global.page.click('[data-ingredient-validate]')
+  await page.waitForResponse(response => response.url().includes('/api/learning') && response.status() === 200);
 }
