@@ -1,5 +1,7 @@
 package com.tarbadev.witchcraft.recipes.domain.usecase
 
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.verify
 import com.tarbadev.witchcraft.converter.*
 import com.tarbadev.witchcraft.recipes.domain.entity.Ingredient
 import org.assertj.core.api.Assertions.assertThat
@@ -8,10 +10,23 @@ import org.junit.jupiter.api.Test
 
 class IngredientFromStringUseCaseTest {
   private lateinit var subject: IngredientFromStringUseCase
+  private val saveIngredientToIngredientLearningSourceUseCase: SaveIngredientToIngredientLearningSourceUseCase = mock()
 
   @BeforeEach
   fun setUp() {
-    subject = IngredientFromStringUseCase()
+    subject = IngredientFromStringUseCase(saveIngredientToIngredientLearningSourceUseCase)
+  }
+
+  @Test
+  fun execute_savesIngredientIntoLearningIngredient() {
+    val expectedIngredient = Ingredient(
+        name = "something",
+        quantity = 1.cup
+    )
+
+    subject.execute("1 cup something")
+
+    verify(saveIngredientToIngredientLearningSourceUseCase).execute("1 cup something", expectedIngredient)
   }
 
   @Test

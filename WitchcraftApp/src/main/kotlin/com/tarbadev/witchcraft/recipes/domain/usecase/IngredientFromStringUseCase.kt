@@ -9,7 +9,7 @@ import opennlp.tools.tokenize.SimpleTokenizer
 import org.springframework.stereotype.Component
 
 @Component
-class IngredientFromStringUseCase {
+class IngredientFromStringUseCase(private val saveIngredientToIngredientLearningSourceUseCase: SaveIngredientToIngredientLearningSourceUseCase) {
 
   fun execute(text: String): Ingredient? {
     val fixedText = fixText(text)
@@ -42,10 +42,14 @@ class IngredientFromStringUseCase {
         .replace(" - ", "-")
         .replace(" , ", ", ")
 
-    return Ingredient(
+    val ingredient = Ingredient(
         name = name,
         quantity = getQuantity(quantity, unit)
     )
+
+    saveIngredientToIngredientLearningSourceUseCase.execute(text, ingredient)
+
+    return ingredient
   }
 
   private fun extractUnit(tokens: MutableList<String>, currentIndex: Int): String {
