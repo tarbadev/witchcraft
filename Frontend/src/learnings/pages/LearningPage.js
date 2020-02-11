@@ -40,13 +40,14 @@ export const LearningPage = () => {
   />
 }
 
-const TabPanel = ({ title, ingredients, display, validateIngredient, validIngredients, ...props }) => {
+const TabPanel = ({ title, ingredients, display, validateIngredient, validNames, validDetails, ...props }) => {
   const ingredientLearnings = ingredients.map(ingredient => (
     <LearningIngredient
       key={ingredient.id}
       ingredient={ingredient}
       validateIngredient={validateIngredient}
-      validIngredients={validIngredients}
+      validNames={validNames}
+      validDetails={validDetails}
     />
   ))
 
@@ -63,7 +64,8 @@ const TabPanel = ({ title, ingredients, display, validateIngredient, validIngred
 TabPanel.propTypes = {
   title: PropTypes.string,
   ingredients: PropTypes.array,
-  validIngredients: PropTypes.array,
+  validNames: PropTypes.array,
+  validDetails: PropTypes.array,
   display: PropTypes.bool,
   validateIngredient: PropTypes.func,
 }
@@ -75,6 +77,15 @@ const LearningDisplayPage = ({
   currentTab,
   switchTab,
 }) => {
+  const names = validatedIngredients.map(ingredient => ingredient.name)
+  const validNames = names
+    .filter((name, index) => name !== '' && names.indexOf(name) === index)
+    .sort()
+  const details = validatedIngredients.map(ingredient => ingredient.detail)
+  const validDetails = details
+    .filter((detail, index) => detail !== '' && details.indexOf(detail) === index)
+    .sort()
+
   return <div>
     <Tabs
       value={currentTab}
@@ -92,7 +103,8 @@ const LearningDisplayPage = ({
     >
       <TabPanel
         ingredients={ingredientsToValidate}
-        validIngredients={validatedIngredients}
+        validNames={validNames}
+        validDetails={validDetails}
         display={currentTab === 0}
         validateIngredient={validateIngredient}
         title='Ingredients to validate'
@@ -100,7 +112,8 @@ const LearningDisplayPage = ({
       />
       <TabPanel
         ingredients={validatedIngredients}
-        validIngredients={validatedIngredients}
+        validNames={validNames}
+        validDetails={validDetails}
         display={currentTab === 1}
         validateIngredient={validateIngredient}
         title='Validated ingredients'

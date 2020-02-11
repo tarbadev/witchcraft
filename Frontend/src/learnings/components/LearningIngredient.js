@@ -9,7 +9,7 @@ import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
 import Button from '@material-ui/core/Button'
 
-export const LearningIngredient = ({ ingredient, validateIngredient, validIngredients }) => {
+export const LearningIngredient = ({ ingredient, validateIngredient, validNames, validDetails }) => {
   const [editName, setEditName] = useState(ingredient.name)
   const [editQuantity, setEditQuantity] = useState(ingredient.quantity)
   const [editUnit, setEditUnit] = useState(ingredient.unit)
@@ -32,14 +32,16 @@ export const LearningIngredient = ({ ingredient, validateIngredient, validIngred
       ingredient.id,
       { name: editName, quantity: editQuantity, unit: editUnit, language: editLanguage, detail: editDetail },
     )}
-    validIngredients={validIngredients}
+    validNames={validNames}
+    validDetails={validDetails}
   />
 }
 
 LearningIngredient.propTypes = {
   ingredient: PropTypes.object,
   validateIngredient: PropTypes.func,
-  validIngredients: PropTypes.array,
+  validNames: PropTypes.array,
+  validDetails: PropTypes.array,
 }
 
 const LearningIngredientDisplay = ({
@@ -55,7 +57,8 @@ const LearningIngredientDisplay = ({
   language,
   updateLanguage,
   validateIngredient,
-  validIngredients,
+  validNames,
+  validDetails,
 }) => {
   return (
     <Grid item xs={12} style={{ margin: useTheme().spacing(1) }}>
@@ -73,7 +76,7 @@ const LearningIngredientDisplay = ({
             <Autocomplete
               freeSolo
               value={name}
-              options={validIngredients.map(ingredient => ingredient.name)}
+              options={validNames}
               renderInput={params => (
                 <TextField
                   {...params}
@@ -88,7 +91,7 @@ const LearningIngredientDisplay = ({
             <Autocomplete
               freeSolo
               value={detail}
-              options={validIngredients.map(ingredient => ingredient.detail)}
+              options={validDetails}
               renderInput={params => (
                 <TextField
                   {...params}
@@ -157,5 +160,6 @@ LearningIngredientDisplay.propTypes = {
   language: PropTypes.string,
   updateLanguage: PropTypes.func,
   validateIngredient: PropTypes.func,
-  validIngredients: PropTypes.array,
+  validNames: PropTypes.array,
+  validDetails: PropTypes.array,
 }
