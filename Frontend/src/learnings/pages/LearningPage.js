@@ -40,9 +40,14 @@ export const LearningPage = () => {
   />
 }
 
-const TabPanel = ({ title, ingredients, display, validateIngredient, ...props }) => {
+const TabPanel = ({ title, ingredients, display, validateIngredient, validIngredients, ...props }) => {
   const ingredientLearnings = ingredients.map(ingredient => (
-    <LearningIngredient key={ingredient.id} ingredient={ingredient} validateIngredient={validateIngredient} />
+    <LearningIngredient
+      key={ingredient.id}
+      ingredient={ingredient}
+      validateIngredient={validateIngredient}
+      validIngredients={validIngredients}
+    />
   ))
 
   return (
@@ -58,6 +63,7 @@ const TabPanel = ({ title, ingredients, display, validateIngredient, ...props })
 TabPanel.propTypes = {
   title: PropTypes.string,
   ingredients: PropTypes.array,
+  validIngredients: PropTypes.array,
   display: PropTypes.bool,
   validateIngredient: PropTypes.func,
 }
@@ -69,8 +75,6 @@ const LearningDisplayPage = ({
   currentTab,
   switchTab,
 }) => {
-
-
   return <div>
     <Tabs
       value={currentTab}
@@ -88,6 +92,7 @@ const LearningDisplayPage = ({
     >
       <TabPanel
         ingredients={ingredientsToValidate}
+        validIngredients={validatedIngredients}
         display={currentTab === 0}
         validateIngredient={validateIngredient}
         title='Ingredients to validate'
@@ -95,6 +100,7 @@ const LearningDisplayPage = ({
       />
       <TabPanel
         ingredients={validatedIngredients}
+        validIngredients={validatedIngredients}
         display={currentTab === 1}
         validateIngredient={validateIngredient}
         title='Validated ingredients'

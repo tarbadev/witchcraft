@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import Grid from '@material-ui/core/Grid'
+import { Autocomplete } from '@material-ui/lab'
 import { useTheme } from '@material-ui/core'
 import Paper from '@material-ui/core/Paper'
 import TextField from '@material-ui/core/TextField'
@@ -8,7 +9,7 @@ import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
 import Button from '@material-ui/core/Button'
 
-export const LearningIngredient = ({ ingredient, validateIngredient }) => {
+export const LearningIngredient = ({ ingredient, validateIngredient, validIngredients }) => {
   const [editName, setEditName] = useState(ingredient.name)
   const [editQuantity, setEditQuantity] = useState(ingredient.quantity)
   const [editUnit, setEditUnit] = useState(ingredient.unit)
@@ -31,12 +32,14 @@ export const LearningIngredient = ({ ingredient, validateIngredient }) => {
       ingredient.id,
       { name: editName, quantity: editQuantity, unit: editUnit, language: editLanguage, detail: editDetail },
     )}
+    validIngredients={validIngredients}
   />
 }
 
 LearningIngredient.propTypes = {
   ingredient: PropTypes.object,
   validateIngredient: PropTypes.func,
+  validIngredients: PropTypes.array,
 }
 
 const LearningIngredientDisplay = ({
@@ -52,6 +55,7 @@ const LearningIngredientDisplay = ({
   language,
   updateLanguage,
   validateIngredient,
+  validIngredients,
 }) => {
   return (
     <Grid item xs={12} style={{ margin: useTheme().spacing(1) }}>
@@ -66,20 +70,34 @@ const LearningIngredientDisplay = ({
               data-ingredient-line />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <TextField
-              label='Name'
+            <Autocomplete
+              freeSolo
               value={name}
-              fullWidth
-              data-ingredient-name
-              onChange={({ target }) => updateName(target.value)} />
+              options={validIngredients.map(ingredient => ingredient.name)}
+              renderInput={params => (
+                <TextField
+                  {...params}
+                  label='Name'
+                  fullWidth
+                  data-ingredient-name
+                  onChange={({ target }) => updateName(target.value)} />
+              )}
+            />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <TextField
-              label='Detail'
+            <Autocomplete
+              freeSolo
               value={detail}
-              fullWidth
-              data-ingredient-detail
-              onChange={({ target }) => updateDetail(target.value)} />
+              options={validIngredients.map(ingredient => ingredient.detail)}
+              renderInput={params => (
+                <TextField
+                  {...params}
+                  label='Detail'
+                  fullWidth
+                  data-ingredient-detail
+                  onChange={({ target }) => updateDetail(target.value)} />
+              )}
+            />
           </Grid>
           <Grid item xs={4} sm>
             <TextField
@@ -139,4 +157,5 @@ LearningIngredientDisplay.propTypes = {
   language: PropTypes.string,
   updateLanguage: PropTypes.func,
   validateIngredient: PropTypes.func,
+  validIngredients: PropTypes.array,
 }
