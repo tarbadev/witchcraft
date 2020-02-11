@@ -13,7 +13,7 @@ class TestResources {
       val cookinCanuck = Recipe(
           name = "Mini Goat Cheese Stuffed Potato Appetizers – Greek-Inspired",
           originUrl = "https://www.cookincanuck.com/mini-goat-cheese-stuffed-potato-appetizers/",
-          imgUrl = "https://www.cookincanuck.com/wp-content/uploads/2017/11/Mini-Goat-Cheese-Stuffed-Potato-Appetizers-Greek-Inspired-Cookin-Canuck-4-250x250.jpg",
+          imgUrl = "https://www.cookincanuck.com/wp-content/uploads/2017/11/Mini-Goat-Cheese-Stuffed-Potato-Appetizers-Greek-Inspired-Cookin-Canuck-3.jpg",
           ingredients = listOf(
               Ingredient(
                   name = "Little Potato Co. Creamer potatoes (I used Dynamic Duo)",

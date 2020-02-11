@@ -26,7 +26,7 @@ class CookinCanuckRecipeHtmlParser(
     )
 
   override val recipeNameSelector = "h1.entry-title"
-  override val imgUrlSelector = "div.wprm-recipe-image img"
+  override val imgUrlSelector = "br + img"
   override val imgUrlAttribute = "data-lazy-src"
   override val ingredientSelector = "li.wprm-recipe-ingredient"
   override val portionsSelector = "span.wprm-recipe-servings"
