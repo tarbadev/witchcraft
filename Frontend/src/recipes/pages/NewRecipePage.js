@@ -10,6 +10,7 @@ import { PageTitle } from 'src/app/components/PageTitle'
 import { useAppContext } from 'src/app/components/StoreProvider'
 import { RECIPE } from 'src/app/components/Header'
 import { initialState } from 'src/app/RootReducer'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 const useStyles = makeStyles({
   root: {
@@ -17,6 +18,13 @@ const useStyles = makeStyles({
   },
   paper: {
     padding: '.5em 1em !important',
+  },
+  buttonProgress: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    marginTop: -12,
+    marginLeft: -12,
   },
 })
 
@@ -37,11 +45,17 @@ export const NewRecipePageContainer = ({
     return supportedDomains
   }
 
-  const submitFormWithCallback = (url, body) => {
-    return dispatch(submitForm(url, body, () => history.push('/recipes')))
+  const submitFormWithCallback = (url, body, onSuccess) => {
+    return dispatch(submitForm(url, body, () => {
+      onSuccess()
+      history.push('/recipes')
+    }))
   }
 
-  return <NewRecipePage supportedDomains={useSupportedDomains()} submitForm={submitFormWithCallback} />
+  return <NewRecipePage
+    supportedDomains={useSupportedDomains()}
+    submitForm={submitFormWithCallback}
+  />
 }
 
 NewRecipePageContainer.propTypes = {
@@ -59,8 +73,12 @@ export const NewRecipePage = ({
   const [manualFormIngredients, setManualFormIngredients] = useState('')
   const [manualFormSteps, setManualFormSteps] = useState('')
   const [manualFormPortions, setManualFormPortions] = useState('')
+  const [isAutoImportLoading, setIsAutoImportLoading] = useState(false)
   const classes = useStyles()
-  const onUrlFormSubmit = () => submitForm('/api/recipes/import-from-url', { url: urlFormValue })
+  const onUrlFormSubmit = () => {
+    setIsAutoImportLoading(true)
+    submitForm('/api/recipes/import-from-url', { url: urlFormValue }, () => setIsAutoImportLoading(false))
+  }
 
   const onManualUrlFormSubmit = () => {
     const manualForm = {
@@ -185,11 +203,15 @@ export const NewRecipePage = ({
             <Grid item xs={12}>
               <Button
                 variant='contained'
-                className='auto__submit-button'
+                data-auto-url-submit-button
                 color='primary'
                 href=''
-                onClick={onUrlFormSubmit}>
+                disabled={isAutoImportLoading}
+                onClick={onUrlFormSubmit}
+                style={{ position: 'relative' }}
+              >
                 Submit
+                {isAutoImportLoading && <CircularProgress data-auto-url-loading size={24} className={classes.buttonProgress} />}
               </Button>
             </Grid>
           </Grid>

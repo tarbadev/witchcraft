@@ -3,13 +3,13 @@ import { goToUrl } from './helpers.po'
 
 export const goTo = async () => {
   await goToUrl('/recipes/new')
-  await global.page.waitForSelector('.auto__submit-button')
+  await global.page.waitForSelector('[data-auto-url-submit-button]')
 }
 
 export const addFromUrl = async (url) => {
   await goTo()
   await global.page.type('.auto__url input', url)
-  await global.page.click('.auto__submit-button')
+  await global.page.click('[data-auto-url-submit-button]')
   await RecipesPage.waitForPageLoaded()
 }
 
