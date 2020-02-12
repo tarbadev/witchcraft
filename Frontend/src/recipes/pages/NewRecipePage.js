@@ -74,6 +74,7 @@ export const NewRecipePage = ({
   const [manualFormSteps, setManualFormSteps] = useState('')
   const [manualFormPortions, setManualFormPortions] = useState('')
   const [isAutoImportLoading, setIsAutoImportLoading] = useState(false)
+  const [isManualImportLoading, setIsManualImportLoading] = useState(false)
   const classes = useStyles()
   const onUrlFormSubmit = () => {
     setIsAutoImportLoading(true)
@@ -81,6 +82,7 @@ export const NewRecipePage = ({
   }
 
   const onManualUrlFormSubmit = () => {
+    setIsManualImportLoading(true)
     const manualForm = {
       name: manualFormName,
       url: manualFormUrl,
@@ -89,7 +91,7 @@ export const NewRecipePage = ({
       steps: manualFormSteps,
       portions: manualFormPortions,
     }
-    submitForm('/api/recipes/import-from-form', manualForm)
+    submitForm('/api/recipes/import-from-form', manualForm, () => setIsManualImportLoading(false))
   }
 
   const supportedDomainList = supportedDomains.map((domain) => (
@@ -175,11 +177,14 @@ export const NewRecipePage = ({
             <Grid item xs={12}>
               <Button
                 variant='contained'
-                className='manual__submit-button'
+                data-manual-url-submit-button
                 color='primary'
                 href=''
-                onClick={onManualUrlFormSubmit}>
+                onClick={onManualUrlFormSubmit}
+                disabled={isManualImportLoading}
+              >
                 Submit
+                {isManualImportLoading && <CircularProgress data-manual-url-loading size={24} className={classes.buttonProgress} />}
               </Button>
             </Grid>
           </Grid>

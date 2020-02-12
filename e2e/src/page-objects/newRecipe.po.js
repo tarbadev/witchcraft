@@ -25,7 +25,7 @@ export const addFromForm = async ({
   await global.page.type('.manual__steps textarea[name=steps]', steps)
   await global.page.type('.manual__portions input', portions)
 
-  await global.page.click('.manual__submit-button')
+  await global.page.click('[data-manual-url-submit-button]')
   await RecipesPage.waitForPageLoaded()
 }
 
