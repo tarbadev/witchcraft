@@ -76,7 +76,7 @@ const LearningIngredientDisplay = ({
             <Autocomplete
               freeSolo
               value={name}
-              options={validNames}
+              options={validNames.filter(validName => validName.includes(name))}
               renderInput={params => (
                 <TextField
                   {...params}
@@ -91,7 +91,7 @@ const LearningIngredientDisplay = ({
             <Autocomplete
               freeSolo
               value={detail}
-              options={validDetails}
+              options={validDetails.filter(validDetail => validDetail.includes(detail))}
               renderInput={params => (
                 <TextField
                   {...params}
