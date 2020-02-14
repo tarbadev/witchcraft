@@ -11,6 +11,7 @@ import { useAppContext } from 'src/app/components/StoreProvider'
 import { LEARNING } from 'src/app/components/Header'
 import { LearningIngredient } from 'src/learnings/components/LearningIngredient'
 import { getIngredientsToValidate, validateIngredient } from 'src/learnings/actions/LearningActions'
+import { useInfiniteScroll } from 'src/app/components/useInfiniteScroll'
 
 export const LearningPage = () => {
   const { dispatch, setHeaderConfig } = useAppContext()
@@ -40,8 +41,20 @@ export const LearningPage = () => {
   />
 }
 
+const MAX_ITEMS_TO_DISPLAY = 10
+
 const TabPanel = ({ title, ingredients, display, validateIngredient, validNames, validDetails, ...props }) => {
-  const ingredientLearnings = ingredients.map(ingredient => (
+  const [ingredientsToDisplay, setIngredientsToDisplay] = useState([])
+
+  const fetchMoreListItems = () => {
+    setIngredientsToDisplay(ingredients.slice(0, ingredientsToDisplay.length + MAX_ITEMS_TO_DISPLAY))
+    setIsFetching(false)
+  }
+
+  const [isFetching, setIsFetching] = useInfiniteScroll(fetchMoreListItems)
+  useEffect(() => setIngredientsToDisplay(ingredients.slice(0, MAX_ITEMS_TO_DISPLAY)), [ingredients])
+
+  const ingredientLearnings = ingredientsToDisplay.map(ingredient => (
     <LearningIngredient
       key={ingredient.id}
       ingredient={ingredient}
@@ -57,6 +70,11 @@ const TabPanel = ({ title, ingredients, display, validateIngredient, validNames,
         <Typography variant='h6'>{title}: {ingredients.length}</Typography>
       </Grid>
       {display && ingredientLearnings}
+      {isFetching &&
+      <Grid item xs={12} style={{ margin: useTheme().spacing(1) }}>
+        Loading more ingredients...
+      </Grid>
+      }
     </Grid>
   )
 }

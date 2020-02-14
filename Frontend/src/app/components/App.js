@@ -34,7 +34,7 @@ export const App = () => {
   return (
     <div>
       <Header />
-      <main className={classes.content}>
+      <main className={classes.content} id='main-container'>
         <div className={classes.appBarSpacer} />
         <Container maxWidth='xl' className={classes.container}>
           <Content />
