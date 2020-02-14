@@ -77,6 +77,7 @@ const LearningIngredientDisplay = ({
               freeSolo
               value={name}
               options={validNames.filter(validName => validName.includes(name))}
+              onChange={({ target }) => updateDetail(target.value)}
               renderInput={params => (
                 <TextField
                   {...params}
@@ -92,6 +93,7 @@ const LearningIngredientDisplay = ({
               freeSolo
               value={detail}
               options={validDetails.filter(validDetail => validDetail.includes(detail))}
+              onChange={({ target }) => updateDetail(target.value)}
               renderInput={params => (
                 <TextField
                   {...params}
