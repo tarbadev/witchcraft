@@ -10,7 +10,7 @@ import { PageTitle } from 'src/app/components/PageTitle'
 import { useAppContext } from 'src/app/components/StoreProvider'
 import { RECIPE } from 'src/app/components/Header'
 import { initialState } from 'src/app/RootReducer'
-import CircularProgress from '@material-ui/core/CircularProgress'
+import { LoadingButton } from 'src/app/components/LoadingButton'
 
 const useStyles = makeStyles({
   root: {
@@ -18,13 +18,6 @@ const useStyles = makeStyles({
   },
   paper: {
     padding: '.5em 1em !important',
-  },
-  buttonProgress: {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    marginTop: -12,
-    marginLeft: -12,
   },
 })
 
@@ -175,17 +168,14 @@ export const NewRecipePage = ({
                 type='text' />
             </Grid>
             <Grid item xs={12}>
-              <Button
-                variant='contained'
-                data-manual-url-submit-button
-                color='primary'
-                href=''
+              <LoadingButton
                 onClick={onManualUrlFormSubmit}
-                disabled={isManualImportLoading}
+                isLoading={isManualImportLoading}
+                buttonDataTag='manual-url-submit-button'
+                progressDataTag='manual-url-loading'
               >
                 Submit
-                {isManualImportLoading && <CircularProgress data-manual-url-loading size={24} className={classes.buttonProgress} />}
-              </Button>
+              </LoadingButton>
             </Grid>
           </Grid>
         </Paper>
@@ -206,18 +196,14 @@ export const NewRecipePage = ({
                 type='search' />
             </Grid>
             <Grid item xs={12}>
-              <Button
-                variant='contained'
-                data-auto-url-submit-button
-                color='primary'
-                href=''
-                disabled={isAutoImportLoading}
+              <LoadingButton
                 onClick={onUrlFormSubmit}
-                style={{ position: 'relative' }}
+                isLoading={isAutoImportLoading}
+                buttonDataTag='auto-url-submit-button'
+                progressDataTag='auto-url-loading'
               >
                 Submit
-                {isAutoImportLoading && <CircularProgress data-auto-url-loading size={24} className={classes.buttonProgress} />}
-              </Button>
+              </LoadingButton>
             </Grid>
           </Grid>
         </Paper>
@@ -230,8 +216,6 @@ export const NewRecipePage = ({
 }
 
 NewRecipePage.propTypes = {
-  classes: PropTypes.object,
   submitForm: PropTypes.func,
-  history: PropTypes.object,
   supportedDomains: PropTypes.array,
 }

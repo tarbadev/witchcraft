@@ -13,7 +13,7 @@ describe('NewRecipePageContainer', () => {
       const newRecipe = mount(<NewRecipePageContainer />)
 
       newRecipe.find('.auto__url input').simulate('change', { target: { value: url } })
-      newRecipe.find('[data-auto-url-submit-button] button').simulate('click', {})
+      newRecipe.find('[data-tag="auto-url-submit-button"] button').simulate('click', {})
 
       expect(context.dispatch)
         .toHaveBeenCalledWith(NewRecipeActions.submitForm('/api/recipes/import-from-url',
@@ -26,12 +26,12 @@ describe('NewRecipePageContainer', () => {
       const url = 'fakeUrl'
       const newRecipe = mount(<NewRecipePageContainer />)
 
-      expect(newRecipe.find('[data-auto-url-loading]')).toHaveLength(0)
+      expect(newRecipe.find('[data-tag="auto-url-loading"]')).toHaveLength(0)
 
       newRecipe.find('.auto__url input').simulate('change', { target: { value: url } })
-      newRecipe.find('[data-auto-url-submit-button] button').simulate('click', {})
+      newRecipe.find('[data-tag="auto-url-submit-button"] button').simulate('click', {})
 
-      expect(newRecipe.find('[data-auto-url-loading]').length).toBeGreaterThanOrEqual(1)
+      expect(newRecipe.find('[data-tag="auto-url-loading"]').length).toBeGreaterThanOrEqual(1)
     })
 
     it('hides a circular progress when form is submitted and pushes to recipes page', () => {
@@ -43,9 +43,9 @@ describe('NewRecipePageContainer', () => {
         .spyOn(NewRecipeActions, 'submitForm')
         .mockImplementation((url, form, onSuccess) => onSuccess())
 
-      newRecipe.find('[data-auto-url-submit-button] button').simulate('click', {})
+      newRecipe.find('[data-tag="auto-url-submit-button"] button').simulate('click', {})
 
-      expect(newRecipe.find('[data-auto-url-loading]')).toHaveLength(0)
+      expect(newRecipe.find('[data-tag="auto-url-loading"]')).toHaveLength(0)
       expect(pushSpy).toHaveBeenCalledWith('/recipes')
     })
   })
@@ -71,7 +71,7 @@ describe('NewRecipePageContainer', () => {
       newRecipe.find('.manual__steps textarea[name="steps"]')
         .simulate('change', { target: { value: manualForm.steps } })
       newRecipe.find('.manual__portions input').simulate('change', { target: { value: manualForm.portions } })
-      newRecipe.find('[data-manual-url-submit-button] button').simulate('click', {})
+      newRecipe.find('[data-tag="manual-url-submit-button"] button').simulate('click', {})
 
       expect(context.dispatch)
         .toHaveBeenCalledWith(NewRecipeActions.submitForm('/api/recipes/import-from-form',
@@ -85,9 +85,9 @@ describe('NewRecipePageContainer', () => {
 
       expect(newRecipe.find('[data-manual-url-loading]')).toHaveLength(0)
 
-      newRecipe.find('[data-manual-url-submit-button] button').simulate('click', {})
+      newRecipe.find('[data-tag="manual-url-submit-button"] button').simulate('click', {})
 
-      expect(newRecipe.find('[data-manual-url-loading]').length).toBeGreaterThanOrEqual(1)
+      expect(newRecipe.find('[data-tag="manual-url-loading"]').length).toBeGreaterThanOrEqual(1)
     })
 
     it('hides a circular progress when form is submitted and pushes to recipes page', () => {
@@ -99,7 +99,7 @@ describe('NewRecipePageContainer', () => {
         .spyOn(NewRecipeActions, 'submitForm')
         .mockImplementation((url, form, onSuccess) => onSuccess())
 
-      newRecipe.find('[data-manual-url-submit-button] button').simulate('click', {})
+      newRecipe.find('[data-tag="manual-url-submit-button"] button').simulate('click', {})
 
       expect(newRecipe.find('[data-manual-url-loading]')).toHaveLength(0)
       expect(pushSpy).toHaveBeenCalledWith('/recipes')
