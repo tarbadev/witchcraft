@@ -7,12 +7,11 @@ import { RecipeList } from 'src/recipes/components/RecipeList'
 import { MultipleDayPane } from 'src/weeks/components/MultipleDayPane'
 import { PageTitle } from './PageTitle'
 import { getFavoriteRecipes, getLatestRecipes } from '../../recipes/actions/RecipesActions'
-import { getCurrentWeek, getWeek } from '../../weeks/actions/WeekActions'
+import { getCurrentWeek, getWeek, getCurrentDayIndex } from '../../weeks/actions/WeekActions'
 import { useAppContext } from './StoreProvider'
 import { DASHBOARD } from './Header'
 import { initialState } from 'src/app/RootReducer'
 import { useMediaQuery, useTheme } from '@material-ui/core'
-import { getCurrentDayIndex } from 'src/weeks/actions/WeekActions'
 
 export const DashboardPageContainer = () => {
   const theme = useTheme()

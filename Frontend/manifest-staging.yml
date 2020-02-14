@@ -2,7 +2,7 @@ applications:
 - name: witchcraft-frontend-staging
   path: build/dist
   buildpacks:
-  - nodejs_buildpack
+  - https://github.com/cloudfoundry/nodejs-buildpack
   instances: 1
   memory: 64M
   stack: cflinuxfs3

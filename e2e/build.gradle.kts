@@ -15,7 +15,7 @@ version = "0.0.1-SNAPSHOT"
 node {
   download = true
   version = "13.8.0"
-  npmVersion = "6.13.1"
+  npmVersion = "6.13.6"
 }
 
 tasks {

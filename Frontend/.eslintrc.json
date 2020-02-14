@@ -29,6 +29,7 @@
         "quotes": ["error", "single"],
         "semi": ["error", "never"],
         "import/no-unresolved": [2, {"commonjs": true, "amd": true}],
+        "import/no-duplicates": ["error", {"considerQueryString": true}],
         "react/jsx-tag-spacing": ["error", {
             "beforeSelfClosing": "always"
         }]
