@@ -20,7 +20,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
-import org.springframework.http.MediaType.APPLICATION_JSON_UTF8
+import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
@@ -53,7 +53,7 @@ class CartsRestControllerTest(
 
     mockMvc.perform(get("/api/carts/${cart.id}"))
         .andExpect(MockMvcResultMatchers.status().isOk)
-        .andExpect(MockMvcResultMatchers.header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE))
+        .andExpect(MockMvcResultMatchers.header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE))
         .andExpect(MockMvcResultMatchers.content().json(jacksonObjectMapper().writeValueAsString(CartResponse.fromCart(cart))))
   }
 
@@ -69,7 +69,7 @@ class CartsRestControllerTest(
 
     mockMvc.perform(get("/api/carts"))
         .andExpect(MockMvcResultMatchers.status().isOk)
-        .andExpect(MockMvcResultMatchers.header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE))
+        .andExpect(MockMvcResultMatchers.header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE))
         .andExpect(MockMvcResultMatchers.content().json(jacksonObjectMapper().writeValueAsString(carts.map { CartResponse.fromCart(it) })))
   }
 
@@ -95,11 +95,11 @@ class CartsRestControllerTest(
     whenever(createCartUseCase.execute(any())).thenReturn(cart)
 
     mockMvc.perform(post("/api/carts")
-        .contentType(APPLICATION_JSON_UTF8)
+        .contentType(APPLICATION_JSON_VALUE)
         .content(jacksonObjectMapper().writeValueAsString(createCartRequests))
     )
         .andExpect(status().isCreated)
-        .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE))
+        .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE))
         .andExpect(content().json(jacksonObjectMapper().writeValueAsString(CartResponse.fromCart(cart))))
 
     verify(recipeCatalogUseCase).execute()
@@ -127,7 +127,7 @@ class CartsRestControllerTest(
     whenever(createCartUseCase.execute(any())).thenReturn(cart)
 
     mockMvc.perform(post("/api/carts")
-        .contentType(APPLICATION_JSON_UTF8)
+        .contentType(APPLICATION_JSON_VALUE)
         .content(jacksonObjectMapper().writeValueAsString(createCartRequests))
     )
         .andExpect(status().isBadRequest)
@@ -150,11 +150,11 @@ class CartsRestControllerTest(
     whenever(toggleItemUseCase.execute(2, 43, true)).thenReturn(item)
 
     mockMvc.perform(put("/api/carts/2/items/43")
-        .contentType(APPLICATION_JSON_UTF8)
+        .contentType(APPLICATION_JSON_VALUE)
         .content("{ \"enabled\": true}")
     )
         .andExpect(status().isOk)
-        .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE))
+        .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE))
         .andExpect(content().json(jacksonObjectMapper().writeValueAsString(itemResponse)))
   }
 

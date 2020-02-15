@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 buildscript {
   extra.apply {
-    set("springBootVersion", "2.1.5.RELEASE")
+    set("springBootVersion", "2.2.4.RELEASE")
     set("kotlinVersion", "1.3.20")
     set("junitJupiterVersion", "5.6.0")
   }
@@ -14,7 +14,7 @@ buildscript {
 plugins {
   kotlin("jvm") version "1.3.20"
   id("org.jetbrains.kotlin.plugin.spring") version "1.3.20"
-  id("org.springframework.boot") version "2.1.5.RELEASE"
+  id("org.springframework.boot") version "2.2.4.RELEASE"
   id("io.spring.dependency-management") version "1.0.6.RELEASE"
 }
 
@@ -57,13 +57,10 @@ dependencies {
 
 
   testCompile("org.springframework.boot:spring-boot-starter-test:${extra["springBootVersion"]}") {
-    exclude("junit")
+    exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     exclude("org.hamcrest")
   }
-  testImplementation("org.junit.jupiter:junit-jupiter:${extra["junitJupiterVersion"]}")
   testCompile("com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0")
-  testCompile("org.mockito:mockito-junit-jupiter:2.23.4")
-  testCompile("org.mockito:mockito-core:2.23.4")
   testCompile("org.apache.httpcomponents:httpclient:4.5.6")
 }
 

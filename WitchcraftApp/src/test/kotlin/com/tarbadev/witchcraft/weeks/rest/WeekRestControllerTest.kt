@@ -51,7 +51,7 @@ class WeekRestControllerTest(
 
     mockMvc.perform(get("/api/weeks/2018/33"))
         .andExpect(status().isOk)
-        .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE))
+        .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE))
         .andExpect(content().json(objectMapper.writeValueAsString(WeekResponse.fromWeek(week))))
   }
 
@@ -74,11 +74,11 @@ class WeekRestControllerTest(
     whenever(saveWeekUseCase.execute(any())).thenReturn(week)
 
     mockMvc.perform(post("/api/weeks/2018/33")
-        .contentType(MediaType.APPLICATION_JSON_UTF8)
+        .contentType(MediaType.APPLICATION_JSON_VALUE)
         .content(objectMapper.writeValueAsString(weekRequest))
     )
         .andExpect(status().isOk)
-        .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE))
+        .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE))
         .andExpect(content().json(objectMapper.writeValueAsString(WeekResponse.fromWeek(week))))
 
     verify(saveWeekUseCase).execute(week)
@@ -92,7 +92,7 @@ class WeekRestControllerTest(
     )
 
     mockMvc.perform(post("/api/weeks/2018/33")
-        .contentType(MediaType.APPLICATION_JSON_UTF8)
+        .contentType(MediaType.APPLICATION_JSON_VALUE)
         .content(objectMapper.writeValueAsString(week))
     )
         .andExpect(status().isBadRequest)

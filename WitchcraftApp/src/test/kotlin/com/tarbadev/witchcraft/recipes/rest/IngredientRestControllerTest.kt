@@ -48,7 +48,7 @@ class IngredientRestControllerTest(
     whenever(saveIngredientUseCase.execute(any())).thenReturn(ingredient)
 
     mockMvc.perform(MockMvcRequestBuilders.put("/api/recipes/23/ingredients/${ingredientModifyRequest.id}")
-        .contentType(MediaType.APPLICATION_JSON_UTF8)
+        .contentType(MediaType.APPLICATION_JSON_VALUE)
         .content(jacksonObjectMapper().writeValueAsString(ingredientModifyRequest))
         )
         .andExpect(MockMvcResultMatchers.status().isOk)
@@ -59,7 +59,7 @@ class IngredientRestControllerTest(
   @Test
   fun delete() {
     mockMvc.perform(MockMvcRequestBuilders.delete("/api/recipes/23/ingredients/12")
-        .contentType(MediaType.APPLICATION_JSON_UTF8)
+        .contentType(MediaType.APPLICATION_JSON_VALUE)
     )
         .andExpect(MockMvcResultMatchers.status().isNoContent)
 

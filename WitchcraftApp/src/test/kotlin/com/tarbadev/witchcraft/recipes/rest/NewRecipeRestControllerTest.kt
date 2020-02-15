@@ -46,11 +46,11 @@ class NewRecipeRestControllerTest(
     whenever(saveRecipeUseCase.execute(recipe)).thenReturn(recipe)
 
     mockMvc.perform(post("/api/recipes/import-from-url")
-        .contentType(MediaType.APPLICATION_JSON_UTF8)
+        .contentType(MediaType.APPLICATION_JSON_VALUE)
         .content(jacksonObjectMapper().writeValueAsString(recipeFormRequest))
     )
         .andExpect(status().isOk)
-        .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE))
+        .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE))
         .andExpect(content().json(jacksonObjectMapper().writeValueAsString(RecipeResponse.fromRecipe(recipe))))
 
     verify(getRecipeDetailsFromUrlUseCase).execute(recipe.originUrl)
@@ -93,11 +93,11 @@ class NewRecipeRestControllerTest(
     whenever(saveRecipeUseCase.execute(recipe)).thenReturn(recipe)
 
     mockMvc.perform(post("/api/recipes/import-from-form")
-        .contentType(MediaType.APPLICATION_JSON_UTF8)
+        .contentType(MediaType.APPLICATION_JSON_VALUE)
         .content(jacksonObjectMapper().writeValueAsString(recipeFormRequest))
     )
         .andExpect(status().isOk)
-        .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE))
+        .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE))
         .andExpect(content().json(jacksonObjectMapper().writeValueAsString(RecipeResponse.fromRecipe(recipe))))
   }
 
@@ -116,7 +116,7 @@ class NewRecipeRestControllerTest(
 
     mockMvc.perform(get("/api/recipes/import-from-url/supported"))
         .andExpect(status().isOk)
-        .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE))
+        .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE))
         .andExpect(content().json(jacksonObjectMapper().writeValueAsString(supportedDomainsResponse)))
   }
 
@@ -128,11 +128,11 @@ class NewRecipeRestControllerTest(
     whenever(addExpressRecipeUseCase.execute(expressRecipeRequest.toRecipe())).thenReturn(recipe)
 
     mockMvc.perform(post("/api/recipes/express")
-        .contentType(MediaType.APPLICATION_JSON_UTF8)
+        .contentType(MediaType.APPLICATION_JSON_VALUE)
         .content(jacksonObjectMapper().writeValueAsString(expressRecipeRequest))
     )
         .andExpect(status().isOk)
-        .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE))
+        .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE))
         .andExpect(content().json(jacksonObjectMapper().writeValueAsString(RecipeResponse.fromRecipe(recipe))))
   }
 }

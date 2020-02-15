@@ -71,7 +71,7 @@ class RecipesRestControllerTest(
 
     mockMvc.perform(get("/api/recipes"))
         .andExpect(status().isOk)
-        .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE))
+        .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE))
         .andExpect(content().json(jacksonObjectMapper().writeValueAsString(RecipeListResponse.fromRecipeList(recipes))))
   }
 
@@ -86,7 +86,7 @@ class RecipesRestControllerTest(
 
     mockMvc.perform(get("/api/recipes/${recipe.id}"))
         .andExpect(status().isOk)
-        .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE))
+        .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE))
         .andExpect(content().json(jacksonObjectMapper().writeValueAsString(RecipeResponse.fromRecipe(recipe))))
   }
 
@@ -99,11 +99,11 @@ class RecipesRestControllerTest(
     whenever(setFavoriteRecipeUseCase.execute(id, favorite)).thenReturn(recipe)
 
     mockMvc.perform(patch("/api/recipes/${recipe.id}")
-        .contentType(MediaType.APPLICATION_JSON_UTF8)
+        .contentType(MediaType.APPLICATION_JSON_VALUE)
         .content(jacksonObjectMapper().writeValueAsString(SetFavoriteRequest(favorite)))
     )
         .andExpect(status().isOk)
-        .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE))
+        .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE))
         .andExpect(content().json(jacksonObjectMapper().writeValueAsString(RecipeResponse.fromRecipe(recipe))))
   }
 
@@ -170,7 +170,7 @@ class RecipesRestControllerTest(
     whenever(saveRecipeUseCase.execute(recipe)).thenReturn(recipe)
 
     mockMvc.perform(put("/api/recipes/${recipeModifyRequest.id}/update")
-        .contentType(MediaType.APPLICATION_JSON_UTF8)
+        .contentType(MediaType.APPLICATION_JSON_VALUE)
         .content(jacksonObjectMapper().writeValueAsString(recipeModifyRequest))
     )
         .andExpect(status().isOk)
@@ -196,7 +196,7 @@ class RecipesRestControllerTest(
 
     mockMvc.perform(get("/api/recipes/favorites"))
         .andExpect(status().isOk)
-        .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE))
+        .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE))
         .andExpect(content().json(jacksonObjectMapper().writeValueAsString(recipesResponse)))
   }
 
@@ -218,7 +218,7 @@ class RecipesRestControllerTest(
 
     mockMvc.perform(get("/api/recipes/latest"))
         .andExpect(status().isOk)
-        .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE))
+        .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE))
         .andExpect(content().json(jacksonObjectMapper().writeValueAsString(recipesResponse)))
   }
 

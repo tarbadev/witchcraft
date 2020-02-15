@@ -66,7 +66,7 @@ class LearningRestControllerTest(@Autowired private val mockMvc: MockMvc) {
     )
 
     mockMvc.perform(patch("/api/learning/21")
-        .contentType(MediaType.APPLICATION_JSON_UTF8)
+        .contentType(MediaType.APPLICATION_JSON_VALUE)
         .content(jacksonObjectMapper().writeValueAsString(learningIngredientRequest))
     )
         .andExpect(status().isNoContent)

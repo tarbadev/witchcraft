@@ -40,7 +40,7 @@ class RecipeNotesRestControllerTest(
 
     mockMvc.perform(get("/api/recipes/15/notes"))
         .andExpect(status().isOk)
-        .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE))
+        .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE))
         .andExpect(content().json(jacksonObjectMapper().writeValueAsString(notesResponse)))
   }
 
@@ -61,11 +61,11 @@ class RecipeNotesRestControllerTest(
     whenever(editRecipeNotesUseCase.execute(notes)).thenReturn(notes)
 
     mockMvc.perform(post("/api/recipes/15/notes")
-        .contentType(MediaType.APPLICATION_JSON_UTF8)
+        .contentType(MediaType.APPLICATION_JSON_VALUE)
         .content(jacksonObjectMapper().writeValueAsString(notesRequest))
     )
         .andExpect(status().isOk)
-        .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE))
+        .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE))
         .andExpect(content().json(jacksonObjectMapper().writeValueAsString(notesResponse)))
   }
 }
