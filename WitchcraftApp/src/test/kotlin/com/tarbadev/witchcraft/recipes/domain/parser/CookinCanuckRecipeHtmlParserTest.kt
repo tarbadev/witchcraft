@@ -10,6 +10,7 @@ import com.tarbadev.witchcraft.recipes.domain.entity.Ingredient
 import com.tarbadev.witchcraft.recipes.domain.entity.Step
 import com.tarbadev.witchcraft.recipes.domain.usecase.ConvertAndAddSameIngredientUseCase
 import com.tarbadev.witchcraft.recipes.domain.usecase.IngredientFromStringUseCase
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -123,6 +124,13 @@ class CookinCanuckRecipeHtmlParserTest {
     )
 
     assertEquals(steps, steps1)
+  }
+
+  @Test
+  fun parse_whenImgUrlIsInLink() {
+    val imgUrl = subject.parse("https://www.cookincanuck.com/blt-naan-pizza-recipe-bacon-arugula-tomato/#wprm-recipe-container-43807").imgUrl
+
+    assertThat(imgUrl).isEqualTo("http://farm4.staticflickr.com/3829/8794024290_2262948d06_c.jpg")
   }
 
   private fun mockParsingOfIngredients() {

@@ -28,7 +28,7 @@ abstract class RecipeHtmlParser(
   fun parse(originUrl: String): Recipe {
     val html = getRecipeHtml(originUrl)
     val name = getTextFromSelector(html, recipeNameSelector)
-    val imgUrl = getAttributeValueFromSelector(html, imgUrlSelector, imgUrlAttribute)
+    val imgUrl = getImgUrl(html, imgUrlSelector, imgUrlAttribute)
     val ingredients = getIngredientsFromHtml(html)
     val steps = getStepsFromHtml(html)
     val portions = getPortionsFromHtml(html)
@@ -56,16 +56,16 @@ abstract class RecipeHtmlParser(
     return convertAndAddSameIngredientUseCase.execute(ingredients)
   }
 
+  protected open fun getImgUrl(html: Document, selector: String, attribute: String): String {
+    return html.select(selector).attr(attribute)
+  }
+
   protected open fun getPortionsFromHtml(html: Document): Int {
     return getTextFromSelector(html, portionsSelector).toInt()
   }
 
   private fun getTextFromSelector(html: Document, selector: String): String {
     return html.select(selector)[0].text()
-  }
-
-  private fun getAttributeValueFromSelector(html: Document, selector: String, attribute: String): String {
-    return html.select(selector).attr(attribute)
   }
 
   private fun getRecipeHtml(recipeUrl: String): Document {
