@@ -24,12 +24,17 @@ export const clickOnDeleteButton = async () => {
   await global.page.click('[data-delete-button]')
 }
 
+export const startCooking = async () => {
+  await global.page.click('[data-open-menu]')
+  await global.page.click('[data-start-cooking-button]')
+}
+
 export const waitForPageLoaded = async () => {
   await global.page.waitForSelector('[data-recipe-title]')
 }
 
 export const waitForFavoriteState = async () => {
-  await global.page.waitForSelector('[data-recipe-favorited]')
+    await global.page.waitForSelector('[data-recipe-favorited]')
 }
 
 export const getIngredients = async () => {

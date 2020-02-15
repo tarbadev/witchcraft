@@ -13,7 +13,7 @@ const useStyles = makeStyles({
   },
 })
 
-export const IngredientContainer = ({ ingredients, onIngredientDeletion }) => {
+export const IngredientContainer = ({ ingredients, onIngredientDeletion, editable = true }) => {
   const classes = useStyles()
 
   const ingredientComponents = ingredients.map((ingredient, index) =>
@@ -23,6 +23,7 @@ export const IngredientContainer = ({ ingredients, onIngredientDeletion }) => {
       index={index}
       lastItem={index === ingredients.length - 1}
       deleteCallback={onIngredientDeletion}
+      editable={editable}
     />,
   )
 
@@ -34,4 +35,5 @@ export const IngredientContainer = ({ ingredients, onIngredientDeletion }) => {
 IngredientContainer.propTypes = {
   ingredients: PropTypes.array,
   onIngredientDeletion: PropTypes.func,
+  editable: PropTypes.bool,
 }

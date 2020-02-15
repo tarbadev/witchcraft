@@ -1,4 +1,5 @@
 import * as RecipePage from '../page-objects/recipe.po'
+import * as StartCooking from '../page-objects/startCooking.po'
 import * as RecipesPage from '../page-objects/recipes.po'
 import * as EditRecipePage from '../page-objects/editRecipe.po'
 
@@ -176,6 +177,37 @@ describe('Recipe', () => {
 
       expect(await RecipePage.getPortions()).toEqual('8')
     })
+  })
+
+  describe('on start cooking click', () => {
+    it('displays the title, first step and all ingredients', async () => {
+      const expectedIngredients = [
+        { name: 'Agave nectar (or honey)', quantity: '3 tsp' },
+        { name: 'Chili garlic sauce', quantity: '1 tsp' },
+        { name: 'Cooked, shredded chicken breast', quantity: '2 cup' },
+        { name: 'Fish sauce', quantity: '2 tsp' },
+        { name: 'Green onion, thinly sliced', quantity: '3 unit' },
+        { name: 'Lime, juiced', quantity: '1 unit' },
+        { name: 'Low-sodium soy sauce', quantity: '2 tbsp' },
+        { name: 'Medium carrots, grated (about 1 cup)', quantity: '2 unit' },
+        { name: 'Minced cilantro', quantity: '0.25 cup' },
+        { name: 'Napa cabbage, thinly sliced (about 4 cups)', quantity: '0.5 unit' },
+        { name: 'Natural peanut butter', quantity: '3 tbsp' },
+        { name: 'Rice vinegar', quantity: '2 tsp' },
+        { name: 'Slivered almonds, toasted', quantity: '3 tbsp' },
+        { name: 'Small red cabbage, thinly sliced (about 2 cups)', quantity: '0.25 unit' },
+      ]
+      await RecipePage.goTo(3, 'Thai Chicken Salad')
+      await RecipePage.startCooking()
+      await StartCooking.waitForComponentLoaded()
+
+      expect(await StartCooking.getTitle()).toEqual('thai chicken salad')
+      expect(await StartCooking.getIngredients()).toEqual(expectedIngredients)
+      expect(await StartCooking.getStep())
+        .toEqual(
+          'In a large bowl, combine the Napa cabbage, red cabbage, carrot, green onion, cilantro and chicken breast. Toss with the dressing. Garnish with the toasted almonds. Serve.',
+        )
+    }, 10000)
   })
 
   describe('Notes', () => {

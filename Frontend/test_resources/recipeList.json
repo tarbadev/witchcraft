@@ -41,7 +41,8 @@
       "steps": [
         {
           "id": 76,
-          "name": "Preheat oven to 400 degrees.\r"
+          "name": "Preheat oven to 400 degrees.\r",
+          "note": "Middle rack"
         },
         {
           "id": 77,

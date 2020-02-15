@@ -13,7 +13,7 @@ import DialogActions from '@material-ui/core/DialogActions'
 import { deleteIngredient, updateIngredient } from 'src/recipes/actions/RecipeActions'
 import { useAppContext } from 'src/app/components/StoreProvider'
 
-export const Ingredient = ({ ingredient, lastItem, recipeId, deleteCallback, index }) => {
+export const Ingredient = ({ ingredient, lastItem, recipeId, deleteCallback, index, editable = true }) => {
   const { dispatch } = useAppContext()
   const [isEditable, setEditable] = useState(false)
   const [currentIngredient, setCurrentIngredient] = useState(ingredient)
@@ -44,7 +44,7 @@ export const Ingredient = ({ ingredient, lastItem, recipeId, deleteCallback, ind
     className={`ingredient_${index}`}
     lastItem={lastItem}
     editable={isEditable}
-    showEditableMode={() => setEditable(true)}
+    showEditableMode={() => editable && setEditable(true)}
     hideEditableMode={() => setEditable(false)}
     editedIngredientName={editedIngredientName}
     onIngredientNameChange={(newName) => setEditedIngredientName(newName)}
@@ -82,6 +82,7 @@ Ingredient.propTypes = {
   recipeId: PropTypes.number,
   deleteCallback: PropTypes.func,
   index: PropTypes.number,
+  editable: PropTypes.bool,
 }
 
 const useStyles = makeStyles({

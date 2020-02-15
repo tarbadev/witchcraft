@@ -69,67 +69,6 @@ describe('RecipePage', () => {
     expect(pushSpy).toHaveBeenCalledWith(`/recipes/${promisedRecipe.id}/edit`)
   })
 
-  describe('delete', () => {
-    let recipePageContainer
-    let fullPageContainer
-    let pushSpy
-    let context
-
-    const id = promisedRecipe.id
-
-    beforeEach(() => {
-      pushSpy = jest.fn()
-      context = mockAppContext()
-
-      jest
-        .spyOn(RecipeActions, 'getRecipe')
-        .mockImplementation((id, onSuccess) => onSuccess(promisedRecipe))
-
-      recipePageContainer = mount(<RecipePage match={{ params: { id } }} history={{ push: pushSpy }} />)
-
-      const headerConfig = context.setHeaderConfig.mock.calls[0][0]
-      context = mockAppContext({ headerConfig })
-
-      fullPageContainer = mount(<BrowserRouter>
-        <Header />
-        <RecipePage match={{ params: { id } }} history={{ push: pushSpy }} />
-      </BrowserRouter>)
-
-    })
-
-    it('displays confirmation dialog when delete button is clicked', () => {
-      expect(recipePageContainer.find('[data-confirm-delete-title]')).toHaveLength(0)
-
-      fullPageContainer.find('[data-delete-button]').at(0).simulate('click')
-      recipePageContainer.update()
-
-      expect(recipePageContainer.find('[data-confirm-delete-title]')).toHaveLength(3)
-    })
-
-    it('dispatches deleteRecipe when confirm Delete button clicked', () => {
-      fullPageContainer.find('[data-delete-button]').at(0).simulate('click')
-      recipePageContainer.update()
-
-      recipePageContainer.find('[data-confirm-delete-button] button').simulate('click')
-
-      expect(context.dispatch)
-        .toHaveBeenLastCalledWith(RecipeActions.deleteRecipe(id, expect.any(Function), expect.any(Function)))
-    })
-
-    it('redirects to recipes page when delete succeeds', () => {
-      jest
-        .spyOn(RecipeActions, 'deleteRecipe')
-        .mockImplementation((id, onSuccess) => onSuccess())
-
-      fullPageContainer.find('[data-delete-button]').at(0).simulate('click')
-      recipePageContainer.update()
-
-      recipePageContainer.find('[data-confirm-delete-button] button').simulate('click')
-
-      expect(pushSpy).toHaveBeenLastCalledWith('/recipes')
-    })
-  })
-
   describe('Notes', () => {
     it('loads the notes when mounting the object', () => {
       const context = mockAppContext()
@@ -289,56 +228,6 @@ describe('RecipePage', () => {
     })
   })
 
-  describe('Converter', () => {
-    let recipePageContainer
-    let fullPageContainer
-    let pushSpy
-    let context
-
-    const id = promisedRecipe.id
-
-    beforeEach(() => {
-      pushSpy = jest.fn()
-      context = mockAppContext()
-
-      jest
-        .spyOn(RecipeActions, 'getRecipe')
-        .mockImplementation((id, onSuccess) => onSuccess(promisedRecipe))
-
-      recipePageContainer = mount(<RecipePage match={{ params: { id } }} history={{ push: pushSpy }} />)
-
-      const headerConfig = context.setHeaderConfig.mock.calls[0][0]
-      context = mockAppContext({ headerConfig })
-
-      fullPageContainer = mount(<BrowserRouter>
-        <Header />
-        <RecipePage match={{ params: { id } }} history={{ push: pushSpy }} />
-      </BrowserRouter>)
-    })
-
-    describe('on Converter click', () => {
-      it('displays the Converter', () => {
-        expect(recipePageContainer.find('[data-converter-container]').at(0).prop('open')).toBeFalsy()
-
-        fullPageContainer.find('[data-open-converter]').at(0).simulate('click')
-        recipePageContainer.update()
-
-        expect(recipePageContainer.find('[data-converter-container]').at(0).prop('open')).toBeTruthy()
-      })
-    })
-
-    describe('on Close button click', () => {
-      it('closes the Converter', () => {
-        fullPageContainer.find('[data-open-converter]').at(0).simulate('click')
-        recipePageContainer.update()
-        expect(recipePageContainer.find('[data-converter-container]').at(0).prop('open')).toBeTruthy()
-
-        recipePageContainer.find('[data-close-converter]').at(0).simulate('click')
-        expect(recipePageContainer.find('[data-converter-container]').at(0).prop('open')).toBeFalsy()
-      })
-    })
-  })
-
   describe('On portions update', () => {
     it('updates the portions value', () => {
       mockAppContext()
@@ -405,6 +294,104 @@ describe('RecipePage', () => {
       recipePageContainer.find('[data-portions-button-down]').at(0).simulate('click')
       expect(recipePageContainer.find('[data-portions-value]').text()).toEqual(`${Number(promisedRecipe.portions) - 1}`)
       expect(recipePageContainer.find('.ingredient_0 [data-quantity]').text()).toEqual('0.5 cup')
+    })
+  })
+
+  describe('with Header', () => {
+    let recipePageContainer
+    let fullPageContainer
+    let pushSpy
+    let context
+
+    const id = promisedRecipe.id
+
+    beforeEach(() => {
+      pushSpy = jest.fn()
+      context = mockAppContext()
+
+      jest
+        .spyOn(RecipeActions, 'getRecipe')
+        .mockImplementation((id, onSuccess) => onSuccess(promisedRecipe))
+
+      recipePageContainer = mount(<RecipePage match={{ params: { id } }} history={{ push: pushSpy }} />)
+
+      const headerConfig = context.setHeaderConfig.mock.calls[0][0]
+      context = mockAppContext({ headerConfig })
+
+      fullPageContainer = mount(<BrowserRouter>
+        <Header />
+        <RecipePage match={{ params: { id } }} history={{ push: pushSpy }} />
+      </BrowserRouter>)
+
+    })
+
+    describe('delete', () => {
+      it('displays confirmation dialog when delete button is clicked', () => {
+        expect(recipePageContainer.find('[data-confirm-delete-title]')).toHaveLength(0)
+
+        fullPageContainer.find('[data-delete-button]').at(0).simulate('click')
+        recipePageContainer.update()
+
+        expect(recipePageContainer.find('[data-confirm-delete-title]')).toHaveLength(3)
+      })
+
+      it('dispatches deleteRecipe when confirm Delete button clicked', () => {
+        fullPageContainer.find('[data-delete-button]').at(0).simulate('click')
+        recipePageContainer.update()
+
+        recipePageContainer.find('[data-confirm-delete-button] button').simulate('click')
+
+        expect(context.dispatch)
+          .toHaveBeenLastCalledWith(RecipeActions.deleteRecipe(id, expect.any(Function), expect.any(Function)))
+      })
+
+      it('redirects to recipes page when delete succeeds', () => {
+        jest
+          .spyOn(RecipeActions, 'deleteRecipe')
+          .mockImplementation((id, onSuccess) => onSuccess())
+
+        fullPageContainer.find('[data-delete-button]').at(0).simulate('click')
+        recipePageContainer.update()
+
+        recipePageContainer.find('[data-confirm-delete-button] button').simulate('click')
+
+        expect(pushSpy).toHaveBeenLastCalledWith('/recipes')
+      })
+    })
+
+    describe('Converter', () => {
+      describe('on Converter click', () => {
+        it('displays the Converter', () => {
+          expect(recipePageContainer.find('[data-converter-container]').at(0).prop('open')).toBeFalsy()
+
+          fullPageContainer.find('[data-open-converter]').at(0).simulate('click')
+          recipePageContainer.update()
+
+          expect(recipePageContainer.find('[data-converter-container]').at(0).prop('open')).toBeTruthy()
+        })
+      })
+
+      describe('on Close button click', () => {
+        it('closes the Converter', () => {
+          fullPageContainer.find('[data-open-converter]').at(0).simulate('click')
+          recipePageContainer.update()
+          expect(recipePageContainer.find('[data-converter-container]').at(0).prop('open')).toBeTruthy()
+
+          recipePageContainer.find('[data-close-converter]').at(0).simulate('click')
+          expect(recipePageContainer.find('[data-converter-container]').at(0).prop('open')).toBeFalsy()
+        })
+      })
+    })
+
+    describe('Start Cooking', () => {
+      it('displays the start cooking dialog', () => {
+        expect(recipePageContainer.find('[data-start-cooking-title]')).toHaveLength(0)
+
+        fullPageContainer.find('[data-start-cooking-button]').at(0).simulate('click')
+        recipePageContainer.update()
+
+        expect(recipePageContainer.find('[data-start-cooking-title]').at(0).text()).toEqual(promisedRecipe.name)
+      })
     })
   })
 })

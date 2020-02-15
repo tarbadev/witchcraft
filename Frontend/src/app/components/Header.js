@@ -132,7 +132,9 @@ const HeaderDisplay = ({
             <MenuIcon />
           </IconButton>
           <Breadcrumbs aria-label="breadcrumb" style={{ flexGrow: 1, color: 'white' }}>
-            {breadcrumbLink && <Link style={{ color: 'inherit' }} component={RouterLink} to={breadcrumbLink.url}>{breadcrumbLink.label}</Link>}
+            {breadcrumbLink &&
+            <Link style={{ color: 'inherit' }} component={RouterLink} to={breadcrumbLink.url}>{breadcrumbLink.label}</Link>
+            }
             <Typography>{title}</Typography>
           </Breadcrumbs>
           <IconButton
