@@ -2,8 +2,10 @@ import { fillInput, getTextByCssSelector, goToUrl, waitForTextByCss, waitForText
 
 export const goTo = async (id, title) => {
   await goToUrl(`/recipes/${id}`)
-  await waitForTextByCss('[data-recipe-title]', title)
+  await waitForTitleDisplayed(title)
 }
+
+export const waitForTitleDisplayed = async title => await waitForTextByCss('[data-recipe-title]', title)
 
 export const isFavorite = async () => {
   const favoriteButton = await global.page.$('[data-recipe-favorited]')

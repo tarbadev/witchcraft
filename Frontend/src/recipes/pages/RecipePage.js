@@ -174,6 +174,7 @@ export const RecipePage = ({ match, history }) => {
     displayExpandPanelButton={!isSmallAndUp}
     capitalizedRecipeName={capitalizedRecipeName}
     isStartCookingOpen={isStartCookingOpen}
+    closeStartCooking={() => setStartCookingOpen(false)}
   />
 }
 
@@ -224,6 +225,7 @@ const RecipePageDisplay = ({
   displayExpandPanelButton,
   capitalizedRecipeName,
   isStartCookingOpen,
+  closeStartCooking,
 }) => {
   const classes = useStyles()
 
@@ -371,7 +373,7 @@ const RecipePageDisplay = ({
       </ExpansionPanel>
     </Grid>
     <ConverterContainer open={isConverterOpen} onClose={closeConverter} />
-    <StartCooking open={isStartCookingOpen} recipe={recipe} />
+    <StartCooking open={isStartCookingOpen} recipe={recipe} onClose={closeStartCooking} />
   </Grid>
 }
 
@@ -397,4 +399,5 @@ RecipePageDisplay.propTypes = {
   displayExpandPanelButton: PropTypes.bool,
   capitalizedRecipeName: PropTypes.string,
   isStartCookingOpen: PropTypes.bool,
+  closeStartCooking: PropTypes.func,
 }

@@ -7,9 +7,11 @@ import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
 import Slide from '@material-ui/core/Slide'
+import CloseIcon from '@material-ui/icons/Close'
 import { IngredientContainer } from 'src/recipes/components/IngredientContainer'
+import IconButton from '@material-ui/core/IconButton'
 
-export const StartCooking = ({ open, recipe }) => {
+export const StartCooking = ({ open, recipe, onClose }) => {
   const [currentStep, setCurrentStep] = useState('')
   const [currentStepNote, setCurrentStepNote] = useState('')
 
@@ -22,41 +24,51 @@ export const StartCooking = ({ open, recipe }) => {
     step={currentStep}
     note={currentStepNote}
     ingredients={recipe.ingredients}
+    onClose={onClose}
   />
 }
 
 StartCooking.propTypes = {
   open: PropTypes.bool.isRequired,
   recipe: PropTypes.object.isRequired,
+  onClose: PropTypes.func.isRequired,
 }
 
 const useStyles = makeStyles(theme => ({
-  appBarSpacer: theme.mixins.toolbar,
+  appBar: {
+    position: 'relative',
+  },
+  title: {
+    textTransform: 'capitalize',
+    flex: 1,
+  },
   container: {
     paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(4),
   },
   paper: {
     padding: theme.spacing(1),
-  }
+  },
 }))
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />
 })
 
-const StartCookingDisplay = ({ open, title, step, note, ingredients }) => {
+const StartCookingDisplay = ({ open, title, step, note, ingredients, onClose }) => {
   const classes = useStyles()
 
   return <Dialog fullScreen open={open} TransitionComponent={Transition}>
-    <AppBar>
+    <AppBar className={classes.appBar}>
       <Toolbar>
-        <Typography data-start-cooking-title variant="h6" style={{ textTransform: 'capitalize' }}>
+        <Typography data-start-cooking-title variant="h6" className={classes.title}>
           {title}
         </Typography>
+        <IconButton edge='end' color='inherit' onClick={onClose} data-start-cooking-close-button>
+          <CloseIcon />
+        </IconButton>
       </Toolbar>
     </AppBar>
-    <div className={classes.appBarSpacer} />
     <Container maxWidth='xl'>
       <Grid container spacing={1} className={classes.container}>
         <Grid item xs={12}>
@@ -83,4 +95,5 @@ StartCookingDisplay.propTypes = {
   step: PropTypes.string,
   note: PropTypes.string,
   ingredients: PropTypes.array,
+  onClose: PropTypes.func,
 }

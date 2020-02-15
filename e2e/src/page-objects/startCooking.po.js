@@ -23,3 +23,7 @@ export const getIngredients = async () => {
 }
 
 export const getStep = async () => await getTextByCssSelector(stepSelector)
+
+export const close = async () => {
+  await global.page.click('[data-start-cooking-close-button]')
+}
