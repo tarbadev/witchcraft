@@ -4,6 +4,7 @@ buildscript {
   extra.apply {
     set("springBootVersion", "2.1.5.RELEASE")
     set("kotlinVersion", "1.3.20")
+    set("junitJupiterVersion", "5.6.0")
   }
   repositories {
     mavenCentral()
@@ -27,7 +28,9 @@ tasks.withType<KotlinCompile> {
   }
 }
 
-tasks.test { useJUnitPlatform() }
+tasks.test {
+  useJUnitPlatform()
+}
 
 repositories {
   mavenCentral()
@@ -57,12 +60,10 @@ dependencies {
     exclude("junit")
     exclude("org.hamcrest")
   }
-  testImplementation("org.junit.jupiter:junit-jupiter-api:5.3.1")
-  testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.3.1")
+  testImplementation("org.junit.jupiter:junit-jupiter:${extra["junitJupiterVersion"]}")
   testCompile("com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0")
   testCompile("org.mockito:mockito-junit-jupiter:2.23.4")
   testCompile("org.mockito:mockito-core:2.23.4")
-  testCompile("org.junit.jupiter:junit-jupiter-api:5.3.1")
   testCompile("org.apache.httpcomponents:httpclient:4.5.6")
 }
 
