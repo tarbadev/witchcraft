@@ -55,7 +55,7 @@ NewRecipePageContainer.propTypes = {
   history: PropTypes.object,
 }
 
-export const NewRecipePage = ({
+const NewRecipePage = ({
   submitForm,
   supportedDomains = [],
 }) => {
