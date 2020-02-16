@@ -180,6 +180,12 @@ describe('Recipe', () => {
   })
 
   describe('on start cooking click', () => {
+    beforeEach(async () => {
+      await RecipePage.goTo(3, 'Thai Chicken Salad')
+      await RecipePage.startCooking()
+      await StartCooking.waitForComponentLoaded()
+    })
+
     it('displays the title, first step and all ingredients', async () => {
       const expectedIngredients = [
         { name: 'Agave nectar (or honey)', quantity: '3 tsp' },
@@ -197,9 +203,6 @@ describe('Recipe', () => {
         { name: 'Slivered almonds, toasted', quantity: '3 tbsp' },
         { name: 'Small red cabbage, thinly sliced (about 2 cups)', quantity: '0.25 unit' },
       ]
-      await RecipePage.goTo(3, 'Thai Chicken Salad')
-      await RecipePage.startCooking()
-      await StartCooking.waitForComponentLoaded()
 
       expect(await StartCooking.getTitle()).toEqual('thai chicken salad')
       expect(await StartCooking.getIngredients()).toEqual(expectedIngredients)
@@ -209,16 +212,41 @@ describe('Recipe', () => {
         )
     }, 10000)
 
-    it('on close button click it closes the dialo', async () => {
-      await RecipePage.goTo(3, 'Thai Chicken Salad')
-      await RecipePage.startCooking()
-      await StartCooking.waitForComponentLoaded()
-
+    it('on close button click it closes the dialog', async () => {
       expect(await StartCooking.getTitle()).toEqual('thai chicken salad')
 
       await StartCooking.close()
       await RecipePage.waitForTitleDisplayed('thai chicken salad')
     })
+
+    it('on next button click, displays the next ingredient', async () => {
+      expect(await StartCooking.getStep())
+        .toEqual(
+          'In a large bowl, combine the Napa cabbage, red cabbage, carrot, green onion, cilantro and chicken breast. Toss with the dressing. Garnish with the toasted almonds. Serve.',
+        )
+
+      await StartCooking.next()
+
+      expect(await StartCooking.getStep())
+        .toEqual(
+          'In a small glass bowl, combine the lime juice, peanut butter, soy sauce, agave nectar, fish sauce, rice vinegar and chili garlic sauce. Whisk until smooth.',
+        )
+    })
+
+    it('on next button click, displays the finish button if last step is displayed', async () => {
+      expect(await StartCooking.isFinishButtonDisplayed()).toBeFalsy()
+
+      await StartCooking.next()
+
+      expect(await StartCooking.isFinishButtonDisplayed()).toBeTruthy()
+    })
+
+    it('on finish button click it closes the start cooking page', async () => {
+      await StartCooking.next()
+      await StartCooking.finish()
+
+      await RecipePage.waitForTitleDisplayed('thai chicken salad')
+    }, 10000)
   })
 
   describe('Notes', () => {

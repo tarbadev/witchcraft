@@ -10,13 +10,17 @@ import Slide from '@material-ui/core/Slide'
 import CloseIcon from '@material-ui/icons/Close'
 import { IngredientContainer } from 'src/recipes/components/IngredientContainer'
 import IconButton from '@material-ui/core/IconButton'
+import Button from '@material-ui/core/Button'
 
 export const StartCooking = ({ open, recipe, onClose }) => {
+  const [currentIndex, setCurrentIndex] = useState(0)
   const [currentStep, setCurrentStep] = useState('')
   const [currentStepNote, setCurrentStepNote] = useState('')
 
-  useEffect(() => setCurrentStep(recipe.steps[0] ? recipe.steps[0].name : ''), [recipe])
-  useEffect(() => setCurrentStepNote(recipe.steps[0] ? `Note: ${recipe.steps[0].note}` : ''), [recipe])
+  useEffect(() => setCurrentStep(recipe.steps[currentIndex] ? recipe.steps[currentIndex].name : ''),
+    [recipe, currentIndex])
+  useEffect(() => setCurrentStepNote(recipe.steps[currentIndex] ? `Note: ${recipe.steps[currentIndex].note}` : ''),
+    [recipe, currentIndex])
 
   return <StartCookingDisplay
     open={open}
@@ -24,7 +28,8 @@ export const StartCooking = ({ open, recipe, onClose }) => {
     step={currentStep}
     note={currentStepNote}
     ingredients={recipe.ingredients}
-    onClose={onClose}
+    closeDialog={onClose}
+    nextStep={currentIndex !== (recipe.steps.length - 1) ? () => setCurrentIndex(currentIndex + 1) : null}
   />
 }
 
@@ -55,8 +60,16 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />
 })
 
-const StartCookingDisplay = ({ open, title, step, note, ingredients, onClose }) => {
+const StartCookingDisplay = ({ open, title, step, note, ingredients, closeDialog, nextStep }) => {
   const classes = useStyles()
+
+  const button = nextStep
+    ? <Button fullWidth color='primary' variant='contained' onClick={nextStep} data-start-cooking-next-button>
+      Next
+    </Button>
+    : <Button fullWidth color='primary' variant='contained' onClick={closeDialog} data-start-cooking-finish-button>
+      Finish
+    </Button>
 
   return <Dialog fullScreen open={open} TransitionComponent={Transition}>
     <AppBar className={classes.appBar}>
@@ -64,7 +77,7 @@ const StartCookingDisplay = ({ open, title, step, note, ingredients, onClose }) 
         <Typography data-start-cooking-title variant="h6" className={classes.title}>
           {title}
         </Typography>
-        <IconButton edge='end' color='inherit' onClick={onClose} data-start-cooking-close-button>
+        <IconButton edge='end' color='inherit' onClick={closeDialog} data-start-cooking-close-button>
           <CloseIcon />
         </IconButton>
       </Toolbar>
@@ -84,6 +97,9 @@ const StartCookingDisplay = ({ open, title, step, note, ingredients, onClose }) 
             <Typography variant='caption' data-start-cooking-step-note>{note}</Typography>
           </Paper>
         </Grid>
+        <Grid item xs={12}>
+          {button}
+        </Grid>
       </Grid>
     </Container>
   </Dialog>
@@ -95,5 +111,6 @@ StartCookingDisplay.propTypes = {
   step: PropTypes.string,
   note: PropTypes.string,
   ingredients: PropTypes.array,
-  onClose: PropTypes.func,
+  closeDialog: PropTypes.func,
+  nextStep: PropTypes.func,
 }

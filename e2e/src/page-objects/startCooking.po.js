@@ -5,6 +5,9 @@ const ingredientsSelector = '[data-start-cooking-ingredients] [data-ingredient-c
 const ingredientNameSelector = '[data-name]'
 const ingredientQuantitySelector = '[data-quantity]'
 const stepSelector = '[data-start-cooking-step]'
+const closeButtonSelector = '[data-start-cooking-close-button]'
+const nextButtonSelector = '[data-start-cooking-next-button]'
+const finishButtonSelector = '[data-start-cooking-finish-button]'
 
 export const waitForComponentLoaded = async () => {
   await global.page.waitForSelector(titleSelector)
@@ -25,5 +28,17 @@ export const getIngredients = async () => {
 export const getStep = async () => await getTextByCssSelector(stepSelector)
 
 export const close = async () => {
-  await global.page.click('[data-start-cooking-close-button]')
+  await global.page.click(closeButtonSelector)
+}
+
+export const next = async () => {
+  await global.page.waitForSelector(nextButtonSelector)
+  await global.page.click(nextButtonSelector)
+}
+
+export const isFinishButtonDisplayed = async () => await global.page.$(finishButtonSelector) != null
+
+export const finish = async () => {
+  await global.page.waitForSelector(finishButtonSelector)
+  await global.page.click(finishButtonSelector)
 }
