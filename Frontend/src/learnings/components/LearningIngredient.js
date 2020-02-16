@@ -77,7 +77,7 @@ const LearningIngredientDisplay = ({
               freeSolo
               value={name}
               options={validNames.filter(validName => validName.includes(name))}
-              onChange={({target} ) => updateName(validNames[target.value])}
+              onChange={({ target }) => updateName(validNames[target.value])}
               renderInput={params => (
                 <TextField
                   {...params}

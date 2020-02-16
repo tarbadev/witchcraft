@@ -184,6 +184,7 @@ describe('Recipe', () => {
       await RecipePage.goTo(3, 'Thai Chicken Salad')
       await RecipePage.startCooking()
       await StartCooking.waitForComponentLoaded()
+      await global.page.waitFor(200)
     })
 
     it('displays the title, first step and all ingredients', async () => {
@@ -219,7 +220,7 @@ describe('Recipe', () => {
       await RecipePage.waitForTitleDisplayed('thai chicken salad')
     })
 
-    it('on next button click, displays the next ingredient', async () => {
+    it('on next button click, displays the next step', async () => {
       expect(await StartCooking.getStep())
         .toEqual(
           'In a large bowl, combine the Napa cabbage, red cabbage, carrot, green onion, cilantro and chicken breast. Toss with the dressing. Garnish with the toasted almonds. Serve.',
@@ -231,7 +232,7 @@ describe('Recipe', () => {
         .toEqual(
           'In a small glass bowl, combine the lime juice, peanut butter, soy sauce, agave nectar, fish sauce, rice vinegar and chili garlic sauce. Whisk until smooth.',
         )
-    })
+    }, 100000)
 
     it('on next button click, displays the finish button if last step is displayed', async () => {
       expect(await StartCooking.isFinishButtonDisplayed()).toBeFalsy()

@@ -32,13 +32,16 @@ export const close = async () => {
 }
 
 export const next = async () => {
-  await global.page.waitForSelector(nextButtonSelector)
-  await global.page.click(nextButtonSelector)
+  await clickOnButton(nextButtonSelector)
 }
 
 export const isFinishButtonDisplayed = async () => await global.page.$(finishButtonSelector) != null
 
 export const finish = async () => {
-  await global.page.waitForSelector(finishButtonSelector)
-  await global.page.click(finishButtonSelector)
+  await clickOnButton(finishButtonSelector)
+}
+
+const clickOnButton = async selector => {
+  await global.page.waitForSelector(selector)
+  await global.page.click(selector)
 }
