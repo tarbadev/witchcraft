@@ -19,6 +19,7 @@ object UnitHelper {
       UnitMapping(USCustomary.OUNCE, "oz", "getOunce"),
       UnitMapping(USCustomary.POUND, "lb", "getPound"),
       UnitMapping(CGS.GRAM, "g", "getGram"),
+      UnitMapping(KILOGRAM, "kg", "getKilogram"),
       UnitMapping(AbstractUnit.ONE, "unit", "getUnit")
   )
 

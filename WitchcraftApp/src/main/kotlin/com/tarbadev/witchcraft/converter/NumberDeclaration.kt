@@ -13,6 +13,7 @@ import javax.measure.quantity.Volume
 val CENTILITER: Unit<Volume> = LITER.divide(100.0)
 val MILLILITER: Unit<Volume> = CENTILITER.divide(10.0)
 val VERRE: Unit<Volume> = CENTILITER.multiply(20.0)
+val KILOGRAM: Unit<Mass> = GRAM.multiply(1000.0)
 
 val Number.liter: ComparableQuantity<Volume>
   get() = Quantities.getQuantity(this, LITER)
@@ -38,6 +39,8 @@ val Number.pound: ComparableQuantity<Mass>
   get() = Quantities.getQuantity(this, POUND)
 val Number.gram: ComparableQuantity<Mass>
   get() = Quantities.getQuantity(this, GRAM)
+val Number.kilogram: ComparableQuantity<Mass>
+  get() = Quantities.getQuantity(this, KILOGRAM)
 
 
 val Number.unit: ComparableQuantity<Dimensionless>

@@ -350,4 +350,13 @@ class IngredientFromStringUseCaseTest {
     )
     assertThat(subject.execute("2 boneless skinless chicken breasts, cut into 1-inch pieces")).isEqualTo(expectedIngredient)
   }
+
+  @Test
+  fun execute_acceptsKilograms() {
+    val expectedIngredient = Ingredient(
+        name = "tomate",
+        quantity = 2.kilogram
+    )
+    assertThat(subject.execute("2 kg tomate")).isEqualTo(expectedIngredient)
+  }
 }
