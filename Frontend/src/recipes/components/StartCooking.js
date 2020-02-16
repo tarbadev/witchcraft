@@ -22,6 +22,11 @@ export const StartCooking = ({ open, recipe, onClose }) => {
   useEffect(() => setCurrentStepNote(recipe.steps[currentIndex] ? `Note: ${recipe.steps[currentIndex].note}` : ''),
     [recipe, currentIndex])
 
+  const finishCooking = () => {
+    setCurrentIndex(0)
+    onClose()
+  }
+
   return <StartCookingDisplay
     open={open}
     title={recipe.name}
@@ -30,6 +35,7 @@ export const StartCooking = ({ open, recipe, onClose }) => {
     ingredients={recipe.ingredients}
     closeDialog={onClose}
     nextStep={currentIndex !== (recipe.steps.length - 1) ? () => setCurrentIndex(currentIndex + 1) : null}
+    finishCooking={finishCooking}
   />
 }
 
@@ -60,14 +66,14 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />
 })
 
-const StartCookingDisplay = ({ open, title, step, note, ingredients, closeDialog, nextStep }) => {
+const StartCookingDisplay = ({ open, title, step, note, ingredients, closeDialog, nextStep, finishCooking }) => {
   const classes = useStyles()
 
   const button = nextStep
     ? <Button fullWidth color='primary' variant='contained' onClick={nextStep} data-start-cooking-next-button>
       Next
     </Button>
-    : <Button fullWidth color='primary' variant='contained' onClick={closeDialog} data-start-cooking-finish-button>
+    : <Button fullWidth color='primary' variant='contained' onClick={finishCooking} data-start-cooking-finish-button>
       Finish
     </Button>
 
@@ -113,4 +119,5 @@ StartCookingDisplay.propTypes = {
   ingredients: PropTypes.array,
   closeDialog: PropTypes.func,
   nextStep: PropTypes.func,
+  finishCooking: PropTypes.func,
 }

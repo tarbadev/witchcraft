@@ -247,6 +247,20 @@ describe('Recipe', () => {
 
       await RecipePage.waitForTitleDisplayed('thai chicken salad')
     }, 10000)
+
+    it('opening start cooking page after finishing it restarts the process', async () => {
+      await StartCooking.next()
+      await StartCooking.finish()
+
+      await RecipePage.waitForTitleDisplayed('thai chicken salad')
+      await RecipePage.startCooking()
+      await StartCooking.waitForComponentLoaded()
+
+      expect(await StartCooking.getStep())
+        .toEqual(
+          'In a large bowl, combine the Napa cabbage, red cabbage, carrot, green onion, cilantro and chicken breast. Toss with the dressing. Garnish with the toasted almonds. Serve.',
+        )
+    }, 10000)
   })
 
   describe('Notes', () => {
