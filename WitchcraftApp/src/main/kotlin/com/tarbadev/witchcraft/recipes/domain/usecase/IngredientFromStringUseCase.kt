@@ -107,6 +107,9 @@ class IngredientFromStringUseCase(private val saveIngredientToIngredientLearning
         tokens.removeAt(currentIndex)
         tokens.removeAt(currentIndex)
         tokens.removeAt(currentIndex)
+      } else {
+        quantity = tokens[currentIndex].toDouble()
+        tokens.removeAt(currentIndex)
       }
     } else if (currentIndex >= 0) {
       quantity = tokens[currentIndex].toDouble()

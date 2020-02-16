@@ -341,4 +341,13 @@ class IngredientFromStringUseCaseTest {
     )
     assertThat(subject.execute("2 cuillères à soupe d'huile")).isEqualTo(expectedIngredient)
   }
+
+  @Test
+  fun execute_acceptsNumberWithoutUnit() {
+    val expectedIngredient = Ingredient(
+        name = "boneless skinless chicken breasts, cut into 1-inch pieces",
+        quantity = 2.unit
+    )
+    assertThat(subject.execute("2 boneless skinless chicken breasts, cut into 1-inch pieces")).isEqualTo(expectedIngredient)
+  }
 }
