@@ -32,8 +32,8 @@ export const LearningIngredient = ({ ingredient, validateIngredient, validNames,
       ingredient.id,
       { name: editName, quantity: editQuantity, unit: editUnit, language: editLanguage, detail: editDetail },
     )}
-    validNames={validNames}
-    validDetails={validDetails}
+    validNames={validNames.filter(validName => validName.includes(editName))}
+    validDetails={validDetails.filter(validDetail => validDetail.includes(editDetail))}
   />
 }
 
@@ -76,7 +76,7 @@ const LearningIngredientDisplay = ({
             <Autocomplete
               freeSolo
               value={name}
-              options={validNames.filter(validName => validName.includes(name))}
+              options={validNames}
               onChange={({ target }) => updateName(validNames[target.value])}
               renderInput={params => (
                 <TextField
@@ -92,7 +92,7 @@ const LearningIngredientDisplay = ({
             <Autocomplete
               freeSolo
               value={detail}
-              options={validDetails.filter(validDetail => validDetail.includes(detail))}
+              options={validDetails}
               onChange={({ target }) => updateDetail(validDetails[target.value])}
               renderInput={params => (
                 <TextField
