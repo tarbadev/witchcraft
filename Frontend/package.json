@@ -71,7 +71,7 @@
     "jest-resolve": "^24.9.0",
     "jest-transform-stub": "^1.0.0",
     "jest-webpack": "^0.5.1",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^3.1.1",
     "style-loader": "^0.21.0",
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10",
