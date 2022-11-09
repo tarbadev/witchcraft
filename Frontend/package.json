@@ -64,7 +64,7 @@
     "eslint-watch": "^4.0.2",
     "fetch-mock": "^7.7.3",
     "file-loader": "^4.3.0",
-    "html-webpack-plugin": "^3.2.0",
+    "html-webpack-plugin": "^5.5.0",
     "jest": "^24.9.0",
     "jest-enzyme": "^7.1.2",
     "jest-junit": "^6.4.0",
@@ -74,7 +74,7 @@
     "node-fetch": "^2.6.0",
     "style-loader": "^0.21.0",
     "webpack": "^4.41.5",
-    "webpack-cli": "^3.3.10",
+    "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.10.3"
   },
   "jest": {
